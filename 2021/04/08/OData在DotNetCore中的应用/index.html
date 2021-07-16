@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="Gas">
+  <link 
+    rel="icon" 
+    href="/img/Kaze.png">
+  <title>OData在DotNetCore中的应用</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="OData在DotNetCore中的应用">
+    
+    
+      <meta 
+        property="og:url" 
+        content="http://example.com/2021/04/08/OData%E5%9C%A8DotNetCore%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="/img/Kaze.png">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2021-04-08">
+      <meta 
+        property="og:article:modified_time" 
+        content="2021-04-08">
+      <meta 
+        property="og:article:author" 
+        content="Gas">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="OData">
+        
+      
+    
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+      
+      
+      
+      
+        
+        
+        
+        <script>
+          function prismThemeChange() {
+            if(document.getElementById('theme-color').dataset.mode === 'dark') {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism-tomorrow.min.css', '[data-prism]', 'prism-tomorrow');
+              } else {
+                loadCSS('/js/lib/prism/prism-tomorrow.min.css', 'prism', 'prism-tomorrow');
+              }
+            } else {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism-okaidia.min.css', '[data-prism]', 'prism-okaidia');
+              } else {
+                loadCSS('/js/lib/prism/prism-okaidia.min.css', 'prism', 'prism-okaidia');
+              }
+            }
+          }
+          prismThemeChange()
+        </script>
+      
+      
+        
+        <link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+      
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+        prismThemeChange();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  
+    <link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+        <img 
+          class="navbar-logo-img" 
+          src="/img/Kaze.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">Gas</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/" 
+        class="navbar-menu-item">
+        
+          首页
+        
+      </a>
+    
+      <a 
+        href="/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+      <a 
+        href="/links" 
+        class="navbar-menu-item">
+        
+          友链
+        
+      </a>
+    
+    <a 
+      class="navbar-menu-item darknavbar" 
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </a>
+    <a 
+      class="navbar-menu-item searchnavbar" 
+      id="search">
+      <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i>
+    </a>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      OData在DotNetCore中的应用
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2021-04-08T07:10:46.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2021-04-08</span>
+    </time>
+    
+      <span class="dot"></span>
+      
+        <a 
+          href="/categories/DotNetCore/" 
+          class="post-meta-link">
+          DotNetCore
+        </a>
+      
+    
+    
+      <span class="dot"></span>
+      <span>2.5k 字</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/tags/OData/" 
+            class="post-meta-link">
+            OData
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h2 id="什么是OData"><a href="#什么是OData" class="headerlink" title="什么是OData"></a>什么是OData</h2><p>开放数据协议（Open Data Protocol，简称<a target="_blank" rel="noopener" href="https://www.odata.org/">OData</a>）是一种描述如何创建和访问<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/Restful">Restful</a>服务的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/OASIS/4235159">OASIS</a>标准。该标准由<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%BE%AE%E8%BD%AF/124767">微软</a>发起 [1] ，前三个版本1.0、2.0、3.0都是微软开放标准，遵循微软开放规范承诺书（Microsoft Open Specification Promise）。第四个版本4.0于2014年3月17日在<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/OASIS/4235159">OASIS</a>投票通过成为开放工业标准</p>
+<p>上面是百度的答案，我们可以很清楚的知道这是一个<strong>协议</strong></p>
+<h2 id="使用OData开发"><a href="#使用OData开发" class="headerlink" title="使用OData开发"></a>使用OData开发</h2><p>以.NetCoreAPI为例，创建一个API项目</p>
+<p>添加<code>ASP.NET Core OData</code>和<code>Microsoft.EntityFrameworkCore.InMemory</code>Nuget程序包</p>
+<pre><code class="xml">&lt;Project Sdk=&quot;Microsoft.NET.Sdk.Web&quot;&gt;
+
+  &lt;PropertyGroup&gt;
+    &lt;TargetFramework&gt;net5.0&lt;/TargetFramework&gt;
+    &lt;UserSecretsId&gt;0d1b65c3-336b-4511-be78-68c012362630&lt;/UserSecretsId&gt;
+    &lt;DockerDefaultTargetOS&gt;Linux&lt;/DockerDefaultTargetOS&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;ItemGroup&gt;
+    &lt;PackageReference Include=&quot;Microsoft.AspNetCore.OData&quot; Version=&quot;7.4.1&quot; /&gt;
+    &lt;PackageReference Include=&quot;Microsoft.EntityFrameworkCore.InMemory&quot; Version=&quot;5.0.5&quot; /&gt;
+    &lt;PackageReference Include=&quot;Microsoft.VisualStudio.Azure.Containers.Tools.Targets&quot; Version=&quot;1.10.9&quot; /&gt;
+    &lt;PackageReference Include=&quot;Swashbuckle.AspNetCore&quot; Version=&quot;5.6.3&quot; /&gt;
+  &lt;/ItemGroup&gt;
+
+&lt;/Project&gt;
+</code></pre>
+<p><code>ASP.NET Core OData</code>程序包是为了更方便的去开发而引入的</p>
+<p><code>Microsoft.EntityFrameworkCore.InMemory</code>则方便数据引入</p>
+<h3 id="添加Model类"><a href="#添加Model类" class="headerlink" title="添加Model类"></a>添加Model类</h3><pre><code class="c#">// Book
+public class Book
+&#123;
+  public int Id &#123; get; set; &#125;
+  public string ISBN &#123; get; set; &#125;
+  public string Title &#123; get; set; &#125;
+  public string Author &#123; get; set; &#125;
+  public decimal Price &#123; get; set; &#125;
+  public Address Location &#123; get; set; &#125;
+  public Press Press &#123; get; set; &#125;
+&#125;
+
+// Press
+public class Press
+&#123;
+  public int Id &#123; get; set; &#125;
+  public string Name &#123; get; set; &#125;
+  public string Email &#123; get; set; &#125;
+  public Category Category &#123; get; set; &#125;
+&#125;
+
+// Category
+public enum Category
+&#123;
+  Book,
+  Magazine,
+  EBook
+&#125;
+
+// Address
+public class Address
+&#123;
+  public string City &#123; get; set; &#125;
+  public string Street &#123; get; set; &#125;
+&#125;
+</code></pre>
+<p>在这里:</p>
+<ul>
+<li><strong>Book，Press</strong>将作为<em>实体</em>类型</li>
+<li><strong>Address</strong>将用作“<em>复杂”</em>类型。</li>
+<li><strong>Category</strong>将用作<em>枚举</em>类型。</li>
+</ul>
+<h3 id="建立EDM-Entity-Data-Model-模型"><a href="#建立EDM-Entity-Data-Model-模型" class="headerlink" title="建立EDM(Entity Data Model)模型"></a>建立EDM(Entity Data Model)模型</h3><p>OData基于实体数据模型(EDM)来描述数据结构，在ASP.Net Core OData中，可以轻松的基于上述模型建立，在<code>Startup</code>类末尾加一个私有方法</p>
+<pre><code class="c#">        private static IEdmModel GetEdmModel()
+        &#123;
+            ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
+            builder.EntitySet&lt;Book&gt;(&quot;Books&quot;);
+            builder.EntitySet&lt;Press&gt;(&quot;Presses&quot;);
+            return builder.GetEdmModel();
+        &#125;
+</code></pre>
+<p>在这里我们定义了两个名为<strong>Books</strong>和<strong>Presses</strong> 的实体集</p>
+<h3 id="通过依赖注入注册服务"><a href="#通过依赖注入注册服务" class="headerlink" title="通过依赖注入注册服务"></a>通过依赖注入注册服务</h3><p>ASP.NET Core OData需要预先注册一些服务才能提供其功能，该库提供了一个名为<code>AddOData()</code>的扩展方法，以通过内置的依赖项注入来注册所需要的OData服务，因此，修改如下代码到ConfigureServices中</p>
+<pre><code class="c#">    public class Startup
+    &#123;
+          // ...
+
+          public void ConfigureServices(IServiceCollection services)
+          &#123;
+                services.AddOData();
+                services.AddControllers();
+                services.AddSwaggerGen(c =&gt;
+                &#123;
+                    c.SwaggerDoc(&quot;v1&quot;, new OpenApiInfo &#123; Title = &quot;WebApplication1&quot;, Version = &quot;v1&quot; &#125;);
+                &#125;);
+          &#125;
+    &#125;
+</code></pre>
+<h3 id="注册OData端点"><a href="#注册OData端点" class="headerlink" title="注册OData端点"></a>注册OData端点</h3><p>我们需要添加OData路由来注册OData端点，并调用<code>GetEdmModel()</code>绑定EDM模型到端点</p>
+<pre><code class="c#">    public class Startup
+    &#123;
+          // ...
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        &#123;
+            if (env.IsDevelopment())
+            &#123;
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =&gt; c.SwaggerEndpoint(&quot;/swagger/v1/swagger.json&quot;, &quot;WebApplication1 v1&quot;));
+            &#125;
+
+            app.UseEndpoints(endpoints =&gt;
+            &#123;
+                endpoints.MapODataRoute(&quot;odata&quot;, &quot;odata&quot;, GetEdmModel());
+            &#125;);
+        &#125;
+    &#125;
+</code></pre>
+<p>8.0版本无需在Configure中注册:</p>
+<pre><code class="c#">public class Startup
+&#123;
+    public void ConfigureServices(IServiceCollection services)
+    &#123;
+        services.AddDbContext&lt;BookStoreContext&gt;(opt =&gt; opt.UseInMemoryDatabase(&quot;BookLists&quot;));
+        services.AddControllers();
+        services.AddOData(opt =&gt; opt.AddModel(&quot;odata&quot;, GetEdmModel()));
+    &#125;
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    &#123;
+        app.UseRouting();
+        app.UseEndpoints(endpoints =&gt;
+        &#123;
+            endpoints.MapControllers();
+        &#125;);
+    &#125;
+
+    private static IEdmModel GetEdmModel()
+    &#123;
+        // …
+    &#125;
+&#125;
+</code></pre>
+<h3 id="查询元数据"><a href="#查询元数据" class="headerlink" title="查询元数据"></a>查询元数据</h3><p>OData服务已经准备就绪，可以运行，并且提供基本的功能，例如查询元数据(EDM的XML表示)，构建并允许项目，我们任何客户端工具发出请求：</p>
+<p><strong>GET</strong> <a target="_blank" rel="noopener" href="http://localhost:5000/odata/$metadata">http://localhost:5000/odata/$metadata</a></p>
+<p>然后，可以获取如下xml所示的元数据</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;edmx:Edmx Version=&quot;4.0&quot; xmlns:edmx=&quot;http://docs.oasis-open.org/odata/ns/edmx&quot;&gt;
+    &lt;edmx:DataServices&gt;
+        &lt;Schema Namespace=&quot;BookStore.Models&quot; xmlns=&quot;http://docs.oasis-open.org/odata/ns/edm&quot;&gt;
+            &lt;EntityType Name=&quot;Book&quot;&gt;
+                &lt;Key&gt;
+                    &lt;PropertyRef Name=&quot;Id&quot; /&gt;
+                &lt;/Key&gt;
+                &lt;Property Name=&quot;Id&quot; Type=&quot;Edm.Int32&quot; Nullable=&quot;false&quot; /&gt;
+                &lt;Property Name=&quot;ISBN&quot; Type=&quot;Edm.String&quot; /&gt;
+                &lt;Property Name=&quot;Title&quot; Type=&quot;Edm.String&quot; /&gt;
+                &lt;Property Name=&quot;Author&quot; Type=&quot;Edm.String&quot; /&gt;
+                &lt;Property Name=&quot;Price&quot; Type=&quot;Edm.Decimal&quot; Nullable=&quot;false&quot; /&gt;
+                &lt;Property Name=&quot;Location&quot; Type=&quot;BookStore.Models.Address&quot; /&gt;
+                &lt;NavigationProperty Name=&quot;Press&quot; Type=&quot;BookStore.Models.Press&quot; /&gt;
+            &lt;/EntityType&gt;
+            &lt;EntityType Name=&quot;Press&quot;&gt;
+                &lt;Key&gt;
+                    &lt;PropertyRef Name=&quot;Id&quot; /&gt;
+                &lt;/Key&gt;
+                &lt;Property Name=&quot;Id&quot; Type=&quot;Edm.Int32&quot; Nullable=&quot;false&quot; /&gt;
+                &lt;Property Name=&quot;Name&quot; Type=&quot;Edm.String&quot; /&gt;
+                &lt;Property Name=&quot;Email&quot; Type=&quot;Edm.String&quot; /&gt;
+                &lt;Property Name=&quot;Category&quot; Type=&quot;BookStore.Models.Category&quot; Nullable=&quot;false&quot; /&gt;
+            &lt;/EntityType&gt;
+            &lt;ComplexType Name=&quot;Address&quot;&gt;
+                &lt;Property Name=&quot;City&quot; Type=&quot;Edm.String&quot; /&gt;
+                &lt;Property Name=&quot;Street&quot; Type=&quot;Edm.String&quot; /&gt;
+            &lt;/ComplexType&gt;
+            &lt;EnumType Name=&quot;Category&quot;&gt;
+                &lt;Member Name=&quot;Book&quot; Value=&quot;0&quot; /&gt;
+                &lt;Member Name=&quot;Magazine&quot; Value=&quot;1&quot; /&gt;
+                &lt;Member Name=&quot;EBook&quot; Value=&quot;2&quot; /&gt;
+            &lt;/EnumType&gt;
+        &lt;/Schema&gt;
+        &lt;Schema Namespace=&quot;Default&quot; xmlns=&quot;http://docs.oasis-open.org/odata/ns/edm&quot;&gt;
+            &lt;EntityContainer Name=&quot;Container&quot;&gt;
+                &lt;EntitySet Name=&quot;Books&quot; EntityType=&quot;BookStore.Models.Book&quot;&gt;
+                    &lt;NavigationPropertyBinding Path=&quot;Press&quot; Target=&quot;Presses&quot; /&gt;
+                &lt;/EntitySet&gt;
+                &lt;EntitySet Name=&quot;Presses&quot; EntityType=&quot;BookStore.Models.Press&quot; /&gt;
+            &lt;/EntityContainer&gt;
+        &lt;/Schema&gt;
+    &lt;/edmx:DataServices&gt;
+&lt;/edmx:Edmx&gt;
+</code></pre>
+<h3 id="创建数据库上下文"><a href="#创建数据库上下文" class="headerlink" title="创建数据库上下文"></a>创建数据库上下文</h3><p>现在，可以添加更多实际的功能，首先将数据库上下文引入Web程序，在Models文件夹中创建<code>BookStoreContext</code>类</p>
+<pre><code class="c#">    public class BookStoreContext : DbContext
+    &#123;
+        public BookStoreContext(DbContextOptions&lt;BookStoreContext&gt; options)
+          : base(options)
+        &#123;
+        &#125;
+
+        public DbSet&lt;Book&gt; Books &#123; get; set; &#125;
+        public DbSet&lt;Press&gt; Presses &#123; get; set; &#125;
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        &#123;
+            modelBuilder.Entity&lt;Book&gt;().OwnsOne(c =&gt; c.Location);
+        &#125;
+    &#125;
+</code></pre>
+<p><code>OnModelCreating</code>中的代码将<strong>Address</strong>映射为复杂类型</p>
+<h3 id="注册数据库上下文"><a href="#注册数据库上下文" class="headerlink" title="注册数据库上下文"></a>注册数据库上下文</h3><p>通过依赖注入在服务中注册数据库上下文，求改Startup类中的ConfigureServices方法</p>
+<pre><code class="c#">    public class Startup
+    &#123;
+          // ...
+
+          public void ConfigureServices(IServiceCollection services)
+          &#123;
+                services.AddDbContext&lt;BookStoreContext&gt;(opt =&gt; opt.UseInMemoryDatabase(&quot;BookLists&quot;));
+                services.AddOData();
+                services.AddControllers();
+                services.AddSwaggerGen(c =&gt;
+                &#123;
+                    c.SwaggerDoc(&quot;v1&quot;, new OpenApiInfo &#123; Title = &quot;WebApplication1&quot;, Version = &quot;v1&quot; &#125;);
+                &#125;);
+          &#125;
+    &#125;
+</code></pre>
+<h3 id="模型数据"><a href="#模型数据" class="headerlink" title="模型数据"></a>模型数据</h3><p>为了简单起见，我们简单生成一些内容</p>
+<pre><code class="c#">    public static class DataSource
+    &#123;
+        private static IList&lt;Book&gt; _books &#123; get; set; &#125;
+
+        public static IList&lt;Book&gt; GetBooks()
+        &#123;
+            if (_books != null)
+            &#123;
+                return _books;
+            &#125;
+
+            _books = new List&lt;Book&gt;();
+
+            // book #1
+            Book book = new Book
+            &#123;
+                Id = 1,
+                ISBN = &quot;978-0-321-87758-1&quot;,
+                Title = &quot;Essential C#5.0&quot;,
+                Author = &quot;Mark Michaelis&quot;,
+                Price = 59.99m,
+                Location = new Address &#123; City = &quot;Redmond&quot;, Street = &quot;156TH AVE NE&quot; &#125;,
+                Press = new Press
+                &#123;
+                    Id = 1,
+                    Name = &quot;Addison-Wesley&quot;,
+                    Category = Category.Book
+                &#125;
+            &#125;;
+            _books.Add(book);
+
+            // book #2
+            book = new Book
+            &#123;
+                Id = 2,
+                ISBN = &quot;063-6-920-02371-5&quot;,
+                Title = &quot;Enterprise Games&quot;,
+                Author = &quot;Michael Hugos&quot;,
+                Price = 49.99m,
+                Location = new Address &#123; City = &quot;Bellevue&quot;, Street = &quot;Main ST&quot; &#125;,
+                Press = new Press
+                &#123;
+                    Id = 2,
+                    Name = &quot;O&#39;Reilly&quot;,
+                    Category = Category.EBook,
+                &#125;
+            &#125;;
+            _books.Add(book);
+
+            return _books;
+        &#125;
+    &#125;
+</code></pre>
+<h3 id="操作资源"><a href="#操作资源" class="headerlink" title="操作资源"></a>操作资源</h3><h4 id="构建Controller"><a href="#构建Controller" class="headerlink" title="构建Controller"></a>构建Controller</h4><p>创建一个Controller命名为<code>BooksController</code></p>
+<pre><code class="c#">    [ApiController]
+    [Route(&quot;[controller]&quot;)]
+    public class BooksController : ODataController
+    &#123;
+        private BookStoreContext _db;
+
+        public BooksController(BookStoreContext context)
+        &#123;
+            _db = context;
+            if (context.Books.Count() == 0)
+            &#123;
+                foreach (var b in DataSource.GetBooks())
+                &#123;
+                    context.Books.Add(b);
+                    context.Presses.Add(b.Press);
+                &#125;
+                context.SaveChanges();
+            &#125;
+        &#125;
+
+        [EnableQuery]
+        public IActionResult Get()
+        &#123;
+            return Ok(_db.Books);
+        &#125;
+
+        [EnableQuery]
+        public IActionResult Get([FromODataUri] int key)
+        &#123;
+            return Ok(_db.Books.FirstOrDefault(c =&gt; c.Id == key));
+        &#125;
+    &#125;
+</code></pre>
+<p>在上面定义的两个Action中：</p>
+<ol>
+<li>Get()返回所有内容</li>
+<li>Get(int Key)返回指定ID内容</li>
+</ol>
+<h4 id="检索资源"><a href="#检索资源" class="headerlink" title="检索资源"></a>检索资源</h4><p>我们访问：<strong>GET</strong> <a target="_blank" rel="noopener" href="http://localhost:5000/odata/Books">http://localhost:5000/odata/Books</a> 响应结果为：</p>
+<pre><code class="json">&#123;
+    &quot;@odata.context&quot;: &quot;http://localhost:5000/odata/$metadata#Books&quot;,
+    &quot;value&quot;: [
+        &#123;
+            &quot;Id&quot;: 1,
+            &quot;ISBN&quot;: &quot;978-0-321-87758-1&quot;,
+            &quot;Title&quot;: &quot;Essential C#5.0&quot;,
+            &quot;Author&quot;: &quot;Mark Michaelis&quot;,
+            &quot;Price&quot;: 59.99,
+            &quot;Location&quot;: &#123;
+                &quot;City&quot;: &quot;Redmond&quot;,
+                &quot;Street&quot;: &quot;156TH AVE NE&quot;
+            &#125;
+        &#125;,
+        &#123;
+            &quot;Id&quot;: 2,
+            &quot;ISBN&quot;: &quot;063-6-920-02371-5&quot;,
+            &quot;Title&quot;: &quot;Enterprise Games&quot;,
+            &quot;Author&quot;: &quot;Michael Hugos&quot;,
+            &quot;Price&quot;: 49.99,
+            &quot;Location&quot;: &#123;
+                &quot;City&quot;: &quot;Bellevue&quot;,
+                &quot;Street&quot;: &quot;Main ST&quot;
+            &#125;
+        &#125;
+    ]
+&#125;
+</code></pre>
+<p>尝试发出：<strong>GET</strong> <a target="_blank" rel="noopener" href="http://localhost:5000/odata/Books(2)">http://localhost:5000/odata/Books(2)</a> 获取ID为2的书籍</p>
+<h4 id="创建资源"><a href="#创建资源" class="headerlink" title="创建资源"></a>创建资源</h4><p>添加下列代码到<code>Controller</code>中</p>
+<pre><code class="c#">[EnableQuery]
+public IActionResult Post([FromBody] Book book)
+&#123;
+    _db.Books.Add(book);
+    _db.SaveChanges();
+    return Created(book);
+&#125;
+</code></pre>
+<p>发出如下请求创建Book数据</p>
+<p>*<em>POST*</em> <em><a target="_blank" rel="noopener" href="http://localhost:5000/odata/Books">http://localhost:5000/odata/Books</a></em></p>
+<p><em>Content-Type: application/json</em></p>
+<p>Content:</p>
+<pre><code class="json">&#123;
+  &quot;Id&quot;:3,&quot;ISBN&quot;:&quot;82-917-7192-5&quot;,&quot;Title&quot;:&quot;Hary Potter&quot;,&quot;Author&quot;:&quot;J. K. Rowling&quot;,
+  &quot;Price&quot;:199.99,
+  &quot;Location&quot;:&#123;
+     &quot;City&quot;:&quot;Shanghai&quot;,
+     &quot;Street&quot;:&quot;Zhongshan RD&quot;
+   &#125;
+&#125;
+</code></pre>
+<h4 id="查询资源"><a href="#查询资源" class="headerlink" title="查询资源"></a>查询资源</h4><p>需要在<strong>Startup.cs</strong>中添加如下代码启用所有OData查询选项，例如$filter，$orderby，$expand等。</p>
+<pre><code class="c#">    public class Startup
+    &#123;
+      // ...
+  
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        &#123;
+            if (env.IsDevelopment())
+            &#123;
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =&gt; c.SwaggerEndpoint(&quot;/swagger/v1/swagger.json&quot;, &quot;WebApplication1 v1&quot;));
+            &#125;
+            
+            //...
+
+            app.UseEndpoints(endpoints =&gt;
+            &#123;
+                endpoints.Select().Expand().Filter().OrderBy().MaxTop(100).Count();
+                endpoints.MapODataRoute(&quot;odata&quot;, &quot;odata&quot;, GetEdmModel());
+            &#125;);
+        &#125;
+    &#125;
+</code></pre>
+<p>基于$filter的示例:</p>
+<p><strong>GET</strong> <a target="_blank" rel="noopener" href="http://localhost:5000/odata/Books?$filter=Price">http://localhost:5000/odata/Books?$filter=Price</a> le 50</p>
+<p>响应内容为:</p>
+<pre><code class="json">&#123;
+    &quot;@odata.context&quot;: &quot;https://localhost:5001/odata/$metadata#Books&quot;,
+    &quot;value&quot;: [
+        &#123;
+            &quot;Id&quot;: 2,
+            &quot;ISBN&quot;: &quot;063-6-920-02371-5&quot;,
+            &quot;Title&quot;: &quot;Enterprise Games&quot;,
+            &quot;Author&quot;: &quot;Michael Hugos&quot;,
+            &quot;Price&quot;: 49.99,
+            &quot;Location&quot;: &#123;
+                &quot;City&quot;: &quot;Bellevue&quot;,
+                &quot;Street&quot;: &quot;Main ST&quot;
+            &#125;
+        &#125;
+    ]
+&#125;
+</code></pre>
+<p>它还支持更为复杂的查询选项，例如：</p>
+<p><strong>GET</strong> <a target="_blank" rel="noopener" href="http://localhost:5000/odata/Books?$filter=Price">http://localhost:5000/odata/Books?$filter=Price</a> le 50&amp;$expand=Press($select=Name)&amp;$select=ISBN</p>
+<p>响应结果为:</p>
+<pre><code class="json">&#123;
+    &quot;@odata.context&quot;: &quot;http://localhost:5000/odata/$metadata#Books(ISBN,Press(Name))&quot;,
+    &quot;value&quot;: [
+        &#123;
+            &quot;ISBN&quot;: &quot;063-6-920-02371-5&quot;,
+            &quot;Press&quot;: &#123;
+                &quot;Name&quot;: &quot;O&#39;Reilly&quot;
+            &#125;
+        &#125;
+    ]
+&#125;
+</code></pre>
+<p>更多的查询方式可以在官方网站查看，这些都是基于OData协议进行的</p>
+<h3 id="如果在Swagger中显示OData路由"><a href="#如果在Swagger中显示OData路由" class="headerlink" title="如果在Swagger中显示OData路由"></a>如果在Swagger中显示OData路由</h3><p>使用NuGet安装<code>OData.Swagger</code>程序包</p>
+<p>打开<strong>Startup.cs</strong>文件，在ConfigureService方法中添加如下服务</p>
+<pre><code class="c#">services.AddOdataSwaggerSupport();
+</code></pre>
+<p>重新启动程序即可</p>
+<p>如果你的控制器是继承自<code>ODataController</code>，则需要添加<code>[ApiExplorerSettings(IgnoreApi = false)]</code></p>
+<pre><code class="c#">    [ApiController]
+    [ApiExplorerSettings(IgnoreApi = false)]
+    [Route(&quot;[controller]&quot;)]
+    public class BooksController : ODataController
+    &#123;
+        //...
+    &#125;
+</code></pre>
+<p>本文参考：</p>
+<p>OData参考：<a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/odata/asp-net-core-odata-now-available/">https://devblogs.microsoft.com/odata/asp-net-core-odata-now-available/</a></p>
+<p>OData参考：<a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/odata/asp-net-odata-8-0-preview-for-net-5/">https://devblogs.microsoft.com/odata/asp-net-odata-8-0-preview-for-net-5/</a></p>
+<p>在Swagger中显示OData参考：<a target="_blank" rel="noopener" href="https://github.com/KishorNaik/Sol_OData_Swagger_Support">https://github.com/KishorNaik/Sol_OData_Swagger_Support</a></p>
+<p>OData官网：<a target="_blank" rel="noopener" href="https://www.odata.org/">https://www.odata.org/</a></p>
+
+  </div>
+  <div>
+    
+      <div 
+        class="post-note note-warning copyright" 
+        style="margin-top: 42px">
+        <p>
+          <span style="font-weight: bold;">作者：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="/about">
+            Gas
+          </a>
+        </p>
+        <p>
+          <span style="font-weight: bold;">文章链接：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="http://example.com/2021/04/08/OData%E5%9C%A8DotNetCore%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/">
+            http://example.com/2021/04/08/OData%E5%9C%A8DotNetCore%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/
+          </a>
+        </p>
+        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+      </div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+    <div class="nav-item-prev">
+      <a 
+        href="/2021/04/27/SpringBoot-Quartz/" 
+        class="nav-link">
+        <i class="iconfont icon-left nav-prev-icon"></i>
+        <div>
+          <div class="nav-label">上一篇</div>
+          
+            <div class="nav-title">SpringBoot Quartz </div>
+          
+        </div>
+      </a>
+    </div>
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/2021/04/01/IDEA%E7%94%A8Maven%E5%88%9B%E5%BB%BASpringMVC%E9%A1%B9%E7%9B%AE/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">下一篇</div>
+          
+            <div class="nav-title">IDEA用Maven创建SpringMVC项目 </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFOData"><span class="toc-number">1.</span> <span class="toc-text">什么是OData</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8OData%E5%BC%80%E5%8F%91"><span class="toc-number">2.</span> <span class="toc-text">使用OData开发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0Model%E7%B1%BB"><span class="toc-number">2.1.</span> <span class="toc-text">添加Model类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8BEDM-Entity-Data-Model-%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.2.</span> <span class="toc-text">建立EDM(Entity Data Model)模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E6%B3%A8%E5%86%8C%E6%9C%8D%E5%8A%A1"><span class="toc-number">2.3.</span> <span class="toc-text">通过依赖注入注册服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8COData%E7%AB%AF%E7%82%B9"><span class="toc-number">2.4.</span> <span class="toc-text">注册OData端点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E5%85%83%E6%95%B0%E6%8D%AE"><span class="toc-number">2.5.</span> <span class="toc-text">查询元数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="toc-number">2.6.</span> <span class="toc-text">创建数据库上下文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="toc-number">2.7.</span> <span class="toc-text">注册数据库上下文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E6%95%B0%E6%8D%AE"><span class="toc-number">2.8.</span> <span class="toc-text">模型数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E8%B5%84%E6%BA%90"><span class="toc-number">2.9.</span> <span class="toc-text">操作资源</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%84%E5%BB%BAController"><span class="toc-number">2.9.1.</span> <span class="toc-text">构建Controller</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A3%80%E7%B4%A2%E8%B5%84%E6%BA%90"><span class="toc-number">2.9.2.</span> <span class="toc-text">检索资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%B5%84%E6%BA%90"><span class="toc-number">2.9.3.</span> <span class="toc-text">创建资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E8%B5%84%E6%BA%90"><span class="toc-number">2.9.4.</span> <span class="toc-text">查询资源</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E6%9E%9C%E5%9C%A8Swagger%E4%B8%AD%E6%98%BE%E7%A4%BAOData%E8%B7%AF%E7%94%B1"><span class="toc-number">2.10.</span> <span class="toc-text">如果在Swagger中显示OData路由</span></a></li></ol></li></ol>
+</div></main>
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="/img/Kaze.png" 
+    class="author-img" 
+    alt="author avatar">
+
+<p class="author-name">Gas</p>
+<p class="author-description">咸鱼罢了</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/archives">
+    <span>30</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/categories">
+    <span>10</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/tags">
+    <span>30</span>
+    <span>标签</span>
+  </a>
+</div>
+
+  <div class="author-card-society">
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://github.com/Uranus-s">
+          <i class="iconfont social_github icon-github society-icon"></i>
+        </a>
+      </div>
+    
+  </div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFOData"><span class="toc-number">1.</span> <span class="toc-text">什么是OData</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8OData%E5%BC%80%E5%8F%91"><span class="toc-number">2.</span> <span class="toc-text">使用OData开发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0Model%E7%B1%BB"><span class="toc-number">2.1.</span> <span class="toc-text">添加Model类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8BEDM-Entity-Data-Model-%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.2.</span> <span class="toc-text">建立EDM(Entity Data Model)模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E6%B3%A8%E5%86%8C%E6%9C%8D%E5%8A%A1"><span class="toc-number">2.3.</span> <span class="toc-text">通过依赖注入注册服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8COData%E7%AB%AF%E7%82%B9"><span class="toc-number">2.4.</span> <span class="toc-text">注册OData端点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E5%85%83%E6%95%B0%E6%8D%AE"><span class="toc-number">2.5.</span> <span class="toc-text">查询元数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="toc-number">2.6.</span> <span class="toc-text">创建数据库上下文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="toc-number">2.7.</span> <span class="toc-text">注册数据库上下文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E6%95%B0%E6%8D%AE"><span class="toc-number">2.8.</span> <span class="toc-text">模型数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E8%B5%84%E6%BA%90"><span class="toc-number">2.9.</span> <span class="toc-text">操作资源</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%84%E5%BB%BAController"><span class="toc-number">2.9.1.</span> <span class="toc-text">构建Controller</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A3%80%E7%B4%A2%E8%B5%84%E6%BA%90"><span class="toc-number">2.9.2.</span> <span class="toc-text">检索资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%B5%84%E6%BA%90"><span class="toc-number">2.9.3.</span> <span class="toc-text">创建资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E8%B5%84%E6%BA%90"><span class="toc-number">2.9.4.</span> <span class="toc-text">查询资源</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E6%9E%9C%E5%9C%A8Swagger%E4%B8%AD%E6%98%BE%E7%A4%BAOData%E8%B7%AF%E7%94%B1"><span class="toc-number">2.10.</span> <span class="toc-text">如果在Swagger中显示OData路由</span></a></li></ol></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+      <a href="/categories/Java/">
+        <div class="categories-list-item">
+          Java
+          <span class="categories-list-item-badge">5</span>
+        </div>
+      </a>
+    
+      <a href="/categories/SpringBoot/">
+        <div class="categories-list-item">
+          SpringBoot
+          <span class="categories-list-item-badge">8</span>
+        </div>
+      </a>
+    
+      <a href="/categories/WPF/">
+        <div class="categories-list-item">
+          WPF
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Docker/">
+        <div class="categories-list-item">
+          Docker
+          <span class="categories-list-item-badge">3</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Net/">
+        <div class="categories-list-item">
+          Net
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/DotNetCore/">
+        <div class="categories-list-item">
+          DotNetCore
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E6%8E%92%E5%BA%8F/">
+        <div class="categories-list-item">
+          排序
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Redis/">
+        <div class="categories-list-item">
+          Redis
+          <span class="categories-list-item-badge">5</span>
+        </div>
+      </a>
+    
+      <a href="/categories/COS/">
+        <div class="categories-list-item">
+          COS
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Spring/">
+        <div class="categories-list-item">
+          Spring
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/tags/Spring/" 
+        title="Spring">
+        <div class="tags-list-item">Spring</div>
+      </a>
+    
+      <a 
+        href="/tags/SpringBoot/" 
+        title="SpringBoot">
+        <div class="tags-list-item">SpringBoot</div>
+      </a>
+    
+      <a 
+        href="/tags/Redis/" 
+        title="Redis">
+        <div class="tags-list-item">Redis</div>
+      </a>
+    
+      <a 
+        href="/tags/DotNetCore/" 
+        title="DotNetCore">
+        <div class="tags-list-item">DotNetCore</div>
+      </a>
+    
+      <a 
+        href="/tags/Docker/" 
+        title="Docker">
+        <div class="tags-list-item">Docker</div>
+      </a>
+    
+      <a 
+        href="/tags/Java/" 
+        title="Java">
+        <div class="tags-list-item">Java</div>
+      </a>
+    
+      <a 
+        href="/tags/Kafka/" 
+        title="Kafka">
+        <div class="tags-list-item">Kafka</div>
+      </a>
+    
+      <a 
+        href="/tags/Elasticsearch/" 
+        title="Elasticsearch">
+        <div class="tags-list-item">Elasticsearch</div>
+      </a>
+    
+      <a 
+        href="/tags/COS/" 
+        title="COS">
+        <div class="tags-list-item">COS</div>
+      </a>
+    
+      <a 
+        href="/tags/Vue/" 
+        title="Vue">
+        <div class="tags-list-item">Vue</div>
+      </a>
+    
+      <a 
+        href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" 
+        title="腾讯云">
+        <div class="tags-list-item">腾讯云</div>
+      </a>
+    
+      <a 
+        href="/tags/HTML/" 
+        title="HTML">
+        <div class="tags-list-item">HTML</div>
+      </a>
+    
+      <a 
+        href="/tags/Quartz/" 
+        title="Quartz">
+        <div class="tags-list-item">Quartz</div>
+      </a>
+    
+      <a 
+        href="/tags/OData/" 
+        title="OData">
+        <div class="tags-list-item">OData</div>
+      </a>
+    
+      <a 
+        href="/tags/Shiro/" 
+        title="Shiro">
+        <div class="tags-list-item">Shiro</div>
+      </a>
+    
+      <a 
+        href="/tags/%E6%8E%92%E5%BA%8F/" 
+        title="排序">
+        <div class="tags-list-item">排序</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFOData"><span class="toc-number">1.</span> <span class="toc-text">什么是OData</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8OData%E5%BC%80%E5%8F%91"><span class="toc-number">2.</span> <span class="toc-text">使用OData开发</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0Model%E7%B1%BB"><span class="toc-number">2.1.</span> <span class="toc-text">添加Model类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8BEDM-Entity-Data-Model-%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.2.</span> <span class="toc-text">建立EDM(Entity Data Model)模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E6%B3%A8%E5%86%8C%E6%9C%8D%E5%8A%A1"><span class="toc-number">2.3.</span> <span class="toc-text">通过依赖注入注册服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8COData%E7%AB%AF%E7%82%B9"><span class="toc-number">2.4.</span> <span class="toc-text">注册OData端点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E5%85%83%E6%95%B0%E6%8D%AE"><span class="toc-number">2.5.</span> <span class="toc-text">查询元数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="toc-number">2.6.</span> <span class="toc-text">创建数据库上下文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="toc-number">2.7.</span> <span class="toc-text">注册数据库上下文</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E6%95%B0%E6%8D%AE"><span class="toc-number">2.8.</span> <span class="toc-text">模型数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E8%B5%84%E6%BA%90"><span class="toc-number">2.9.</span> <span class="toc-text">操作资源</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%84%E5%BB%BAController"><span class="toc-number">2.9.1.</span> <span class="toc-text">构建Controller</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A3%80%E7%B4%A2%E8%B5%84%E6%BA%90"><span class="toc-number">2.9.2.</span> <span class="toc-text">检索资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%B5%84%E6%BA%90"><span class="toc-number">2.9.3.</span> <span class="toc-text">创建资源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E8%B5%84%E6%BA%90"><span class="toc-number">2.9.4.</span> <span class="toc-text">查询资源</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E6%9E%9C%E5%9C%A8Swagger%E4%B8%AD%E6%98%BE%E7%A4%BAOData%E8%B7%AF%E7%94%B1"><span class="toc-number">2.10.</span> <span class="toc-text">如果在Swagger中显示OData路由</span></a></li></ol></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-07-13</div>
+        <a href="/2021/07/13/%E6%B3%A8%E8%A7%A3%E5%92%8C%E5%8F%8D%E5%B0%84/"><div class="recent-posts-item-content">注解和反射</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-06-22</div>
+        <a href="/2021/06/22/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"><div class="recent-posts-item-content">JUC并发编程</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-06-22</div>
+        <a href="/2021/06/22/%E5%85%AB%E5%A4%A7%E6%8E%92%E5%BA%8F/"><div class="recent-posts-item-content">八大排序</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-06-18</div>
+        <a href="/2021/06/18/Java-%E9%9B%86%E5%90%88/"><div class="recent-posts-item-content">Java-集合</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2020 -
+          
+          2021
+        </span>
+        &nbsp;
+        <a 
+          href="/" 
+          class="footer-link">
+          Gas
+        </a>
+      </div>
+    </div>
+
+    
+      <div class="footer-dsc">
+        
+          Powered by
+          <a 
+            href="https://hexo.io/" 
+            class="footer-link" 
+            target="_blank" 
+            rel="nofollow noopener noreferrer">
+            &nbsp;Hexo
+          </a>
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          Theme -
+          <a 
+            href="https://github.com/theme-kaze" 
+            class="footer-link" 
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            &nbsp;Kaze
+          </a>
+        
+      </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer> 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton" 
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/js/main.js"></script> 
+    
+      <script> 
+        loadScript('/js/lib/busuanzi.min.js') 
+      </script>
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/js/lib/lozad.min.js', addLazyload)
+      </script>
+     
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>

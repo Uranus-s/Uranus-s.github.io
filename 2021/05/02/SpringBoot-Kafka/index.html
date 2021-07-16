@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="Gas">
+  <link 
+    rel="icon" 
+    href="/img/Kaze.png">
+  <title>SpringBoot-Kafka</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="SpringBoot-Kafka">
+    
+    
+      <meta 
+        property="og:url" 
+        content="http://example.com/2021/05/02/SpringBoot-Kafka/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="/img/Kaze.png">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2021-05-02">
+      <meta 
+        property="og:article:modified_time" 
+        content="2021-05-07">
+      <meta 
+        property="og:article:author" 
+        content="Gas">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="Spring">
+        
+          <meta 
+            property="og:article:tag" 
+            content="SpringBoot">
+        
+          <meta 
+            property="og:article:tag" 
+            content="Kafka">
+        
+      
+    
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+      
+      
+      
+      
+        
+        
+        
+        <script>
+          function prismThemeChange() {
+            if(document.getElementById('theme-color').dataset.mode === 'dark') {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism-tomorrow.min.css', '[data-prism]', 'prism-tomorrow');
+              } else {
+                loadCSS('/js/lib/prism/prism-tomorrow.min.css', 'prism', 'prism-tomorrow');
+              }
+            } else {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism-okaidia.min.css', '[data-prism]', 'prism-okaidia');
+              } else {
+                loadCSS('/js/lib/prism/prism-okaidia.min.css', 'prism', 'prism-okaidia');
+              }
+            }
+          }
+          prismThemeChange()
+        </script>
+      
+      
+        
+        <link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+      
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+        prismThemeChange();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  
+    <link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+        <img 
+          class="navbar-logo-img" 
+          src="/img/Kaze.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">Gas</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/" 
+        class="navbar-menu-item">
+        
+          首页
+        
+      </a>
+    
+      <a 
+        href="/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+      <a 
+        href="/links" 
+        class="navbar-menu-item">
+        
+          友链
+        
+      </a>
+    
+    <a 
+      class="navbar-menu-item darknavbar" 
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </a>
+    <a 
+      class="navbar-menu-item searchnavbar" 
+      id="search">
+      <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i>
+    </a>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      SpringBoot-Kafka
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2021-05-02T07:34:09.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2021-05-02</span>
+    </time>
+    
+      <span class="dot"></span>
+      
+        <a 
+          href="/categories/SpringBoot/" 
+          class="post-meta-link">
+          SpringBoot
+        </a>
+      
+    
+    
+      <span class="dot"></span>
+      <span>3.4k 字</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/tags/Spring/" 
+            class="post-meta-link">
+            Spring
+          </a>
+        
+          
+            <span class="dot"></span>
+          
+          <a 
+            href="/tags/SpringBoot/" 
+            class="post-meta-link">
+            SpringBoot
+          </a>
+        
+          
+            <span class="dot"></span>
+          
+          <a 
+            href="/tags/Kafka/" 
+            class="post-meta-link">
+            Kafka
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h2 id="什么是-Kafka"><a href="#什么是-Kafka" class="headerlink" title="什么是 Kafka"></a>什么是 Kafka</h2><p>Kafka 最初由 Linkedin 公司开发，是一个<em>分布式的</em>、_分区的_、_多副本的_、_多订阅者_，<em>基于 zookeeper 协调</em>的分布式日志系统（也可以当做 MQ 系统），常用于 web/nginx 日志、访问日志、消息服务等等，Linkedin 于 2010 年贡献给了 Apache 基金会并成为顶级开源项目。</p>
+<ul>
+<li>高吞吐量、低延迟：kafka 每秒可以处理几十万条消息，它的延迟最低只有几毫秒；</li>
+<li>可扩展性：kafka 集群支持热扩展；</li>
+<li>持久性、可靠性：消息被持久化到本地磁盘，并且支持数据备份防止丢失；</li>
+<li>容错性：允许集群中的节点失败(若分区副本数量为 n,则允许 n-1 个节点失败)；</li>
+<li>高并发：单机可支持数千个客户端同时读写；</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="http://kafka.apache.org/downloads">下载地址</a></p>
+<p>下载完成之后，打开config文件夹，简单更改一下配置文件。</p>
+<ol>
+<li><p>找到zookeeper.properties进行修改</p>
+<pre><code class="properties">#zookeeper运行时产生的文件存放路径，win可能需要注意
+dataDir=/tmp/zookeeper
+</code></pre>
+</li>
+<li><p>找到server.properties进行修改</p>
+<pre><code class="properties">#kafka运行时日志文件存放路径
+log.dirs=/tmp/kafka-logs
+#kafka组id
+group.id=test-consumer-group
+</code></pre>
+</li>
+</ol>
+<p>完成后，以正确的顺序启动所有服务：</p>
+<pre><code class="bash"># Start the ZooKeeper service
+# Note: Soon, ZooKeeper will no longer be required by Apache Kafka.
+$ bin/zookeeper-server-start.sh config/zookeeper.properties
+</code></pre>
+<p>打开另一个终端：</p>
+<pre><code class="bash"># Start the Kafka broker service
+$ bin/kafka-server-start.sh config/server.properties
+</code></pre>
+<p>成功启动所有服务后，您将运行并可以使用基本的 Kafka 环境。</p>
+<h2 id="SpringBoot-中使用-Kafka"><a href="#SpringBoot-中使用-Kafka" class="headerlink" title="SpringBoot 中使用 Kafka"></a>SpringBoot 中使用 Kafka</h2><h3 id="1-添加所需要的依赖"><a href="#1-添加所需要的依赖" class="headerlink" title="1. 添加所需要的依赖"></a>1. 添加所需要的依赖</h3><pre><code class="xml">&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.kafka&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-kafka&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h3 id="2-Kafka-的部分配置"><a href="#2-Kafka-的部分配置" class="headerlink" title="2. Kafka 的部分配置"></a>2. Kafka 的部分配置</h3><pre><code class="properties">###########【Kafka集群】###########
+spring.kafka.bootstrap-servers=112.126.74.249:9092,112.126.74.249:9093
+###########【初始化生产者配置】###########
+# 重试次数
+spring.kafka.producer.retries=0
+# 应答级别:多少个分区副本备份完成时向生产者发送ack确认(可选0、1、all/-1)
+spring.kafka.producer.acks=1
+# 批量大小
+spring.kafka.producer.batch-size=16384
+# 提交延时
+spring.kafka.producer.properties.linger.ms=0
+# 当生产端积累的消息达到batch-size或接收到消息linger.ms后,生产者就会将消息提交给kafka
+# linger.ms为0表示每接收到一条消息就提交给kafka,这时候batch-size其实就没用了
+# 生产端缓冲区大小
+spring.kafka.producer.buffer-memory = 33554432
+# Kafka提供的序列化和反序列化类
+spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
+spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer
+# 自定义分区器
+# spring.kafka.producer.properties.partitioner.class=com.felix.kafka.producer.CustomizePartitioner
+# 事务初始化 设置为一个非空的字符串即可开启事务功能
+spring.kafka.producer.transaction-id-prefix=transaction
+###########【初始化消费者配置】###########
+# 默认的消费组ID
+spring.kafka.consumer.properties.group.id=defaultConsumerGroup
+# 是否自动提交offset
+spring.kafka.consumer.enable-auto-commit=true
+# 提交offset延时(接收到消息后多久提交offset)
+spring.kafka.consumer.auto.commit.interval.ms=1000
+# 当kafka中没有初始offset或offset超出范围时将自动重置offset
+# earliest:重置为分区中最小的offset;
+# latest:重置为分区中最新的offset(消费分区中新产生的数据);
+# none:只要有一个分区不存在已提交的offset,就抛出异常;
+spring.kafka.consumer.auto-offset-reset=latest
+# 消费会话超时时间(超过这个时间consumer没有发送心跳,就会触发rebalance操作)
+spring.kafka.consumer.properties.session.timeout.ms=120000
+# 消费请求超时时间
+spring.kafka.consumer.properties.request.timeout.ms=180000
+# Kafka提供的序列化和反序列化类
+spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+# 消费端监听的topic不存在时，项目启动会报错(关掉)
+spring.kafka.listener.missing-topics-fatal=false
+# 设置批量消费
+# spring.kafka.listener.type=batch
+# 批量消费每次最多消费多少条消息
+# spring.kafka.consumer.max-poll-records=50
+
+#==================================================
+#一般来说 配置一下就行
+spring:
+  kafka:
+      bootstrap-servers: localhost:9092
+      consumer:
+        group-id: test-consumer-group
+        enable-auto-commit: true
+        auto-commit-interval: 3000
+</code></pre>
+<h3 id="3-生产者"><a href="#3-生产者" class="headerlink" title="3. 生产者"></a>3. 生产者</h3><pre><code class="java">//生产者
+@Component
+public class EventProducet &#123;
+
+    @Autowired
+    private KafkaTemplate kafkaTemplate;//也可以通过&lt;T, T&gt;的方式来指定类型，默认都是String
+
+    //发送事件
+    public void fireEvent(Event event)&#123;
+        //将事件发布到指定主题          这里是封装了一个事件类，发布事件时将事件类转换成JSON
+        kafkaTemplate.send(&quot;topic1&quot;, JSONObject.toJSONString(event));
+    &#125;
+&#125;
+
+//生产者
+@Component
+class KafkaProducer&#123;
+    @Autowired
+    private KafkaTemplate kafkaTemplate;
+
+    public void sendMessage(String topic,String content)&#123;
+        kafkaTemplate.send(topic,content);
+    &#125;
+&#125;
+</code></pre>
+<h3 id="4-消费者"><a href="#4-消费者" class="headerlink" title="4. 消费者"></a>4. 消费者</h3><pre><code class="java">@Component
+public class KafkaConsumer &#123;
+    // 消费监听
+    @KafkaListener(topics = &#123;&quot;topic1&quot;&#125;)
+    public void onMessage1(ConsumerRecord&lt;?, ?&gt; record)&#123;
+        // 消费的哪个topic、partition的消息,打印出消息内容
+        System.out.println(&quot;============&quot;+record.topic()+&quot;-&gt;&quot;+record.partition()+&quot;-&gt;&quot;+record.value()+&quot;============&quot;);
+    &#125;
+&#125;
+</code></pre>
+<p>上面的实例创建了一个生产者，发送消息到<code>topic1</code>，然后又一个消费者监听<code>topic1</code>，监听用<code> @KafkaListener</code>注解，topic 表示要监听的 topic，支持同时监听多个，有逗号分隔</p>
+<p>创建一个测试类进行测试</p>
+<pre><code class="java">@SpringBootTest
+public class KafkaTest &#123;
+    @Autowired
+    KafkaProducer kafkaProducer;
+    @Test
+    public void testKafka() throws InterruptedException &#123;
+         kafkaProducer.sendMessage(&quot;topic1&quot;, &quot;Hello&quot;);
+         kafkaProducer.sendMessage(&quot;topic1&quot;, &quot;World&quot;);
+         Thread.sleep(1000*10);
+    &#125;
+&#125;
+</code></pre>
+<p><img src="/2021/05/02/SpringBoot-Kafka/image-20210502163701031.png" alt="image-20210502163701031" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/05/02/SpringBoot-Kafka/image-20210502163701031.png" class="lozad post-image"></p>
+<p>可以看到成功运行</p>
+<p>最简单的应用便到此结束</p>
+<h2 id="生产者的更多使用方法"><a href="#生产者的更多使用方法" class="headerlink" title="生产者的更多使用方法"></a>生产者的更多使用方法</h2><h3 id="1-待回调的生产者"><a href="#1-待回调的生产者" class="headerlink" title="1. 待回调的生产者"></a>1. 待回调的生产者</h3><pre><code>Kafka 提供了一个回调方法 addCallback，我们可以在回调方法中监控信息是否发送成功或失败做补偿处理，有两种写法
+</code></pre>
+<pre><code class="java">@Component
+class KafkaProducer &#123;
+    @Autowired
+    private KafkaTemplate kafkaTemplate;
+
+    public void sendMessage(String topic, String content) &#123;
+        kafkaTemplate.send(topic, content).addCallback(new ListenableFutureCallback&lt;SendResult&lt;String, String&gt;&gt;() &#123;
+            @Override
+            public void onFailure(Throwable throwable) &#123;
+                System.out.println(&quot;发送消息失败：&quot; + throwable.getMessage());
+            &#125;
+
+            @Override
+            public void onSuccess(SendResult&lt;String, String&gt; result) &#123;
+                System.out.println(&quot;发送消息成功：&quot; + result.getRecordMetadata().topic() + &quot;-&quot;
+                        + result.getRecordMetadata().partition() + &quot;-&quot; + result.getRecordMetadata().offset() + &quot;-&quot; + result.getProducerRecord().value());
+            &#125;
+        &#125;);
+    &#125;
+&#125;
+</code></pre>
+<pre><code class="java">@Component
+class KafkaProducer &#123;
+    @Autowired
+    private KafkaTemplate kafkaTemplate;
+
+    public void sendMessage(String topic, String content) &#123;
+        ListenableFuture&lt;SendResult&lt;String,String&gt;&gt; future = kafkaTemplate.send(topic, content);
+        future.addCallback((result)-&gt; &#123;
+            // 消息发送到的topic
+            String tp = result.getRecordMetadata().topic();
+            // 消息发送到的分区
+            int partition = result.getRecordMetadata().partition();
+            // 消息在分区内的offset
+            long offset = result.getRecordMetadata().offset();
+            System.out.println(&quot;发送消息成功:&quot; + tp + &quot;-&quot; + partition + &quot;-&quot; + offset);
+        &#125;, (KafkaFailureCallback&lt;Integer, String&gt;) ex -&gt; &#123;
+            ProducerRecord&lt;Integer, String&gt; failed = ex.getFailedProducerRecord();
+        &#125;);
+    &#125;
+&#125;
+</code></pre>
+<h3 id="2-自定义分区"><a href="#2-自定义分区" class="headerlink" title="2. 自定义分区"></a>2. 自定义分区</h3><p>kafka 中每个 topic 划分了多个分区，那么生产者将消息发送到 topic 时，具体追加到那个分区呢？这就是所谓的分区策略，kafka 为我们提供了默认的分区策略，同时它也支持自定义分区策略，其路由机制为：</p>
+<ol>
+<li> 若发送消息时指定了分区（即自定义分区策略），则直接将消息 append 到指定分区。</li>
+<li> 若发送消息时未指定 partition，但指定了 key（kafka 允许为每条消息设置一个 key），则对 key 值进行 hash 计算，根据计算结构路由到指定分区，这种情况下可以保证同一个 key 的所有消息都进入相同的分区。</li>
+</ol>
+<p>partition 和 key 都未指定，则使用 kafka 默认的分区策略，轮询出一个 partition</p>
+<p>自定义一个分区策略，将消息发送到我们指定的 partition，首先建立一个分区器类实现 Partitioner 接口，重写方法，其中 partition 方法的返回值表示将消息发送到几号分区。</p>
+<pre><code class="java">public class CustomizePartitioner implements Partitioner &#123;
+    @Override
+    public int partition(String s, Object o, byte[] bytes, Object o1, byte[] bytes1, Cluster cluster) &#123;
+        // 自定义分区规则(这里假设全部发到0号分区)
+        // ......
+        return 0;
+    &#125;
+
+    @Override
+    public void close() &#123;
+
+    &#125;
+
+    @Override
+    public void configure(Map&lt;String, ?&gt; map) &#123;
+
+    &#125;
+&#125;
+</code></pre>
+<h3 id="3-kafka-事务提交"><a href="#3-kafka-事务提交" class="headerlink" title="3. kafka 事务提交"></a>3. kafka 事务提交</h3><p>如果发送消息时需要创建事务，可以使用 kafkaTemplate 的 executeInTransaction 方法来声明事务。</p>
+<p>需要先进行配置 yml</p>
+<pre><code class="properties">spring.kafka.producer.transaction-id-prefix=transaction
+</code></pre>
+<pre><code class="java">@Component
+class KafkaProducer &#123;
+    @Autowired
+    private KafkaTemplate kafkaTemplate;
+
+    public void sendMessage(String topic, String content) &#123;
+        kafkaTemplate.executeInTransaction(new KafkaOperations.OperationsCallback() &#123;
+            @Override
+            public Object doInOperations(KafkaOperations kafkaOperations) &#123;
+                kafkaOperations.send(topic, content);
+                throw new RuntimeException(&quot;fail&quot;);
+//                return true;
+            &#125;
+        &#125;);
+    &#125;
+&#125;
+</code></pre>
+<h2 id="消费者的更多使用方法"><a href="#消费者的更多使用方法" class="headerlink" title="消费者的更多使用方法"></a>消费者的更多使用方法</h2><h3 id="1-指定-topic、partition、offset-消费"><a href="#1-指定-topic、partition、offset-消费" class="headerlink" title="1. 指定 topic、partition、offset 消费"></a>1. 指定 topic、partition、offset 消费</h3><p>前面我们只监听了 topic1，监听的是所有在 topic1 上的消息，我们还可以指定 topic、partition、offset，在<code>@KafkaListener</code>注解上全部为我们提供了</p>
+<pre><code class="java">/**
+ * @Title 指定topic、partition、offset消费
+ * @Description 同时监听topic1和topic2，监听topic1的0号分区、topic2的 &quot;0号和1号&quot; 分区，指向1号分区的offset初始值为8
+ **/
+@Component
+class KafkaConsumer&#123;
+    @KafkaListener(id = &quot;consumer1&quot;,groupId = &quot;felix-group&quot;,topicPartitions = &#123;
+            @TopicPartition(topic = &quot;topic1&quot;,partitions = &#123;&quot;0&quot;&#125;),
+            @TopicPartition(topic = &quot;topic2&quot;,partitions = &quot;0&quot;,partitionOffsets = @PartitionOffset(partition = &quot;1&quot;,initialOffset = &quot;8&quot;))
+    &#125;)
+    public void handleMessage(ConsumerRecord record)&#123;
+        System.out.println(&quot;============&quot;+record.topic()+&quot;-&gt;&quot;+record.partition()+&quot;-&gt;&quot;+record.value()+&quot;============&quot;);
+    &#125;
+&#125;
+</code></pre>
+<ul>
+<li>id：消费者 ID</li>
+<li>groupid：消费组 ID</li>
+<li>topics：监听的 topic，可以监听多个</li>
+<li>topicPartitions：可以配置更加详细的监听信息，可以指定 topic、parition、offset 监听</li>
+</ul>
+<p>上面 handleMessage 监听的含义：监听 topic1 的 0 号分区，同时监听 topic2 的 0 号分区和 topic2 的 1 号分区里面 offset 从 8 开始的消息。</p>
+<p><strong><em>注意：topics 和 topicPartitions 不能同时使用；</em></strong></p>
+<h3 id="2-批量消费"><a href="#2-批量消费" class="headerlink" title="2. 批量消费"></a>2. 批量消费</h3><p>修改配置文件，开启批量消费</p>
+<pre><code class="properties"># 设置批量消费
+spring.kafka.listener.type=batch
+# 批量消费每次最多消费多少条消息
+spring.kafka.consumer.max-poll-records=50
+</code></pre>
+<p>接收消息时使用 List 来接收，监听代码如下</p>
+<pre><code class="java">@KafkaListener(topics = &quot;topic1&quot;)
+//也可以使用List&lt;ConsumerRecord&lt;?, ?&gt;&gt;
+public void onMessage3(ConsumerRecords&lt;?, ?&gt; records) &#123;
+    System.out.println(&quot;&gt;&gt;&gt;批量消费一次，records.size()=&quot;+records.count());
+    for (ConsumerRecord&lt;?, ?&gt; record : records) &#123;
+        System.out.println(record.value());
+    &#125;
+&#125;
+</code></pre>
+<h3 id="3-异常处理器"><a href="#3-异常处理器" class="headerlink" title="3. 异常处理器"></a>3. 异常处理器</h3><p>通过异常处理，我们可以处理 consumer 在消费时发生的异常。</p>
+<p>创建一个 ConsumerAwareListenerErrorHandler 类型的异常处理方法，使用@Bean 注入，然后将这个异常处理的 BeanName 放到@KafkaListener 注解的 errorHandler 属性里面，当监听抛出异常的时候，则会自动调用异常处理器</p>
+<pre><code class="java">@Bean
+public ConsumerAwareListenerErrorHandler consumerAwareErrorHandler() &#123;
+    return (message, exception, consumer) -&gt; &#123;
+        System.out.println(&quot;消费异常：&quot;+message.getPayload());
+        return null;
+    &#125;;
+&#125;
+</code></pre>
+<pre><code class="java">@KafkaListener(topics = &#123;&quot;topic1&quot;&#125;,errorHandler = &quot;consumerAwareErrorHandler&quot;)
+</code></pre>
+<h3 id="4-消息过滤器"><a href="#4-消息过滤器" class="headerlink" title="4. 消息过滤器"></a>4. 消息过滤器</h3><pre><code class="java">// 监听器工厂
+@Autowired
+private ConsumerFactory consumerFactory;
+
+// 配置一个消息过滤策略
+@Bean
+public ConcurrentKafkaListenerContainerFactory myFilterContainerFactory() &#123;
+    ConcurrentKafkaListenerContainerFactory factory =
+        new ConcurrentKafkaListenerContainerFactory();
+    factory.setConsumerFactory(consumerFactory);
+    // 被过滤的消息将被丢弃
+    factory.setAckDiscarded(true);
+    // 消息过滤策略（将消息转换为int类型，判断是奇数还是偶数，把所有奇数过滤，监听器只接收偶数）
+    factory.setRecordFilterStrategy(consumerRecord -&gt; &#123;
+        if (Integer.parseInt(consumerRecord.value().toString()) % 2 == 0) &#123;
+            return false;
+        &#125;
+        //返回true消息则被过滤
+        return true;
+    &#125;);
+    return factory;
+&#125;
+</code></pre>
+<pre><code class="java">@KafkaListener(topics = &quot;topic1&quot;,containerFactory = &quot;myFilterContainerFactory&quot;)
+</code></pre>
+<p>上面实现了一个”过滤奇数、接收偶数”的过滤策略，我们向 topic1 发送 0-99 总共 100 条消息，看一下监听器的消费情况，可以看到监听器只消费了偶数</p>
+<h3 id="5-消息转发"><a href="#5-消息转发" class="headerlink" title="5. 消息转发"></a>5. 消息转发</h3><p>在实际开发中，我们可能有这样的需求，应用 A 从 TopicA 获取到消息，经过处理后转发到 TopicB，再由应用 B 监听处理消息，即一个应用处理完成后将该消息转发至其他应用，完成消息的转发。</p>
+<p>在 SpringBoot 集成 Kafka 实现消息的转发也很简单，只需要通过一个@SendTo 注解，被注解方法的 return 值即转发的消息内容，如下：</p>
+<pre><code class="java">@Component
+class KafkaConsumer &#123;
+    @KafkaListener(topics = &quot;topic1&quot;)
+    @SendTo(&quot;topic2&quot;)//使用前需要配置KafkaTemplate,有点麻烦,实在需要的话照着官方文档复制粘贴就好了
+    public String handleMessage(ConsumerRecord&lt;?, ?&gt; record) &#123;
+//        System.out.println(record.value()+&quot;-&gt;topic1&quot;);
+        return record.value()+&quot;-forward message&quot;;
+    &#125;
+
+    @KafkaListener(topics = &quot;topic2&quot;)
+    public void handleMessage2(ConsumerRecord&lt;?, ?&gt; record) &#123;
+        System.out.println(record.value()+&quot;-&gt;topic2&quot;);
+    &#125;
+&#125;
+</code></pre>
+<h3 id="6-定时启动、停止监听器"><a href="#6-定时启动、停止监听器" class="headerlink" title="6. 定时启动、停止监听器"></a>6. 定时启动、停止监听器</h3><p>默认情况下，当消费者项目启动的时候，监听器就开始工作，监听消费发送到指定 topic 的消息，那如果我们不想让监听器立即工作，想让它在我们指定的时间点开始工作，或者在我们指定的时间点停止工作，该怎么处理呢——使用 KafkaListenerEndpointRegistry，下面我们就来实现：</p>
+<ol>
+<li><p> 禁止监听器自启动；</p>
+</li>
+<li><p> 创建两个定时任务，一个用来在指定时间点启动定时器，另一个在指定时间点停止定时器；</p>
+</li>
+</ol>
+<p>新建一个定时任务类，用注解@EnableScheduling 声明，KafkaListenerEndpointRegistry 在 SpringIO 中已经被注册为 Bean，直接注入，设置禁止 KafkaListener 自启动，</p>
+<pre><code class="java">@EnableScheduling
+@Component
+public class CronTimer &#123;
+
+    /**
+     * @KafkaListener注解所标注的方法并不会在IOC容器中被注册为Bean，
+     * 而是会被注册在KafkaListenerEndpointRegistry中，
+     * 而KafkaListenerEndpointRegistry在SpringIOC中已经被注册为Bean
+     **/
+    @Autowired
+    private KafkaListenerEndpointRegistry registry;
+
+    @Autowired
+    private ConsumerFactory consumerFactory;
+
+    // 监听器容器工厂(设置禁止KafkaListener自启动)
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory delayContainerFactory() &#123;
+        ConcurrentKafkaListenerContainerFactory container = new ConcurrentKafkaListenerContainerFactory();
+        container.setConsumerFactory(consumerFactory);
+        //禁止KafkaListener自启动
+        container.setAutoStartup(false);
+        return container;
+    &#125;
+
+    // 监听器
+    @KafkaListener(id=&quot;timingConsumer&quot;,topics = &quot;topic1&quot;,containerFactory = &quot;delayContainerFactory&quot;)
+    public void onMessage1(ConsumerRecord&lt;?, ?&gt; record)&#123;
+        System.out.println(&quot;消费成功：&quot;+record.topic()+&quot;-&quot;+record.partition()+&quot;-&quot;+record.value());
+    &#125;
+
+    // 定时启动监听器
+    @Scheduled(cron = &quot;0 42 11 * * ? &quot;)
+    public void startListener() &#123;
+        System.out.println(&quot;启动监听器...&quot;);
+        // &quot;timingConsumer&quot;是@KafkaListener注解后面设置的监听器ID,标识这个监听器
+        if (!registry.getListenerContainer(&quot;timingConsumer&quot;).isRunning()) &#123;
+            registry.getListenerContainer(&quot;timingConsumer&quot;).start();
+        &#125;
+        //registry.getListenerContainer(&quot;timingConsumer&quot;).resume();
+    &#125;
+
+    // 定时停止监听器
+    @Scheduled(cron = &quot;0 45 11 * * ? &quot;)
+    public void shutDownListener() &#123;
+        System.out.println(&quot;关闭监听器...&quot;);
+        registry.getListenerContainer(&quot;timingConsumer&quot;).pause();
+    &#125;
+&#125;
+</code></pre>
+<p>参考文章：</p>
+<p>Kafka：<a target="_blank" rel="noopener" href="http://kafka.apache.org/">http://kafka.apache.org/</a></p>
+<p>Kafka 原理架构：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzU1NDA0MDQ3MA==&mid=2247483958&idx=1&sn=dffaad318b50f875eea615bc3bdcc80c&chksm=fbe8efcfcc9f66d9ff096fbae1c2a3671f60ca4dc3e7412ebb511252e7193a46dcd4eb11aadc&scene=21#wechat_redirect">点击链接</a></p>
+<p>文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/yuanlong122716/article/details/105160545/">https://blog.csdn.net/yuanlong122716/article/details/105160545/</a></p>
+<p>SpringBootKafka：<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-kafka/docs/current/reference/html/#preface">https://docs.spring.io/spring-kafka/docs/current/reference/html/#preface</a></p>
+
+  </div>
+  <div>
+    
+      <div 
+        class="post-note note-warning copyright" 
+        style="margin-top: 42px">
+        <p>
+          <span style="font-weight: bold;">作者：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="/about">
+            Gas
+          </a>
+        </p>
+        <p>
+          <span style="font-weight: bold;">文章链接：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="http://example.com/2021/05/02/SpringBoot-Kafka/">
+            http://example.com/2021/05/02/SpringBoot-Kafka/
+          </a>
+        </p>
+        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+      </div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+    <div class="nav-item-prev">
+      <a 
+        href="/2021/05/07/SpringBoot-Elasticsearch/" 
+        class="nav-link">
+        <i class="iconfont icon-left nav-prev-icon"></i>
+        <div>
+          <div class="nav-label">上一篇</div>
+          
+            <div class="nav-title">SpringBoot-Elasticsearch </div>
+          
+        </div>
+      </a>
+    </div>
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/2021/04/27/SpringBoot-Quartz/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">下一篇</div>
+          
+            <div class="nav-title">SpringBoot Quartz </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-Kafka"><span class="toc-number">1.</span> <span class="toc-text">什么是 Kafka</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringBoot-%E4%B8%AD%E4%BD%BF%E7%94%A8-Kafka"><span class="toc-number">2.</span> <span class="toc-text">SpringBoot 中使用 Kafka</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%B7%BB%E5%8A%A0%E6%89%80%E9%9C%80%E8%A6%81%E7%9A%84%E4%BE%9D%E8%B5%96"><span class="toc-number">2.1.</span> <span class="toc-text">1. 添加所需要的依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Kafka-%E7%9A%84%E9%83%A8%E5%88%86%E9%85%8D%E7%BD%AE"><span class="toc-number">2.2.</span> <span class="toc-text">2. Kafka 的部分配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%94%9F%E4%BA%A7%E8%80%85"><span class="toc-number">2.3.</span> <span class="toc-text">3. 生产者</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-number">2.4.</span> <span class="toc-text">4. 消费者</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E7%9A%84%E6%9B%B4%E5%A4%9A%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">生产者的更多使用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%BE%85%E5%9B%9E%E8%B0%83%E7%9A%84%E7%94%9F%E4%BA%A7%E8%80%85"><span class="toc-number">3.1.</span> <span class="toc-text">1. 待回调的生产者</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%86%E5%8C%BA"><span class="toc-number">3.2.</span> <span class="toc-text">2. 自定义分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-kafka-%E4%BA%8B%E5%8A%A1%E6%8F%90%E4%BA%A4"><span class="toc-number">3.3.</span> <span class="toc-text">3. kafka 事务提交</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E7%9A%84%E6%9B%B4%E5%A4%9A%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">消费者的更多使用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%8C%87%E5%AE%9A-topic%E3%80%81partition%E3%80%81offset-%E6%B6%88%E8%B4%B9"><span class="toc-number">4.1.</span> <span class="toc-text">1. 指定 topic、partition、offset 消费</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%89%B9%E9%87%8F%E6%B6%88%E8%B4%B9"><span class="toc-number">4.2.</span> <span class="toc-text">2. 批量消费</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-number">4.3.</span> <span class="toc-text">3. 异常处理器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%B6%88%E6%81%AF%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">4.4.</span> <span class="toc-text">4. 消息过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91"><span class="toc-number">4.5.</span> <span class="toc-text">5. 消息转发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%AE%9A%E6%97%B6%E5%90%AF%E5%8A%A8%E3%80%81%E5%81%9C%E6%AD%A2%E7%9B%91%E5%90%AC%E5%99%A8"><span class="toc-number">4.6.</span> <span class="toc-text">6. 定时启动、停止监听器</span></a></li></ol></li></ol>
+</div></main>
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="/img/Kaze.png" 
+    class="author-img" 
+    alt="author avatar">
+
+<p class="author-name">Gas</p>
+<p class="author-description">咸鱼罢了</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/archives">
+    <span>30</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/categories">
+    <span>10</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/tags">
+    <span>30</span>
+    <span>标签</span>
+  </a>
+</div>
+
+  <div class="author-card-society">
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://github.com/Uranus-s">
+          <i class="iconfont social_github icon-github society-icon"></i>
+        </a>
+      </div>
+    
+  </div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-Kafka"><span class="toc-number">1.</span> <span class="toc-text">什么是 Kafka</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringBoot-%E4%B8%AD%E4%BD%BF%E7%94%A8-Kafka"><span class="toc-number">2.</span> <span class="toc-text">SpringBoot 中使用 Kafka</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%B7%BB%E5%8A%A0%E6%89%80%E9%9C%80%E8%A6%81%E7%9A%84%E4%BE%9D%E8%B5%96"><span class="toc-number">2.1.</span> <span class="toc-text">1. 添加所需要的依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Kafka-%E7%9A%84%E9%83%A8%E5%88%86%E9%85%8D%E7%BD%AE"><span class="toc-number">2.2.</span> <span class="toc-text">2. Kafka 的部分配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%94%9F%E4%BA%A7%E8%80%85"><span class="toc-number">2.3.</span> <span class="toc-text">3. 生产者</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-number">2.4.</span> <span class="toc-text">4. 消费者</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E7%9A%84%E6%9B%B4%E5%A4%9A%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">生产者的更多使用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%BE%85%E5%9B%9E%E8%B0%83%E7%9A%84%E7%94%9F%E4%BA%A7%E8%80%85"><span class="toc-number">3.1.</span> <span class="toc-text">1. 待回调的生产者</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%86%E5%8C%BA"><span class="toc-number">3.2.</span> <span class="toc-text">2. 自定义分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-kafka-%E4%BA%8B%E5%8A%A1%E6%8F%90%E4%BA%A4"><span class="toc-number">3.3.</span> <span class="toc-text">3. kafka 事务提交</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E7%9A%84%E6%9B%B4%E5%A4%9A%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">消费者的更多使用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%8C%87%E5%AE%9A-topic%E3%80%81partition%E3%80%81offset-%E6%B6%88%E8%B4%B9"><span class="toc-number">4.1.</span> <span class="toc-text">1. 指定 topic、partition、offset 消费</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%89%B9%E9%87%8F%E6%B6%88%E8%B4%B9"><span class="toc-number">4.2.</span> <span class="toc-text">2. 批量消费</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-number">4.3.</span> <span class="toc-text">3. 异常处理器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%B6%88%E6%81%AF%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">4.4.</span> <span class="toc-text">4. 消息过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91"><span class="toc-number">4.5.</span> <span class="toc-text">5. 消息转发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%AE%9A%E6%97%B6%E5%90%AF%E5%8A%A8%E3%80%81%E5%81%9C%E6%AD%A2%E7%9B%91%E5%90%AC%E5%99%A8"><span class="toc-number">4.6.</span> <span class="toc-text">6. 定时启动、停止监听器</span></a></li></ol></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+      <a href="/categories/Java/">
+        <div class="categories-list-item">
+          Java
+          <span class="categories-list-item-badge">5</span>
+        </div>
+      </a>
+    
+      <a href="/categories/SpringBoot/">
+        <div class="categories-list-item">
+          SpringBoot
+          <span class="categories-list-item-badge">8</span>
+        </div>
+      </a>
+    
+      <a href="/categories/WPF/">
+        <div class="categories-list-item">
+          WPF
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Docker/">
+        <div class="categories-list-item">
+          Docker
+          <span class="categories-list-item-badge">3</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Net/">
+        <div class="categories-list-item">
+          Net
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/DotNetCore/">
+        <div class="categories-list-item">
+          DotNetCore
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E6%8E%92%E5%BA%8F/">
+        <div class="categories-list-item">
+          排序
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Redis/">
+        <div class="categories-list-item">
+          Redis
+          <span class="categories-list-item-badge">5</span>
+        </div>
+      </a>
+    
+      <a href="/categories/COS/">
+        <div class="categories-list-item">
+          COS
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Spring/">
+        <div class="categories-list-item">
+          Spring
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/tags/Spring/" 
+        title="Spring">
+        <div class="tags-list-item">Spring</div>
+      </a>
+    
+      <a 
+        href="/tags/SpringBoot/" 
+        title="SpringBoot">
+        <div class="tags-list-item">SpringBoot</div>
+      </a>
+    
+      <a 
+        href="/tags/Redis/" 
+        title="Redis">
+        <div class="tags-list-item">Redis</div>
+      </a>
+    
+      <a 
+        href="/tags/DotNetCore/" 
+        title="DotNetCore">
+        <div class="tags-list-item">DotNetCore</div>
+      </a>
+    
+      <a 
+        href="/tags/Docker/" 
+        title="Docker">
+        <div class="tags-list-item">Docker</div>
+      </a>
+    
+      <a 
+        href="/tags/Java/" 
+        title="Java">
+        <div class="tags-list-item">Java</div>
+      </a>
+    
+      <a 
+        href="/tags/Kafka/" 
+        title="Kafka">
+        <div class="tags-list-item">Kafka</div>
+      </a>
+    
+      <a 
+        href="/tags/Elasticsearch/" 
+        title="Elasticsearch">
+        <div class="tags-list-item">Elasticsearch</div>
+      </a>
+    
+      <a 
+        href="/tags/COS/" 
+        title="COS">
+        <div class="tags-list-item">COS</div>
+      </a>
+    
+      <a 
+        href="/tags/Vue/" 
+        title="Vue">
+        <div class="tags-list-item">Vue</div>
+      </a>
+    
+      <a 
+        href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" 
+        title="腾讯云">
+        <div class="tags-list-item">腾讯云</div>
+      </a>
+    
+      <a 
+        href="/tags/HTML/" 
+        title="HTML">
+        <div class="tags-list-item">HTML</div>
+      </a>
+    
+      <a 
+        href="/tags/Quartz/" 
+        title="Quartz">
+        <div class="tags-list-item">Quartz</div>
+      </a>
+    
+      <a 
+        href="/tags/OData/" 
+        title="OData">
+        <div class="tags-list-item">OData</div>
+      </a>
+    
+      <a 
+        href="/tags/Shiro/" 
+        title="Shiro">
+        <div class="tags-list-item">Shiro</div>
+      </a>
+    
+      <a 
+        href="/tags/%E6%8E%92%E5%BA%8F/" 
+        title="排序">
+        <div class="tags-list-item">排序</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-Kafka"><span class="toc-number">1.</span> <span class="toc-text">什么是 Kafka</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringBoot-%E4%B8%AD%E4%BD%BF%E7%94%A8-Kafka"><span class="toc-number">2.</span> <span class="toc-text">SpringBoot 中使用 Kafka</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%B7%BB%E5%8A%A0%E6%89%80%E9%9C%80%E8%A6%81%E7%9A%84%E4%BE%9D%E8%B5%96"><span class="toc-number">2.1.</span> <span class="toc-text">1. 添加所需要的依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Kafka-%E7%9A%84%E9%83%A8%E5%88%86%E9%85%8D%E7%BD%AE"><span class="toc-number">2.2.</span> <span class="toc-text">2. Kafka 的部分配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%94%9F%E4%BA%A7%E8%80%85"><span class="toc-number">2.3.</span> <span class="toc-text">3. 生产者</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%B6%88%E8%B4%B9%E8%80%85"><span class="toc-number">2.4.</span> <span class="toc-text">4. 消费者</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E7%9A%84%E6%9B%B4%E5%A4%9A%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">生产者的更多使用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%BE%85%E5%9B%9E%E8%B0%83%E7%9A%84%E7%94%9F%E4%BA%A7%E8%80%85"><span class="toc-number">3.1.</span> <span class="toc-text">1. 待回调的生产者</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%86%E5%8C%BA"><span class="toc-number">3.2.</span> <span class="toc-text">2. 自定义分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-kafka-%E4%BA%8B%E5%8A%A1%E6%8F%90%E4%BA%A4"><span class="toc-number">3.3.</span> <span class="toc-text">3. kafka 事务提交</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E7%9A%84%E6%9B%B4%E5%A4%9A%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">消费者的更多使用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%8C%87%E5%AE%9A-topic%E3%80%81partition%E3%80%81offset-%E6%B6%88%E8%B4%B9"><span class="toc-number">4.1.</span> <span class="toc-text">1. 指定 topic、partition、offset 消费</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%89%B9%E9%87%8F%E6%B6%88%E8%B4%B9"><span class="toc-number">4.2.</span> <span class="toc-text">2. 批量消费</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-number">4.3.</span> <span class="toc-text">3. 异常处理器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%B6%88%E6%81%AF%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">4.4.</span> <span class="toc-text">4. 消息过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91"><span class="toc-number">4.5.</span> <span class="toc-text">5. 消息转发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%AE%9A%E6%97%B6%E5%90%AF%E5%8A%A8%E3%80%81%E5%81%9C%E6%AD%A2%E7%9B%91%E5%90%AC%E5%99%A8"><span class="toc-number">4.6.</span> <span class="toc-text">6. 定时启动、停止监听器</span></a></li></ol></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-07-13</div>
+        <a href="/2021/07/13/%E6%B3%A8%E8%A7%A3%E5%92%8C%E5%8F%8D%E5%B0%84/"><div class="recent-posts-item-content">注解和反射</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-06-22</div>
+        <a href="/2021/06/22/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"><div class="recent-posts-item-content">JUC并发编程</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-06-22</div>
+        <a href="/2021/06/22/%E5%85%AB%E5%A4%A7%E6%8E%92%E5%BA%8F/"><div class="recent-posts-item-content">八大排序</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-06-18</div>
+        <a href="/2021/06/18/Java-%E9%9B%86%E5%90%88/"><div class="recent-posts-item-content">Java-集合</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2020 -
+          
+          2021
+        </span>
+        &nbsp;
+        <a 
+          href="/" 
+          class="footer-link">
+          Gas
+        </a>
+      </div>
+    </div>
+
+    
+      <div class="footer-dsc">
+        
+          Powered by
+          <a 
+            href="https://hexo.io/" 
+            class="footer-link" 
+            target="_blank" 
+            rel="nofollow noopener noreferrer">
+            &nbsp;Hexo
+          </a>
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          Theme -
+          <a 
+            href="https://github.com/theme-kaze" 
+            class="footer-link" 
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            &nbsp;Kaze
+          </a>
+        
+      </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer> 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton" 
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/js/main.js"></script> 
+    
+      <script> 
+        loadScript('/js/lib/busuanzi.min.js') 
+      </script>
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/js/lib/lozad.min.js', addLazyload)
+      </script>
+     
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>
