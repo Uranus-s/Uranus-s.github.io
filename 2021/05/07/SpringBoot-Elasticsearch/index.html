@@ -45,7 +45,7 @@
         content="2021-05-07">
       <meta 
         property="og:article:modified_time" 
-        content="2021-05-07">
+        content="2021-07-19">
       <meta 
         property="og:article:author" 
         content="Gas">
@@ -327,7 +327,7 @@
     
     
       <span class="dot"></span>
-      <span>994 字</span>
+      <span>950 字</span>
     
   </div>
   
@@ -390,111 +390,111 @@
 <p>Elasticsearch 和 SpringBoot 是有版本对应的，<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-data/elasticsearch/docs/current/reference/html/#preface.versions">点击查看</a></p>
 <p>下载<a target="_blank" rel="noopener" href="https://www.elastic.co/cn/elasticsearch/">Elasticsearch</a>，在使用 ES 之前，还需要装一个<a target="_blank" rel="noopener" href="https://github.com/medcl/elasticsearch-analysis-ik">ik 分词器</a>，下载好之后，将其解压至 ES 的 plugins 文件夹中的 ik 文件夹(无则创建)</p>
 <p>在使用 ES 之前，我们最好简单更改一下其配置，在 config 目录下，找到 elasticsearch.yml，进行如下更改</p>
-<pre><code class="yaml"># 集群的名字 随意
+<pre class="line-numbers language-yml" data-language="yml"><code class="language-yml"># 集群的名字 随意
 cluster.name: nowcoder
 # ES数据存储路径
-path.data: /home/gas/桌面/elasticsearch-7.12.0/data
+path.data: &#x2F;home&#x2F;gas&#x2F;桌面&#x2F;elasticsearch-7.12.0&#x2F;data
 # 日志
-path.logs: /home/gas/桌面/elasticsearch-7.12.0/logs
-</code></pre>
+path.logs: &#x2F;home&#x2F;gas&#x2F;桌面&#x2F;elasticsearch-7.12.0&#x2F;logs<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>然后执行 bin 目录下的 elasticsearch 文件即可</p>
-<h2 id="SpringBoot-使用-Elasticsearch"><a href="#SpringBoot-使用-Elasticsearch" class="headerlink" title="SpringBoot 使用 Elasticsearch"></a>SpringBoot 使用 Elasticsearch</h2><h3 id="1-Maven-引入"><a href="#1-Maven-引入" class="headerlink" title="1. Maven 引入"></a>1. Maven 引入</h3><pre><code class="xml">&lt;!-- elasticsearch --&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-boot-starter-data-elasticsearch&lt;/artifactId&gt;
-&lt;/dependency&gt;
-</code></pre>
-<h3 id="2-yml-配置"><a href="#2-yml-配置" class="headerlink" title="2. yml 配置"></a>2. yml 配置</h3><pre><code class="yaml">spring:
-  elasticsearch:
-    rest:
-      username: nowcoder #   填写上面自己配置的
-      uris: 127.0.0.1:9200 #   es的ip:port
-</code></pre>
+<h2 id="SpringBoot-使用-Elasticsearch"><a href="#SpringBoot-使用-Elasticsearch" class="headerlink" title="SpringBoot 使用 Elasticsearch"></a>SpringBoot 使用 Elasticsearch</h2><h3 id="1-Maven-引入"><a href="#1-Maven-引入" class="headerlink" title="1. Maven 引入"></a>1. Maven 引入</h3><pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token comment">&lt;!-- elasticsearch --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-starter-data-elasticsearch<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="2-yml-配置"><a href="#2-yml-配置" class="headerlink" title="2. yml 配置"></a>2. yml 配置</h3><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">elasticsearch</span><span class="token punctuation">:</span>
+    <span class="token key atrule">rest</span><span class="token punctuation">:</span>
+      <span class="token key atrule">username</span><span class="token punctuation">:</span> nowcoder <span class="token comment">#   填写上面自己配置的</span>
+      <span class="token key atrule">uris</span><span class="token punctuation">:</span> 127.0.0.1<span class="token punctuation">:</span><span class="token number">9200</span> <span class="token comment">#   es的ip:port</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h3 id="3-配置-ES-实体类"><a href="#3-配置-ES-实体类" class="headerlink" title="3. 配置 ES 实体类"></a>3. 配置 ES 实体类</h3><p>直接用现有的实体类就好，并不冲突</p>
-<pre><code class="java">//indexName：索引的名称
-//shards：分片
-//replicas：副本
-//type：7.x不用写
-@Document(indexName = &quot;discusspost&quot;, shards = 6, replicas = 3)
-public class DiscussPost &#123;
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//indexName：索引的名称</span>
+<span class="token comment">//shards：分片</span>
+<span class="token comment">//replicas：副本</span>
+<span class="token comment">//type：7.x不用写</span>
+<span class="token annotation punctuation">@Document</span><span class="token punctuation">(</span>indexName <span class="token operator">=</span> <span class="token string">"discusspost"</span><span class="token punctuation">,</span> shards <span class="token operator">=</span> <span class="token number">6</span><span class="token punctuation">,</span> replicas <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">DiscussPost</span> <span class="token punctuation">&#123;</span>
 
-    //声明ID
-    @Id
-    private int id;
+    <span class="token comment">//声明ID</span>
+    <span class="token annotation punctuation">@Id</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> id<span class="token punctuation">;</span>
 
-    //声明类型
-    @Field(type = FieldType.Integer)
-    private int userId;
+    <span class="token comment">//声明类型</span>
+    <span class="token annotation punctuation">@Field</span><span class="token punctuation">(</span>type <span class="token operator">=</span> <span class="token class-name">FieldType<span class="token punctuation">.</span>Integer</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> userId<span class="token punctuation">;</span>
 
-    //后面两个是使用的分词器的名字，没什么必要无须更改，前面是存储数据时使用的解析器(存储时尽可能拆分出更多的词语进行存储)，后面是搜索时使用的解析器(搜索时无须过分分词)
-    @Field(type = FieldType.Text, analyzer = &quot;ik_max_word&quot;, searchAnalyzer = &quot;ik_smart&quot;)
-    private String title;
+    <span class="token comment">//后面两个是使用的分词器的名字，没什么必要无须更改，前面是存储数据时使用的解析器(存储时尽可能拆分出更多的词语进行存储)，后面是搜索时使用的解析器(搜索时无须过分分词)</span>
+    <span class="token annotation punctuation">@Field</span><span class="token punctuation">(</span>type <span class="token operator">=</span> <span class="token class-name">FieldType<span class="token punctuation">.</span>Text</span><span class="token punctuation">,</span> analyzer <span class="token operator">=</span> <span class="token string">"ik_max_word"</span><span class="token punctuation">,</span> searchAnalyzer <span class="token operator">=</span> <span class="token string">"ik_smart"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> title<span class="token punctuation">;</span>
 
-    @Field(type = FieldType.Text, analyzer = &quot;ik_max_word&quot;, searchAnalyzer = &quot;ik_smart&quot;)
-    private String content;
+    <span class="token annotation punctuation">@Field</span><span class="token punctuation">(</span>type <span class="token operator">=</span> <span class="token class-name">FieldType<span class="token punctuation">.</span>Text</span><span class="token punctuation">,</span> analyzer <span class="token operator">=</span> <span class="token string">"ik_max_word"</span><span class="token punctuation">,</span> searchAnalyzer <span class="token operator">=</span> <span class="token string">"ik_smart"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> content<span class="token punctuation">;</span>
 
-    //name：字段在es中的名称
-    @Field(name = &quot;type&quot;,type = FieldType.Integer)
-    private int type;
-    @Field(type = FieldType.Integer)
-    private int status;
-    @Field(name = &quot;createTime&quot;,type = FieldType.Date)
-    private Date createTime;
-    @Field(type = FieldType.Integer)
-    private int commentCount;
-    @Field(name = &quot;score&quot;,positiveScoreImpact = false,type = FieldType.Double)
-    private double score;
-&#125;
-</code></pre>
-<h3 id="4-创建一个操作-ES-的类"><a href="#4-创建一个操作-ES-的类" class="headerlink" title="4. 创建一个操作 ES 的类"></a>4. 创建一个操作 ES 的类</h3><pre><code class="java">@Repository                                                         //&lt;处理的对象，对象的主键类型&gt;
-public interface DiscussPostRepository extends ElasticsearchRepository&lt;DiscussPost,Integer&gt; &#123;
-    //高亮
-    @Highlight(
-            fields = &#123;
-                    @HighlightField(name = &quot;title&quot;),
-                    @HighlightField(name = &quot;content&quot;)
-            &#125;,parameters = @HighlightParameters(
-                    preTags = &quot;&lt;em&gt;&quot;,
-                    postTags = &quot;&lt;/em&gt;&quot;
-    ))
-    //Pageable包含了排序功能，如果你只需要排序，则替换成Sort sort即可，注意：Pageable和Sort不能同时存在
-    List&lt;SearchHit&lt;DiscussPost&gt;&gt; findDiscussPostByTitleLikeOrContentLike(String title,String content,Pageable pageable);
-    //注意，方法的名称findDiscussPostByTitleLikeOrContentLike可不是乱写的，是用含义的，底层会根据方法名称去构建搜索语句
-    //当然，也可以用@Query注解自定义搜索语句，下面是官方文档的声明
-    //https://docs.spring.io/spring-data/elasticsearch/docs/4.1.8/reference/html/#elasticsearch.query-methods
-&#125;
-</code></pre>
-<h3 id="5-实际操作演示"><a href="#5-实际操作演示" class="headerlink" title="5. 实际操作演示"></a>5. 实际操作演示</h3><pre><code class="java">@Autowired
-private DiscussPostRepository discussPostRepository;
+    <span class="token comment">//name：字段在es中的名称</span>
+    <span class="token annotation punctuation">@Field</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"type"</span><span class="token punctuation">,</span>type <span class="token operator">=</span> <span class="token class-name">FieldType<span class="token punctuation">.</span>Integer</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> type<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Field</span><span class="token punctuation">(</span>type <span class="token operator">=</span> <span class="token class-name">FieldType<span class="token punctuation">.</span>Integer</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> status<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Field</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"createTime"</span><span class="token punctuation">,</span>type <span class="token operator">=</span> <span class="token class-name">FieldType<span class="token punctuation">.</span>Date</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">Date</span> createTime<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Field</span><span class="token punctuation">(</span>type <span class="token operator">=</span> <span class="token class-name">FieldType<span class="token punctuation">.</span>Integer</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> commentCount<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Field</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"score"</span><span class="token punctuation">,</span>positiveScoreImpact <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">,</span>type <span class="token operator">=</span> <span class="token class-name">FieldType<span class="token punctuation">.</span>Double</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token keyword">double</span> score<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-//保存数据，这里是从数据库中读取了一条DiscussPost类型的数据存入es中
-discussPostRepository.save(discussPostMapper.selectDiscussPostById(230));
-//批量存储
-discussPostRepository.saveAll(discussPostMapper.selectDiscussPosts(101, 0, 100,0));
-//更新数据
-DiscussPost discussPost = discussPostMapper.selectDiscussPostById(231);
-discussPost.setContent(&quot;我是新人，使劲灌水&quot;);
-discussPostRepository.save(discussPost);
-//根据ID删除
-discussPostRepository.deleteById(231);
-//删除所有
-discussPostRepository.deleteAll();
+<h3 id="4-创建一个操作-ES-的类"><a href="#4-创建一个操作-ES-的类" class="headerlink" title="4. 创建一个操作 ES 的类"></a>4. 创建一个操作 ES 的类</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Repository</span>                                                         <span class="token comment">//&lt;处理的对象，对象的主键类型></span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">DiscussPostRepository</span> <span class="token keyword">extends</span> <span class="token class-name">ElasticsearchRepository</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">DiscussPost</span><span class="token punctuation">,</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">//高亮</span>
+    <span class="token annotation punctuation">@Highlight</span><span class="token punctuation">(</span>
+            fields <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+                    <span class="token annotation punctuation">@HighlightField</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"title"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token annotation punctuation">@HighlightField</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">"content"</span><span class="token punctuation">)</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>parameters <span class="token operator">=</span> <span class="token annotation punctuation">@HighlightParameters</span><span class="token punctuation">(</span>
+                    preTags <span class="token operator">=</span> <span class="token string">"&lt;em>"</span><span class="token punctuation">,</span>
+                    postTags <span class="token operator">=</span> <span class="token string">"&lt;/em>"</span>
+    <span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token comment">//Pageable包含了排序功能，如果你只需要排序，则替换成Sort sort即可，注意：Pageable和Sort不能同时存在</span>
+    <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">SearchHit</span><span class="token punctuation">&lt;</span><span class="token class-name">DiscussPost</span><span class="token punctuation">></span><span class="token punctuation">></span></span> <span class="token function">findDiscussPostByTitleLikeOrContentLike</span><span class="token punctuation">(</span><span class="token class-name">String</span> title<span class="token punctuation">,</span><span class="token class-name">String</span> content<span class="token punctuation">,</span><span class="token class-name">Pageable</span> pageable<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//注意，方法的名称findDiscussPostByTitleLikeOrContentLike可不是乱写的，是用含义的，底层会根据方法名称去构建搜索语句</span>
+    <span class="token comment">//当然，也可以用@Query注解自定义搜索语句，下面是官方文档的声明</span>
+    <span class="token comment">//https://docs.spring.io/spring-data/elasticsearch/docs/4.1.8/reference/html/#elasticsearch.query-methods</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-//搜索
-public void Select()&#123;
-    Sort sort = Sort.by(&quot;score&quot;).descending()
-        .and(Sort.by(&quot;type&quot;).descending())
-        .and(Sort.by(&quot;createTime&quot;).descending());
+<h3 id="5-实际操作演示"><a href="#5-实际操作演示" class="headerlink" title="5. 实际操作演示"></a>5. 实际操作演示</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Autowired</span>
+<span class="token keyword">private</span> <span class="token class-name">DiscussPostRepository</span> discussPostRepository<span class="token punctuation">;</span>
 
-    List&lt;SearchHit&lt;DiscussPost&gt;&gt; post = discussPostRepository
-                                                                //分页数据第1页，10条数据，排序
-        .findDiscussPostByTitleLikeOrContentLike(&quot;压力数据&quot;, &quot;压力&quot;,PageRequest.of(1,10,sort));
+<span class="token comment">//保存数据，这里是从数据库中读取了一条DiscussPost类型的数据存入es中</span>
+discussPostRepository<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>discussPostMapper<span class="token punctuation">.</span><span class="token function">selectDiscussPostById</span><span class="token punctuation">(</span><span class="token number">230</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//批量存储</span>
+discussPostRepository<span class="token punctuation">.</span><span class="token function">saveAll</span><span class="token punctuation">(</span>discussPostMapper<span class="token punctuation">.</span><span class="token function">selectDiscussPosts</span><span class="token punctuation">(</span><span class="token number">101</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//更新数据</span>
+<span class="token class-name">DiscussPost</span> discussPost <span class="token operator">=</span> discussPostMapper<span class="token punctuation">.</span><span class="token function">selectDiscussPostById</span><span class="token punctuation">(</span><span class="token number">231</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+discussPost<span class="token punctuation">.</span><span class="token function">setContent</span><span class="token punctuation">(</span><span class="token string">"我是新人，使劲灌水"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+discussPostRepository<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>discussPost<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//根据ID删除</span>
+discussPostRepository<span class="token punctuation">.</span><span class="token function">deleteById</span><span class="token punctuation">(</span><span class="token number">231</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//删除所有</span>
+discussPostRepository<span class="token punctuation">.</span><span class="token function">deleteAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    post.forEach(res-&gt; &#123;
-        System.out.println(&quot;查询结果：&quot; + res);
-    &#125;);
-&#125;
-</code></pre>
+<span class="token comment">//搜索</span>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token class-name">Select</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token class-name">Sort</span> sort <span class="token operator">=</span> <span class="token class-name">Sort</span><span class="token punctuation">.</span><span class="token function">by</span><span class="token punctuation">(</span><span class="token string">"score"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">descending</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token class-name">Sort</span><span class="token punctuation">.</span><span class="token function">by</span><span class="token punctuation">(</span><span class="token string">"type"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">descending</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token class-name">Sort</span><span class="token punctuation">.</span><span class="token function">by</span><span class="token punctuation">(</span><span class="token string">"createTime"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">descending</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">SearchHit</span><span class="token punctuation">&lt;</span><span class="token class-name">DiscussPost</span><span class="token punctuation">></span><span class="token punctuation">></span></span> post <span class="token operator">=</span> discussPostRepository
+        														<span class="token comment">//分页数据第1页，10条数据，排序</span>
+        <span class="token punctuation">.</span><span class="token function">findDiscussPostByTitleLikeOrContentLike</span><span class="token punctuation">(</span><span class="token string">"压力数据"</span><span class="token punctuation">,</span> <span class="token string">"压力"</span><span class="token punctuation">,</span><span class="token class-name">PageRequest</span><span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">,</span>sort<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    post<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>res<span class="token operator">-></span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"查询结果："</span> <span class="token operator">+</span> res<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>参考：</p>
 <p>官方文档：<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-data/elasticsearch/docs/4.1.8/reference/html/#repositories">https://docs.spring.io/spring-data/elasticsearch/docs/4.1.8/reference/html/#repositories</a></p>
 <p>文章：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/321248369">https://zhuanlan.zhihu.com/p/321248369</a></p>
@@ -585,7 +585,7 @@ public void Select()&#123;
   <a 
     class="author-posts-count" 
     href="/archives">
-    <span>30</span>
+    <span>33</span>
     <span>文章</span>
   </a>
   <a 
@@ -642,14 +642,14 @@ public void Select()&#123;
       <a href="/categories/Java/">
         <div class="categories-list-item">
           Java
-          <span class="categories-list-item-badge">5</span>
+          <span class="categories-list-item-badge">7</span>
         </div>
       </a>
     
       <a href="/categories/SpringBoot/">
         <div class="categories-list-item">
           SpringBoot
-          <span class="categories-list-item-badge">8</span>
+          <span class="categories-list-item-badge">9</span>
         </div>
       </a>
     
@@ -724,21 +724,27 @@ public void Select()&#123;
   <div class="tags-list">
     
       <a 
-        href="/tags/Spring/" 
-        title="Spring">
-        <div class="tags-list-item">Spring</div>
-      </a>
-    
-      <a 
         href="/tags/SpringBoot/" 
         title="SpringBoot">
         <div class="tags-list-item">SpringBoot</div>
       </a>
     
       <a 
+        href="/tags/Spring/" 
+        title="Spring">
+        <div class="tags-list-item">Spring</div>
+      </a>
+    
+      <a 
         href="/tags/Redis/" 
         title="Redis">
         <div class="tags-list-item">Redis</div>
+      </a>
+    
+      <a 
+        href="/tags/Java/" 
+        title="Java">
+        <div class="tags-list-item">Java</div>
       </a>
     
       <a 
@@ -751,12 +757,6 @@ public void Select()&#123;
         href="/tags/Docker/" 
         title="Docker">
         <div class="tags-list-item">Docker</div>
-      </a>
-    
-      <a 
-        href="/tags/Java/" 
-        title="Java">
-        <div class="tags-list-item">Java</div>
       </a>
     
       <a 
@@ -852,23 +852,23 @@ public void Select()&#123;
   <div class="recent-posts-list">
     
       <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-08-06</div>
+        <a href="/2021/08/06/SpringBoot-Redis-%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85/"><div class="recent-posts-item-content">SpringBoot-Redis-发布订阅</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-07-19</div>
+        <a href="/2021/07/19/Java%E4%BB%A3%E7%90%86%E4%B9%8B%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/"><div class="recent-posts-item-content">Java代理之动态代理</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-07-19</div>
+        <a href="/2021/07/19/Java%E4%BB%A3%E7%90%86%E4%B9%8B%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86/"><div class="recent-posts-item-content">Java代理之静态代理</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
         <div class="recent-posts-item-title">2021-07-13</div>
         <a href="/2021/07/13/%E6%B3%A8%E8%A7%A3%E5%92%8C%E5%8F%8D%E5%B0%84/"><div class="recent-posts-item-content">注解和反射</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-06-22</div>
-        <a href="/2021/06/22/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"><div class="recent-posts-item-content">JUC并发编程</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-06-22</div>
-        <a href="/2021/06/22/%E5%85%AB%E5%A4%A7%E6%8E%92%E5%BA%8F/"><div class="recent-posts-item-content">八大排序</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-06-18</div>
-        <a href="/2021/06/18/Java-%E9%9B%86%E5%90%88/"><div class="recent-posts-item-content">Java-集合</div></a>
       </div>
     
   </div>

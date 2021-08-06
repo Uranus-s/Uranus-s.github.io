@@ -45,7 +45,7 @@
         content="2021-03-19">
       <meta 
         property="og:article:modified_time" 
-        content="2021-04-27">
+        content="2021-07-19">
       <meta 
         property="og:article:author" 
         content="Gas">
@@ -323,7 +323,7 @@
     
     
       <span class="dot"></span>
-      <span>668 字</span>
+      <span>650 字</span>
     
   </div>
   
@@ -361,80 +361,81 @@
     class="post-content">
     <p>在实际开发中，难免遇到对一个实体类的一些属性，不同的请求会有不同的校验规则的场景，比如：用户注册时，User 类的 id 需校验为空，因为 User 的 id 肯定是由系统生成并维护而不是让用户自己填写的。但是在修改用户密码时，又需要传入 Id 来作为 where 语句的条件去更新，此时分组校验就派上用场了。</p>
 <p>先上代码：</p>
-<pre><code class="java">/*
-*    一个普通的实体类
-*    在我们常用的校验注解中，有一个groups参数，用于标注校验注解属于哪一种情况才进行校验，可以指定多种情况
-*    groups = &#123;AddGroup.class,UpdateGroup.class&#125;
-*/
-@Data
-@TableName(&quot;pms_brand&quot;)
-public class BrandEntity implements Serializable &#123;
-    private static final long serialVersionUID = 1L;
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">/*
+*	一个普通的实体类
+*	在我们常用的校验注解中，有一个groups参数，用于标注校验注解属于哪一种情况才进行校验，可以指定多种情况
+*	groups = &#123;AddGroup.class,UpdateGroup.class&#125;
+*/</span>
+<span class="token annotation punctuation">@Data</span>
+<span class="token annotation punctuation">@TableName</span><span class="token punctuation">(</span><span class="token string">"pms_brand"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">BrandEntity</span> <span class="token keyword">implements</span> <span class="token class-name">Serializable</span> <span class="token punctuation">&#123;</span>
+	<span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">long</span> serialVersionUID <span class="token operator">=</span> <span class="token number">1L</span><span class="token punctuation">;</span>
 
-    /**
-     * 品牌id
-     */
-    @NotNull(message = &quot;修改必须指定品牌id&quot;,groups = &#123;UpdateGroup.class&#125;)
-    @Null(message = &quot;新增不能指定id&quot;,groups = &#123;AddGroup.class&#125;)
-    @TableId
-    private Long brandId;
-    /**
-     * 品牌名
-     */
-    @NotBlank(message = &quot;品牌名必须提交&quot;,groups = &#123;AddGroup.class,UpdateGroup.class&#125;)
-    private String name;
-    /**
-     * 品牌logo地址
-     */
-    @NotBlank(groups = &#123;AddGroup.class&#125;)
-    @URL(message = &quot;logo必须是一个合法的url地址&quot;,groups=&#123;AddGroup.class,UpdateGroup.class&#125;)
-    private String logo;
-    /**
-     * 介绍
-     */
-    private String descript;
-    /**
-     * 显示状态[0-不显示；1-显示]
-     */
-    @NotNull(groups = &#123;AddGroup.class, UpdateStatusGroup.class&#125;)
-      @ListValue(vals=&#123;0,1&#125;,groups = &#123;AddGroup.class, UpdateStatusGroup.class&#125;)
-    private Integer showStatus;
-    /**
-     * 检索首字母
-     */
-    @NotEmpty(groups=&#123;AddGroup.class&#125;)
-    @Pattern(regexp=&quot;^[a-zA-Z]$&quot;,message = &quot;检索首字母必须是一个字母&quot;,groups=&#123;AddGroup.class,UpdateGroup.class&#125;)
-    private String firstLetter;
-    /**
-     * 排序
-     */
-    @NotNull(groups=&#123;AddGroup.class&#125;)
-    @Min(value = 0,message = &quot;排序必须大于等于0&quot;,groups=&#123;AddGroup.class,UpdateGroup.class&#125;)
-    private Integer sort;
+	<span class="token comment">/**
+	 * 品牌id
+	 */</span>
+	<span class="token annotation punctuation">@NotNull</span><span class="token punctuation">(</span>message <span class="token operator">=</span> <span class="token string">"修改必须指定品牌id"</span><span class="token punctuation">,</span>groups <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token class-name">UpdateGroup</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+	<span class="token annotation punctuation">@Null</span><span class="token punctuation">(</span>message <span class="token operator">=</span> <span class="token string">"新增不能指定id"</span><span class="token punctuation">,</span>groups <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token class-name">AddGroup</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+	<span class="token annotation punctuation">@TableId</span>
+	<span class="token keyword">private</span> <span class="token class-name">Long</span> brandId<span class="token punctuation">;</span>
+	<span class="token comment">/**
+	 * 品牌名
+	 */</span>
+	<span class="token annotation punctuation">@NotBlank</span><span class="token punctuation">(</span>message <span class="token operator">=</span> <span class="token string">"品牌名必须提交"</span><span class="token punctuation">,</span>groups <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token class-name">AddGroup</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span><span class="token class-name">UpdateGroup</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+	<span class="token keyword">private</span> <span class="token class-name">String</span> name<span class="token punctuation">;</span>
+	<span class="token comment">/**
+	 * 品牌logo地址
+	 */</span>
+	<span class="token annotation punctuation">@NotBlank</span><span class="token punctuation">(</span>groups <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token class-name">AddGroup</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+	<span class="token annotation punctuation">@URL</span><span class="token punctuation">(</span>message <span class="token operator">=</span> <span class="token string">"logo必须是一个合法的url地址"</span><span class="token punctuation">,</span>groups<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token class-name">AddGroup</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span><span class="token class-name">UpdateGroup</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+	<span class="token keyword">private</span> <span class="token class-name">String</span> logo<span class="token punctuation">;</span>
+	<span class="token comment">/**
+	 * 介绍
+	 */</span>
+	<span class="token keyword">private</span> <span class="token class-name">String</span> descript<span class="token punctuation">;</span>
+	<span class="token comment">/**
+	 * 显示状态[0-不显示；1-显示]
+	 */</span>
+	<span class="token annotation punctuation">@NotNull</span><span class="token punctuation">(</span>groups <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token class-name">AddGroup</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token class-name">UpdateStatusGroup</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+  	<span class="token annotation punctuation">@ListValue</span><span class="token punctuation">(</span>vals<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>groups <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token class-name">AddGroup</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> <span class="token class-name">UpdateStatusGroup</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+	<span class="token keyword">private</span> <span class="token class-name">Integer</span> showStatus<span class="token punctuation">;</span>
+	<span class="token comment">/**
+	 * 检索首字母
+	 */</span>
+	<span class="token annotation punctuation">@NotEmpty</span><span class="token punctuation">(</span>groups<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token class-name">AddGroup</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+	<span class="token annotation punctuation">@Pattern</span><span class="token punctuation">(</span>regexp<span class="token operator">=</span><span class="token string">"^[a-zA-Z]$"</span><span class="token punctuation">,</span>message <span class="token operator">=</span> <span class="token string">"检索首字母必须是一个字母"</span><span class="token punctuation">,</span>groups<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token class-name">AddGroup</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span><span class="token class-name">UpdateGroup</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+	<span class="token keyword">private</span> <span class="token class-name">String</span> firstLetter<span class="token punctuation">;</span>
+	<span class="token comment">/**
+	 * 排序
+	 */</span>
+	<span class="token annotation punctuation">@NotNull</span><span class="token punctuation">(</span>groups<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token class-name">AddGroup</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+	<span class="token annotation punctuation">@Min</span><span class="token punctuation">(</span>value <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span>message <span class="token operator">=</span> <span class="token string">"排序必须大于等于0"</span><span class="token punctuation">,</span>groups<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token class-name">AddGroup</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span><span class="token class-name">UpdateGroup</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+	<span class="token keyword">private</span> <span class="token class-name">Integer</span> sort<span class="token punctuation">;</span>
 
-&#125;
-</code></pre>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>上面我们定义了<code>AddGroup.class</code>,<code>UpdateGroup.class</code>我们需要创建它们，它们以接口的形式存在，空接口就行了</p>
-<pre><code class="java">/*
-*    格式如下
-*/
-public interface AddGroup &#123;
-&#125;
-</code></pre>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">/*
+*	格式如下
+*/</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">AddGroup</span> <span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>具体需要实现分组校验功能，我们需要在<code>controller</code>做些修改</p>
 <p>我们不能使用普通的<code>@Valid</code>注解，它不具备实现分组校验的功能，我们需要换成<code>@Validated</code>注解，它可以指定一个或多个分组</p>
-<pre><code class="java">    /**
-     *    保存
-     *    返回结果R的实现去看我的 SpringBoot全局异常处理 文章
-     */
-    @RequestMapping(&quot;/save&quot;)
-    public R save(@Validated(&#123;AddGroup.class&#125;) @RequestBody BrandEntity brand)&#123;
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">/**
+ *	保存
+ *	返回结果R的实现去看我的 SpringBoot全局异常处理 文章
+ */</span>
+<span class="token annotation punctuation">@RequestMapping</span><span class="token punctuation">(</span><span class="token string">"/save"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token class-name">R</span> <span class="token function">save</span><span class="token punctuation">(</span><span class="token annotation punctuation">@Validated</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token class-name">AddGroup</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span> <span class="token annotation punctuation">@RequestBody</span> <span class="token class-name">BrandEntity</span> brand<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
 
-        brandService.save(brand);
+    brandService<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>brand<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        return R.ok();
-    &#125;
-</code></pre>
+    <span class="token keyword">return</span> <span class="token class-name">R</span><span class="token punctuation">.</span><span class="token function">ok</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p><strong>使用注意事项：</strong></p>
 <p>当你启用了分组校验功能时<code>@Validated(&#123;AddGroup.class&#125;)</code>，但你的实体类中<strong>某个字段</strong>却没用指定分组，这种情况下，是不会对字段进行任何校验的</p>
 <p>相反，当你没用启用分组校验时<code>@Validated</code>，只有没用标注分组校验的字段才会生效</p>
@@ -525,7 +526,7 @@ public interface AddGroup &#123;
   <a 
     class="author-posts-count" 
     href="/archives">
-    <span>30</span>
+    <span>33</span>
     <span>文章</span>
   </a>
   <a 
@@ -582,14 +583,14 @@ public interface AddGroup &#123;
       <a href="/categories/Java/">
         <div class="categories-list-item">
           Java
-          <span class="categories-list-item-badge">5</span>
+          <span class="categories-list-item-badge">7</span>
         </div>
       </a>
     
       <a href="/categories/SpringBoot/">
         <div class="categories-list-item">
           SpringBoot
-          <span class="categories-list-item-badge">8</span>
+          <span class="categories-list-item-badge">9</span>
         </div>
       </a>
     
@@ -664,21 +665,27 @@ public interface AddGroup &#123;
   <div class="tags-list">
     
       <a 
-        href="/tags/Spring/" 
-        title="Spring">
-        <div class="tags-list-item">Spring</div>
-      </a>
-    
-      <a 
         href="/tags/SpringBoot/" 
         title="SpringBoot">
         <div class="tags-list-item">SpringBoot</div>
       </a>
     
       <a 
+        href="/tags/Spring/" 
+        title="Spring">
+        <div class="tags-list-item">Spring</div>
+      </a>
+    
+      <a 
         href="/tags/Redis/" 
         title="Redis">
         <div class="tags-list-item">Redis</div>
+      </a>
+    
+      <a 
+        href="/tags/Java/" 
+        title="Java">
+        <div class="tags-list-item">Java</div>
       </a>
     
       <a 
@@ -691,12 +698,6 @@ public interface AddGroup &#123;
         href="/tags/Docker/" 
         title="Docker">
         <div class="tags-list-item">Docker</div>
-      </a>
-    
-      <a 
-        href="/tags/Java/" 
-        title="Java">
-        <div class="tags-list-item">Java</div>
       </a>
     
       <a 
@@ -792,23 +793,23 @@ public interface AddGroup &#123;
   <div class="recent-posts-list">
     
       <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-08-06</div>
+        <a href="/2021/08/06/SpringBoot-Redis-%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85/"><div class="recent-posts-item-content">SpringBoot-Redis-发布订阅</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-07-19</div>
+        <a href="/2021/07/19/Java%E4%BB%A3%E7%90%86%E4%B9%8B%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/"><div class="recent-posts-item-content">Java代理之动态代理</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-07-19</div>
+        <a href="/2021/07/19/Java%E4%BB%A3%E7%90%86%E4%B9%8B%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86/"><div class="recent-posts-item-content">Java代理之静态代理</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
         <div class="recent-posts-item-title">2021-07-13</div>
         <a href="/2021/07/13/%E6%B3%A8%E8%A7%A3%E5%92%8C%E5%8F%8D%E5%B0%84/"><div class="recent-posts-item-content">注解和反射</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-06-22</div>
-        <a href="/2021/06/22/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"><div class="recent-posts-item-content">JUC并发编程</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-06-22</div>
-        <a href="/2021/06/22/%E5%85%AB%E5%A4%A7%E6%8E%92%E5%BA%8F/"><div class="recent-posts-item-content">八大排序</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-06-18</div>
-        <a href="/2021/06/18/Java-%E9%9B%86%E5%90%88/"><div class="recent-posts-item-content">Java-集合</div></a>
       </div>
     
   </div>

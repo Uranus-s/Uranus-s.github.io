@@ -45,7 +45,7 @@
         content="2021-05-21">
       <meta 
         property="og:article:modified_time" 
-        content="2021-06-24">
+        content="2021-07-19">
       <meta 
         property="og:article:author" 
         content="Gas">
@@ -327,7 +327,7 @@
     
     
       <span class="dot"></span>
-      <span>1.5k 字</span>
+      <span>1.4k 字</span>
     
   </div>
   
@@ -374,7 +374,7 @@
     class="post-content">
     <h2 id="Shiro介绍"><a href="#Shiro介绍" class="headerlink" title="Shiro介绍"></a>Shiro介绍</h2><p>跟SpringSecurity一样，它也是一个鉴权授权项目，属于Apache开源的一个轻量级框架，没用SpringSecurity复杂。</p>
 <p>Shiro架构图：</p>
-<p><img src="/2021/05/21/SpringBoot-Shiro/image-20210601165127468.png" alt="image-20210601165127468" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/05/21/SpringBoot-Shiro/image-20210601165127468.png" class="lozad post-image"></p>
+<p><img src="/2021/05/21/SpringBoot-Shiro/image-20210601165127468.png" alt="image-20210601165127468" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/05/21/SpringBoot-Shiro/image-20210601165127468.png" class="lozad post-image lozad post-image lozad post-image lozad post-image" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/05/21/SpringBoot-Shiro/image-20210601165127468.png" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/05/21/SpringBoot-Shiro/image-20210601165127468.png" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/05/21/SpringBoot-Shiro/image-20210601165127468.png"></p>
 <ul>
 <li><p><strong>Subject</strong>：与应用交互的主体，例如用户，第三方应用等。</p>
 </li>
@@ -397,150 +397,152 @@
 </ul>
 <h2 id="SpringBoot整合Shiro"><a href="#SpringBoot整合Shiro" class="headerlink" title="SpringBoot整合Shiro"></a>SpringBoot整合Shiro</h2><h3 id="1-导入Shiro"><a href="#1-导入Shiro" class="headerlink" title="1.导入Shiro"></a>1.导入Shiro</h3><p>有两种方式</p>
 <p>其一：使用普通Shiro包</p>
-<pre><code class="xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt;
-    &lt;artifactId&gt;shiro-spring-boot-web-starter&lt;/artifactId&gt;
-    &lt;version&gt;1.7.1&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.apache.shiro<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>shiro-spring-boot-web-starter<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>1.7.1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>其二：使用Starter包导入（本文使用），两者相比较，无法就是简化了一些代码，使用差别基本没用</p>
-<pre><code class="xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt;
-    &lt;artifactId&gt;shiro-spring-boot-web-starter&lt;/artifactId&gt;
-    &lt;version&gt;1.7.1&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
-<h3 id="2-自定义Realm"><a href="#2-自定义Realm" class="headerlink" title="2.自定义Realm"></a>2.自定义Realm</h3><pre><code class="java">//自定义的Realm需要继承AuthorizingRealm
-public class CustomRealm extends AuthorizingRealm &#123;
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.apache.shiro<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>shiro-spring-boot-web-starter<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>1.7.1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-    @Autowired
-    private UserService userService;
+<h3 id="2-自定义Realm"><a href="#2-自定义Realm" class="headerlink" title="2.自定义Realm"></a>2.自定义Realm</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//自定义的Realm需要继承AuthorizingRealm</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CustomRealm</span> <span class="token keyword">extends</span> <span class="token class-name">AuthorizingRealm</span> <span class="token punctuation">&#123;</span>
 
-    //告诉shiro如何根据获取到的用户信息中的密码和盐值来校验密码
-    //说白了，就是Shiro会加密用户登录的密码然后和数据库的密码进行比较
-    //这个有很多实现类，这里只演示这种
-    &#123;
-        //设置用于匹配密码的CredentialsMatcher
-        HashedCredentialsMatcher hashMatcher = new HashedCredentialsMatcher();
-        hashMatcher.setHashAlgorithmName(&quot;MD5&quot;);
-        hashMatcher.setHashIterations(1024);
-        this.setCredentialsMatcher(hashMatcher);//将CredentialsMatcher添加进Realm
-    &#125;
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">UserService</span> userService<span class="token punctuation">;</span>
 
-    //定义如何获取用户的角色和权限的逻辑，给shiro做权限判断
-    @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) &#123;
-        System.out.println(&quot;执行了授权操作&quot;);
-        if (principals == null) &#123;
-            throw new AuthorizationException(&quot;PrincipalCollection 方法参数不能为 null。&quot;);
-        &#125;
+    <span class="token comment">//告诉shiro如何根据获取到的用户信息中的密码和盐值来校验密码</span>
+    <span class="token comment">//说白了，就是Shiro会加密用户登录的密码然后和数据库的密码进行比较</span>
+    <span class="token comment">//这个有很多实现类，这里只演示这种</span>
+    <span class="token punctuation">&#123;</span>
+        <span class="token comment">//设置用于匹配密码的CredentialsMatcher</span>
+        <span class="token class-name">HashedCredentialsMatcher</span> hashMatcher <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashedCredentialsMatcher</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        hashMatcher<span class="token punctuation">.</span><span class="token function">setHashAlgorithmName</span><span class="token punctuation">(</span><span class="token string">"MD5"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        hashMatcher<span class="token punctuation">.</span><span class="token function">setHashIterations</span><span class="token punctuation">(</span><span class="token number">1024</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setCredentialsMatcher</span><span class="token punctuation">(</span>hashMatcher<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//将CredentialsMatcher添加进Realm</span>
+    <span class="token punctuation">&#125;</span>
 
-        User user = (User) getAvailablePrincipal(principals);
-        //或(User) SecurityUtils.getSubject().getPrincipal()//这个可以在很多地方用不局限于这里
+    <span class="token comment">//定义如何获取用户的角色和权限的逻辑，给shiro做权限判断</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token class-name">AuthorizationInfo</span> <span class="token function">doGetAuthorizationInfo</span><span class="token punctuation">(</span><span class="token class-name">PrincipalCollection</span> principals<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"执行了授权操作"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>principals <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">AuthorizationException</span><span class="token punctuation">(</span><span class="token string">"PrincipalCollection 方法参数不能为 null。"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
 
-        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        <span class="token class-name">User</span> user <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">User</span><span class="token punctuation">)</span> <span class="token function">getAvailablePrincipal</span><span class="token punctuation">(</span>principals<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//或(User) SecurityUtils.getSubject().getPrincipal()//这个可以在很多地方用不局限于这里</span>
+
+        <span class="token class-name">SimpleAuthorizationInfo</span> info <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SimpleAuthorizationInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         
-        //https://shiro.apache.org/java-authorization-guide.html
-        //Shiro中权限分为Role和perms
-        info.addStringPermission(user.getPerms());//写入用户权限，这里权限直接写在了User表中
+        <span class="token comment">//https://shiro.apache.org/java-authorization-guide.html</span>
+        <span class="token comment">//Shiro中权限分为Role和perms</span>
+        info<span class="token punctuation">.</span><span class="token function">addStringPermission</span><span class="token punctuation">(</span>user<span class="token punctuation">.</span><span class="token function">getPerms</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//写入用户权限，这里权限直接写在了User表中</span>
 
-        return info;
-    &#125;
+        <span class="token keyword">return</span> info<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
 
-    //定义如何获取用户信息的业务逻辑，给shiro做登录
-    @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException &#123;
-        System.out.println(&quot;执行了认证操作&quot;);
-        UsernamePasswordToken upToken = (UsernamePasswordToken) token;
-        String username = upToken.getUsername();
+    <span class="token comment">//定义如何获取用户信息的业务逻辑，给shiro做登录</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">protected</span> <span class="token class-name">AuthenticationInfo</span> <span class="token function">doGetAuthenticationInfo</span><span class="token punctuation">(</span><span class="token class-name">AuthenticationToken</span> token<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">AuthenticationException</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"执行了认证操作"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">UsernamePasswordToken</span> upToken <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">UsernamePasswordToken</span><span class="token punctuation">)</span> token<span class="token punctuation">;</span>
+        <span class="token class-name">String</span> username <span class="token operator">=</span> upToken<span class="token punctuation">.</span><span class="token function">getUsername</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        // 空用户名无效
-        if (username == null) &#123;
-            throw new AccountException(&quot;不允许空用户名。&quot;);
-        &#125;
+        <span class="token comment">// 空用户名无效</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>username <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">AccountException</span><span class="token punctuation">(</span><span class="token string">"不允许空用户名。"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
 
-        //在数据库中根据username获取用户
-        User userDB = userService.findUserByName(username);
+        <span class="token comment">//在数据库中根据username获取用户</span>
+        <span class="token class-name">User</span> userDB <span class="token operator">=</span> userService<span class="token punctuation">.</span><span class="token function">findUserByName</span><span class="token punctuation">(</span>username<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 
-        if (userDB == null) &#123;
-            throw new UnknownAccountException(&quot;找不到帐户[&quot; + username + &quot;]&quot;);
-        &#125;
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>userDB <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">UnknownAccountException</span><span class="token punctuation">(</span><span class="token string">"找不到帐户["</span> <span class="token operator">+</span> username <span class="token operator">+</span> <span class="token string">"]"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
 
-        //将用户写入 由Shiro进行比对 这里的密码是加密后的
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(userDB, userDB.getPassword(), ByteSource.Util.bytes(userDB.getSalt()), getName());
-        return info;
-    &#125;
+        <span class="token comment">//将用户写入 由Shiro进行比对 这里的密码是加密后的</span>
+        <span class="token class-name">SimpleAuthenticationInfo</span> info <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SimpleAuthenticationInfo</span><span class="token punctuation">(</span>userDB<span class="token punctuation">,</span> userDB<span class="token punctuation">.</span><span class="token function">getPassword</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token class-name">ByteSource<span class="token punctuation">.</span>Util</span><span class="token punctuation">.</span><span class="token function">bytes</span><span class="token punctuation">(</span>userDB<span class="token punctuation">.</span><span class="token function">getSalt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> info<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
 
-&#125;
-</code></pre>
-<h3 id="3-配置Shiro"><a href="#3-配置Shiro" class="headerlink" title="3.配置Shiro"></a>3.配置Shiro</h3><pre><code class="java">@Configuration
-public class ShiroConfig &#123;
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="3-配置Shiro"><a href="#3-配置Shiro" class="headerlink" title="3.配置Shiro"></a>3.配置Shiro</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ShiroConfig</span> <span class="token punctuation">&#123;</span>
     
-    //将自己自定义的Realm写入容器
-    @Bean
-    CustomRealm customRealm() &#123;
-        return new CustomRealm();
-    &#125;
+    <span class="token comment">//将自己自定义的Realm写入容器</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token class-name">CustomRealm</span> <span class="token function">customRealm</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">CustomRealm</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
 
-    //安全管理器
-    @Bean
-    DefaultWebSecurityManager securityManager() &#123;
-        DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
-        manager.setRealm(customRealm());
-        return manager;
-    &#125;
+    <span class="token comment">//安全管理器</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token class-name">DefaultWebSecurityManager</span> <span class="token function">securityManager</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">DefaultWebSecurityManager</span> manager <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DefaultWebSecurityManager</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        manager<span class="token punctuation">.</span><span class="token function">setRealm</span><span class="token punctuation">(</span><span class="token function">customRealm</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> manager<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
 
-    //这里就是配置路径访问权限的，也可以通过注解
-    @Bean
-    public ShiroFilterChainDefinition shiroFilterChainDefinition() &#123;
-        DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
+    <span class="token comment">//这里就是配置路径访问权限的，也可以通过注解</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">ShiroFilterChainDefinition</span> <span class="token function">shiroFilterChainDefinition</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">DefaultShiroFilterChainDefinition</span> chainDefinition <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DefaultShiroFilterChainDefinition</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        // 具有user:admin权限登录
-        chainDefinition.addPathDefinition(&quot;/admin/**&quot;, &quot;authc, perms[user:admin]&quot;);//roles[admin]
+        <span class="token comment">// 具有user:admin权限登录</span>
+        chainDefinition<span class="token punctuation">.</span><span class="token function">addPathDefinition</span><span class="token punctuation">(</span><span class="token string">"/admin/**"</span><span class="token punctuation">,</span> <span class="token string">"authc, perms[user:admin]"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//roles[admin]</span>
 
-        // 所有人皆可以访问
-        chainDefinition.addPathDefinition(&quot;/**&quot;, &quot;anon&quot;);
-        return chainDefinition;
-    &#125;
-&#125;
+        <span class="token comment">// 所有人皆可以访问</span>
+        chainDefinition<span class="token punctuation">.</span><span class="token function">addPathDefinition</span><span class="token punctuation">(</span><span class="token string">"/**"</span><span class="token punctuation">,</span> <span class="token string">"anon"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> chainDefinition<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
 
 注解做控制：
 
-|          注解           |                 功能                 |
-| :---------------------: | :----------------------------------: |
-|     @RequiresGuest      |           只有游客可以访问           |
-| @RequiresAuthentication |           需要登录才能访问           |
-|      @RequiresUser      |  已登录的用户或“记住我”的用户能访问  |
-|     @RequiresRoles      | 已登录的用户需具有指定的角色才能访问 |
-|  @RequiresPermissions   | 已登录的用户需具有指定的权限才能访问 |
+<span class="token operator">|</span>          注解           <span class="token operator">|</span>                 功能                 <span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token operator">:</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">-</span><span class="token operator">:</span> <span class="token operator">|</span> <span class="token operator">:</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">:</span> <span class="token operator">|</span>
+<span class="token operator">|</span>     <span class="token annotation punctuation">@RequiresGuest</span>      <span class="token operator">|</span>           只有游客可以访问           <span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token annotation punctuation">@RequiresAuthentication</span> <span class="token operator">|</span>           需要登录才能访问           <span class="token operator">|</span>
+<span class="token operator">|</span>      <span class="token annotation punctuation">@RequiresUser</span>      <span class="token operator">|</span>  已登录的用户或“记住我”的用户能访问  <span class="token operator">|</span>
+<span class="token operator">|</span>     <span class="token annotation punctuation">@RequiresRoles</span>      <span class="token operator">|</span> 已登录的用户需具有指定的角色才能访问 <span class="token operator">|</span>
+<span class="token operator">|</span>  <span class="token annotation punctuation">@RequiresPermissions</span>   <span class="token operator">|</span> 已登录的用户需具有指定的权限才能访问 <span class="token operator">|</span>
 
 只用url配置控制鉴权授权：
 
-| 配置缩写          | 对应的过滤器                   | 功能                                                         |
-| ----------------- | ------------------------------ | ------------------------------------------------------------ |
-| anon              | AnonymousFilter                | 指定url可以匿名访问                                          |
-| authc             | FormAuthenticationFilter       | 指定url需要form表单登录，默认会从请求中获取`username`、`password`,`rememberMe`等参数并尝试登录，如果登录不了就会跳转到loginUrl配置的路径。我们也可以用这个过滤器做默认的登录逻辑，但是一般都是我们自己在控制器写登录逻辑的，自己写的话出错返回的信息都可以定制嘛。 |
-| authcBasic        | BasicHttpAuthenticationFilter  | 指定url需要basic登录                                         |
-| logout            | LogoutFilter                   | 登出过滤器，配置指定url就可以实现退出功能，非常方便          |
-| noSessionCreation | NoSessionCreationFilter        | 禁止创建会话                                                 |
-| perms             | PermissionsAuthorizationFilter | 需要指定权限才能访问                                         |
-| port              | PortFilter                     | 需要指定端口才能访问                                         |
-| rest              | HttpMethodPermissionFilter     | 将http请求方法转化成相应的动词来构造一个权限字符串，这个感觉意义不大，有兴趣自己看源码的注释 |
-| roles             | RolesAuthorizationFilter       | 需要指定角色才能访问                                         |
-| ssl               | SslFilter                      | 需要https请求才能访问                                        |
-| user              | UserFilter                     | 需要已登录或“记住我”的用户才能访问                           |
+<span class="token operator">|</span> 配置缩写          <span class="token operator">|</span> 对应的过滤器                   <span class="token operator">|</span> 功能                                                         <span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">-</span> <span class="token operator">|</span> <span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span> <span class="token operator">|</span> <span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span> <span class="token operator">|</span>
+<span class="token operator">|</span> anon              <span class="token operator">|</span> <span class="token class-name">AnonymousFilter</span>                <span class="token operator">|</span> 指定url可以匿名访问                                          <span class="token operator">|</span>
+<span class="token operator">|</span> authc             <span class="token operator">|</span> <span class="token class-name">FormAuthenticationFilter</span>       <span class="token operator">|</span> 指定url需要form表单登录，默认会从请求中获取`username`、`password`<span class="token punctuation">,</span>`rememberMe`等参数并尝试登录，如果登录不了就会跳转到loginUrl配置的路径。我们也可以用这个过滤器做默认的登录逻辑，但是一般都是我们自己在控制器写登录逻辑的，自己写的话出错返回的信息都可以定制嘛。 <span class="token operator">|</span>
+<span class="token operator">|</span> authcBasic        <span class="token operator">|</span> <span class="token class-name">BasicHttpAuthenticationFilter</span>  <span class="token operator">|</span> 指定url需要basic登录                                         <span class="token operator">|</span>
+<span class="token operator">|</span> logout            <span class="token operator">|</span> <span class="token class-name">LogoutFilter</span>                   <span class="token operator">|</span> 登出过滤器，配置指定url就可以实现退出功能，非常方便          <span class="token operator">|</span>
+<span class="token operator">|</span> noSessionCreation <span class="token operator">|</span> <span class="token class-name">NoSessionCreationFilter</span>        <span class="token operator">|</span> 禁止创建会话                                                 <span class="token operator">|</span>
+<span class="token operator">|</span> perms             <span class="token operator">|</span> <span class="token class-name">PermissionsAuthorizationFilter</span> <span class="token operator">|</span> 需要指定权限才能访问                                         <span class="token operator">|</span>
+<span class="token operator">|</span> port              <span class="token operator">|</span> <span class="token class-name">PortFilter</span>                     <span class="token operator">|</span> 需要指定端口才能访问                                         <span class="token operator">|</span>
+<span class="token operator">|</span> rest              <span class="token operator">|</span> <span class="token class-name">HttpMethodPermissionFilter</span>     <span class="token operator">|</span> 将http请求方法转化成相应的动词来构造一个权限字符串，这个感觉意义不大，有兴趣自己看源码的注释 <span class="token operator">|</span>
+<span class="token operator">|</span> roles             <span class="token operator">|</span> <span class="token class-name">RolesAuthorizationFilter</span>       <span class="token operator">|</span> 需要指定角色才能访问                                         <span class="token operator">|</span>
+<span class="token operator">|</span> ssl               <span class="token operator">|</span> <span class="token class-name">SslFilter</span>                      <span class="token operator">|</span> 需要https请求才能访问                                        <span class="token operator">|</span>
+<span class="token operator">|</span> user              <span class="token operator">|</span> <span class="token class-name">UserFilter</span>                     <span class="token operator">|</span> 需要已登录或“记住我”的用户才能访问                           <span class="token operator">|</span>
 
 使用两者结合是最好的。
 
-### 4.YML配置
+### <span class="token number">4.</span>YML配置
 
 ```yaml
-shiro:
-  unauthorizedUrl: /403
-  successUrl: /index
-  loginUrl: /login
-</code></pre>
+shiro<span class="token operator">:</span>
+  unauthorizedUrl<span class="token operator">:</span> <span class="token operator">/</span><span class="token number">403</span>
+  successUrl<span class="token operator">:</span> <span class="token operator">/</span>index
+  loginUrl<span class="token operator">:</span> <span class="token operator">/</span>login<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>官网：<a target="_blank" rel="noopener" href="https://shiro.apache.org/spring-boot.html#web-applications">https://shiro.apache.org/spring-boot.html#web-applications</a></p>
 <p>文章1：<a target="_blank" rel="noopener" href="https://programmer.ink/think/simple-authentication-example-with-spring-boot-2-shiro.html">https://programmer.ink/think/simple-authentication-example-with-spring-boot-2-shiro.html</a></p>
 <p>文章2：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000014479154">https://segmentfault.com/a/1190000014479154</a></p>
@@ -634,7 +636,7 @@ shiro:
   <a 
     class="author-posts-count" 
     href="/archives">
-    <span>30</span>
+    <span>33</span>
     <span>文章</span>
   </a>
   <a 
@@ -691,14 +693,14 @@ shiro:
       <a href="/categories/Java/">
         <div class="categories-list-item">
           Java
-          <span class="categories-list-item-badge">5</span>
+          <span class="categories-list-item-badge">7</span>
         </div>
       </a>
     
       <a href="/categories/SpringBoot/">
         <div class="categories-list-item">
           SpringBoot
-          <span class="categories-list-item-badge">8</span>
+          <span class="categories-list-item-badge">9</span>
         </div>
       </a>
     
@@ -773,21 +775,27 @@ shiro:
   <div class="tags-list">
     
       <a 
-        href="/tags/Spring/" 
-        title="Spring">
-        <div class="tags-list-item">Spring</div>
-      </a>
-    
-      <a 
         href="/tags/SpringBoot/" 
         title="SpringBoot">
         <div class="tags-list-item">SpringBoot</div>
       </a>
     
       <a 
+        href="/tags/Spring/" 
+        title="Spring">
+        <div class="tags-list-item">Spring</div>
+      </a>
+    
+      <a 
         href="/tags/Redis/" 
         title="Redis">
         <div class="tags-list-item">Redis</div>
+      </a>
+    
+      <a 
+        href="/tags/Java/" 
+        title="Java">
+        <div class="tags-list-item">Java</div>
       </a>
     
       <a 
@@ -800,12 +808,6 @@ shiro:
         href="/tags/Docker/" 
         title="Docker">
         <div class="tags-list-item">Docker</div>
-      </a>
-    
-      <a 
-        href="/tags/Java/" 
-        title="Java">
-        <div class="tags-list-item">Java</div>
       </a>
     
       <a 
@@ -901,23 +903,23 @@ shiro:
   <div class="recent-posts-list">
     
       <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-08-06</div>
+        <a href="/2021/08/06/SpringBoot-Redis-%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85/"><div class="recent-posts-item-content">SpringBoot-Redis-发布订阅</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-07-19</div>
+        <a href="/2021/07/19/Java%E4%BB%A3%E7%90%86%E4%B9%8B%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/"><div class="recent-posts-item-content">Java代理之动态代理</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-07-19</div>
+        <a href="/2021/07/19/Java%E4%BB%A3%E7%90%86%E4%B9%8B%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86/"><div class="recent-posts-item-content">Java代理之静态代理</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
         <div class="recent-posts-item-title">2021-07-13</div>
         <a href="/2021/07/13/%E6%B3%A8%E8%A7%A3%E5%92%8C%E5%8F%8D%E5%B0%84/"><div class="recent-posts-item-content">注解和反射</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-06-22</div>
-        <a href="/2021/06/22/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"><div class="recent-posts-item-content">JUC并发编程</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-06-22</div>
-        <a href="/2021/06/22/%E5%85%AB%E5%A4%A7%E6%8E%92%E5%BA%8F/"><div class="recent-posts-item-content">八大排序</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-06-18</div>
-        <a href="/2021/06/18/Java-%E9%9B%86%E5%90%88/"><div class="recent-posts-item-content">Java-集合</div></a>
       </div>
     
   </div>

@@ -45,7 +45,7 @@
         content="2021-04-27">
       <meta 
         property="og:article:modified_time" 
-        content="2021-06-25">
+        content="2021-07-19">
       <meta 
         property="og:article:author" 
         content="Gas">
@@ -327,7 +327,7 @@
     
     
       <span class="dot"></span>
-      <span>890 字</span>
+      <span>871 字</span>
     
   </div>
   
@@ -380,11 +380,11 @@
 <p>在实际项目开发中，随着业务的增大，需要操作Job的也就越多，肯定不能是人工操作，我们需要应该自动调度的任务框架去解决，功能的具体实现如下：</p>
 <ol>
 <li><p>首先我们需要定义实现一个定时功能的接口，我们可以称之为Task或者Job（Quartz中称之为Job），如定时发送邮件Job，优惠卷到期通知Job，实现如下：</p>
-<img src="/2021/04/27/SpringBoot-Quartz/20180710135410275.png" alt="image-20180710135410275" style="zoom:50%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/04/27/SpringBoot-Quartz/20180710135410275.png" class="lozad post-image"></li>
+<img src="/2021/04/27/SpringBoot-Quartz/20180710135410275.png" alt="image-20180710135410275" style="zoom:50%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/04/27/SpringBoot-Quartz/20180710135410275.png" class="lozad post-image lozad post-image lozad post-image" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/04/27/SpringBoot-Quartz/20180710135410275.png" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/04/27/SpringBoot-Quartz/20180710135410275.png"></li>
 <li><p>有了Job之后，我们需要一个能触发Job并执行的触发器（Trigger），Trigger最基本的功能是指定Job的执行时间，执行间隔，运行次数等。</p>
-<img src="/2021/04/27/SpringBoot-Quartz/20180710135421739.png" alt="image-20180710135421739" style="zoom:50%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/04/27/SpringBoot-Quartz/20180710135421739.png" class="lozad post-image"></li>
+<img src="/2021/04/27/SpringBoot-Quartz/20180710135421739.png" alt="image-20180710135421739" style="zoom:50%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/04/27/SpringBoot-Quartz/20180710135421739.png" class="lozad post-image lozad post-image lozad post-image" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/04/27/SpringBoot-Quartz/20180710135421739.png" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/04/27/SpringBoot-Quartz/20180710135421739.png"></li>
 <li><p>有了Job和Trigger后，需要一个Schedule，来指定Trigger去执行指定的Job。</p>
-<img src="/2021/04/27/SpringBoot-Quartz/20180710135431806.png" alt="image-20180710135431806" style="zoom:50%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/04/27/SpringBoot-Quartz/20180710135431806.png" class="lozad post-image"></li>
+<img src="/2021/04/27/SpringBoot-Quartz/20180710135431806.png" alt="image-20180710135431806" style="zoom:50%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/04/27/SpringBoot-Quartz/20180710135431806.png" class="lozad post-image lozad post-image lozad post-image" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/04/27/SpringBoot-Quartz/20180710135431806.png" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/04/27/SpringBoot-Quartz/20180710135431806.png"></li>
 </ol>
 <p>上面三个部分就是Quartz的基本组成部分：</p>
 <ul>
@@ -394,67 +394,61 @@
 </ul>
 <h2 id="Quartz在SpringBoot的应用"><a href="#Quartz在SpringBoot的应用" class="headerlink" title="Quartz在SpringBoot的应用"></a>Quartz在SpringBoot的应用</h2><ol>
 <li><p>使用Maven添加依赖</p>
-<pre><code class="xml">&lt;!-- SpringBoot 整合 Quartz 定时任务 --&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-boot-starter-quartz&lt;/artifactId&gt;
-    &lt;version&gt;2.3.5.RELEASE&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
-</li>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token comment">&lt;!-- SpringBoot 整合 Quartz 定时任务 --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-starter-quartz<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>2.3.5.RELEASE<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p>配置yml</p>
-<pre><code class="yaml">spring:
-  quartz:
-    scheduler-name: communityScheduler//scheduler名称
-    job-store-type: jdbc//持久化方法
-</code></pre>
-</li>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">quartz</span><span class="token punctuation">:</span>
+    <span class="token key atrule">scheduler-name</span><span class="token punctuation">:</span> communityScheduler//scheduler名称
+    <span class="token key atrule">job-store-type</span><span class="token punctuation">:</span> jdbc//持久化方法<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p>实现Job接口，实现定时任务逻辑</p>
-<pre><code class="java">public class AlphaJob implements Job &#123;
-    //实现Job接口
-    @Override
-    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException &#123;
-        System.out.println(Thread.currentThread().getName()+&quot;: execute a quartz job.&quot;);
-    &#125;
-&#125;
-</code></pre>
-</li>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AlphaJob</span> <span class="token keyword">implements</span> <span class="token class-name">Job</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">//实现Job接口</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">execute</span><span class="token punctuation">(</span><span class="token class-name">JobExecutionContext</span> jobExecutionContext<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">JobExecutionException</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">": execute a quartz job."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p>配值定时任务，创建一个Config类，设置</p>
-<pre><code class="java">//配置-》数据库-》调用
-//Quartz 定时任务配置类
-@Configuration
-public class QuartzConfig &#123;
-    //FactoryBean可简化Bean的实例化过程：
-    //1.通过FactoryBean封装Bean的实例化过程
-    //2.将FactoryBean封装到Spring容器中
-    //3.将FactoryBean注入给其他的Bean
-    //4.该Bean得到的是FactoryBean所管理的对象实例
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//配置-》数据库-》调用</span>
+<span class="token comment">//Quartz 定时任务配置类</span>
+<span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">QuartzConfig</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">//FactoryBean可简化Bean的实例化过程：</span>
+    <span class="token comment">//1.通过FactoryBean封装Bean的实例化过程</span>
+    <span class="token comment">//2.将FactoryBean封装到Spring容器中</span>
+    <span class="token comment">//3.将FactoryBean注入给其他的Bean</span>
+    <span class="token comment">//4.该Bean得到的是FactoryBean所管理的对象实例</span>
 
-    // 配置JobDetail
-    @Bean
-    public JobDetailFactoryBean alphaJobDetail()&#123;
-        JobDetailFactoryBean factoryBean = new JobDetailFactoryBean();
-        factoryBean.setJobClass(AlphaJob.class);
-        factoryBean.setName(&quot;alphaJob&quot;);//设置名称
-        factoryBean.setGroup(&quot;alphaJobGroup&quot;);//设置分组
-        factoryBean.setDurability(true);//是否持久(数据库中是否删除)
-        factoryBean.setRequestsRecovery(true);//是否可恢复
-        return factoryBean;
-    &#125;
+    <span class="token comment">// 配置JobDetail</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">JobDetailFactoryBean</span> <span class="token function">alphaJobDetail</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token class-name">JobDetailFactoryBean</span> factoryBean <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JobDetailFactoryBean</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        factoryBean<span class="token punctuation">.</span><span class="token function">setJobClass</span><span class="token punctuation">(</span><span class="token class-name">AlphaJob</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        factoryBean<span class="token punctuation">.</span><span class="token function">setName</span><span class="token punctuation">(</span><span class="token string">"alphaJob"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//设置名称</span>
+        factoryBean<span class="token punctuation">.</span><span class="token function">setGroup</span><span class="token punctuation">(</span><span class="token string">"alphaJobGroup"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//设置分组</span>
+        factoryBean<span class="token punctuation">.</span><span class="token function">setDurability</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//是否持久(数据库中是否删除)</span>
+        factoryBean<span class="token punctuation">.</span><span class="token function">setRequestsRecovery</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//是否可恢复</span>
+        <span class="token keyword">return</span> factoryBean<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
 
-    // 配置Trigger(SimpleTriggerFactoryBean(简单任务用，按指定的时间间隔执行多少次任务的情况),CronTriggerFactoryBean(复杂任务用，通过Cron表达式来控制任务的执行时间))
-    @Bean
-    public SimpleTriggerFactoryBean alphaTrigger(JobDetail alphaJobDetail)&#123;
-        SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
-        factoryBean.setJobDetail(alphaJobDetail);//关联上述JobDetail
-        factoryBean.setName(&quot;alphaTrigger&quot;);//设置名称
-        factoryBean.setGroup(&quot;alphaTriggerGroup&quot;);//设置分组
-        factoryBean.setRepeatInterval(3000);//设置执行的时间间隔
-        factoryBean.setJobDataMap(new JobDataMap());
-        return factoryBean;
-    &#125;
-&#125;
-</code></pre>
+    <span class="token comment">// 配置Trigger(SimpleTriggerFactoryBean(简单任务用，按指定的时间间隔执行多少次任务的情况),CronTriggerFactoryBean(复杂任务用，通过Cron表达式来控制任务的执行时间))</span>
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">SimpleTriggerFactoryBean</span> <span class="token function">alphaTrigger</span><span class="token punctuation">(</span><span class="token class-name">JobDetail</span> alphaJobDetail<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token class-name">SimpleTriggerFactoryBean</span> factoryBean <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SimpleTriggerFactoryBean</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        factoryBean<span class="token punctuation">.</span><span class="token function">setJobDetail</span><span class="token punctuation">(</span>alphaJobDetail<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//关联上述JobDetail</span>
+        factoryBean<span class="token punctuation">.</span><span class="token function">setName</span><span class="token punctuation">(</span><span class="token string">"alphaTrigger"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//设置名称</span>
+        factoryBean<span class="token punctuation">.</span><span class="token function">setGroup</span><span class="token punctuation">(</span><span class="token string">"alphaTriggerGroup"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//设置分组</span>
+        factoryBean<span class="token punctuation">.</span><span class="token function">setRepeatInterval</span><span class="token punctuation">(</span><span class="token number">3000</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//设置执行的时间间隔</span>
+        factoryBean<span class="token punctuation">.</span><span class="token function">setJobDataMap</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">JobDataMap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> factoryBean<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>JobDetail绑定指定的Job，每次调用时，首先会拿到对应的JobDetail，然后创建Job实例，在去执行Job中execute()中的内容，任务结束后，关联的Job对象实例会被释放，且会被JVM GC清除。</p>
 <p>为什么设计成JobDetail+Job，不直接使用Job</p>
 <blockquote>
@@ -556,7 +550,7 @@ public class QuartzConfig &#123;
   <a 
     class="author-posts-count" 
     href="/archives">
-    <span>30</span>
+    <span>33</span>
     <span>文章</span>
   </a>
   <a 
@@ -613,14 +607,14 @@ public class QuartzConfig &#123;
       <a href="/categories/Java/">
         <div class="categories-list-item">
           Java
-          <span class="categories-list-item-badge">5</span>
+          <span class="categories-list-item-badge">7</span>
         </div>
       </a>
     
       <a href="/categories/SpringBoot/">
         <div class="categories-list-item">
           SpringBoot
-          <span class="categories-list-item-badge">8</span>
+          <span class="categories-list-item-badge">9</span>
         </div>
       </a>
     
@@ -695,21 +689,27 @@ public class QuartzConfig &#123;
   <div class="tags-list">
     
       <a 
-        href="/tags/Spring/" 
-        title="Spring">
-        <div class="tags-list-item">Spring</div>
-      </a>
-    
-      <a 
         href="/tags/SpringBoot/" 
         title="SpringBoot">
         <div class="tags-list-item">SpringBoot</div>
       </a>
     
       <a 
+        href="/tags/Spring/" 
+        title="Spring">
+        <div class="tags-list-item">Spring</div>
+      </a>
+    
+      <a 
         href="/tags/Redis/" 
         title="Redis">
         <div class="tags-list-item">Redis</div>
+      </a>
+    
+      <a 
+        href="/tags/Java/" 
+        title="Java">
+        <div class="tags-list-item">Java</div>
       </a>
     
       <a 
@@ -722,12 +722,6 @@ public class QuartzConfig &#123;
         href="/tags/Docker/" 
         title="Docker">
         <div class="tags-list-item">Docker</div>
-      </a>
-    
-      <a 
-        href="/tags/Java/" 
-        title="Java">
-        <div class="tags-list-item">Java</div>
       </a>
     
       <a 
@@ -823,23 +817,23 @@ public class QuartzConfig &#123;
   <div class="recent-posts-list">
     
       <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-08-06</div>
+        <a href="/2021/08/06/SpringBoot-Redis-%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85/"><div class="recent-posts-item-content">SpringBoot-Redis-发布订阅</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-07-19</div>
+        <a href="/2021/07/19/Java%E4%BB%A3%E7%90%86%E4%B9%8B%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/"><div class="recent-posts-item-content">Java代理之动态代理</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-07-19</div>
+        <a href="/2021/07/19/Java%E4%BB%A3%E7%90%86%E4%B9%8B%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86/"><div class="recent-posts-item-content">Java代理之静态代理</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
         <div class="recent-posts-item-title">2021-07-13</div>
         <a href="/2021/07/13/%E6%B3%A8%E8%A7%A3%E5%92%8C%E5%8F%8D%E5%B0%84/"><div class="recent-posts-item-content">注解和反射</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-06-22</div>
-        <a href="/2021/06/22/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"><div class="recent-posts-item-content">JUC并发编程</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-06-22</div>
-        <a href="/2021/06/22/%E5%85%AB%E5%A4%A7%E6%8E%92%E5%BA%8F/"><div class="recent-posts-item-content">八大排序</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-06-18</div>
-        <a href="/2021/06/18/Java-%E9%9B%86%E5%90%88/"><div class="recent-posts-item-content">Java-集合</div></a>
       </div>
     
   </div>
