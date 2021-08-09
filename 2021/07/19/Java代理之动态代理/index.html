@@ -45,7 +45,7 @@
         content="2021-07-19">
       <meta 
         property="og:article:modified_time" 
-        content="2021-07-19">
+        content="2021-08-09">
       <meta 
         property="og:article:author" 
         content="Gas">
@@ -445,7 +445,7 @@
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>结果:</p>
-<p><img src="/2021/07/19/Java%E4%BB%A3%E7%90%86%E4%B9%8B%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/Users\1\AppData\Roaming\Typora\typora-user-images\image-20210719161840640.png" alt="image-20210719161840640" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/07/19/Java%E4%BB%A3%E7%90%86%E4%B9%8B%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/Users\1\AppData\Roaming\Typora\typora-user-images\image-20210719161840640.png" class="lozad post-image"></p>
+<p><img src="/2021/07/19/Java%E4%BB%A3%E7%90%86%E4%B9%8B%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/image-20210719161840640.png" alt="image-20210719161840640" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/07/19/Java%E4%BB%A3%E7%90%86%E4%B9%8B%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/image-20210719161840640.png" class="lozad post-image"></p>
 <p>我们可以清晰的看到JDK动态代理执行后打印的结果，以及Proxy动态调派帮我们由不同的代理对象$Proxy X实例化真实对象。</p>
 <p><strong>保存代理类</strong></p>
 <p>借助工具类,保存代理类,</p>
@@ -550,7 +550,7 @@
 <li>每个方法都有一个 Method 对象来描述，Method 对象在static静态代码块中创建，以 <code>m + 数字</code> 的格式命名</li>
 <li>调用方法的时候通过 <code>super.h.invoke(this, m1, (Object[])null);</code> 调用，其中的 <code>super.h.invoke</code> 实际上是在创建代理的时候传递给 <code>Proxy.newProxyInstance</code> 的<code>DCompany</code>对象，它继承 InvocationHandler 类，负责实际的调用处理逻辑</li>
 </ul>
-<img src="/2021/07/19/Java%E4%BB%A3%E7%90%86%E4%B9%8B%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/Users\1\AppData\Roaming\Typora\typora-user-images\image-20210719170527735.png" alt="image-20210719170527735" style="zoom: 50%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/07/19/Java%E4%BB%A3%E7%90%86%E4%B9%8B%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/Users\1\AppData\Roaming\Typora\typora-user-images\image-20210719170527735.png" class="lozad post-image">
+<img src="/2021/07/19/Java%E4%BB%A3%E7%90%86%E4%B9%8B%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/image-20210719170527735.png" alt="image-20210719170527735" style="zoom: 50%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/07/19/Java%E4%BB%A3%E7%90%86%E4%B9%8B%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/image-20210719170527735.png" class="lozad post-image">
 
 <h2 id="CGLIB动态代理"><a href="#CGLIB动态代理" class="headerlink" title="CGLIB动态代理"></a>CGLIB动态代理</h2><p>先引入Maven包</p>
 <pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
@@ -817,7 +817,7 @@ log end time [Fri Dec 21 00:06:40 CST 2018] <span aria-hidden="true" class="line
   <a 
     class="author-posts-count" 
     href="/archives">
-    <span>34</span>
+    <span>35</span>
     <span>文章</span>
   </a>
   <a 
@@ -881,7 +881,7 @@ log end time [Fri Dec 21 00:06:40 CST 2018] <span aria-hidden="true" class="line
       <a href="/categories/SpringBoot/">
         <div class="categories-list-item">
           SpringBoot
-          <span class="categories-list-item-badge">10</span>
+          <span class="categories-list-item-badge">11</span>
         </div>
       </a>
     
@@ -1084,6 +1084,11 @@ log end time [Fri Dec 21 00:06:40 CST 2018] <span aria-hidden="true" class="line
   <div class="recent-posts-list">
     
       <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-08-07</div>
+        <a href="/2021/08/07/SpringBoot-Redis-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/"><div class="recent-posts-item-content">SpringBoot-Redis-消息队列</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
         <div class="recent-posts-item-title">2021-08-06</div>
         <a href="/2021/08/06/SpringBoot-Redis-%E8%BF%87%E6%9C%9F%E4%BA%8B%E4%BB%B6/"><div class="recent-posts-item-content">SpringBoot-Redis-过期事件</div></a>
       </div>
@@ -1096,11 +1101,6 @@ log end time [Fri Dec 21 00:06:40 CST 2018] <span aria-hidden="true" class="line
       <div class="recent-posts-item">
         <div class="recent-posts-item-title">2021-07-19</div>
         <a href="/2021/07/19/Java%E4%BB%A3%E7%90%86%E4%B9%8B%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/"><div class="recent-posts-item-content">Java代理之动态代理</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-07-19</div>
-        <a href="/2021/07/19/Java%E4%BB%A3%E7%90%86%E4%B9%8B%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86/"><div class="recent-posts-item-content">Java代理之静态代理</div></a>
       </div>
     
   </div>
