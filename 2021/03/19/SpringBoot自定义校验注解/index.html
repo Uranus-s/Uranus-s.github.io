@@ -45,7 +45,7 @@
         content="2021-03-19">
       <meta 
         property="og:article:modified_time" 
-        content="2021-04-27">
+        content="2021-08-30">
       <meta 
         property="og:article:author" 
         content="Gas">
@@ -323,7 +323,7 @@
     
     
       <span class="dot"></span>
-      <span>388 字</span>
+      <span>372 字</span>
     
   </div>
   
@@ -359,64 +359,66 @@
   <div 
     id="section" 
     class="post-content">
-    <h4 id="引入指定包"><a href="#引入指定包" class="headerlink" title="引入指定包"></a>引入指定包</h4><pre><code class="xml">    &lt;dependency&gt;
-          &lt;groupId&gt;javax.validation&lt;/groupId&gt;
-        &lt;artifactId&gt;validation-api&lt;/artifactId&gt;
-        &lt;version&gt;2.0.1.Final&lt;/version&gt;
-    &lt;/dependency&gt;
-</code></pre>
-<h4 id="创建自定义校验类"><a href="#创建自定义校验类" class="headerlink" title="创建自定义校验类"></a>创建自定义校验类</h4><pre><code class="java">//必须包含一下注解
-@Documented
-@Constraint(validatedBy = &#123; ListValueConstraintValidator.class &#125;)//具体校验的实现，可以指定多个，适配不同的参数
-@Target(&#123; METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE &#125;)//我们的自定义注解可以在哪里使用
-@Retention(RUNTIME)
-public @interface ListValue &#123;
+    <h4 id="引入指定包"><a href="#引入指定包" class="headerlink" title="引入指定包"></a>引入指定包</h4><pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+     	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>javax.validation<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>validation-api<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+       <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>2.0.1.Final<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="创建自定义校验类"><a href="#创建自定义校验类" class="headerlink" title="创建自定义校验类"></a>创建自定义校验类</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//必须包含一下注解</span>
+<span class="token annotation punctuation">@Documented</span>
+<span class="token annotation punctuation">@Constraint</span><span class="token punctuation">(</span>validatedBy <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token class-name">ListValueConstraintValidator</span><span class="token punctuation">.</span><span class="token keyword">class</span> <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token comment">//具体校验的实现，可以指定多个，适配不同的参数</span>
+<span class="token annotation punctuation">@Target</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span> METHOD<span class="token punctuation">,</span> FIELD<span class="token punctuation">,</span> ANNOTATION_TYPE<span class="token punctuation">,</span> CONSTRUCTOR<span class="token punctuation">,</span> PARAMETER<span class="token punctuation">,</span> TYPE_USE <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token comment">//我们的自定义注解可以在哪里使用</span>
+<span class="token annotation punctuation">@Retention</span><span class="token punctuation">(</span>RUNTIME<span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token annotation punctuation">@interface</span> <span class="token class-name">ListValue</span> <span class="token punctuation">&#123;</span>
     
-    //jsr303规范中 校验注解必须包含下面三个属性
-    String message() default &quot;&#123;com.atguigu.common.valid.ListValue.message&#125;&quot;;//当校验出错时 错误信息去哪里取 和下面配置文件需要匹配
-    Class&lt;?&gt;[] groups() default &#123; &#125;; //必须支持分组校验
-    Class&lt;? extends Payload&gt;[] payload() default &#123; &#125;; //自定义负载信息
+	<span class="token comment">//jsr303规范中 校验注解必须包含下面三个属性</span>
+    <span class="token class-name">String</span> <span class="token function">message</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token string">"&#123;com.atguigu.common.valid.ListValue.message&#125;"</span><span class="token punctuation">;</span><span class="token comment">//当校验出错时 错误信息去哪里取 和下面配置文件需要匹配</span>
+    <span class="token class-name">Class</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span><span class="token punctuation">></span></span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">groups</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token punctuation">&#123;</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span> <span class="token comment">//必须支持分组校验</span>
+    <span class="token class-name">Class</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">Payload</span><span class="token punctuation">></span></span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">payload</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token punctuation">&#123;</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span> <span class="token comment">//自定义负载信息</span>
 
-    int[] vals() default &#123; &#125;;//校验的具体参数
-&#125;
-</code></pre>
-<h4 id="实体类中使用"><a href="#实体类中使用" class="headerlink" title="实体类中使用"></a>实体类中使用</h4><pre><code class="java">@ListValue(vals=&#123;0,1&#125;)//可以使用message自定义信息，也可以写在配置文件中
-private Integer showStatus;
-</code></pre>
-<h4 id="错误信息配置文件"><a href="#错误信息配置文件" class="headerlink" title="错误信息配置文件"></a>错误信息配置文件</h4><pre><code class="properties">com.atguigu.common.valid.ListValue.message=必须提交指定的值
-</code></pre>
-<h4 id="校验的实现"><a href="#校验的实现" class="headerlink" title="校验的实现"></a>校验的实现</h4><pre><code class="java">/*
-*    需要实现ConstraintValidator
-*    &lt;ListValue,Integer&gt; 校验注解，校验参数类型
-*/
-public class ListValueConstraintValidator implements ConstraintValidator&lt;ListValue,Integer&gt; &#123;
+    <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">vals</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">default</span> <span class="token punctuation">&#123;</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span class="token comment">//校验的具体参数</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-    private Set&lt;Integer&gt; set = new HashSet&lt;&gt;();
-    //初始化方法
-    @Override
-    public void initialize(ListValue constraintAnnotation) &#123;
+<h4 id="实体类中使用"><a href="#实体类中使用" class="headerlink" title="实体类中使用"></a>实体类中使用</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@ListValue</span><span class="token punctuation">(</span>vals<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token comment">//可以使用message自定义信息，也可以写在配置文件中</span>
+<span class="token keyword">private</span> <span class="token class-name">Integer</span> showStatus<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
-        int[] vals = constraintAnnotation.vals();//获取我们给定的值
-        for (int val : vals) &#123;
-            set.add(val);
-        &#125;
-    &#125;
+<h4 id="错误信息配置文件"><a href="#错误信息配置文件" class="headerlink" title="错误信息配置文件"></a>错误信息配置文件</h4><pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">com.atguigu.common.valid.ListValue.message</span><span class="token punctuation">=</span><span class="token attr-value">必须提交指定的值</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-    //判断是否校验成功
+<h4 id="校验的实现"><a href="#校验的实现" class="headerlink" title="校验的实现"></a>校验的实现</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">/*
+*	需要实现ConstraintValidator
+*	&lt;ListValue,Integer> 校验注解，校验参数类型
+*/</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ListValueConstraintValidator</span> <span class="token keyword">implements</span> <span class="token class-name">ConstraintValidator</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">ListValue</span><span class="token punctuation">,</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span> <span class="token punctuation">&#123;</span>
 
-    /**
+    <span class="token keyword">private</span> <span class="token class-name">Set</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span> set <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//初始化方法</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">initialize</span><span class="token punctuation">(</span><span class="token class-name">ListValue</span> constraintAnnotation<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> vals <span class="token operator">=</span> constraintAnnotation<span class="token punctuation">.</span><span class="token function">vals</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//获取我们给定的值</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> val <span class="token operator">:</span> vals<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            set<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>val<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">//判断是否校验成功</span>
+
+    <span class="token comment">/**
      *
      * @param value 需要校验的值，也就是我们提交的值
      * @param context
      * @return
-     */
-    @Override
-    public boolean isValid(Integer value, ConstraintValidatorContext context) &#123;
+     */</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">isValid</span><span class="token punctuation">(</span><span class="token class-name">Integer</span> value<span class="token punctuation">,</span> <span class="token class-name">ConstraintValidatorContext</span> context<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
 
-        return set.contains(value);
-    &#125;
-&#125;
-</code></pre>
+        <span class="token keyword">return</span> set<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 
   </div>
   <div>
@@ -504,7 +506,7 @@ public class ListValueConstraintValidator implements ConstraintValidator&lt;List
   <a 
     class="author-posts-count" 
     href="/archives">
-    <span>35</span>
+    <span>39</span>
     <span>文章</span>
   </a>
   <a 
@@ -516,7 +518,7 @@ public class ListValueConstraintValidator implements ConstraintValidator&lt;List
   <a 
     class="author-tags-count" 
     href="/tags">
-    <span>30</span>
+    <span>33</span>
     <span>标签</span>
   </a>
 </div>
@@ -561,14 +563,14 @@ public class ListValueConstraintValidator implements ConstraintValidator&lt;List
       <a href="/categories/Java/">
         <div class="categories-list-item">
           Java
-          <span class="categories-list-item-badge">7</span>
+          <span class="categories-list-item-badge">8</span>
         </div>
       </a>
     
       <a href="/categories/SpringBoot/">
         <div class="categories-list-item">
           SpringBoot
-          <span class="categories-list-item-badge">11</span>
+          <span class="categories-list-item-badge">13</span>
         </div>
       </a>
     
@@ -610,7 +612,7 @@ public class ListValueConstraintValidator implements ConstraintValidator&lt;List
       <a href="/categories/Redis/">
         <div class="categories-list-item">
           Redis
-          <span class="categories-list-item-badge">5</span>
+          <span class="categories-list-item-badge">6</span>
         </div>
       </a>
     
@@ -679,9 +681,27 @@ public class ListValueConstraintValidator implements ConstraintValidator&lt;List
       </a>
     
       <a 
-        href="/tags/Kafka/" 
-        title="Kafka">
-        <div class="tags-list-item">Kafka</div>
+        href="/tags/Json/" 
+        title="Json">
+        <div class="tags-list-item">Json</div>
+      </a>
+    
+      <a 
+        href="/tags/%E9%9B%86%E5%90%88/" 
+        title="集合">
+        <div class="tags-list-item">集合</div>
+      </a>
+    
+      <a 
+        href="/tags/Shiro/" 
+        title="Shiro">
+        <div class="tags-list-item">Shiro</div>
+      </a>
+    
+      <a 
+        href="/tags/Quartz/" 
+        title="Quartz">
+        <div class="tags-list-item">Quartz</div>
       </a>
     
       <a 
@@ -715,27 +735,9 @@ public class ListValueConstraintValidator implements ConstraintValidator&lt;List
       </a>
     
       <a 
-        href="/tags/Quartz/" 
-        title="Quartz">
-        <div class="tags-list-item">Quartz</div>
-      </a>
-    
-      <a 
-        href="/tags/OData/" 
-        title="OData">
-        <div class="tags-list-item">OData</div>
-      </a>
-    
-      <a 
-        href="/tags/Shiro/" 
-        title="Shiro">
-        <div class="tags-list-item">Shiro</div>
-      </a>
-    
-      <a 
-        href="/tags/%E6%8E%92%E5%BA%8F/" 
-        title="排序">
-        <div class="tags-list-item">排序</div>
+        href="/tags/AOP/" 
+        title="AOP">
+        <div class="tags-list-item">AOP</div>
       </a>
     
   </div>
@@ -771,23 +773,23 @@ public class ListValueConstraintValidator implements ConstraintValidator&lt;List
   <div class="recent-posts-list">
     
       <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-08-07</div>
-        <a href="/2021/08/07/SpringBoot-Redis-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/"><div class="recent-posts-item-content">SpringBoot-Redis-消息队列</div></a>
+        <div class="recent-posts-item-title">2021-08-30</div>
+        <a href="/2021/08/30/%E5%9F%BA%E4%BA%8ERedis%E7%9A%84%E8%AE%BF%E9%97%AE%E6%AC%A1%E6%95%B0%E9%99%90%E5%88%B6/"><div class="recent-posts-item-content">基于Redis的访问次数限制</div></a>
       </div>
     
       <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-08-06</div>
-        <a href="/2021/08/06/SpringBoot-Redis-%E8%BF%87%E6%9C%9F%E4%BA%8B%E4%BB%B6/"><div class="recent-posts-item-content">SpringBoot-Redis-过期事件</div></a>
+        <div class="recent-posts-item-title">2021-08-23</div>
+        <a href="/2021/08/23/SpringBoot-JSON%E6%97%B6%E9%97%B4%E6%95%B0%E6%8D%AE%E5%B7%AE8%E5%B0%8F%E6%97%B6/"><div class="recent-posts-item-content">SpringBoot JSON时间数据差8小时</div></a>
       </div>
     
       <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-08-06</div>
-        <a href="/2021/08/06/SpringBoot-Redis-%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85/"><div class="recent-posts-item-content">SpringBoot-Redis-发布订阅</div></a>
+        <div class="recent-posts-item-title">2021-08-16</div>
+        <a href="/2021/08/16/UV%E7%BB%9F%E8%AE%A1/"><div class="recent-posts-item-content">UV统计</div></a>
       </div>
     
       <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2021-07-19</div>
-        <a href="/2021/07/19/Java%E4%BB%A3%E7%90%86%E4%B9%8B%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/"><div class="recent-posts-item-content">Java代理之动态代理</div></a>
+        <div class="recent-posts-item-title">2021-08-11</div>
+        <a href="/2021/08/11/Java-IO/"><div class="recent-posts-item-content">Java-IO</div></a>
       </div>
     
   </div>
