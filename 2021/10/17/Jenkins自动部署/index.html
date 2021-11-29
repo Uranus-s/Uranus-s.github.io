@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="Gas">
+  <link 
+    rel="icon" 
+    href="/img/Kaze.png">
+  <title>Jenkins自动部署</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="Jenkins自动部署">
+    
+    
+      <meta 
+        property="og:url" 
+        content="http://example.com/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="/img/Kaze.png">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2021-10-17">
+      <meta 
+        property="og:article:modified_time" 
+        content="2021-11-29">
+      <meta 
+        property="og:article:author" 
+        content="Gas">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="Jenkins">
+        
+      
+    
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+      
+      
+      
+      
+        
+        
+        
+        <script>
+          function prismThemeChange() {
+            if(document.getElementById('theme-color').dataset.mode === 'dark') {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism-tomorrow.min.css', '[data-prism]', 'prism-tomorrow');
+              } else {
+                loadCSS('/js/lib/prism/prism-tomorrow.min.css', 'prism', 'prism-tomorrow');
+              }
+            } else {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism-okaidia.min.css', '[data-prism]', 'prism-okaidia');
+              } else {
+                loadCSS('/js/lib/prism/prism-okaidia.min.css', 'prism', 'prism-okaidia');
+              }
+            }
+          }
+          prismThemeChange()
+        </script>
+      
+      
+        
+        <link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+      
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+        prismThemeChange();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_2818401_duebq0kmk47.css">
+  
+    <link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+        <img 
+          class="navbar-logo-img" 
+          src="/img/Kaze.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">Gas</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/" 
+        class="navbar-menu-item">
+        
+          首页
+        
+      </a>
+    
+      <a 
+        href="/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+      <a 
+        href="/links" 
+        class="navbar-menu-item">
+        
+          友链
+        
+      </a>
+    
+    <a 
+      class="navbar-menu-item darknavbar" 
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </a>
+    <a 
+      class="navbar-menu-item searchnavbar" 
+      id="search">
+      <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i>
+    </a>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      Jenkins自动部署
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2021-10-17T01:15:28.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2021-10-17</span>
+    </time>
+    
+      <span class="dot"></span>
+      
+        <a 
+          href="/categories/Jenkins/" 
+          class="post-meta-link">
+          Jenkins
+        </a>
+      
+    
+    
+      <span class="dot"></span>
+      <span>1.2k 字</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/tags/Jenkins/" 
+            class="post-meta-link">
+            Jenkins
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h2 id="为什么要用Jenkins"><a href="#为什么要用Jenkins" class="headerlink" title="为什么要用Jenkins"></a>为什么要用Jenkins</h2><p>每次开发完成一个项目之后，需要打包部署，没用专门的运维人员，只能由开发人员打包程序，把线上的服务关了，把打包好的应用程序部署进服务器，这是一个繁琐的过程，而Jenkins正好帮助我们解决了这个问题，自动构建部署，非常方便。</p>
+<h2 id="Jenkins"><a href="#Jenkins" class="headerlink" title="Jenkins"></a>Jenkins</h2><p>Jenkins是一个开源软件项目，是基于Java开发的一种持续集成工具，用于监控持续重复的工作，旨在提供一个开放易用的软件平台，使软件的持续集成变成可能。</p>
+<h2 id="Jenkins工作原理"><a href="#Jenkins工作原理" class="headerlink" title="Jenkins工作原理"></a>Jenkins工作原理</h2><p><img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017092457876.png" alt="image-20211017092457876" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017092457876.png" class="lozad post-image"></p>
+<p>以上为基本工作原理，只是为了开发人员更好的理解画的，详情可查看官方文档：<a target="_blank" rel="noopener" href="https://www.jenkins.io/zh/">https://www.jenkins.io/zh/</a></p>
+<h2 id="安装Jenkins"><a href="#安装Jenkins" class="headerlink" title="安装Jenkins"></a>安装Jenkins</h2><p>首先准备一台服务器/虚拟机，安装好Docker，还有远程连接工具等辅助软件。</p>
+<ol>
+<li><p>从Docker中拉取Jenkins镜像</p>
+<pre class="line-numbers language-none"><code class="language-none">docker pull jenkinsci&#x2F;blueocean<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<li><p>启动Jenkins服务</p>
+<pre class="line-numbers language-none"><code class="language-none">docker run \
+  -u root \
+
+  -d \
+  -p 10240:8080 \
+  -p 10241:50000 \
+  -v jenkins-data:&#x2F;var&#x2F;jenkins_home \
+  -v &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock \
+  jenkinsci&#x2F;blueocean<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>-u：使用root用户</li>
+<li>-rm：关闭时自动删除Docker容器。如果您需要退出Jenkins，这可以保持整洁。</li>
+<li>-d：在后台运行容器（即“分离”模式）并输出容器ID。如果您不指定此选项， 则在终端窗口中会输出正在运行的此容器的Docker日志。</li>
+<li>-p： 映射端口</li>
+<li>-v：目录挂载</li>
+</ul>
+</li>
+<li><p>浏览器输入<code>http://192.168.140.128:10240/</code>看到如下界面表示成功</p>
+</li>
+</ol>
+<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017094458693.png" alt="image-20211017094458693" style="zoom:67%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017094458693.png" class="lozad post-image">
+
+<ol start="4">
+<li><p>等待一段时间，可以看到如下界面</p>
+<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017094736568.png" alt="image-20211017094736568" style="zoom: 50%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017094736568.png" class="lozad post-image">
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">#进入容器
+docker exec <span class="token operator">-</span>it xxxxxxxxxxx <span class="token operator">/</span>bin<span class="token operator">/</span>bash
+#查看密钥
+cat <span class="token operator">/</span><span class="token keyword">var</span><span class="token operator">/</span>jenkins_home<span class="token operator">/</span>secrets<span class="token operator">/</span>initialAdminPassword
+xxxxxxxxxxxxxxxxxxxxxxxxxx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>复制上面的xxxxxxxxxxxxxxxxxxxxxxxxxx密钥拿到浏览器的编辑框黏贴,点击继续等待一段时间。</p>
+</li>
+<li><p>安装插件</p>
+<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017094935167.png" alt="image-20211017094935167" style="zoom: 67%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017094935167.png" class="lozad post-image">
+
+<p>选择<code>安装推荐的插件</code>即可</p>
+<p>然后根据步骤配置<code>管理员账号</code>和<code>JenkinsURL</code>保存并完成，然后就可以使用了</p>
+<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017095157924.png" alt="image-20211017095157924" style="zoom:67%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017095157924.png" class="lozad post-image">
+
+<p>注意：<strong>首次进入Jenkins部分菜单会还没有中文，需要重新启动。</strong></p>
+</li>
+</ol>
+<h2 id="实现Jenkins-Docker部署项目"><a href="#实现Jenkins-Docker部署项目" class="headerlink" title="实现Jenkins+Docker部署项目"></a>实现Jenkins+Docker部署项目</h2><ol>
+<li><p>Jenkins安装maven打包插件：Jenkins -&gt; 系统管理 -&gt; 插件管理 -&gt; 可选插件，搜索<code>Maven Integration</code>和<code>Docker</code></p>
+<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017095941550.png" alt="image-20211017095941550" style="zoom: 80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017095941550.png" class="lozad post-image">
+
+<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017095959730.png" alt="image-20211017095959730" style="zoom: 80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017095959730.png" class="lozad post-image">
+
+<p>等待安装即可</p>
+</li>
+<li><p>进行全局工具配置；Jenkins -&gt; 系统管理 -&gt; 全局工具配置</p>
+<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100121963.png" alt="image-20211017100121963" style="zoom:80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100121963.png" class="lozad post-image">
+
+<p>进行JDK配置，在此之前你需要查看<code>JAVA_HOM</code>路径，使用<code>docker inspect xxxxxxx</code>即可，大致如下，有<code>JAVA_HOM</code>即可。</p>
+<pre class="line-numbers language-none"><code class="language-none">&quot;Env&quot;: [
+    &quot;PATH&#x3D;&#x2F;opt&#x2F;java&#x2F;openjdk&#x2F;bin:&#x2F;usr&#x2F;local&#x2F;sbin:&#x2F;usr&#x2F;local&#x2F;bin:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;bin:&#x2F;sbin:&#x2F;bin&quot;,
+    &quot;LANG&#x3D;en_US.UTF-8&quot;,
+    &quot;LANGUAGE&#x3D;en_US:en&quot;,
+    &quot;LC_ALL&#x3D;en_US.UTF-8&quot;,
+    &quot;JAVA_VERSION&#x3D;jdk8u262-b10&quot;,
+    &quot;JAVA_HOME&#x3D;&#x2F;opt&#x2F;java&#x2F;openjdk&quot;,
+    &quot;JENKINS_HOME&#x3D;&#x2F;var&#x2F;jenkins_home&quot;,
+    &quot;JENKINS_SLAVE_AGENT_PORT&#x3D;50000&quot;,
+    &quot;REF&#x3D;&#x2F;usr&#x2F;share&#x2F;jenkins&#x2F;ref&quot;,
+    &quot;JENKINS_VERSION&#x3D;2.249.2&quot;,
+    &quot;JENKINS_UC&#x3D;https:&#x2F;&#x2F;updates.jenkins.io&quot;,
+    &quot;JENKINS_UC_EXPERIMENTAL&#x3D;https:&#x2F;&#x2F;updates.jenkins.io&#x2F;experimental&quot;,
+    &quot;JENKINS_INCREMENTALS_REPO_MIRROR&#x3D;https:&#x2F;&#x2F;repo.jenkins-ci.org&#x2F;incrementals&quot;,
+    &quot;COPY_REFERENCE_FILE_LOG&#x3D;&#x2F;var&#x2F;jenkins_home&#x2F;copy_reference_file.log&quot;
+],<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100444541.png" alt="image-20211017100444541" style="zoom:80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100444541.png" class="lozad post-image">
+
+<p>进行git配置</p>
+<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100512317.png" alt="image-20211017100512317" style="zoom:80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100512317.png" class="lozad post-image">
+
+<p>maven配置</p>
+<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100604189.png" alt="image-20211017100604189" style="zoom:80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100604189.png" class="lozad post-image">
+
+<p>docker配置</p>
+<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100625289.png" alt="image-20211017100625289" style="zoom:80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100625289.png" class="lozad post-image">
+
+<p>最后点击保存即可。</p>
+</li>
+<li><p>开始新建任务</p>
+<ol>
+<li><p>点击新建任务</p>
+<p><img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100737517.png" alt="image-20211017100737517" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100737517.png" class="lozad post-image"></p>
+</li>
+<li><p>任务填写</p>
+<p><img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100811356.png" alt="image-20211017100811356" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100811356.png" class="lozad post-image"></p>
+</li>
+<li><p>进行任务配置</p>
+<p>添加git仓库</p>
+<p><img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101155113.png" alt="image-20211017101155113" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101155113.png" class="lozad post-image"></p>
+<p>构建触发器</p>
+<p><img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101251020.png" alt="image-20211017101251020" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101251020.png" class="lozad post-image"></p>
+<p>build编译</p>
+<p><img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101323986.png" alt="image-20211017101323986" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101323986.png" class="lozad post-image"></p>
+<p>编译build的shell命令</p>
+<p><img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101436546.png" alt="image-20211017101436546" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101436546.png" class="lozad post-image"></p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#将打包好的jar项目，移到&#x2F;opt&#x2F;data&#x2F;build目录
+#&#x2F;var&#x2F;jenkins_home&#x2F;workspace&#x2F;SpringBoot_AutoTest&#x2F;target&#x2F;jenkins-0.0.1-SNAPSHOT.jar构建好的jar路径
+#&#x2F;opt&#x2F;data&#x2F;build进入到容器创建这个目录
+mv &#x2F;var&#x2F;jenkins_home&#x2F;workspace&#x2F;SpringBoot-AutoTest&#x2F;target&#x2F;springboot-AutoTest-0.0.1-SNAPSHOT.jar &#x2F;opt&#x2F;data&#x2F;build
+#切换目录到&#x2F;opt&#x2F;data&#x2F;build
+cd &#x2F;opt&#x2F;data&#x2F;build
+#执行构建Dockerfile命令
+docker build .&#x2F; -t my&#x2F;demo
+#停止之前的容器运行
+docker stop demo
+#删除之前的容器
+docker rm demo 
+#运行刚刚创建的容器
+docker run -d --name demo -p 8080:8080 my&#x2F;demo
+echo &quot;构建完成&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>点击保存应用。</p>
+</li>
+<li><p>编写一份Dockerfile文件，内容如下</p>
+<pre class="line-numbers language-dockerfile" data-language="dockerfile"><code class="language-dockerfile"># 基于java镜像创建新镜像
+FROM docker.io&#x2F;java:8
+
+# 作者
+MAINTAINER xxxx
+
+# 将jar包添加到容器中并更名为springboot-AutoTest-0.0.1-SNAPSHOT.jar
+COPY springboot-AutoTest-0.0.1-SNAPSHOT.jar &#x2F;springboot-AutoTest-0.0.1-SNAPSHOT.jar
+
+# 暴露8080端口
+EXPOSE 8080
+
+# 运行jar包
+ENTRYPOINT [&quot;java&quot;,&quot;-jar&quot;,&quot;springboot-AutoTest-0.0.1-SNAPSHOT.jar&quot;,&quot;--server.port&#x3D;8080&quot;,&quot;&amp;&quot;]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>编写好之后，运行如下命令，将其放置到Docker容器中</p>
+<p><code>docker cp Dockerfile  容器ID:/opt/data/build</code></p>
+</li>
+<li><p>点击立刻构建</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>文章1：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/fuzongle/p/12834080.html">https://www.cnblogs.com/fuzongle/p/12834080.html</a></p>
+<p>文章2：<a target="_blank" rel="noopener" href="https://blog.csdn.net/linfen1520/article/details/109045808">https://blog.csdn.net/linfen1520/article/details/109045808</a></p>
+<p>文章3：<a target="_blank" rel="noopener" href="https://blog.csdn.net/linfen1520/article/details/109045063">https://blog.csdn.net/linfen1520/article/details/109045063</a></p>
+
+  </div>
+  <div>
+    
+      <div 
+        class="post-note note-warning copyright" 
+        style="margin-top: 42px">
+        <p>
+          <span style="font-weight: bold;">作者：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="/about">
+            Gas
+          </a>
+        </p>
+        <p>
+          <span style="font-weight: bold;">文章链接：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="http://example.com/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/">
+            http://example.com/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/
+          </a>
+        </p>
+        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+      </div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/2021/09/28/Java-NIO/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">下一篇</div>
+          
+            <div class="nav-title">Java-NIO </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8Jenkins"><span class="toc-number">1.</span> <span class="toc-text">为什么要用Jenkins</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Jenkins"><span class="toc-number">2.</span> <span class="toc-text">Jenkins</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Jenkins%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">Jenkins工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Jenkins"><span class="toc-number">4.</span> <span class="toc-text">安装Jenkins</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0Jenkins-Docker%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE"><span class="toc-number">5.</span> <span class="toc-text">实现Jenkins+Docker部署项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">6.</span> <span class="toc-text">参考</span></a></li></ol>
+</div></main>
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="/img/Kaze.png" 
+    class="author-img" 
+    alt="author avatar">
+
+<p class="author-name">Gas</p>
+<p class="author-description">想当画家的咸鱼罢了</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/archives">
+    <span>43</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/categories">
+    <span>13</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/tags">
+    <span>38</span>
+    <span>标签</span>
+  </a>
+</div>
+
+  <div class="author-card-society">
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://github.com/Uranus-s">
+          <i class="iconfont social_github icon-github society-icon"></i>
+        </a>
+      </div>
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://gitee.com/L-sama">
+          <i class="iconfont social_github icon-gitee2 society-icon"></i>
+        </a>
+      </div>
+    
+  </div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8Jenkins"><span class="toc-number">1.</span> <span class="toc-text">为什么要用Jenkins</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Jenkins"><span class="toc-number">2.</span> <span class="toc-text">Jenkins</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Jenkins%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">Jenkins工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Jenkins"><span class="toc-number">4.</span> <span class="toc-text">安装Jenkins</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0Jenkins-Docker%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE"><span class="toc-number">5.</span> <span class="toc-text">实现Jenkins+Docker部署项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">6.</span> <span class="toc-text">参考</span></a></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+      <a href="/categories/Java/">
+        <div class="categories-list-item">
+          Java
+          <span class="categories-list-item-badge">9</span>
+        </div>
+      </a>
+    
+      <a href="/categories/SpringBoot/">
+        <div class="categories-list-item">
+          SpringBoot
+          <span class="categories-list-item-badge">13</span>
+        </div>
+      </a>
+    
+      <a href="/categories/WPF/">
+        <div class="categories-list-item">
+          WPF
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Docker/">
+        <div class="categories-list-item">
+          Docker
+          <span class="categories-list-item-badge">3</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Net/">
+        <div class="categories-list-item">
+          Net
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/DotNetCore/">
+        <div class="categories-list-item">
+          DotNetCore
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E6%8E%92%E5%BA%8F/">
+        <div class="categories-list-item">
+          排序
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Redis/">
+        <div class="categories-list-item">
+          Redis
+          <span class="categories-list-item-badge">6</span>
+        </div>
+      </a>
+    
+      <a href="/categories/COS/">
+        <div class="categories-list-item">
+          COS
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Spring/">
+        <div class="categories-list-item">
+          Spring
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/IText/">
+        <div class="categories-list-item">
+          IText
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/GateWay/">
+        <div class="categories-list-item">
+          GateWay
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Jenkins/">
+        <div class="categories-list-item">
+          Jenkins
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/tags/SpringBoot/" 
+        title="SpringBoot">
+        <div class="tags-list-item">SpringBoot</div>
+      </a>
+    
+      <a 
+        href="/tags/Spring/" 
+        title="Spring">
+        <div class="tags-list-item">Spring</div>
+      </a>
+    
+      <a 
+        href="/tags/Redis/" 
+        title="Redis">
+        <div class="tags-list-item">Redis</div>
+      </a>
+    
+      <a 
+        href="/tags/Java/" 
+        title="Java">
+        <div class="tags-list-item">Java</div>
+      </a>
+    
+      <a 
+        href="/tags/DotNetCore/" 
+        title="DotNetCore">
+        <div class="tags-list-item">DotNetCore</div>
+      </a>
+    
+      <a 
+        href="/tags/Docker/" 
+        title="Docker">
+        <div class="tags-list-item">Docker</div>
+      </a>
+    
+      <a 
+        href="/tags/Jenkins/" 
+        title="Jenkins">
+        <div class="tags-list-item">Jenkins</div>
+      </a>
+    
+      <a 
+        href="/tags/IO/" 
+        title="IO">
+        <div class="tags-list-item">IO</div>
+      </a>
+    
+      <a 
+        href="/tags/Kafka/" 
+        title="Kafka">
+        <div class="tags-list-item">Kafka</div>
+      </a>
+    
+      <a 
+        href="/tags/IOC/" 
+        title="IOC">
+        <div class="tags-list-item">IOC</div>
+      </a>
+    
+      <a 
+        href="/tags/AOP/" 
+        title="AOP">
+        <div class="tags-list-item">AOP</div>
+      </a>
+    
+      <a 
+        href="/tags/%E9%9B%86%E5%90%88/" 
+        title="集合">
+        <div class="tags-list-item">集合</div>
+      </a>
+    
+      <a 
+        href="/tags/UV/" 
+        title="UV">
+        <div class="tags-list-item">UV</div>
+      </a>
+    
+      <a 
+        href="/tags/Shiro/" 
+        title="Shiro">
+        <div class="tags-list-item">Shiro</div>
+      </a>
+    
+      <a 
+        href="/tags/Quartz/" 
+        title="Quartz">
+        <div class="tags-list-item">Quartz</div>
+      </a>
+    
+      <a 
+        href="/tags/Elasticsearch/" 
+        title="Elasticsearch">
+        <div class="tags-list-item">Elasticsearch</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8Jenkins"><span class="toc-number">1.</span> <span class="toc-text">为什么要用Jenkins</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Jenkins"><span class="toc-number">2.</span> <span class="toc-text">Jenkins</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Jenkins%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">Jenkins工作原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85Jenkins"><span class="toc-number">4.</span> <span class="toc-text">安装Jenkins</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0Jenkins-Docker%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE"><span class="toc-number">5.</span> <span class="toc-text">实现Jenkins+Docker部署项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">6.</span> <span class="toc-text">参考</span></a></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-10-17</div>
+        <a href="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/"><div class="recent-posts-item-content">Jenkins自动部署</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-09-28</div>
+        <a href="/2021/09/28/Java-NIO/"><div class="recent-posts-item-content">Java-NIO</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-09-13</div>
+        <a href="/2021/09/13/IText%E5%AE%9E%E7%8E%B0PDF%E8%87%AA%E5%8A%A8%E5%AE%9A%E4%BD%8D%E7%AD%BE%E5%90%88%E5%90%8C/"><div class="recent-posts-item-content">IText实现PDF自动定位签合同</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2021-09-03</div>
+        <a href="/2021/09/03/SpringCloud-GateWay-%E4%B8%80/"><div class="recent-posts-item-content">SpringCloud GateWay(一)</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2020 -
+          
+          2021
+        </span>
+        &nbsp;
+        <a 
+          href="/" 
+          class="footer-link">
+          Gas
+        </a>
+      </div>
+    </div>
+
+    
+      <div class="footer-dsc">
+        
+          Powered by
+          <a 
+            href="https://hexo.io/" 
+            class="footer-link" 
+            target="_blank" 
+            rel="nofollow noopener noreferrer">
+            &nbsp;Hexo
+          </a>
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          Theme -
+          <a 
+            href="https://github.com/theme-kaze" 
+            class="footer-link" 
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            &nbsp;Kaze
+          </a>
+        
+      </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer> 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton" 
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/js/main.js"></script> 
+    
+      <script> 
+        loadScript('/js/lib/busuanzi.min.js') 
+      </script>
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/js/lib/lozad.min.js', addLazyload)
+      </script>
+     
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>
