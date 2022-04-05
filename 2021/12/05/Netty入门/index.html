@@ -45,7 +45,7 @@
         content="2021-12-05">
       <meta 
         property="og:article:modified_time" 
-        content="2021-12-26">
+        content="2022-04-05">
       <meta 
         property="og:article:author" 
         content="Gas">
@@ -328,7 +328,7 @@
     
     
       <span class="dot"></span>
-      <span>713 字</span>
+      <span>5.5k 字</span>
     
   </div>
   
@@ -453,13 +453,785 @@
 </li>
 </ul>
 <p>EventLoopGroup中文可以解读为 <strong>事件循环组</strong></p>
-<p>EventLoopGroup就是一组EventLoop，Channel一般会调用EventLoopGroup的 <code>register</code> 方法绑定其中一个EventLoop，后续这个Channel上的io事件都由此EventLoop来处理（保证了io事件处理时的线程安全）</p>
+<p>EventLoopGroup就是一组EventLoop，<strong>Channel一般会调用EventLoopGroup的 <code>register</code> 方法绑定其中一个EventLoop，后续这个Channel上的io事件都由此EventLoop来处理（保证了io事件处理时的线程安全）</strong></p>
 <ul>
 <li>继承自netty的EventExecutorGroup<ul>
 <li>实现了iterable接口提供遍历EventLoop的能力</li>
 <li>另有next方法获取集合中下一个EventLoop</li>
 </ul>
 </li>
+</ul>
+<p>简单案例：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">// 内部创建了两个 EventLoop, 每个 EventLoop 维护一个线程</span>
+<span class="token class-name">DefaultEventLoopGroup</span> group <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DefaultEventLoopGroup</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>group<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>group<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>group<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// for循环输出</span>
+<span class="token class-name">DefaultEventLoopGroup</span> group <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DefaultEventLoopGroup</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">EventExecutor</span> eventLoop <span class="token operator">:</span> group<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>eventLoop<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>输出</p>
+<pre class="line-numbers language-none"><code class="language-none">io.netty.channel.DefaultEventLoop@60f82f98
+io.netty.channel.DefaultEventLoop@35f983a6
+io.netty.channel.DefaultEventLoop@60f82f98<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="NioEventLoop处理-io-事件"><a href="#NioEventLoop处理-io-事件" class="headerlink" title="NioEventLoop处理 io 事件"></a>NioEventLoop处理 io 事件</h4><p>服务端 EventLoopGroup 长度为 2</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">new</span> <span class="token class-name">ServerBootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token comment">//这里对工作内容做了细分 跟NIO中的差不多 分成了 Boss(第一个参数) 和 Worker(第二个参数) 两个</span>
+    <span class="token comment">//细分：boss只负责 ServerSockerChannel 上的 asspet 事件，worker 只负责 socketChannel 上的读写</span>
+    <span class="token comment">//boss长度一般填 1 即可，worker 根据实际情况来</span>
+    <span class="token punctuation">.</span><span class="token function">group</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">NioEventLoopGroup</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">NioEventLoopGroup</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token class-name">NioServerSocketChannel</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">childHandler</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChannelInitializer</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">NioSocketChannel</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token annotation punctuation">@Override</span>
+        <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">initChannel</span><span class="token punctuation">(</span><span class="token class-name">NioSocketChannel</span> ch<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            ch<span class="token punctuation">.</span><span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChannelInboundHandlerAdapter</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token annotation punctuation">@Override</span>
+                <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">channelRead</span><span class="token punctuation">(</span><span class="token class-name">ChannelHandlerContext</span> ctx<span class="token punctuation">,</span> <span class="token class-name">Object</span> msg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token class-name">ByteBuf</span> byteBuf <span class="token operator">=</span> msg <span class="token keyword">instanceof</span> <span class="token class-name">ByteBuf</span> <span class="token operator">?</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">ByteBuf</span><span class="token punctuation">)</span> msg<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+                    <span class="token keyword">if</span> <span class="token punctuation">(</span>byteBuf <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                        <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span> buf <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token number">16</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                        <span class="token class-name">ByteBuf</span> len <span class="token operator">=</span> byteBuf<span class="token punctuation">.</span><span class="token function">readBytes</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> byteBuf<span class="token punctuation">.</span><span class="token function">readableBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        log<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token number">8080</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">sync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>客户端，启动多个，发送内容随意(不相同即可)</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">&#123;</span>
+    <span class="token class-name">Channel</span> channel <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">group</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">NioEventLoopGroup</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">handler</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChannelInitializer</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">NioSocketChannel</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token annotation punctuation">@Override</span>
+                <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">initChannel</span><span class="token punctuation">(</span><span class="token class-name">NioSocketChannel</span> ch<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">&#123;</span>
+                    ch<span class="token punctuation">.</span><span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">StringEncoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token class-name">NioSocketChannel</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token string">"localhost"</span><span class="token punctuation">,</span> <span class="token number">8080</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">sync</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    channel<span class="token punctuation">.</span><span class="token function">writeAndFlush</span><span class="token punctuation">(</span><span class="token class-name">ByteBufAllocator</span><span class="token punctuation">.</span>DEFAULT<span class="token punctuation">.</span><span class="token function">buffer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">writeBytes</span><span class="token punctuation">(</span><span class="token string">"AAA"</span><span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    channel<span class="token punctuation">.</span><span class="token function">writeAndFlush</span><span class="token punctuation">(</span><span class="token class-name">ByteBufAllocator</span><span class="token punctuation">.</span>DEFAULT<span class="token punctuation">.</span><span class="token function">buffer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">writeBytes</span><span class="token punctuation">(</span><span class="token string">"AAA"</span><span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>服务端最后输出</p>
+<pre class="line-numbers language-none"><code class="language-none">22:03:34 [DEBUG] [nioEventLoopGroup-3-1] c.i.o.EventLoopTest - AAA       
+22:03:36 [DEBUG] [nioEventLoopGroup-3-1] c.i.o.EventLoopTest - AAA       
+22:05:36 [DEBUG] [nioEventLoopGroup-3-2] c.i.o.EventLoopTest - BBB           
+22:05:38 [DEBUG] [nioEventLoopGroup-3-2] c.i.o.EventLoopTest - BBB           
+22:06:09 [DEBUG] [nioEventLoopGroup-3-1] c.i.o.EventLoopTest - CCC        
+22:06:11 [DEBUG] [nioEventLoopGroup-3-1] c.i.o.EventLoopTest - CCC    <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>可以看到两个 EventLoop 轮流处理 channel，但工人与 channel 之间进行了绑定</p>
+<img src="/2021/12/05/Netty%E5%85%A5%E9%97%A8/image-20220102144105330.png" alt="image-20220102144105330" style="zoom:50%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/12/05/Netty%E5%85%A5%E9%97%A8/image-20220102144105330.png" class="lozad post-image">
+
+<h4 id="多EventLoopGroup"><a href="#多EventLoopGroup" class="headerlink" title="多EventLoopGroup"></a>多EventLoopGroup</h4><p>多 EventLoopGroup 用于更细一部的细分，你可以将某些耗时较大的操作，交给另一个 EventLoopGroup</p>
+<p>客户端代码不变，服务端代码做修改：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//细分，创建一个独立的 EventLoopGroup</span>
+<span class="token class-name">DefaultEventLoopGroup</span> defaultGroup <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DefaultEventLoopGroup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">new</span> <span class="token class-name">ServerBootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token comment">//这里对工作内容做了细分 跟NIO中的差不多 分成了 Boss(第一个参数) 和 Worker(第二个参数) 两个</span>
+    <span class="token comment">//细分：boss只负责 ServerSockerChannel 上的 asspet 事件，worker 只负责 socketChannel 上的读写</span>
+    <span class="token comment">//boss长度一般填 1 即可，worker 根据实际情况来</span>
+    <span class="token punctuation">.</span><span class="token function">group</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">NioEventLoopGroup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token keyword">new</span> <span class="token class-name">NioEventLoopGroup</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token class-name">NioServerSocketChannel</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">childHandler</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChannelInitializer</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">NioSocketChannel</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token annotation punctuation">@Override</span>
+        <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">initChannel</span><span class="token punctuation">(</span><span class="token class-name">NioSocketChannel</span> ch<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">&#123;</span>
+            ch<span class="token punctuation">.</span><span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token string">"handler1"</span><span class="token punctuation">,</span><span class="token keyword">new</span> <span class="token class-name">ChannelInboundHandlerAdapter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                    <span class="token annotation punctuation">@Override</span>
+                    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">channelRead</span><span class="token punctuation">(</span><span class="token class-name">ChannelHandlerContext</span> ctx<span class="token punctuation">,</span> <span class="token class-name">Object</span> msg<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">&#123;</span>
+                        <span class="token class-name">ByteBuf</span> buf <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">ByteBuf</span><span class="token punctuation">)</span> msg<span class="token punctuation">;</span>
+                        log<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span>buf<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token class-name">Charset</span><span class="token punctuation">.</span><span class="token function">defaultCharset</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        ctx<span class="token punctuation">.</span><span class="token function">fireChannelRead</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//将消息传递给下一个handler</span>
+                    <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">addLast</span><span class="token punctuation">(</span>defaultGroup<span class="token punctuation">,</span><span class="token string">"handler2"</span><span class="token punctuation">,</span><span class="token keyword">new</span> <span class="token class-name">ChannelInboundHandlerAdapter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                    <span class="token annotation punctuation">@Override</span>
+                    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">channelRead</span><span class="token punctuation">(</span><span class="token class-name">ChannelHandlerContext</span> ctx<span class="token punctuation">,</span> <span class="token class-name">Object</span> msg<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">&#123;</span>
+                        <span class="token class-name">ByteBuf</span> buf <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">ByteBuf</span><span class="token punctuation">)</span> msg<span class="token punctuation">;</span>
+                        log<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span>buf<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token class-name">Charset</span><span class="token punctuation">.</span><span class="token function">defaultCharset</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token number">8080</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>输出</p>
+<pre class="line-numbers language-none"><code class="language-none">15:12:28.241 [nioEventLoopGroup-4-2] DEBUG cn.itcast.netty.c3.EventLoopServer - 001
+15:12:28.241 [defaultEventLoopGroup-2-4] DEBUG cn.itcast.netty.c3.EventLoopServer - 001
+15:12:34.529 [nioEventLoopGroup-4-1] DEBUG cn.itcast.netty.c3.EventLoopServer - 002
+15:12:34.530 [defaultEventLoopGroup-2-5] DEBUG cn.itcast.netty.c3.EventLoopServer - 002<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<img src="/2021/12/05/Netty%E5%85%A5%E9%97%A8/image-20220102151656981.png" alt="image-20220102151656981" style="zoom:80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/12/05/Netty%E5%85%A5%E9%97%A8/image-20220102151656981.png" class="lozad post-image">
+
+
+
+<h4 id="handler-执行中的切换"><a href="#handler-执行中的切换" class="headerlink" title="handler 执行中的切换"></a>handler 执行中的切换</h4><p>也就是上图中 h1 -&gt; h2 的切换</p>
+<p>关键代码<code>io.netty.channel.AbstractChannelHandlerContext#invokeChannelRead()</code></p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">invokeChannelRead</span><span class="token punctuation">(</span><span class="token keyword">final</span> <span class="token class-name">AbstractChannelHandlerContext</span> next<span class="token punctuation">,</span> <span class="token class-name">Object</span> msg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">final</span> <span class="token class-name">Object</span> m <span class="token operator">=</span> next<span class="token punctuation">.</span>pipeline<span class="token punctuation">.</span><span class="token function">touch</span><span class="token punctuation">(</span><span class="token class-name">ObjectUtil</span><span class="token punctuation">.</span><span class="token function">checkNotNull</span><span class="token punctuation">(</span>msg<span class="token punctuation">,</span> <span class="token string">"msg"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> next<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 下一个 handler 的事件循环是否与当前的事件循环是同一个线程</span>
+    <span class="token class-name">EventExecutor</span> executor <span class="token operator">=</span> next<span class="token punctuation">.</span><span class="token function">executor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// 当前 handler 的线程是否和 eventLoop 是同一个线程</span>
+    <span class="token comment">// 是，直接调用</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>executor<span class="token punctuation">.</span><span class="token function">inEventLoop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        next<span class="token punctuation">.</span><span class="token function">invokeChannelRead</span><span class="token punctuation">(</span>m<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span> 
+    <span class="token comment">// 不是，将要执行的代码作为任务提交给下一个事件循环处理（换人）</span>
+    <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+        executor<span class="token punctuation">.</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Runnable</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token annotation punctuation">@Override</span>
+            <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                next<span class="token punctuation">.</span><span class="token function">invokeChannelRead</span><span class="token punctuation">(</span>m<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>如果两个 handler 绑定的是同一个线程，那么就直接调用</li>
+<li>否则，把要调用的代码封装为一个任务对象，由下一个 handler 的线程来调用</li>
+</ul>
+<h4 id="NioEventLoop处理普通任务"><a href="#NioEventLoop处理普通任务" class="headerlink" title="NioEventLoop处理普通任务"></a>NioEventLoop处理普通任务</h4><p>NioEventLoop 除了可以处理 io 事件，同样可以向它提交普通任务</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">NioEventLoopGroup</span> nioWorkers <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">NioEventLoopGroup</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+log<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">"server start..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+nioWorkers<span class="token punctuation">.</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-></span><span class="token punctuation">&#123;</span>
+    log<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">"normal task..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>输出</p>
+<pre class="line-numbers language-none"><code class="language-none">22:30:36 [DEBUG] [main] c.i.o.EventLoopTest2 - server start...
+22:30:38 [DEBUG] [nioEventLoopGroup-2-1] c.i.o.EventLoopTest2 - normal task...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>可以用来执行耗时较长的任务</p>
+</blockquote>
+<h4 id="NioEventLoop处理定时任务"><a href="#NioEventLoop处理定时任务" class="headerlink" title="NioEventLoop处理定时任务"></a>NioEventLoop处理定时任务</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">NioEventLoopGroup</span> nioWorkers <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">NioEventLoopGroup</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+log<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">"server start..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">2000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//定时任务 参数1::执行对象,参数2::延迟执行时间,参数3::间隔执行时间,参数4::时间单位</span>
+nioWorkers<span class="token punctuation">.</span><span class="token function">scheduleAtFixedRate</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">&#123;</span>
+    log<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">"running..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token class-name">TimeUnit</span><span class="token punctuation">.</span>SECONDS<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>输出</p>
+<pre class="line-numbers language-none"><code class="language-none">22:35:15 [DEBUG] [main] c.i.o.EventLoopTest2 - server start...
+22:35:17 [DEBUG] [nioEventLoopGroup-2-1] c.i.o.EventLoopTest2 - running...
+22:35:18 [DEBUG] [nioEventLoopGroup-2-1] c.i.o.EventLoopTest2 - running...
+22:35:19 [DEBUG] [nioEventLoopGroup-2-1] c.i.o.EventLoopTest2 - running...
+22:35:20 [DEBUG] [nioEventLoopGroup-2-1] c.i.o.EventLoopTest2 - running...
+...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>可以用来执行定时任务</p>
+</blockquote>
+<hr>
+<h3 id="Channel"><a href="#Channel" class="headerlink" title="Channel"></a>Channel</h3><p>channel的主要方法：</p>
+<ul>
+<li>close() 可以用来关闭 channel</li>
+<li>closeFuture() 用来处理 channel 的关闭<ul>
+<li>sync 方法作用是同步等待 channel 关闭</li>
+<li>而 addListener 方法是异步等待 channel 关闭</li>
+</ul>
+</li>
+<li>pipeline() 方法是添加处理器</li>
+<li>write() 方法是数据写入</li>
+<li>writeAndFlush() 方法是数据写入并立刻发送</li>
+</ul>
+<h4 id="ChannelFuture"><a href="#ChannelFuture" class="headerlink" title="ChannelFuture"></a>ChannelFuture</h4><p>之前客户端代码</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">new</span> <span class="token class-name">Bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">group</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">NioEventLoopGroup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token class-name">NioSocketChannel</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">handler</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChannelInitializer</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Channel</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token annotation punctuation">@Override</span>
+        <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">initChannel</span><span class="token punctuation">(</span><span class="token class-name">Channel</span> ch<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            ch<span class="token punctuation">.</span><span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">StringEncoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token string">"127.0.0.1"</span><span class="token punctuation">,</span> <span class="token number">8080</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">sync</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">writeAndFlush</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">": hello world!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>把它们拆开</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">ChannelFuture</span> channelFuture <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">group</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">NioEventLoopGroup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token class-name">NioSocketChannel</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">handler</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChannelInitializer</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Channel</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token annotation punctuation">@Override</span>
+        <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">initChannel</span><span class="token punctuation">(</span><span class="token class-name">Channel</span> ch<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            ch<span class="token punctuation">.</span><span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">StringEncoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token string">"127.0.0.1"</span><span class="token punctuation">,</span> <span class="token number">8080</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 1</span>
+
+channelFuture<span class="token punctuation">.</span><span class="token function">sync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">writeAndFlush</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">": hello world!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>connect()</strong> 返回一个 ChannelFuture  对象，它的作用是利用 <strong>channel()</strong> 方法获取 Channel 对象</p>
+<p><strong>注意：</strong>connect() 是异步方法，意味着不等待连接建立，方法执行就返回了，因此 channelFuture 无法<strong>立刻</strong>获取返回的 Channel 对象，尝试如下：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>channelFuture<span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 1 [id: 0x2e1884dd]</span>
+channelFuture<span class="token punctuation">.</span><span class="token function">sync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 2 sync 方法是同步等待连接建立完成</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>channelFuture<span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 3 [id: 0x2e1884dd, L:/127.0.0.1:57191 - R:/127.0.0.1:8080]</span>
+<span class="token comment">//这种方法是同步的</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>除了 sync() 方法，也可以让异步操作执行，还可以使用回调：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">ChannelFuture</span> channelFuture <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">group</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">NioEventLoopGroup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token class-name">NioSocketChannel</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">handler</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChannelInitializer</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Channel</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token annotation punctuation">@Override</span>
+        <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">initChannel</span><span class="token punctuation">(</span><span class="token class-name">Channel</span> ch<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            ch<span class="token punctuation">.</span><span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">StringEncoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token string">"127.0.0.1"</span><span class="token punctuation">,</span> <span class="token number">8080</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>channelFuture<span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 1 [id: 0x749124ba]</span>
+channelFuture<span class="token punctuation">.</span><span class="token function">addListener</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">ChannelFutureListener</span><span class="token punctuation">)</span> future <span class="token operator">-></span> <span class="token punctuation">&#123;</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>future<span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 2 ChannelFutureListener 会在连接建立时被调用（其中 operationComplete 方法），因此执行到此时，连接肯定建立了，打印 [id: 0x749124ba, L:/127.0.0.1:57351 - R:/127.0.0.1:8080]</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="CloseFuture"><a href="#CloseFuture" class="headerlink" title="CloseFuture"></a>CloseFuture</h4><p>CloseFuture 可以用来关闭连接</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Slf4j</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">CloseFutureClient</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">NioEventLoopGroup</span> group <span class="token keyword">new</span> <span class="token class-name">NioEventLoopGroup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">ChannelFuture</span> channelFuture <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">group</span><span class="token punctuation">(</span>group<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token class-name">NioSocketChannel</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">handler</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChannelInitializer</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">NioSocketChannel</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token annotation punctuation">@Override</span> <span class="token comment">// 在连接建立后被调用</span>
+                    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">initChannel</span><span class="token punctuation">(</span><span class="token class-name">NioSocketChannel</span> ch<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">&#123;</span>
+                        ch<span class="token punctuation">.</span><span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">LoggingHandler</span><span class="token punctuation">(</span><span class="token class-name">LogLevel</span><span class="token punctuation">.</span>DEBUG<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        ch<span class="token punctuation">.</span><span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">StringEncoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">InetSocketAddress</span><span class="token punctuation">(</span><span class="token string">"localhost"</span><span class="token punctuation">,</span> <span class="token number">8080</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Channel</span> channel <span class="token operator">=</span> channelFuture<span class="token punctuation">.</span><span class="token function">sync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        log<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">"&#123;&#125;"</span><span class="token punctuation">,</span> channel<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-></span><span class="token punctuation">&#123;</span>
+            <span class="token class-name">Scanner</span> scanner <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Scanner</span><span class="token punctuation">(</span><span class="token class-name">System</span><span class="token punctuation">.</span>in<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token class-name">String</span> line <span class="token operator">=</span> scanner<span class="token punctuation">.</span><span class="token function">nextLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token string">"q"</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>line<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    channel<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// close 异步操作 1s 之后</span>
+					<span class="token comment">//log.debug("处理关闭之后的操作"); // 不能在这里善后</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+                channel<span class="token punctuation">.</span><span class="token function">writeAndFlush</span><span class="token punctuation">(</span>line<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token string">"input"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 获取 CloseFuture 对象， 1) 同步处理关闭， 2) 异步处理关闭</span>
+        <span class="token class-name">ChannelFuture</span> closeFuture <span class="token operator">=</span> channel<span class="token punctuation">.</span><span class="token function">closeFuture</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">/*log.debug("waiting close...");
+        closeFuture.sync();
+        log.debug("处理关闭之后的操作");*/</span>
+        closeFuture<span class="token punctuation">.</span><span class="token function">addListener</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChannelFutureListener</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token annotation punctuation">@Override</span>
+            <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">operationComplete</span><span class="token punctuation">(</span><span class="token class-name">ChannelFuture</span> future<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">&#123;</span>
+                log<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">"处理关闭之后的操作"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                group<span class="token punctuation">.</span><span class="token function">shutdownGracefully</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>为什么不在同一个线程中去执行 链接建立、关闭Channel，这样不是也可以吗？非要这么复杂吗。</p>
+<p>答案：</p>
+<p>其实不仅仅是异步多线程效率高，在Netty中异步不一定提升效率，而是提高了吞吐量</p>
+<ul>
+<li>单线程没法异步提高效率，必须配合多线程、多核 cpu 才能发挥异步的优势</li>
+<li>异步并没有缩短响应时间，反而有所增加</li>
+<li>合理进行任务拆分，也是利用异步的关键</li>
+</ul>
+<h3 id="Future-amp-Promise"><a href="#Future-amp-Promise" class="headerlink" title="Future &amp; Promise"></a>Future &amp; Promise</h3><p>异步处理时，经常用到这两个接口</p>
+<p>Future 需要注意，在 JDK 有相同的 Future，但是它们是两个接口，Netty 的 Future 继承自 JDK 的 Future，而 Promise 又对 Netty Future 进行了扩展。</p>
+<ul>
+<li>JDK Future 只能同步等待任务结束（成功 或 失败）才能得到结果</li>
+<li>Netty Future 可以同步等待任务结束得到结果，也可以异步的方式得到结果，但都要等任务结束</li>
+<li>Netty Promise 不仅有 Netty Future 的功能，而且脱离了任务独立存在，只作为两个线程间传递结果的容器</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>功能/名称</th>
+<th>jdk Future</th>
+<th>netty Future</th>
+<th>Promise</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cancel</td>
+<td>取消任务</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>isCanceled</td>
+<td>任务是否取消</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>isDone</td>
+<td>任务是否完成，不能区分成功失败</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>get</td>
+<td>获取任务结果，阻塞等待</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>getNow</td>
+<td>-</td>
+<td>获取任务结果，非阻塞，还未产生结果时返回 null</td>
+<td>-</td>
+</tr>
+<tr>
+<td>await</td>
+<td>-</td>
+<td>等待任务结束，如果任务失败，不会抛异常，而是通过 isSuccess 判断</td>
+<td>-</td>
+</tr>
+<tr>
+<td>sync</td>
+<td>-</td>
+<td>等待任务结束，如果任务失败，抛出异常</td>
+<td>-</td>
+</tr>
+<tr>
+<td>isSuccess</td>
+<td>-</td>
+<td>判断任务是否成功</td>
+<td>-</td>
+</tr>
+<tr>
+<td>cause</td>
+<td>-</td>
+<td>获取失败信息，非阻塞，如果没有失败，返回null</td>
+<td>-</td>
+</tr>
+<tr>
+<td>addLinstener</td>
+<td>-</td>
+<td>添加回调，异步接收结果</td>
+<td>-</td>
+</tr>
+<tr>
+<td>setSuccess</td>
+<td>-</td>
+<td>-</td>
+<td>设置成功结果</td>
+</tr>
+<tr>
+<td>setFailure</td>
+<td>-</td>
+<td>-</td>
+<td>设置失败结果</td>
+</tr>
+</tbody></table>
+<h3 id="Handler-amp-Pipeline"><a href="#Handler-amp-Pipeline" class="headerlink" title="Handler &amp; Pipeline"></a>Handler &amp; Pipeline</h3><p>ChannelHandler 用来处理 Channel 上的各种事件，分为入站、出站两种，所有 ChannelHandler 被连成一串，就是 Pipeline</p>
+<ul>
+<li>入站处理器通常是 ChannelInboundHandlerAdapter 的子类，主要读取客户端数据，写返回结果</li>
+<li>出站处理器通常是 ChannelOutboundHandlerAdapter 的子类，主要是对写返回结果进行加工</li>
+</ul>
+<p>其基本结果大概就是 责任链模式，代码示例：</p>
+<p>服务端：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">new</span> <span class="token class-name">ServerBootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">group</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">NioEventLoopGroup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token class-name">NioServerSocketChannel</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">childHandler</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChannelInitializer</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">NioSocketChannel</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">initChannel</span><span class="token punctuation">(</span><span class="token class-name">NioSocketChannel</span> ch<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            ch<span class="token punctuation">.</span><span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChannelInboundHandlerAdapter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                <span class="token annotation punctuation">@Override</span>
+                <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">channelRead</span><span class="token punctuation">(</span><span class="token class-name">ChannelHandlerContext</span> ctx<span class="token punctuation">,</span> <span class="token class-name">Object</span> msg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    ctx<span class="token punctuation">.</span><span class="token function">fireChannelRead</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 1</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            ch<span class="token punctuation">.</span><span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChannelInboundHandlerAdapter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                <span class="token annotation punctuation">@Override</span>
+                <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">channelRead</span><span class="token punctuation">(</span><span class="token class-name">ChannelHandlerContext</span> ctx<span class="token punctuation">,</span> <span class="token class-name">Object</span> msg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    ctx<span class="token punctuation">.</span><span class="token function">fireChannelRead</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 2</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            ch<span class="token punctuation">.</span><span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChannelInboundHandlerAdapter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                <span class="token annotation punctuation">@Override</span>
+                <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">channelRead</span><span class="token punctuation">(</span><span class="token class-name">ChannelHandlerContext</span> ctx<span class="token punctuation">,</span> <span class="token class-name">Object</span> msg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    ctx<span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 3</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            ch<span class="token punctuation">.</span><span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChannelOutboundHandlerAdapter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                <span class="token annotation punctuation">@Override</span>
+                <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">write</span><span class="token punctuation">(</span><span class="token class-name">ChannelHandlerContext</span> ctx<span class="token punctuation">,</span> <span class="token class-name">Object</span> msg<span class="token punctuation">,</span> 
+                                  <span class="token class-name">ChannelPromise</span> promise<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    ctx<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>msg<span class="token punctuation">,</span> promise<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 4</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            ch<span class="token punctuation">.</span><span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChannelOutboundHandlerAdapter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                <span class="token annotation punctuation">@Override</span>
+                <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">write</span><span class="token punctuation">(</span><span class="token class-name">ChannelHandlerContext</span> ctx<span class="token punctuation">,</span> <span class="token class-name">Object</span> msg<span class="token punctuation">,</span> 
+                                  <span class="token class-name">ChannelPromise</span> promise<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    ctx<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>msg<span class="token punctuation">,</span> promise<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 5</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            ch<span class="token punctuation">.</span><span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChannelOutboundHandlerAdapter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                <span class="token annotation punctuation">@Override</span>
+                <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">write</span><span class="token punctuation">(</span><span class="token class-name">ChannelHandlerContext</span> ctx<span class="token punctuation">,</span> <span class="token class-name">Object</span> msg<span class="token punctuation">,</span> 
+                                  <span class="token class-name">ChannelPromise</span> promise<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    ctx<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>msg<span class="token punctuation">,</span> promise<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 6</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">bind</span><span class="token punctuation">(</span><span class="token number">8080</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>客户端：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">new</span> <span class="token class-name">Bootstrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">group</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">NioEventLoopGroup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token class-name">NioSocketChannel</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">handler</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ChannelInitializer</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Channel</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token annotation punctuation">@Override</span>
+        <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">initChannel</span><span class="token punctuation">(</span><span class="token class-name">Channel</span> ch<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            ch<span class="token punctuation">.</span><span class="token function">pipeline</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addLast</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">StringEncoder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span><span class="token string">"127.0.0.1"</span><span class="token punctuation">,</span> <span class="token number">8080</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">addListener</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token class-name">ChannelFutureListener</span><span class="token punctuation">)</span> future <span class="token operator">-></span> <span class="token punctuation">&#123;</span>
+        future<span class="token punctuation">.</span><span class="token function">channel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">writeAndFlush</span><span class="token punctuation">(</span><span class="token string">"hello,world"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>服务端打印结果：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token number">1</span>
+<span class="token number">2</span>
+<span class="token number">3</span>
+<span class="token number">6</span>
+<span class="token number">5</span>
+<span class="token number">4</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>可以看到，ChannelInboundHandlerAdapter（入站）是按照 addLast 的顺序执行的，而 ChannelOutboundHandlerAdapter （出站）是按照 addLast 的逆序执行的，ChannelPipeline 的实现是一个 ChannelHandlerContext（包装了 ChannelHandler） 组成的双向链表</p>
+<p><img src="/2021/12/05/Netty%E5%85%A5%E9%97%A8/image-20220312091514267.png" alt="image-20220312091514267" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/12/05/Netty%E5%85%A5%E9%97%A8/image-20220312091514267.png" class="lozad post-image"></p>
+<ul>
+<li><p>入站处理器中，ctx.fireChannelRead(msg) 是 <strong>调用下一个入站处理器</strong>,也可以调用 super.channelRead(ctx, msg);</p>
+<ul>
+<li>如果注释掉 1 处代码，则仅会打印 1</li>
+<li>如果注释掉 2 处代码，则仅会打印 1 2</li>
+</ul>
+</li>
+<li><p>3处 ctx.channel().write(msg) 会<strong>从尾部开始触发</strong>后续出站处理器的执行</p>
+<ul>
+<li>如果注释掉 3 处代码，则仅会打印 1 2 3</li>
+</ul>
+</li>
+<li><p>类似的，出站处理器中，ctx.write(msg, promise) 的调用也会 <strong>触发上一个出站处理器</strong></p>
+<ul>
+<li>如果注释掉 6 处代码，则仅会打印 1 2 3 6</li>
+</ul>
+</li>
+<li><p>ctx.channel().write(msg) <strong>vs</strong> ctx.write(msg)</p>
+<ul>
+<li>都是触发出站处理器的执行</li>
+<li>ctx.channel().write(msg) 从尾部开始查找出站处理器</li>
+<li>ctx.write(msg) 是从当前节点找上一个出站处理器</li>
+<li>3 处的 ctx.channel().write(msg) 如果改为 ctx.write(msg) 仅会打印 1 2 3，因为节点3 之前没有其它出站处理器了</li>
+<li>6 处的 ctx.write(msg, promise) 如果改为 ctx.channel().write(msg) 会打印 1 2 3 6 6 6… 因为 ctx.channel().write() 是从尾部开始查找，结果又是节点6 自己</li>
+</ul>
+</li>
+</ul>
+<p>服务端流程图</p>
+<p><img src="/2021/12/05/Netty%E5%85%A5%E9%97%A8/image-20220312091530194.png" alt="image-20220312091530194" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/12/05/Netty%E5%85%A5%E9%97%A8/image-20220312091530194.png" class="lozad post-image"></p>
+<h3 id="ByteBuf"><a href="#ByteBuf" class="headerlink" title="ByteBuf"></a>ByteBuf</h3><p>ByteBuf 是对字节数据的封装</p>
+<h4 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">ByteBuf</span> buffer <span class="token operator">=</span> <span class="token class-name">ByteBufAllocator</span><span class="token punctuation">.</span>DEFAULT<span class="token punctuation">.</span><span class="token function">buffer</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//上面代码创建了一个默认的 ByteBuf（池化基于直接内存的 ByteBuf），初始容量是 10</span>
+<span class="token function">log</span><span class="token punctuation">(</span>buffer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//read index:0 write index:0 capacity:10</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">log</span><span class="token punctuation">(</span><span class="token class-name">ByteBuf</span> buffer<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> length <span class="token operator">=</span> buffer<span class="token punctuation">.</span><span class="token function">readableBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> rows <span class="token operator">=</span> length <span class="token operator">/</span> <span class="token number">16</span> <span class="token operator">+</span> <span class="token punctuation">(</span>length <span class="token operator">%</span> <span class="token number">15</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">?</span> <span class="token number">0</span> <span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">4</span><span class="token punctuation">;</span>
+    <span class="token class-name">StringBuilder</span> buf <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span>rows <span class="token operator">*</span> <span class="token number">80</span> <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"read index:"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>buffer<span class="token punctuation">.</span><span class="token function">readerIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">" write index:"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>buffer<span class="token punctuation">.</span><span class="token function">writerIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">" capacity:"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>buffer<span class="token punctuation">.</span><span class="token function">capacity</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>NEWLINE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">appendPrettyHexDump</span><span class="token punctuation">(</span>buf<span class="token punctuation">,</span> buffer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>buf<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="直接内存-VS-堆内存"><a href="#直接内存-VS-堆内存" class="headerlink" title="直接内存 VS 堆内存"></a>直接内存 VS 堆内存</h4><p>ByteBuf 是存储是分直接内存和堆内存的</p>
+<p>创建堆内存 ByteBuf</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">ByteBuf</span> buffer <span class="token operator">=</span> <span class="token class-name">ByteBufAllocator</span><span class="token punctuation">.</span>DEFAULT<span class="token punctuation">.</span><span class="token function">heapBuffer</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>创建直接内存 ByteBuf</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">ByteBuf</span> buffer <span class="token operator">=</span> <span class="token class-name">ByteBufAllocator</span><span class="token punctuation">.</span>DEFAULT<span class="token punctuation">.</span><span class="token function">directBuffer</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li>直接内存创建和销毁的代价昂贵，但读写性能高（少一次内存复制），适合配合池化功能一起用</li>
+<li>直接内存对 GC 压力小，因为这部分内存不受 JVM 垃圾回收的管理，但也要注意及时主动释放</li>
+</ul>
+<h4 id="池化-VS-非池化"><a href="#池化-VS-非池化" class="headerlink" title="池化 VS 非池化"></a>池化 VS 非池化</h4><p>池化的最大意义在于可以重用 ByteBuf，优点：</p>
+<ul>
+<li>没有池化，则每次都得创建新的 ByteBuf 实例，这个操作对直接内存代价昂贵，就算是堆内存，也会增加 GC 压力</li>
+<li>有了池化，则可以重用池中 ByteBuf 实例，并且采用了与 jemalloc 类似的内存分配算法提升分配效率</li>
+<li>高并发时，池化功能更节约内存，减少内存溢出的可能</li>
+</ul>
+<p>池化功能默认开启，也可以通过环境变量设置</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token operator">-</span><span class="token class-name">Dio</span><span class="token punctuation">.</span>netty<span class="token punctuation">.</span>allocator<span class="token punctuation">.</span>type<span class="token operator">=</span><span class="token punctuation">&#123;</span>unpooled<span class="token operator">|</span>pooled<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li>4.1 以后，非 Android 平台默认启用池化实现，Android 平台启用非池化实现</li>
+<li>4.1 之前，池化功能还不成熟，默认是非池化实现</li>
+</ul>
+<h4 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h4><p>ByteBuf 由四部分组成</p>
+<p><img src="/2021/12/05/Netty%E5%85%A5%E9%97%A8/image-20220312091543183.png" alt="image-20220312091543183" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/12/05/Netty%E5%85%A5%E9%97%A8/image-20220312091543183.png" class="lozad post-image"></p>
+<p>最开始的时候，读写指针都在 0 的位置</p>
+<h4 id="写入"><a href="#写入" class="headerlink" title="写入"></a>写入</h4><p>常用方法：</p>
+<table>
+<thead>
+<tr>
+<th>方法签名</th>
+<th>含义</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>writeBoolean(boolean value)</td>
+<td>写入 boolean 值</td>
+<td>用一字节 01|00 代表 true|false</td>
+</tr>
+<tr>
+<td>writeByte(int value)</td>
+<td>写入 byte 值</td>
+<td></td>
+</tr>
+<tr>
+<td>writeShort(int value)</td>
+<td>写入 short 值</td>
+<td></td>
+</tr>
+<tr>
+<td>writeInt(int value)</td>
+<td>写入 int 值</td>
+<td>Big Endian，即 0x250，写入后 00 00 02 50</td>
+</tr>
+<tr>
+<td>writeIntLE(int value)</td>
+<td>写入 int 值</td>
+<td>Little Endian，即 0x250，写入后 50 02 00 00</td>
+</tr>
+<tr>
+<td>writeLong(long value)</td>
+<td>写入 long 值</td>
+<td></td>
+</tr>
+<tr>
+<td>writeChar(int value)</td>
+<td>写入 char 值</td>
+<td></td>
+</tr>
+<tr>
+<td>writeFloat(float value)</td>
+<td>写入 float 值</td>
+<td></td>
+</tr>
+<tr>
+<td>writeDouble(double value)</td>
+<td>写入 double 值</td>
+<td></td>
+</tr>
+<tr>
+<td>writeBytes(ByteBuf src)</td>
+<td>写入 netty 的 ByteBuf</td>
+<td></td>
+</tr>
+<tr>
+<td>writeBytes(byte[] src)</td>
+<td>写入 byte[]</td>
+<td></td>
+</tr>
+<tr>
+<td>writeBytes(ByteBuffer src)</td>
+<td>写入 nio 的 ByteBuffer</td>
+<td></td>
+</tr>
+<tr>
+<td>int writeCharSequence(CharSequence sequence, Charset charset)</td>
+<td>写入字符串</td>
+<td></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>注意</p>
+<ul>
+<li>这些方法的未指明返回值的，其返回值都是 ByteBuf，意味着可以链式调用</li>
+<li>网络传输，默认习惯是 Big Endian</li>
+</ul>
+</blockquote>
+<p>先写入 4 个字节</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">buffer<span class="token punctuation">.</span><span class="token function">writeBytes</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token keyword">byte</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">log</span><span class="token punctuation">(</span>buffer<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>结果</p>
+<pre class="line-numbers language-none"><code class="language-none">read index:0 write index:4 capacity:10
+         +-------------------------------------------------+
+         |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
++--------+-------------------------------------------------+----------------+
+|00000000| 01 02 03 04                                     |....            |
++--------+-------------------------------------------------+----------------+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>再写入一个 int 整数，也是 4 个字节</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">buffer<span class="token punctuation">.</span><span class="token function">writeInt</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">log</span><span class="token punctuation">(</span>buffer<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>结果</p>
+<pre class="line-numbers language-none"><code class="language-none">read index:0 write index:8 capacity:10
+         +-------------------------------------------------+
+         |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
++--------+-------------------------------------------------+----------------+
+|00000000| 01 02 03 04 00 00 00 05                         |........        |
++--------+-------------------------------------------------+----------------+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>还有一类方法是 set 开头的一系列方法，也可以写入数据，但不会改变写指针位置</p>
+<h4 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h4><p>在写入一个 int 整数时，容量不够了（初始容量为 10），这时候会引发扩容</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">buffer<span class="token punctuation">.</span><span class="token function">writeInt</span><span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">log</span><span class="token punctuation">(</span>buffer<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>扩容规则：</p>
+<ul>
+<li>如果写入后数据未超过512，则选择下一个 16 的整数倍，例如写入后大小为 12，则扩容后 capacity 为 16</li>
+<li>如果写入后数据超过512，则选择下一个 2^n，例如写入后大小为 513，则扩容为 2^10=1024（2^9=512 已经不够了）</li>
+<li>扩容不能超过 max capacity 会报错</li>
+</ul>
+<p>结果</p>
+<pre class="line-numbers language-none"><code class="language-none">read index:0 write index:12 capacity:16
+         +-------------------------------------------------+
+         |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
++--------+-------------------------------------------------+----------------+
+|00000000| 01 02 03 04 00 00 00 05 00 00 00 06             |............    |
++--------+-------------------------------------------------+----------------+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="读取"><a href="#读取" class="headerlink" title="读取"></a>读取</h4><p>例如读取 4 次，每次一个字节</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>buffer<span class="token punctuation">.</span><span class="token function">readByte</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>buffer<span class="token punctuation">.</span><span class="token function">readByte</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>buffer<span class="token punctuation">.</span><span class="token function">readByte</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>buffer<span class="token punctuation">.</span><span class="token function">readByte</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">log</span><span class="token punctuation">(</span>buffer<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>读过的内容，就属于废弃部分了，再读只能读取剩余未读取的部分</p>
+<pre class="line-numbers language-none"><code class="language-none">1
+2
+3
+4
+read index:4 write index:12 capacity:16
+         +-------------------------------------------------+
+         |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
++--------+-------------------------------------------------+----------------+
+|00000000| 00 00 00 05 00 00 00 06                         |........        |
++--------+-------------------------------------------------+----------------+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>如果需要重复读取 int 整数 5，怎么办？</p>
+<p>可以在 read 前先做个标记 mark</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">buffer<span class="token punctuation">.</span><span class="token function">markReaderIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>buffer<span class="token punctuation">.</span><span class="token function">readInt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">log</span><span class="token punctuation">(</span>buffer<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>结果</p>
+<pre class="line-numbers language-none"><code class="language-none">5
+read index:8 write index:12 capacity:16
+         +-------------------------------------------------+
+         |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
++--------+-------------------------------------------------+----------------+
+|00000000| 00 00 00 06                                     |....            |
++--------+-------------------------------------------------+----------------+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这时要重复读取的话，重置到标记位置 reset</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">buffer<span class="token punctuation">.</span><span class="token function">resetReaderIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">log</span><span class="token punctuation">(</span>buffer<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>结果</p>
+<pre class="line-numbers language-none"><code class="language-none">read index:4 write index:12 capacity:16
+         +-------------------------------------------------+
+         |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
++--------+-------------------------------------------------+----------------+
+|00000000| 00 00 00 05 00 00 00 06                         |........        |
++--------+-------------------------------------------------+----------------+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>还有种办法是采用 get 开头的一系列方法，这些方法不会改变 read index</p>
+<h4 id="retain-amp-release"><a href="#retain-amp-release" class="headerlink" title="retain &amp; release"></a>retain &amp; release</h4><p>内存释放，由于 Netty 中有堆外内存的 ByteBuf 实现，堆外内存最好是手动释放，而不是等待 GC 回收</p>
+<ul>
+<li>UnpooledHeapByteBuf 使用 JVM 内存，只需要等待 GC 回收即可</li>
+<li>UnpooledDirectByteBuf 使用的就是直接内存，需要特殊方法回收</li>
+<li>PooledByteBuf 和它的子类使用了池化机制，需要更复杂的方式回收</li>
+</ul>
+<p>Netty 采用了 引用计数法 来控制回收内存，每个 ByteBuf 都实现了 ReferenceCounted 接口</p>
+<ul>
+<li>每个 ByteBuf 对象初始计数为 1</li>
+<li>调用 release 方法计数减 1，如果计数为 0，ByteBuf 内存被回收</li>
+<li>调用 retain 方法计数加 1，表示调用者没调用完之前，其他 handler 即使调用了 release 也不会造成回收</li>
+<li>当计数为 0 时，底层内存会被回收，即使 ByteBuf 对象还在，也将无法正常使用</li>
+</ul>
+<hr>
+<p>谁来负责调用 release 呢？</p>
+<p>不是我们想象的（一般情况下）</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">ByteBuf</span> buf <span class="token operator">=</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">&#125;</span> <span class="token keyword">finally</span> <span class="token punctuation">&#123;</span>
+    buf<span class="token punctuation">.</span><span class="token function">release</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>因为 pipeline 的存在，一般需要将 ByteBuf 传递给下一个 ChannelHandler，如果在 finally 中 release 了，就失去了传递性（当然，如果在这个 ChannelHandler 内这个 ByteBuf 已完成了它的使命，那么便无须再传递）</p>
+<p>基本规则是，<strong>谁是最后使用者，谁负责 release</strong>，如下</p>
+<ul>
+<li>起点，对于 NIO 实现来讲，在 io.netty.channel.nio.AbstractNioByteChannel.NioByteUnsafe#read 方法中首次创建 ByteBuf 放入 pipeline（line 163 pipeline.fireChannelRead(byteBuf)）</li>
+<li>入站 ByteBuf 处理原则<ul>
+<li>对原始 ByteBuf 不做处理，调用 ctx.fireChannelRead(msg) 向后传递，这时无须 release</li>
+<li>将原始 ByteBuf 转换为其它类型的 Java 对象，这时 ByteBuf 就没用了，必须 release</li>
+<li>如果不调用 ctx.fireChannelRead(msg) 向后传递，那么也必须 release</li>
+<li>注意各种异常，如果 ByteBuf 没有成功传递到下一个 ChannelHandler，必须 release</li>
+<li>假设消息一直向后传，那么 TailContext 会负责释放未处理消息（原始的 ByteBuf）</li>
+</ul>
+</li>
+<li>出站 ByteBuf 处理原则<ul>
+<li>出站消息最终都会转为 ByteBuf 输出，一直向前传，由 HeadContext flush 后 release</li>
+</ul>
+</li>
+<li>异常处理原则<ul>
+<li>有时候不清楚 ByteBuf 被引用了多少次，但又必须彻底释放，可以循环调用 release 直到返回 true</li>
+</ul>
+</li>
+</ul>
+<h4 id="ByteBuf优势"><a href="#ByteBuf优势" class="headerlink" title="ByteBuf优势"></a>ByteBuf优势</h4><ul>
+<li>池化 - 可以重用池中 ByteBuf 实例，更节约内存，减少内存溢出的可能</li>
+<li>读写指针分离，不需要像 ByteBuffer 一样切换读写模式</li>
+<li>可以自动扩容</li>
+<li>支持链式调用，使用更流畅</li>
+<li>很多地方体现零拷贝，例如 slice、duplicate、CompositeByteBuf</li>
 </ul>
 
   </div>
@@ -531,7 +1303,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hello-World"><span class="toc-number">2.</span> <span class="toc-text">Hello World</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Server"><span class="toc-number">2.1.</span> <span class="toc-text">Server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Click"><span class="toc-number">2.2.</span> <span class="toc-text">Click</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#EventLoop"><span class="toc-number">3.1.</span> <span class="toc-text">EventLoop</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hello-World"><span class="toc-number">2.</span> <span class="toc-text">Hello World</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Server"><span class="toc-number">2.1.</span> <span class="toc-text">Server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Click"><span class="toc-number">2.2.</span> <span class="toc-text">Click</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#EventLoop"><span class="toc-number">3.1.</span> <span class="toc-text">EventLoop</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#NioEventLoop%E5%A4%84%E7%90%86-io-%E4%BA%8B%E4%BB%B6"><span class="toc-number">3.1.1.</span> <span class="toc-text">NioEventLoop处理 io 事件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9AEventLoopGroup"><span class="toc-number">3.1.2.</span> <span class="toc-text">多EventLoopGroup</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#handler-%E6%89%A7%E8%A1%8C%E4%B8%AD%E7%9A%84%E5%88%87%E6%8D%A2"><span class="toc-number">3.1.3.</span> <span class="toc-text">handler 执行中的切换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NioEventLoop%E5%A4%84%E7%90%86%E6%99%AE%E9%80%9A%E4%BB%BB%E5%8A%A1"><span class="toc-number">3.1.4.</span> <span class="toc-text">NioEventLoop处理普通任务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NioEventLoop%E5%A4%84%E7%90%86%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">3.1.5.</span> <span class="toc-text">NioEventLoop处理定时任务</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Channel"><span class="toc-number">3.2.</span> <span class="toc-text">Channel</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ChannelFuture"><span class="toc-number">3.2.1.</span> <span class="toc-text">ChannelFuture</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CloseFuture"><span class="toc-number">3.2.2.</span> <span class="toc-text">CloseFuture</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-number">3.2.3.</span> <span class="toc-text">问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Future-amp-Promise"><span class="toc-number">3.3.</span> <span class="toc-text">Future &amp; Promise</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Handler-amp-Pipeline"><span class="toc-number">3.4.</span> <span class="toc-text">Handler &amp; Pipeline</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ByteBuf"><span class="toc-number">3.5.</span> <span class="toc-text">ByteBuf</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA"><span class="toc-number">3.5.1.</span> <span class="toc-text">创建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98-VS-%E5%A0%86%E5%86%85%E5%AD%98"><span class="toc-number">3.5.2.</span> <span class="toc-text">直接内存 VS 堆内存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B1%A0%E5%8C%96-VS-%E9%9D%9E%E6%B1%A0%E5%8C%96"><span class="toc-number">3.5.3.</span> <span class="toc-text">池化 VS 非池化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%84%E6%88%90"><span class="toc-number">3.5.4.</span> <span class="toc-text">组成</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%99%E5%85%A5"><span class="toc-number">3.5.5.</span> <span class="toc-text">写入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A9%E5%AE%B9"><span class="toc-number">3.5.6.</span> <span class="toc-text">扩容</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96"><span class="toc-number">3.5.7.</span> <span class="toc-text">读取</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#retain-amp-release"><span class="toc-number">3.5.8.</span> <span class="toc-text">retain &amp; release</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ByteBuf%E4%BC%98%E5%8A%BF"><span class="toc-number">3.5.9.</span> <span class="toc-text">ByteBuf优势</span></a></li></ol></li></ol></li></ol>
 </div></main>
             <aside class="left-column">
               
@@ -593,7 +1365,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hello-World"><span class="toc-number">2.</span> <span class="toc-text">Hello World</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Server"><span class="toc-number">2.1.</span> <span class="toc-text">Server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Click"><span class="toc-number">2.2.</span> <span class="toc-text">Click</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#EventLoop"><span class="toc-number">3.1.</span> <span class="toc-text">EventLoop</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hello-World"><span class="toc-number">2.</span> <span class="toc-text">Hello World</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Server"><span class="toc-number">2.1.</span> <span class="toc-text">Server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Click"><span class="toc-number">2.2.</span> <span class="toc-text">Click</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#EventLoop"><span class="toc-number">3.1.</span> <span class="toc-text">EventLoop</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#NioEventLoop%E5%A4%84%E7%90%86-io-%E4%BA%8B%E4%BB%B6"><span class="toc-number">3.1.1.</span> <span class="toc-text">NioEventLoop处理 io 事件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9AEventLoopGroup"><span class="toc-number">3.1.2.</span> <span class="toc-text">多EventLoopGroup</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#handler-%E6%89%A7%E8%A1%8C%E4%B8%AD%E7%9A%84%E5%88%87%E6%8D%A2"><span class="toc-number">3.1.3.</span> <span class="toc-text">handler 执行中的切换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NioEventLoop%E5%A4%84%E7%90%86%E6%99%AE%E9%80%9A%E4%BB%BB%E5%8A%A1"><span class="toc-number">3.1.4.</span> <span class="toc-text">NioEventLoop处理普通任务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NioEventLoop%E5%A4%84%E7%90%86%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">3.1.5.</span> <span class="toc-text">NioEventLoop处理定时任务</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Channel"><span class="toc-number">3.2.</span> <span class="toc-text">Channel</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ChannelFuture"><span class="toc-number">3.2.1.</span> <span class="toc-text">ChannelFuture</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CloseFuture"><span class="toc-number">3.2.2.</span> <span class="toc-text">CloseFuture</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-number">3.2.3.</span> <span class="toc-text">问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Future-amp-Promise"><span class="toc-number">3.3.</span> <span class="toc-text">Future &amp; Promise</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Handler-amp-Pipeline"><span class="toc-number">3.4.</span> <span class="toc-text">Handler &amp; Pipeline</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ByteBuf"><span class="toc-number">3.5.</span> <span class="toc-text">ByteBuf</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA"><span class="toc-number">3.5.1.</span> <span class="toc-text">创建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98-VS-%E5%A0%86%E5%86%85%E5%AD%98"><span class="toc-number">3.5.2.</span> <span class="toc-text">直接内存 VS 堆内存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B1%A0%E5%8C%96-VS-%E9%9D%9E%E6%B1%A0%E5%8C%96"><span class="toc-number">3.5.3.</span> <span class="toc-text">池化 VS 非池化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%84%E6%88%90"><span class="toc-number">3.5.4.</span> <span class="toc-text">组成</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%99%E5%85%A5"><span class="toc-number">3.5.5.</span> <span class="toc-text">写入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A9%E5%AE%B9"><span class="toc-number">3.5.6.</span> <span class="toc-text">扩容</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96"><span class="toc-number">3.5.7.</span> <span class="toc-text">读取</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#retain-amp-release"><span class="toc-number">3.5.8.</span> <span class="toc-text">retain &amp; release</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ByteBuf%E4%BC%98%E5%8A%BF"><span class="toc-number">3.5.9.</span> <span class="toc-text">ByteBuf优势</span></a></li></ol></li></ol></li></ol>
       </div>
     </article>
   
@@ -848,7 +1620,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hello-World"><span class="toc-number">2.</span> <span class="toc-text">Hello World</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Server"><span class="toc-number">2.1.</span> <span class="toc-text">Server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Click"><span class="toc-number">2.2.</span> <span class="toc-text">Click</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#EventLoop"><span class="toc-number">3.1.</span> <span class="toc-text">EventLoop</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hello-World"><span class="toc-number">2.</span> <span class="toc-text">Hello World</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Server"><span class="toc-number">2.1.</span> <span class="toc-text">Server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Click"><span class="toc-number">2.2.</span> <span class="toc-text">Click</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#EventLoop"><span class="toc-number">3.1.</span> <span class="toc-text">EventLoop</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#NioEventLoop%E5%A4%84%E7%90%86-io-%E4%BA%8B%E4%BB%B6"><span class="toc-number">3.1.1.</span> <span class="toc-text">NioEventLoop处理 io 事件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9AEventLoopGroup"><span class="toc-number">3.1.2.</span> <span class="toc-text">多EventLoopGroup</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#handler-%E6%89%A7%E8%A1%8C%E4%B8%AD%E7%9A%84%E5%88%87%E6%8D%A2"><span class="toc-number">3.1.3.</span> <span class="toc-text">handler 执行中的切换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NioEventLoop%E5%A4%84%E7%90%86%E6%99%AE%E9%80%9A%E4%BB%BB%E5%8A%A1"><span class="toc-number">3.1.4.</span> <span class="toc-text">NioEventLoop处理普通任务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NioEventLoop%E5%A4%84%E7%90%86%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">3.1.5.</span> <span class="toc-text">NioEventLoop处理定时任务</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Channel"><span class="toc-number">3.2.</span> <span class="toc-text">Channel</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ChannelFuture"><span class="toc-number">3.2.1.</span> <span class="toc-text">ChannelFuture</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CloseFuture"><span class="toc-number">3.2.2.</span> <span class="toc-text">CloseFuture</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-number">3.2.3.</span> <span class="toc-text">问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Future-amp-Promise"><span class="toc-number">3.3.</span> <span class="toc-text">Future &amp; Promise</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Handler-amp-Pipeline"><span class="toc-number">3.4.</span> <span class="toc-text">Handler &amp; Pipeline</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ByteBuf"><span class="toc-number">3.5.</span> <span class="toc-text">ByteBuf</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA"><span class="toc-number">3.5.1.</span> <span class="toc-text">创建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98-VS-%E5%A0%86%E5%86%85%E5%AD%98"><span class="toc-number">3.5.2.</span> <span class="toc-text">直接内存 VS 堆内存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B1%A0%E5%8C%96-VS-%E9%9D%9E%E6%B1%A0%E5%8C%96"><span class="toc-number">3.5.3.</span> <span class="toc-text">池化 VS 非池化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%84%E6%88%90"><span class="toc-number">3.5.4.</span> <span class="toc-text">组成</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%99%E5%85%A5"><span class="toc-number">3.5.5.</span> <span class="toc-text">写入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A9%E5%AE%B9"><span class="toc-number">3.5.6.</span> <span class="toc-text">扩容</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96"><span class="toc-number">3.5.7.</span> <span class="toc-text">读取</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#retain-amp-release"><span class="toc-number">3.5.8.</span> <span class="toc-text">retain &amp; release</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ByteBuf%E4%BC%98%E5%8A%BF"><span class="toc-number">3.5.9.</span> <span class="toc-text">ByteBuf优势</span></a></li></ol></li></ol></li></ol>
     </article>
   
   
