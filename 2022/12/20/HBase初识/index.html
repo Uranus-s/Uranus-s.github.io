@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="Gas">
+  <link 
+    rel="icon" 
+    href="/img/Kaze.png">
+  <title>HBase初识</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="HBase初识">
+    
+    
+      <meta 
+        property="og:url" 
+        content="http://example.com/2022/12/20/HBase%E5%88%9D%E8%AF%86/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="photo_2022-10-18_01-10-11.jpg">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2022-12-20">
+      <meta 
+        property="og:article:modified_time" 
+        content="2022-12-21">
+      <meta 
+        property="og:article:author" 
+        content="Gas">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="HBase">
+        
+      
+    
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+      
+      
+      
+      
+        
+        
+        
+        <script>
+          function prismThemeChange() {
+            if(document.getElementById('theme-color').dataset.mode === 'dark') {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism-tomorrow.min.css', '[data-prism]', 'prism-tomorrow');
+              } else {
+                loadCSS('/js/lib/prism/prism-tomorrow.min.css', 'prism', 'prism-tomorrow');
+              }
+            } else {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism-okaidia.min.css', '[data-prism]', 'prism-okaidia');
+              } else {
+                loadCSS('/js/lib/prism/prism-okaidia.min.css', 'prism', 'prism-okaidia');
+              }
+            }
+          }
+          prismThemeChange()
+        </script>
+      
+      
+        
+        <link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+      
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+        prismThemeChange();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_2818401_duebq0kmk47.css">
+  
+    <link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+        <img 
+          class="navbar-logo-img" 
+          src="/img/Kaze.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">Gas</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/" 
+        class="navbar-menu-item">
+        
+          首页
+        
+      </a>
+    
+      <a 
+        href="/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+      <a 
+        href="/links" 
+        class="navbar-menu-item">
+        
+          友链
+        
+      </a>
+    
+    <a 
+      class="navbar-menu-item darknavbar" 
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </a>
+    <a 
+      class="navbar-menu-item searchnavbar" 
+      id="search">
+      <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i>
+    </a>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <main class="main-column">
+  <div class="image-wrapper">
+    <img 
+      src="photo_2022-10-18_01-10-11.jpg" 
+      data-src="photo_2022-10-18_01-10-11.jpg"
+      srcset="data:image/svg+xml,%3Csvg%20xmlns=&#39;http://www.w3.org/2000/svg&#39;%20viewBox=&#39;0%200%20300%20300&#39;%3E%3C/svg%3E"
+      class="image lozad"
+      alt="HBase初识 thumbnail">
+  </div>
+
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      HBase初识
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-12-20T12:50:58.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2022-12-20</span>
+    </time>
+    
+      <span class="dot"></span>
+      
+        <a 
+          href="/categories/HBase/" 
+          class="post-meta-link">
+          HBase
+        </a>
+      
+    
+    
+      <span class="dot"></span>
+      <span>2.5k 字</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/tags/HBase/" 
+            class="post-meta-link">
+            HBase
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h2 id="HBase初步学习"><a href="#HBase初步学习" class="headerlink" title="HBase初步学习"></a>HBase初步学习</h2><h3 id="什么是HBase"><a href="#什么是HBase" class="headerlink" title="什么是HBase"></a>什么是HBase</h3><p><code>HBase</code>是一个面向列式存储的分布式数据库，底层实现基于<code>HDFS</code>实现，集群管理基于<code>ZooKeeper</code>实现，具有良好的分布式架构设计，为海量数据存储的快速存储、随机访问提供了可能，基于数据副本机制和分区机制，可以轻松实现在线扩容、缩容和数据容灾，是大数据 Key-Value 数据结构存储的常用解决方案</p>
+<h4 id="HBase模块组成"><a href="#HBase模块组成" class="headerlink" title="HBase模块组成"></a>HBase模块组成</h4><p><code>HBase</code>可以将数据存储在本地文件系统，也可以存储在<code>HDFS</code>文件系统，在生存环境中，<code>HBase</code>一般运行在<code>HDFS</code>上，以<code>HDFS</code>作为基础的存储设施，<code>HBase</code>通过<code>HBase Client</code>提供的<code>Java API</code>访问<code>HBase</code>数据库，已完成数据的写入和读取，<code>HBase</code>集群主要由<code>HMaster</code>、<code>Region Server</code>和<code>ZooKeeper</code>组成</p>
+<img src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-41-38-image.png" title alt data-align="center" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-41-38-image.png" class="lozad post-image">
+
+<ul>
+<li><p>HMaster</p>
+<ul>
+<li><p>负责管理<code>RegionServer</code>，实现负载均衡</p>
+</li>
+<li><p>管理和分配<code>Region</code>，比如在<code>Region Split</code>时分配新的<code>Region</code>，在<code>RegionServer</code>退出时迁移内部的<code>Region</code>到其他<code>RegionServer</code>上</p>
+</li>
+<li><p>管理<code>Namespace</code>和<code>Table</code>的元数据(实际存储在<code>HDFS</code>上)</p>
+</li>
+<li><p>权限控制</p>
+</li>
+</ul>
+</li>
+<li><p>RegionServer</p>
+<ul>
+<li><p>存放和管理本地<code>Region</code></p>
+</li>
+<li><p>读写<code>HDFS</code>，管理<code>Table</code>中的数据</p>
+</li>
+<li><p><code>Client</code>从<code>HMaster</code>中获取元数据，找到<code>RowKey</code>所在的<code>RegionServer</code>进行读写数据</p>
+</li>
+</ul>
+</li>
+<li><p>ZooKeeper</p>
+<ul>
+<li><p>存放整个<code>HBase</code>集群的元数据以及集群的信息状态</p>
+</li>
+<li><p>实现<code>HMaster</code>主从节点的<code>Failover</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="HBase数据模型"><a href="#HBase数据模型" class="headerlink" title="HBase数据模型"></a>HBase数据模型</h4><p><code>HBase</code>是一个面向列式存储的分布式数据库。<code>HBase</code>的数据模型与<code>BigTable</code>十分相似。在 <code>HBase</code>表中，一条数据拥有一个全局唯一的键<code>RowKey</code>和任意数量的列<code>Column</code>，一列或多列组成一个列族<code>Column Family</code>，同一个列族中列的数据在物理上都存储在同一个 HFile 中，这样基于列存储的数据结构有利于数据缓存和查询。 HBase 中的表是疏松地存储的，因此用户可以动态地为数据定义各种不同的列。<code>HBase</code>中的数据按主键排序，同时，<code>HBase</code>会将表按主键划分为多个<code>Region</code>存储在不同<code>RegionServer</code>上，以完成数据的分布式存储和读取。</p>
+<p><code>HBase</code>根据列成来存储数据，一个列族对应物理存储上的一个<code>HFile</code>，列族包含多列列族在创建表的时候被指定。</p>
+<img src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-43-05-image.png" title alt data-align="center" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-43-05-image.png" class="lozad post-image">
+
+<ul>
+<li><p>ColumnFamily</p>
+<blockquote>
+<p><code>ColumnFamily</code>即列族，<code>HBase</code>基于列族划分数据的物理存储，一个列族可以包含多列</p>
+<p>一般同一类的列会放在一个列族，每个列族都有一组存储属性：</p>
+<ul>
+<li><p>是否应该缓存在内存中</p>
+</li>
+<li><p>数据如何被压缩或行键如何编码等</p>
+</li>
+</ul>
+<p><strong><code>HBase</code>在创建表的时候就必须指定列族</strong>，列族最好小于等于3个，过多不方便管理和索引</p>
+</blockquote>
+</li>
+<li><p>RowKey</p>
+<blockquote>
+<p><code>RowKey</code>的概念和传统关系型数据库中的主键相似，<code>HBase</code>使用<code>RowKey</code>来唯一标识某行的数据</p>
+<p>访问<code>HBase</code>数据的方式有三种：</p>
+<ul>
+<li><p>基于<code>RowKey</code>的单行查询</p>
+</li>
+<li><p>基于<code>RowKey</code>的范围查询</p>
+</li>
+<li><p>全表扫描查询</p>
+</li>
+</ul>
+</blockquote>
+</li>
+<li><p>Region</p>
+<blockquote>
+<p><code>HBase</code>将表中的数据基于<code>RowKey</code>的不同范围划分到不同的<code>Region</code>上，每个<code>Region</code>都负责一定范围的数据存储和访问</p>
+<p>每个表开始只有一个<code>Region</code>，随着数据不断插入表，<code>Region</code>不断增大，当增大到一个阙值的时候，<code>Region</code>就会分成两个新的<code>Region</code></p>
+<p>另外，<code>Region</code>是<code>HBase</code>中分布式存储和负载均衡的最小单元，不同的<code>Region</code>分布在不同的<code>RegionServer</code>上</p>
+<p>这样就方便了大量数据下的并发操作，访问数据速度不会有太大降低</p>
+</blockquote>
+</li>
+<li><p>TimeStamp</p>
+<blockquote>
+<p>TimeStamp是实现<code>HBase</code>多版本的关键，在<code>HBase</code>中，使用不同的<code>TmeStamp</code>来标识相同<code>RowKey</code>对应不同的版本的数据，相同的<code>RowKey</code>的数据按照<code>TimeStamp</code>倒叙排列，默认查询最新版本，当然也可以用户指定查询</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="底层设计"><a href="#底层设计" class="headerlink" title="底层设计"></a>底层设计</h3><h4 id="Master"><a href="#Master" class="headerlink" title="Master"></a>Master</h4><p>主要的进程，具体实现类为<code>HMaster</code></p>
+<p>通常部署在<code>namenode</code>上</p>
+<p>主要包含3个部件</p>
+<ol>
+<li><p>负载均衡器</p>
+<p>读取<code>Meta</code>表了解<code>Region</code>的分配，通过<code>zk</code>了解<code>RS</code>的启动情况，每5分钟调控一次分配平衡</p>
+</li>
+<li><p>元数据表管理器</p>
+<p>负责管理<code>Meta</code>表的数据</p>
+</li>
+<li><p><code>MasterProcWAL</code>预写日志管理器</p>
+<p>负责管理<code>Master</code>自己的预写日志，如果宕机，让<code>BackUpMaster</code>读取日志数据</p>
+<p>本质是写数据到<code>HDFS</code>，文件到达32M或一小时滚动，当操作执行到<code>Meta</code>表之后删除<code>WAL</code></p>
+</li>
+</ol>
+<p><strong>PS：客户端只有在操作元数据时才会和Master建立连接，也就是<code>getAdmin()</code>，操作其他表数据时，是直接通过<code>zookeeper</code>与<code>Region</code>互动，也就是<code>getTable()</code></strong></p>
+<img src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-36-27-image.png" title alt data-align="center" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-36-27-image.png" class="lozad post-image">
+
+<h4 id="RegionServer"><a href="#RegionServer" class="headerlink" title="RegionServer"></a>RegionServer</h4><p>主要的进程，具体实现类为<code>HRegionServer</code></p>
+<p>通常部署在<code>dataNode</code>上</p>
+<img src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-36-08-image.png" title alt data-align="center" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-36-08-image.png" class="lozad post-image">
+
+<p><code>MemStore</code>的数量取决<code>RegionServer</code>管理了多少个<code>Store</code></p>
+<p><code>Client</code>写入数据时，会先写入<code>MemStore</code>，然后再写入<code>Store</code>中(这一步主要的为了根据<code>RowKey</code>排序)，所以<code>WAL</code>预写日志就是为了防止<code>MemStore</code>数据还没写入到<code>Store</code>时<code>Master</code>就挂了而准备的</p>
+<p>除了一些必要的组件，还会启动一些线程监控必要的服务：</p>
+<ol>
+<li><p><code>Region</code>拆分</p>
+</li>
+<li><p><code>Region</code>的合并</p>
+</li>
+<li><p><code>MemStory</code>书写</p>
+</li>
+<li><p><code>WAL</code>预写日志的滚动</p>
+</li>
+</ol>
+<h4 id="写流程"><a href="#写流程" class="headerlink" title="写流程"></a>写流程</h4><p>写流程从客户端创建连接开始，到最终刷写落盘道HDFS上结束</p>
+<img src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-35-46-image.png" title alt data-align="center" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-35-46-image.png" class="lozad post-image">
+
+<p>先写入<code>WAL</code>的原因是数据在<code>MemStore</code>会排序并保存一段时间，存内存是不安全的</p>
+<p>数据在写入<code>MemStore</code>之后会返回写入成功的<code>ACK</code>，此时宕机可以通过<code>WAL</code>找回</p>
+<p>写流程顺序正如API编写顺序</p>
+<ol>
+<li><p>创建<code>HBase</code>重量级连接</p>
+</li>
+<li><p>首先访问<code>Zookeeper</code>，获取<code>HBase:Meta</code>表位于哪个<code>RegionServer</code></p>
+</li>
+<li><p>访问对应的<code>RegionServer</code>，获取<code>HBase:Meta</code>表，将其缓存到连接中，作为连接属性<code>MetaCache</code>，由<code>Meta</code>表格具有一定的数据量，导致创建连接比较慢</p>
+<p>之后创建连接获取<code>Table</code>，这是一个轻量级连接，只有在第一次创建的时候会检查表格是否存在访问<code>RegionServer</code>，之后在获取<code>Table</code>时不会访问<code>RegionServer</code></p>
+</li>
+<li><p>调用<code>Table</code>的<code>Put</code>方法写入数据，此时还需要解析<code>RowKey</code>，对照缓存<code>MetaCache</code>，查看具体写入的位置有有哪个<code>RegionServer</code></p>
+</li>
+<li><p>将数据顺序写入(追加)到WAL，此处写入是直接落盘的，并设置专门的线程控制WAL预写日志的滚动</p>
+</li>
+</ol>
+<h4 id="读流程"><a href="#读流程" class="headerlink" title="读流程"></a>读流程</h4><p>读流程从客户端创建连接开始，到合并数据返回客户端结束</p>
+<img src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-35-19-image.png" title alt data-align="center" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-35-19-image.png" class="lozad post-image">
+
+<p>读流程同写流程差不多</p>
+<ol>
+<li><p>创建<code>Table</code>对象发送<code>Get</code>请求</p>
+</li>
+<li><p>优先访问<code>BlockCache</code>，查找是否之前读取过，并且可以读取<code>HFile</code>的索引信息和布隆过滤器</p>
+</li>
+<li><p>不管读缓存是否已经有数据(可能已经过期了)，都需要再次读取写缓存和<code>Store</code>中的文件</p>
+</li>
+<li><p>最终将所有读取到的数据合并版本，按照<code>Get</code>的要求返回即可</p>
+</li>
+</ol>
+<h3 id="RowKey的设计"><a href="#RowKey的设计" class="headerlink" title="RowKey的设计"></a>RowKey的设计</h3><p><code>HBase</code>中<code>RowKey</code>可以唯一表示一行记录，在<code>HBase</code>查询时有以下方式：</p>
+<ol>
+<li><p>通过<code>Get</code>方式，指定<code>RowKey</code>获取唯一记录</p>
+</li>
+<li><p>通过<code>Scan</code>方法，设置<code>startRow</code>和<code>stopRow</code>进行范围匹配</p>
+</li>
+<li><p>全表扫描</p>
+</li>
+</ol>
+<p><code>RowKey</code>在增删改查中充当主键的作用，它可以是任意字符串，在<code>HBase</code>中<code>RowKey</code>会保存为字节数组</p>
+<p><code>HBase</code>中数据是按照<code>RowKey</code>的<code>ASCII</code>字典顺序进行全局排序，因此，在设计RowKey时，要充分利用并意识到这个特性</p>
+<p><code>HBase</code>表的数据是按照<code>RowKey</code>来分散到不同的<code>Region</code>中的，不合理的<code>RowKey</code>设计会导致热点问题，大量的<code>Client</code>访问集群的一个或极少数节点，而其他节点普遍处于空闲状态</p>
+<h3 id="参数调优"><a href="#参数调优" class="headerlink" title="参数调优"></a>参数调优</h3><ol>
+<li><p>Zookeeper会话超时时间调整</p>
+<blockquote>
+<p>hbase-site.xml</p>
+<p>属性：zookeeper.session.timeout</p>
+<p>解释：默认值为<code>90000毫秒(90s)</code>，当某个<code>RegionServer</code>挂掉了，<code>90s</code>后<code>Master</code>上能察觉到，可适当减少此值，尽可能快的检查到<code>RegionServer</code>故障，可调整至<code>20-30s</code></p>
+<p>同时可时代调整Client重试时间和重试次数</p>
+<p>hbase.client.pause (默认100ms)</p>
+<p>hbase.client.retries.number (默认15次)</p>
+</blockquote>
+</li>
+<li><p>设置RPC监听数量</p>
+<blockquote>
+<p>hbase-site.xml</p>
+<p>属性：hbase.regionserver.handler.count</p>
+<p>解释：默认值为<code>30</code>，用于指定<code>RPC</code>监听的数量，可以根据客户端的请求数进行调整，读写请求较多时，增加此值</p>
+</blockquote>
+</li>
+<li><p>手动控制Major Compaction</p>
+<blockquote>
+<p>hbase-site.xml</p>
+<p>属性：hbase.hregion.majorcompaction</p>
+<p>解释：默认值为<code>604800000</code>秒(7天)，<code>MajorCompaction</code>的周期，若关闭自动<code>MajorCompaction</code>，可将其设置为<code>0</code></p>
+<p><em><strong>如果关闭记得手动合并，因为大合并非常有意义</strong></em></p>
+</blockquote>
+</li>
+<li><p>优化HStore文件大小</p>
+<blockquote>
+<p>hbase-site.xml</p>
+<p>属性：hbase.hregion.max.filesize</p>
+<p>解释：默认值<code>10737418240 (10G)</code> ，如果需要运行<code>HBase</code>的<code>MR</code>任务，可以减小此值，因为应该<code>region</code>对应一个<code>map</code>任务，如果单个<code>region</code>过大，会导致<code>map</code>任务执行时间过长，该值的意思就是，如果<code>HFile</code>的大小达到这个数值，则这个<code>region</code>会被切分为两个HFile</p>
+</blockquote>
+</li>
+<li><p>优化HBase客户端缓存</p>
+<blockquote>
+<p>hbase-site.xml</p>
+<p>属性：hbase.client.write.buffer</p>
+<p>解释：默认值<code>2097152 bytes (2M)</code>，用于指定<code>HBase</code>客户端缓存，增大该值可以减少<code>RPC</code>调用次数，但是会消耗更多内存，反之则反之，一般我们需要设定一定的缓存大小，以达到减少<code>RPC</code>调用次数的目的</p>
+</blockquote>
+</li>
+<li><p>指定scan.next扫描HBase获取的行数</p>
+<blockquote>
+<p>hbase-site.xml</p>
+<p>属性：hbase.client.scanner.caching</p>
+<p>解释：用于指定<code>scan.next</code>方法获取的默认行数，值越大，消耗内存越大</p>
+</blockquote>
+</li>
+<li><p>BlockCache占用RegionServer堆内存的比例</p>
+<blockquote>
+<p>hbase-site.xml</p>
+<p>属性：hfile.block.cache.size</p>
+<p>解释：默认<code>0.4</code>，读请求比较多的情况下，可适当调大</p>
+</blockquote>
+</li>
+<li><p>MemStore占用RegionServer堆内存的比例</p>
+<blockquote>
+<p>hbase-site.xml</p>
+<p>属性：hbase.regionserver.global.memstore.size</p>
+<p>解释：默认<code>0.4</code>，写请求比较多的情况下，可适当调大</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>文章1：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/522104503">https://zhuanlan.zhihu.com/p/522104503</a></p>
+<p>文章2：<a target="_blank" rel="noopener" href="https://www.pianshen.com/article/1586364877">https://www.pianshen.com/article/1586364877</a></p>
+<p>视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1PZ4y1i7gZ">https://www.bilibili.com/video/BV1PZ4y1i7gZ</a></p>
+
+  </div>
+  <div>
+    
+      <div 
+        class="post-note note-warning copyright" 
+        style="margin-top: 42px">
+        <p>
+          <span style="font-weight: bold;">作者：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="/about">
+            Gas
+          </a>
+        </p>
+        <p>
+          <span style="font-weight: bold;">文章链接：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="http://example.com/2022/12/20/HBase%E5%88%9D%E8%AF%86/">
+            http://example.com/2022/12/20/HBase%E5%88%9D%E8%AF%86/
+          </a>
+        </p>
+        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+      </div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/2022/10/30/Java%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E5%8C%96/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">下一篇</div>
+          
+            <div class="nav-title">Java时间格式化 </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HBase%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">HBase初步学习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFHBase"><span class="toc-number">1.1.</span> <span class="toc-text">什么是HBase</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HBase%E6%A8%A1%E5%9D%97%E7%BB%84%E6%88%90"><span class="toc-number">1.1.1.</span> <span class="toc-text">HBase模块组成</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HBase%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.1.2.</span> <span class="toc-text">HBase数据模型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%95%E5%B1%82%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.2.</span> <span class="toc-text">底层设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Master"><span class="toc-number">1.2.1.</span> <span class="toc-text">Master</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RegionServer"><span class="toc-number">1.2.2.</span> <span class="toc-text">RegionServer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%99%E6%B5%81%E7%A8%8B"><span class="toc-number">1.2.3.</span> <span class="toc-text">写流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%BB%E6%B5%81%E7%A8%8B"><span class="toc-number">1.2.4.</span> <span class="toc-text">读流程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RowKey%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.3.</span> <span class="toc-text">RowKey的设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E8%B0%83%E4%BC%98"><span class="toc-number">1.4.</span> <span class="toc-text">参数调优</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.5.</span> <span class="toc-text">参考</span></a></li></ol></li></ol>
+</div></main>
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="/img/Kaze.png" 
+    class="author-img" 
+    alt="author avatar">
+
+<p class="author-name">Gas</p>
+<p class="author-description">想当画家的咸鱼罢了</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/archives">
+    <span>53</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/categories">
+    <span>17</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/tags">
+    <span>45</span>
+    <span>标签</span>
+  </a>
+</div>
+
+  <div class="author-card-society">
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://github.com/Uranus-s">
+          <i class="iconfont social_github icon-github society-icon"></i>
+        </a>
+      </div>
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://gitee.com/L-sama">
+          <i class="iconfont social_github icon-gitee2 society-icon"></i>
+        </a>
+      </div>
+    
+  </div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HBase%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">HBase初步学习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFHBase"><span class="toc-number">1.1.</span> <span class="toc-text">什么是HBase</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HBase%E6%A8%A1%E5%9D%97%E7%BB%84%E6%88%90"><span class="toc-number">1.1.1.</span> <span class="toc-text">HBase模块组成</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HBase%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.1.2.</span> <span class="toc-text">HBase数据模型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%95%E5%B1%82%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.2.</span> <span class="toc-text">底层设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Master"><span class="toc-number">1.2.1.</span> <span class="toc-text">Master</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RegionServer"><span class="toc-number">1.2.2.</span> <span class="toc-text">RegionServer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%99%E6%B5%81%E7%A8%8B"><span class="toc-number">1.2.3.</span> <span class="toc-text">写流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%BB%E6%B5%81%E7%A8%8B"><span class="toc-number">1.2.4.</span> <span class="toc-text">读流程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RowKey%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.3.</span> <span class="toc-text">RowKey的设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E8%B0%83%E4%BC%98"><span class="toc-number">1.4.</span> <span class="toc-text">参数调优</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.5.</span> <span class="toc-text">参考</span></a></li></ol></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+      <a href="/categories/Java/">
+        <div class="categories-list-item">
+          Java
+          <span class="categories-list-item-badge">12</span>
+        </div>
+      </a>
+    
+      <a href="/categories/SpringBoot/">
+        <div class="categories-list-item">
+          SpringBoot
+          <span class="categories-list-item-badge">16</span>
+        </div>
+      </a>
+    
+      <a href="/categories/WPF/">
+        <div class="categories-list-item">
+          WPF
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Docker/">
+        <div class="categories-list-item">
+          Docker
+          <span class="categories-list-item-badge">3</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Net/">
+        <div class="categories-list-item">
+          Net
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/DotNetCore/">
+        <div class="categories-list-item">
+          DotNetCore
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E6%8E%92%E5%BA%8F/">
+        <div class="categories-list-item">
+          排序
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Redis/">
+        <div class="categories-list-item">
+          Redis
+          <span class="categories-list-item-badge">6</span>
+        </div>
+      </a>
+    
+      <a href="/categories/COS/">
+        <div class="categories-list-item">
+          COS
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Spring/">
+        <div class="categories-list-item">
+          Spring
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/IText/">
+        <div class="categories-list-item">
+          IText
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/GateWay/">
+        <div class="categories-list-item">
+          GateWay
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Jenkins/">
+        <div class="categories-list-item">
+          Jenkins
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Netty/">
+        <div class="categories-list-item">
+          Netty
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Log4j/">
+        <div class="categories-list-item">
+          Log4j
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/algorithm/">
+        <div class="categories-list-item">
+          algorithm
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/HBase/">
+        <div class="categories-list-item">
+          HBase
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/tags/SpringBoot/" 
+        title="SpringBoot">
+        <div class="tags-list-item">SpringBoot</div>
+      </a>
+    
+      <a 
+        href="/tags/Java/" 
+        title="Java">
+        <div class="tags-list-item">Java</div>
+      </a>
+    
+      <a 
+        href="/tags/Spring/" 
+        title="Spring">
+        <div class="tags-list-item">Spring</div>
+      </a>
+    
+      <a 
+        href="/tags/Redis/" 
+        title="Redis">
+        <div class="tags-list-item">Redis</div>
+      </a>
+    
+      <a 
+        href="/tags/Docker/" 
+        title="Docker">
+        <div class="tags-list-item">Docker</div>
+      </a>
+    
+      <a 
+        href="/tags/DotNetCore/" 
+        title="DotNetCore">
+        <div class="tags-list-item">DotNetCore</div>
+      </a>
+    
+      <a 
+        href="/tags/IDEA/" 
+        title="IDEA">
+        <div class="tags-list-item">IDEA</div>
+      </a>
+    
+      <a 
+        href="/tags/Maven/" 
+        title="Maven">
+        <div class="tags-list-item">Maven</div>
+      </a>
+    
+      <a 
+        href="/tags/RabbitMQ/" 
+        title="RabbitMQ">
+        <div class="tags-list-item">RabbitMQ</div>
+      </a>
+    
+      <a 
+        href="/tags/HBase/" 
+        title="HBase">
+        <div class="tags-list-item">HBase</div>
+      </a>
+    
+      <a 
+        href="/tags/Jackson/" 
+        title="Jackson">
+        <div class="tags-list-item">Jackson</div>
+      </a>
+    
+      <a 
+        href="/tags/snowflake/" 
+        title="snowflake">
+        <div class="tags-list-item">snowflake</div>
+      </a>
+    
+      <a 
+        href="/tags/algorithm/" 
+        title="algorithm">
+        <div class="tags-list-item">algorithm</div>
+      </a>
+    
+      <a 
+        href="/tags/Log4j/" 
+        title="Log4j">
+        <div class="tags-list-item">Log4j</div>
+      </a>
+    
+      <a 
+        href="/tags/Socket/" 
+        title="Socket">
+        <div class="tags-list-item">Socket</div>
+      </a>
+    
+      <a 
+        href="/tags/Netty/" 
+        title="Netty">
+        <div class="tags-list-item">Netty</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HBase%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">HBase初步学习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFHBase"><span class="toc-number">1.1.</span> <span class="toc-text">什么是HBase</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HBase%E6%A8%A1%E5%9D%97%E7%BB%84%E6%88%90"><span class="toc-number">1.1.1.</span> <span class="toc-text">HBase模块组成</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HBase%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.1.2.</span> <span class="toc-text">HBase数据模型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%95%E5%B1%82%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.2.</span> <span class="toc-text">底层设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Master"><span class="toc-number">1.2.1.</span> <span class="toc-text">Master</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RegionServer"><span class="toc-number">1.2.2.</span> <span class="toc-text">RegionServer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%99%E6%B5%81%E7%A8%8B"><span class="toc-number">1.2.3.</span> <span class="toc-text">写流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%BB%E6%B5%81%E7%A8%8B"><span class="toc-number">1.2.4.</span> <span class="toc-text">读流程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RowKey%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.3.</span> <span class="toc-text">RowKey的设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E8%B0%83%E4%BC%98"><span class="toc-number">1.4.</span> <span class="toc-text">参数调优</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.5.</span> <span class="toc-text">参考</span></a></li></ol></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-12-20</div>
+        <a href="/2022/12/20/HBase%E5%88%9D%E8%AF%86/"><div class="recent-posts-item-content">HBase初识</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-10-30</div>
+        <a href="/2022/10/30/Java%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E5%8C%96/"><div class="recent-posts-item-content">Java时间格式化</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-07-08</div>
+        <a href="/2022/07/08/SpringBoot-RabbitMQ%E5%BA%94%E7%94%A8/"><div class="recent-posts-item-content">SpringBoot-RabbitMQ应用</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-03-26</div>
+        <a href="/2022/03/26/IDEA%E9%83%A8%E7%BD%B2Docker%E9%A0%85%E7%9B%AE/"><div class="recent-posts-item-content">IDEA部署Docker項目</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2020 -
+          
+          2022
+        </span>
+        &nbsp;
+        <a 
+          href="/" 
+          class="footer-link">
+          Gas
+        </a>
+      </div>
+    </div>
+
+    
+      <div class="footer-dsc">
+        
+          Powered by
+          <a 
+            href="https://hexo.io/" 
+            class="footer-link" 
+            target="_blank" 
+            rel="nofollow noopener noreferrer">
+            &nbsp;Hexo
+          </a>
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          Theme -
+          <a 
+            href="https://github.com/theme-kaze" 
+            class="footer-link" 
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            &nbsp;Kaze
+          </a>
+        
+      </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer> 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton" 
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/js/main.js"></script> 
+    
+      <script> 
+        loadScript('/js/lib/busuanzi.min.js') 
+      </script>
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/js/lib/lozad.min.js', addLazyload)
+      </script>
+     
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>
