@@ -320,7 +320,7 @@
     
     
       <span class="dot"></span>
-      <span>2.5k 字</span>
+      <span>2.3k 字</span>
     
   </div>
   
@@ -351,26 +351,27 @@
 <p>上面是百度的答案，我们可以很清楚的知道这是一个<strong>协议</strong></p>
 <h2 id="使用OData开发"><a href="#使用OData开发" class="headerlink" title="使用OData开发"></a>使用OData开发</h2><p>以.NetCoreAPI为例，创建一个API项目</p>
 <p>添加<code>ASP.NET Core OData</code>和<code>Microsoft.EntityFrameworkCore.InMemory</code>Nuget程序包</p>
-<pre><code class="xml">&lt;Project Sdk=&quot;Microsoft.NET.Sdk.Web&quot;&gt;
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Project</span> <span class="token attr-name">Sdk</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Microsoft.NET.Sdk.Web<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
 
-  &lt;PropertyGroup&gt;
-    &lt;TargetFramework&gt;net5.0&lt;/TargetFramework&gt;
-    &lt;UserSecretsId&gt;0d1b65c3-336b-4511-be78-68c012362630&lt;/UserSecretsId&gt;
-    &lt;DockerDefaultTargetOS&gt;Linux&lt;/DockerDefaultTargetOS&gt;
-  &lt;/PropertyGroup&gt;
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>PropertyGroup</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>TargetFramework</span><span class="token punctuation">></span></span>net5.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>TargetFramework</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>UserSecretsId</span><span class="token punctuation">></span></span>0d1b65c3-336b-4511-be78-68c012362630<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>UserSecretsId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>DockerDefaultTargetOS</span><span class="token punctuation">></span></span>Linux<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>DockerDefaultTargetOS</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>PropertyGroup</span><span class="token punctuation">></span></span>
 
-  &lt;ItemGroup&gt;
-    &lt;PackageReference Include=&quot;Microsoft.AspNetCore.OData&quot; Version=&quot;7.4.1&quot; /&gt;
-    &lt;PackageReference Include=&quot;Microsoft.EntityFrameworkCore.InMemory&quot; Version=&quot;5.0.5&quot; /&gt;
-    &lt;PackageReference Include=&quot;Microsoft.VisualStudio.Azure.Containers.Tools.Targets&quot; Version=&quot;1.10.9&quot; /&gt;
-    &lt;PackageReference Include=&quot;Swashbuckle.AspNetCore&quot; Version=&quot;5.6.3&quot; /&gt;
-  &lt;/ItemGroup&gt;
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ItemGroup</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>PackageReference</span> <span class="token attr-name">Include</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Microsoft.AspNetCore.OData<span class="token punctuation">"</span></span> <span class="token attr-name">Version</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>7.4.1<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>PackageReference</span> <span class="token attr-name">Include</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Microsoft.EntityFrameworkCore.InMemory<span class="token punctuation">"</span></span> <span class="token attr-name">Version</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>5.0.5<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>PackageReference</span> <span class="token attr-name">Include</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Microsoft.VisualStudio.Azure.Containers.Tools.Targets<span class="token punctuation">"</span></span> <span class="token attr-name">Version</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1.10.9<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>PackageReference</span> <span class="token attr-name">Include</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Swashbuckle.AspNetCore<span class="token punctuation">"</span></span> <span class="token attr-name">Version</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>5.6.3<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ItemGroup</span><span class="token punctuation">></span></span>
 
-&lt;/Project&gt;
-</code></pre>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Project</span><span class="token punctuation">></span></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p><code>ASP.NET Core OData</code>程序包是为了更方便的去开发而引入的</p>
 <p><code>Microsoft.EntityFrameworkCore.InMemory</code>则方便数据引入</p>
-<h3 id="添加Model类"><a href="#添加Model类" class="headerlink" title="添加Model类"></a>添加Model类</h3><pre><code class="c#">// Book
+<h3 id="添加Model类"><a href="#添加Model类" class="headerlink" title="添加Model类"></a>添加Model类</h3><pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">&#x2F;&#x2F; Book
 public class Book
 &#123;
   public int Id &#123; get; set; &#125;
@@ -382,7 +383,7 @@ public class Book
   public Press Press &#123; get; set; &#125;
 &#125;
 
-// Press
+&#x2F;&#x2F; Press
 public class Press
 &#123;
   public int Id &#123; get; set; &#125;
@@ -391,7 +392,7 @@ public class Press
   public Category Category &#123; get; set; &#125;
 &#125;
 
-// Category
+&#x2F;&#x2F; Category
 public enum Category
 &#123;
   Book,
@@ -399,13 +400,13 @@ public enum Category
   EBook
 &#125;
 
-// Address
+&#x2F;&#x2F; Address
 public class Address
 &#123;
   public string City &#123; get; set; &#125;
   public string Street &#123; get; set; &#125;
-&#125;
-</code></pre>
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>在这里:</p>
 <ul>
 <li><strong>Book，Press</strong>将作为<em>实体</em>类型</li>
@@ -413,66 +414,68 @@ public class Address
 <li><strong>Category</strong>将用作<em>枚举</em>类型。</li>
 </ul>
 <h3 id="建立EDM-Entity-Data-Model-模型"><a href="#建立EDM-Entity-Data-Model-模型" class="headerlink" title="建立EDM(Entity Data Model)模型"></a>建立EDM(Entity Data Model)模型</h3><p>OData基于实体数据模型(EDM)来描述数据结构，在ASP.Net Core OData中，可以轻松的基于上述模型建立，在<code>Startup</code>类末尾加一个私有方法</p>
-<pre><code class="c#">        private static IEdmModel GetEdmModel()
-        &#123;
-            ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-            builder.EntitySet&lt;Book&gt;(&quot;Books&quot;);
-            builder.EntitySet&lt;Press&gt;(&quot;Presses&quot;);
-            return builder.GetEdmModel();
-        &#125;
-</code></pre>
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">private static IEdmModel GetEdmModel()
+&#123;
+    ODataConventionModelBuilder builder &#x3D; new ODataConventionModelBuilder();
+    builder.EntitySet&lt;Book&gt;(&quot;Books&quot;);
+    builder.EntitySet&lt;Press&gt;(&quot;Presses&quot;);
+    return builder.GetEdmModel();
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>在这里我们定义了两个名为<strong>Books</strong>和<strong>Presses</strong> 的实体集</p>
 <h3 id="通过依赖注入注册服务"><a href="#通过依赖注入注册服务" class="headerlink" title="通过依赖注入注册服务"></a>通过依赖注入注册服务</h3><p>ASP.NET Core OData需要预先注册一些服务才能提供其功能，该库提供了一个名为<code>AddOData()</code>的扩展方法，以通过内置的依赖项注入来注册所需要的OData服务，因此，修改如下代码到ConfigureServices中</p>
-<pre><code class="c#">    public class Startup
-    &#123;
-          // ...
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">public class Startup
+&#123;
+  	&#x2F;&#x2F; ...
 
-          public void ConfigureServices(IServiceCollection services)
-          &#123;
-                services.AddOData();
-                services.AddControllers();
-                services.AddSwaggerGen(c =&gt;
-                &#123;
-                    c.SwaggerDoc(&quot;v1&quot;, new OpenApiInfo &#123; Title = &quot;WebApplication1&quot;, Version = &quot;v1&quot; &#125;);
-                &#125;);
-          &#125;
-    &#125;
-</code></pre>
-<h3 id="注册OData端点"><a href="#注册OData端点" class="headerlink" title="注册OData端点"></a>注册OData端点</h3><p>我们需要添加OData路由来注册OData端点，并调用<code>GetEdmModel()</code>绑定EDM模型到端点</p>
-<pre><code class="c#">    public class Startup
-    &#123;
-          // ...
-
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        &#123;
-            if (env.IsDevelopment())
+      public void ConfigureServices(IServiceCollection services)
+      &#123;
+            services.AddOData();
+            services.AddControllers();
+            services.AddSwaggerGen(c &#x3D;&gt;
             &#123;
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c =&gt; c.SwaggerEndpoint(&quot;/swagger/v1/swagger.json&quot;, &quot;WebApplication1 v1&quot;));
-            &#125;
-
-            app.UseEndpoints(endpoints =&gt;
-            &#123;
-                endpoints.MapODataRoute(&quot;odata&quot;, &quot;odata&quot;, GetEdmModel());
+                c.SwaggerDoc(&quot;v1&quot;, new OpenApiInfo &#123; Title &#x3D; &quot;WebApplication1&quot;, Version &#x3D; &quot;v1&quot; &#125;);
             &#125;);
+      &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="注册OData端点"><a href="#注册OData端点" class="headerlink" title="注册OData端点"></a>注册OData端点</h3><p>我们需要添加OData路由来注册OData端点，并调用<code>GetEdmModel()</code>绑定EDM模型到端点</p>
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">public class Startup
+&#123;
+  	&#x2F;&#x2F; ...
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    &#123;
+        if (env.IsDevelopment())
+        &#123;
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c &#x3D;&gt; c.SwaggerEndpoint(&quot;&#x2F;swagger&#x2F;v1&#x2F;swagger.json&quot;, &quot;WebApplication1 v1&quot;));
         &#125;
+
+        app.UseEndpoints(endpoints &#x3D;&gt;
+        &#123;
+            endpoints.MapODataRoute(&quot;odata&quot;, &quot;odata&quot;, GetEdmModel());
+        &#125;);
     &#125;
-</code></pre>
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>8.0版本无需在Configure中注册:</p>
-<pre><code class="c#">public class Startup
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">public class Startup
 &#123;
     public void ConfigureServices(IServiceCollection services)
     &#123;
-        services.AddDbContext&lt;BookStoreContext&gt;(opt =&gt; opt.UseInMemoryDatabase(&quot;BookLists&quot;));
+        services.AddDbContext&lt;BookStoreContext&gt;(opt &#x3D;&gt; opt.UseInMemoryDatabase(&quot;BookLists&quot;));
         services.AddControllers();
-        services.AddOData(opt =&gt; opt.AddModel(&quot;odata&quot;, GetEdmModel()));
+        services.AddOData(opt &#x3D;&gt; opt.AddModel(&quot;odata&quot;, GetEdmModel()));
     &#125;
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     &#123;
         app.UseRouting();
-        app.UseEndpoints(endpoints =&gt;
+        app.UseEndpoints(endpoints &#x3D;&gt;
         &#123;
             endpoints.MapControllers();
         &#125;);
@@ -480,313 +483,327 @@ public class Address
 
     private static IEdmModel GetEdmModel()
     &#123;
-        // …
+        &#x2F;&#x2F; …
     &#125;
-&#125;
-</code></pre>
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
 <h3 id="查询元数据"><a href="#查询元数据" class="headerlink" title="查询元数据"></a>查询元数据</h3><p>OData服务已经准备就绪，可以运行，并且提供基本的功能，例如查询元数据(EDM的XML表示)，构建并允许项目，我们任何客户端工具发出请求：</p>
 <p><strong>GET</strong> <a target="_blank" rel="noopener" href="http://localhost:5000/odata/$metadata">http://localhost:5000/odata/$metadata</a></p>
 <p>然后，可以获取如下xml所示的元数据</p>
-<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;edmx:Edmx Version=&quot;4.0&quot; xmlns:edmx=&quot;http://docs.oasis-open.org/odata/ns/edmx&quot;&gt;
-    &lt;edmx:DataServices&gt;
-        &lt;Schema Namespace=&quot;BookStore.Models&quot; xmlns=&quot;http://docs.oasis-open.org/odata/ns/edm&quot;&gt;
-            &lt;EntityType Name=&quot;Book&quot;&gt;
-                &lt;Key&gt;
-                    &lt;PropertyRef Name=&quot;Id&quot; /&gt;
-                &lt;/Key&gt;
-                &lt;Property Name=&quot;Id&quot; Type=&quot;Edm.Int32&quot; Nullable=&quot;false&quot; /&gt;
-                &lt;Property Name=&quot;ISBN&quot; Type=&quot;Edm.String&quot; /&gt;
-                &lt;Property Name=&quot;Title&quot; Type=&quot;Edm.String&quot; /&gt;
-                &lt;Property Name=&quot;Author&quot; Type=&quot;Edm.String&quot; /&gt;
-                &lt;Property Name=&quot;Price&quot; Type=&quot;Edm.Decimal&quot; Nullable=&quot;false&quot; /&gt;
-                &lt;Property Name=&quot;Location&quot; Type=&quot;BookStore.Models.Address&quot; /&gt;
-                &lt;NavigationProperty Name=&quot;Press&quot; Type=&quot;BookStore.Models.Press&quot; /&gt;
-            &lt;/EntityType&gt;
-            &lt;EntityType Name=&quot;Press&quot;&gt;
-                &lt;Key&gt;
-                    &lt;PropertyRef Name=&quot;Id&quot; /&gt;
-                &lt;/Key&gt;
-                &lt;Property Name=&quot;Id&quot; Type=&quot;Edm.Int32&quot; Nullable=&quot;false&quot; /&gt;
-                &lt;Property Name=&quot;Name&quot; Type=&quot;Edm.String&quot; /&gt;
-                &lt;Property Name=&quot;Email&quot; Type=&quot;Edm.String&quot; /&gt;
-                &lt;Property Name=&quot;Category&quot; Type=&quot;BookStore.Models.Category&quot; Nullable=&quot;false&quot; /&gt;
-            &lt;/EntityType&gt;
-            &lt;ComplexType Name=&quot;Address&quot;&gt;
-                &lt;Property Name=&quot;City&quot; Type=&quot;Edm.String&quot; /&gt;
-                &lt;Property Name=&quot;Street&quot; Type=&quot;Edm.String&quot; /&gt;
-            &lt;/ComplexType&gt;
-            &lt;EnumType Name=&quot;Category&quot;&gt;
-                &lt;Member Name=&quot;Book&quot; Value=&quot;0&quot; /&gt;
-                &lt;Member Name=&quot;Magazine&quot; Value=&quot;1&quot; /&gt;
-                &lt;Member Name=&quot;EBook&quot; Value=&quot;2&quot; /&gt;
-            &lt;/EnumType&gt;
-        &lt;/Schema&gt;
-        &lt;Schema Namespace=&quot;Default&quot; xmlns=&quot;http://docs.oasis-open.org/odata/ns/edm&quot;&gt;
-            &lt;EntityContainer Name=&quot;Container&quot;&gt;
-                &lt;EntitySet Name=&quot;Books&quot; EntityType=&quot;BookStore.Models.Book&quot;&gt;
-                    &lt;NavigationPropertyBinding Path=&quot;Press&quot; Target=&quot;Presses&quot; /&gt;
-                &lt;/EntitySet&gt;
-                &lt;EntitySet Name=&quot;Presses&quot; EntityType=&quot;BookStore.Models.Press&quot; /&gt;
-            &lt;/EntityContainer&gt;
-        &lt;/Schema&gt;
-    &lt;/edmx:DataServices&gt;
-&lt;/edmx:Edmx&gt;
-</code></pre>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" encoding="utf-8"?></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">edmx:</span>Edmx</span> <span class="token attr-name">Version</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>4.0<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">xmlns:</span>edmx</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://docs.oasis-open.org/odata/ns/edmx<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">edmx:</span>DataServices</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Schema</span> <span class="token attr-name">Namespace</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>BookStore.Models<span class="token punctuation">"</span></span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://docs.oasis-open.org/odata/ns/edm<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>EntityType</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Book<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Key</span><span class="token punctuation">></span></span>
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>PropertyRef</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Id<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Key</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Property</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Id<span class="token punctuation">"</span></span> <span class="token attr-name">Type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Edm.Int32<span class="token punctuation">"</span></span> <span class="token attr-name">Nullable</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>false<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Property</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>ISBN<span class="token punctuation">"</span></span> <span class="token attr-name">Type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Edm.String<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Property</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Title<span class="token punctuation">"</span></span> <span class="token attr-name">Type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Edm.String<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Property</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Author<span class="token punctuation">"</span></span> <span class="token attr-name">Type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Edm.String<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Property</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Price<span class="token punctuation">"</span></span> <span class="token attr-name">Type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Edm.Decimal<span class="token punctuation">"</span></span> <span class="token attr-name">Nullable</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>false<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Property</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Location<span class="token punctuation">"</span></span> <span class="token attr-name">Type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>BookStore.Models.Address<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>NavigationProperty</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Press<span class="token punctuation">"</span></span> <span class="token attr-name">Type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>BookStore.Models.Press<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>EntityType</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>EntityType</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Press<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Key</span><span class="token punctuation">></span></span>
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>PropertyRef</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Id<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Key</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Property</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Id<span class="token punctuation">"</span></span> <span class="token attr-name">Type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Edm.Int32<span class="token punctuation">"</span></span> <span class="token attr-name">Nullable</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>false<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Property</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Name<span class="token punctuation">"</span></span> <span class="token attr-name">Type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Edm.String<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Property</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Email<span class="token punctuation">"</span></span> <span class="token attr-name">Type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Edm.String<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Property</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Category<span class="token punctuation">"</span></span> <span class="token attr-name">Type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>BookStore.Models.Category<span class="token punctuation">"</span></span> <span class="token attr-name">Nullable</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>false<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>EntityType</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ComplexType</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Address<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Property</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>City<span class="token punctuation">"</span></span> <span class="token attr-name">Type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Edm.String<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Property</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Street<span class="token punctuation">"</span></span> <span class="token attr-name">Type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Edm.String<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ComplexType</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>EnumType</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Category<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Member</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Book<span class="token punctuation">"</span></span> <span class="token attr-name">Value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>0<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Member</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Magazine<span class="token punctuation">"</span></span> <span class="token attr-name">Value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Member</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>EBook<span class="token punctuation">"</span></span> <span class="token attr-name">Value</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>2<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>EnumType</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Schema</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Schema</span> <span class="token attr-name">Namespace</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Default<span class="token punctuation">"</span></span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>http://docs.oasis-open.org/odata/ns/edm<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>EntityContainer</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Container<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>EntitySet</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Books<span class="token punctuation">"</span></span> <span class="token attr-name">EntityType</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>BookStore.Models.Book<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>NavigationPropertyBinding</span> <span class="token attr-name">Path</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Press<span class="token punctuation">"</span></span> <span class="token attr-name">Target</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Presses<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>EntitySet</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>EntitySet</span> <span class="token attr-name">Name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>Presses<span class="token punctuation">"</span></span> <span class="token attr-name">EntityType</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>BookStore.Models.Press<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>EntityContainer</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>Schema</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token namespace">edmx:</span>DataServices</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token namespace">edmx:</span>Edmx</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
 <h3 id="创建数据库上下文"><a href="#创建数据库上下文" class="headerlink" title="创建数据库上下文"></a>创建数据库上下文</h3><p>现在，可以添加更多实际的功能，首先将数据库上下文引入Web程序，在Models文件夹中创建<code>BookStoreContext</code>类</p>
-<pre><code class="c#">    public class BookStoreContext : DbContext
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">public class BookStoreContext : DbContext
+&#123;
+    public BookStoreContext(DbContextOptions&lt;BookStoreContext&gt; options)
+      : base(options)
     &#123;
-        public BookStoreContext(DbContextOptions&lt;BookStoreContext&gt; options)
-          : base(options)
-        &#123;
-        &#125;
-
-        public DbSet&lt;Book&gt; Books &#123; get; set; &#125;
-        public DbSet&lt;Press&gt; Presses &#123; get; set; &#125;
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        &#123;
-            modelBuilder.Entity&lt;Book&gt;().OwnsOne(c =&gt; c.Location);
-        &#125;
     &#125;
-</code></pre>
+
+    public DbSet&lt;Book&gt; Books &#123; get; set; &#125;
+    public DbSet&lt;Press&gt; Presses &#123; get; set; &#125;
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    &#123;
+        modelBuilder.Entity&lt;Book&gt;().OwnsOne(c &#x3D;&gt; c.Location);
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p><code>OnModelCreating</code>中的代码将<strong>Address</strong>映射为复杂类型</p>
 <h3 id="注册数据库上下文"><a href="#注册数据库上下文" class="headerlink" title="注册数据库上下文"></a>注册数据库上下文</h3><p>通过依赖注入在服务中注册数据库上下文，求改Startup类中的ConfigureServices方法</p>
-<pre><code class="c#">    public class Startup
-    &#123;
-          // ...
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">public class Startup
+&#123;
+  	&#x2F;&#x2F; ...
 
-          public void ConfigureServices(IServiceCollection services)
-          &#123;
-                services.AddDbContext&lt;BookStoreContext&gt;(opt =&gt; opt.UseInMemoryDatabase(&quot;BookLists&quot;));
-                services.AddOData();
-                services.AddControllers();
-                services.AddSwaggerGen(c =&gt;
-                &#123;
-                    c.SwaggerDoc(&quot;v1&quot;, new OpenApiInfo &#123; Title = &quot;WebApplication1&quot;, Version = &quot;v1&quot; &#125;);
-                &#125;);
-          &#125;
-    &#125;
-</code></pre>
+      public void ConfigureServices(IServiceCollection services)
+      &#123;
+            services.AddDbContext&lt;BookStoreContext&gt;(opt &#x3D;&gt; opt.UseInMemoryDatabase(&quot;BookLists&quot;));
+            services.AddOData();
+            services.AddControllers();
+            services.AddSwaggerGen(c &#x3D;&gt;
+            &#123;
+                c.SwaggerDoc(&quot;v1&quot;, new OpenApiInfo &#123; Title &#x3D; &quot;WebApplication1&quot;, Version &#x3D; &quot;v1&quot; &#125;);
+            &#125;);
+      &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
 <h3 id="模型数据"><a href="#模型数据" class="headerlink" title="模型数据"></a>模型数据</h3><p>为了简单起见，我们简单生成一些内容</p>
-<pre><code class="c#">    public static class DataSource
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">public static class DataSource
+&#123;
+    private static IList&lt;Book&gt; _books &#123; get; set; &#125;
+
+    public static IList&lt;Book&gt; GetBooks()
     &#123;
-        private static IList&lt;Book&gt; _books &#123; get; set; &#125;
-
-        public static IList&lt;Book&gt; GetBooks()
+        if (_books !&#x3D; null)
         &#123;
-            if (_books != null)
-            &#123;
-                return _books;
-            &#125;
-
-            _books = new List&lt;Book&gt;();
-
-            // book #1
-            Book book = new Book
-            &#123;
-                Id = 1,
-                ISBN = &quot;978-0-321-87758-1&quot;,
-                Title = &quot;Essential C#5.0&quot;,
-                Author = &quot;Mark Michaelis&quot;,
-                Price = 59.99m,
-                Location = new Address &#123; City = &quot;Redmond&quot;, Street = &quot;156TH AVE NE&quot; &#125;,
-                Press = new Press
-                &#123;
-                    Id = 1,
-                    Name = &quot;Addison-Wesley&quot;,
-                    Category = Category.Book
-                &#125;
-            &#125;;
-            _books.Add(book);
-
-            // book #2
-            book = new Book
-            &#123;
-                Id = 2,
-                ISBN = &quot;063-6-920-02371-5&quot;,
-                Title = &quot;Enterprise Games&quot;,
-                Author = &quot;Michael Hugos&quot;,
-                Price = 49.99m,
-                Location = new Address &#123; City = &quot;Bellevue&quot;, Street = &quot;Main ST&quot; &#125;,
-                Press = new Press
-                &#123;
-                    Id = 2,
-                    Name = &quot;O&#39;Reilly&quot;,
-                    Category = Category.EBook,
-                &#125;
-            &#125;;
-            _books.Add(book);
-
             return _books;
         &#125;
-    &#125;
-</code></pre>
-<h3 id="操作资源"><a href="#操作资源" class="headerlink" title="操作资源"></a>操作资源</h3><h4 id="构建Controller"><a href="#构建Controller" class="headerlink" title="构建Controller"></a>构建Controller</h4><p>创建一个Controller命名为<code>BooksController</code></p>
-<pre><code class="c#">    [ApiController]
-    [Route(&quot;[controller]&quot;)]
-    public class BooksController : ODataController
-    &#123;
-        private BookStoreContext _db;
 
-        public BooksController(BookStoreContext context)
+        _books &#x3D; new List&lt;Book&gt;();
+
+        &#x2F;&#x2F; book #1
+        Book book &#x3D; new Book
         &#123;
-            _db = context;
-            if (context.Books.Count() == 0)
+            Id &#x3D; 1,
+            ISBN &#x3D; &quot;978-0-321-87758-1&quot;,
+            Title &#x3D; &quot;Essential C#5.0&quot;,
+            Author &#x3D; &quot;Mark Michaelis&quot;,
+            Price &#x3D; 59.99m,
+            Location &#x3D; new Address &#123; City &#x3D; &quot;Redmond&quot;, Street &#x3D; &quot;156TH AVE NE&quot; &#125;,
+            Press &#x3D; new Press
             &#123;
-                foreach (var b in DataSource.GetBooks())
-                &#123;
-                    context.Books.Add(b);
-                    context.Presses.Add(b.Press);
-                &#125;
-                context.SaveChanges();
+                Id &#x3D; 1,
+                Name &#x3D; &quot;Addison-Wesley&quot;,
+                Category &#x3D; Category.Book
             &#125;
-        &#125;
+        &#125;;
+        _books.Add(book);
 
-        [EnableQuery]
-        public IActionResult Get()
+        &#x2F;&#x2F; book #2
+        book &#x3D; new Book
         &#123;
-            return Ok(_db.Books);
-        &#125;
+            Id &#x3D; 2,
+            ISBN &#x3D; &quot;063-6-920-02371-5&quot;,
+            Title &#x3D; &quot;Enterprise Games&quot;,
+            Author &#x3D; &quot;Michael Hugos&quot;,
+            Price &#x3D; 49.99m,
+            Location &#x3D; new Address &#123; City &#x3D; &quot;Bellevue&quot;, Street &#x3D; &quot;Main ST&quot; &#125;,
+            Press &#x3D; new Press
+            &#123;
+                Id &#x3D; 2,
+                Name &#x3D; &quot;O&#39;Reilly&quot;,
+                Category &#x3D; Category.EBook,
+            &#125;
+        &#125;;
+        _books.Add(book);
 
-        [EnableQuery]
-        public IActionResult Get([FromODataUri] int key)
+        return _books;
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="操作资源"><a href="#操作资源" class="headerlink" title="操作资源"></a>操作资源</h3><h4 id="构建Controller"><a href="#构建Controller" class="headerlink" title="构建Controller"></a>构建Controller</h4><p>创建一个Controller命名为<code>BooksController</code></p>
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">[ApiController]
+[Route(&quot;[controller]&quot;)]
+public class BooksController : ODataController
+&#123;
+    private BookStoreContext _db;
+
+    public BooksController(BookStoreContext context)
+    &#123;
+        _db &#x3D; context;
+        if (context.Books.Count() &#x3D;&#x3D; 0)
         &#123;
-            return Ok(_db.Books.FirstOrDefault(c =&gt; c.Id == key));
+            foreach (var b in DataSource.GetBooks())
+            &#123;
+                context.Books.Add(b);
+                context.Presses.Add(b.Press);
+            &#125;
+            context.SaveChanges();
         &#125;
     &#125;
-</code></pre>
+
+    [EnableQuery]
+    public IActionResult Get()
+    &#123;
+        return Ok(_db.Books);
+    &#125;
+
+    [EnableQuery]
+    public IActionResult Get([FromODataUri] int key)
+    &#123;
+        return Ok(_db.Books.FirstOrDefault(c &#x3D;&gt; c.Id &#x3D;&#x3D; key));
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>在上面定义的两个Action中：</p>
 <ol>
 <li>Get()返回所有内容</li>
 <li>Get(int Key)返回指定ID内容</li>
 </ol>
 <h4 id="检索资源"><a href="#检索资源" class="headerlink" title="检索资源"></a>检索资源</h4><p>我们访问：<strong>GET</strong> <a target="_blank" rel="noopener" href="http://localhost:5000/odata/Books">http://localhost:5000/odata/Books</a> 响应结果为：</p>
-<pre><code class="json">&#123;
-    &quot;@odata.context&quot;: &quot;http://localhost:5000/odata/$metadata#Books&quot;,
-    &quot;value&quot;: [
-        &#123;
-            &quot;Id&quot;: 1,
-            &quot;ISBN&quot;: &quot;978-0-321-87758-1&quot;,
-            &quot;Title&quot;: &quot;Essential C#5.0&quot;,
-            &quot;Author&quot;: &quot;Mark Michaelis&quot;,
-            &quot;Price&quot;: 59.99,
-            &quot;Location&quot;: &#123;
-                &quot;City&quot;: &quot;Redmond&quot;,
-                &quot;Street&quot;: &quot;156TH AVE NE&quot;
-            &#125;
-        &#125;,
-        &#123;
-            &quot;Id&quot;: 2,
-            &quot;ISBN&quot;: &quot;063-6-920-02371-5&quot;,
-            &quot;Title&quot;: &quot;Enterprise Games&quot;,
-            &quot;Author&quot;: &quot;Michael Hugos&quot;,
-            &quot;Price&quot;: 49.99,
-            &quot;Location&quot;: &#123;
-                &quot;City&quot;: &quot;Bellevue&quot;,
-                &quot;Street&quot;: &quot;Main ST&quot;
-            &#125;
-        &#125;
-    ]
-&#125;
-</code></pre>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+    <span class="token property">"@odata.context"</span><span class="token operator">:</span> <span class="token string">"http://localhost:5000/odata/$metadata#Books"</span><span class="token punctuation">,</span>
+    <span class="token property">"value"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token property">"Id"</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+            <span class="token property">"ISBN"</span><span class="token operator">:</span> <span class="token string">"978-0-321-87758-1"</span><span class="token punctuation">,</span>
+            <span class="token property">"Title"</span><span class="token operator">:</span> <span class="token string">"Essential C#5.0"</span><span class="token punctuation">,</span>
+            <span class="token property">"Author"</span><span class="token operator">:</span> <span class="token string">"Mark Michaelis"</span><span class="token punctuation">,</span>
+            <span class="token property">"Price"</span><span class="token operator">:</span> <span class="token number">59.99</span><span class="token punctuation">,</span>
+            <span class="token property">"Location"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+                <span class="token property">"City"</span><span class="token operator">:</span> <span class="token string">"Redmond"</span><span class="token punctuation">,</span>
+                <span class="token property">"Street"</span><span class="token operator">:</span> <span class="token string">"156TH AVE NE"</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token property">"Id"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+            <span class="token property">"ISBN"</span><span class="token operator">:</span> <span class="token string">"063-6-920-02371-5"</span><span class="token punctuation">,</span>
+            <span class="token property">"Title"</span><span class="token operator">:</span> <span class="token string">"Enterprise Games"</span><span class="token punctuation">,</span>
+            <span class="token property">"Author"</span><span class="token operator">:</span> <span class="token string">"Michael Hugos"</span><span class="token punctuation">,</span>
+            <span class="token property">"Price"</span><span class="token operator">:</span> <span class="token number">49.99</span><span class="token punctuation">,</span>
+            <span class="token property">"Location"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+                <span class="token property">"City"</span><span class="token operator">:</span> <span class="token string">"Bellevue"</span><span class="token punctuation">,</span>
+                <span class="token property">"Street"</span><span class="token operator">:</span> <span class="token string">"Main ST"</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>尝试发出：<strong>GET</strong> <a target="_blank" rel="noopener" href="http://localhost:5000/odata/Books(2)">http://localhost:5000/odata/Books(2)</a> 获取ID为2的书籍</p>
 <h4 id="创建资源"><a href="#创建资源" class="headerlink" title="创建资源"></a>创建资源</h4><p>添加下列代码到<code>Controller</code>中</p>
-<pre><code class="c#">[EnableQuery]
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">[EnableQuery]
 public IActionResult Post([FromBody] Book book)
 &#123;
     _db.Books.Add(book);
     _db.SaveChanges();
     return Created(book);
-&#125;
-</code></pre>
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>发出如下请求创建Book数据</p>
 <p>*<em>POST*</em> <em><a target="_blank" rel="noopener" href="http://localhost:5000/odata/Books">http://localhost:5000/odata/Books</a></em></p>
 <p><em>Content-Type: application/json</em></p>
 <p>Content:</p>
-<pre><code class="json">&#123;
-  &quot;Id&quot;:3,&quot;ISBN&quot;:&quot;82-917-7192-5&quot;,&quot;Title&quot;:&quot;Hary Potter&quot;,&quot;Author&quot;:&quot;J. K. Rowling&quot;,
-  &quot;Price&quot;:199.99,
-  &quot;Location&quot;:&#123;
-     &quot;City&quot;:&quot;Shanghai&quot;,
-     &quot;Street&quot;:&quot;Zhongshan RD&quot;
-   &#125;
-&#125;
-</code></pre>
-<h4 id="查询资源"><a href="#查询资源" class="headerlink" title="查询资源"></a>查询资源</h4><p>需要在<strong>Startup.cs</strong>中添加如下代码启用所有OData查询选项，例如$filter，$orderby，$expand等。</p>
-<pre><code class="c#">    public class Startup
-    &#123;
-      // ...
-  
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        &#123;
-            if (env.IsDevelopment())
-            &#123;
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c =&gt; c.SwaggerEndpoint(&quot;/swagger/v1/swagger.json&quot;, &quot;WebApplication1 v1&quot;));
-            &#125;
-            
-            //...
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"Id"</span><span class="token operator">:</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token property">"ISBN"</span><span class="token operator">:</span><span class="token string">"82-917-7192-5"</span><span class="token punctuation">,</span><span class="token property">"Title"</span><span class="token operator">:</span><span class="token string">"Hary Potter"</span><span class="token punctuation">,</span><span class="token property">"Author"</span><span class="token operator">:</span><span class="token string">"J. K. Rowling"</span><span class="token punctuation">,</span>
+  <span class="token property">"Price"</span><span class="token operator">:</span><span class="token number">199.99</span><span class="token punctuation">,</span>
+  <span class="token property">"Location"</span><span class="token operator">:</span><span class="token punctuation">&#123;</span>
+     <span class="token property">"City"</span><span class="token operator">:</span><span class="token string">"Shanghai"</span><span class="token punctuation">,</span>
+     <span class="token property">"Street"</span><span class="token operator">:</span><span class="token string">"Zhongshan RD"</span>
+   <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-            app.UseEndpoints(endpoints =&gt;
-            &#123;
-                endpoints.Select().Expand().Filter().OrderBy().MaxTop(100).Count();
-                endpoints.MapODataRoute(&quot;odata&quot;, &quot;odata&quot;, GetEdmModel());
-            &#125;);
+
+
+<h4 id="查询资源"><a href="#查询资源" class="headerlink" title="查询资源"></a>查询资源</h4><p>需要在<strong>Startup.cs</strong>中添加如下代码启用所有OData查询选项，例如$filter，$orderby，$expand等。</p>
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">public class Startup
+&#123;
+  &#x2F;&#x2F; ...
+  
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    &#123;
+        if (env.IsDevelopment())
+        &#123;
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c &#x3D;&gt; c.SwaggerEndpoint(&quot;&#x2F;swagger&#x2F;v1&#x2F;swagger.json&quot;, &quot;WebApplication1 v1&quot;));
         &#125;
+        
+        &#x2F;&#x2F;...
+
+        app.UseEndpoints(endpoints &#x3D;&gt;
+        &#123;
+            endpoints.Select().Expand().Filter().OrderBy().MaxTop(100).Count();
+            endpoints.MapODataRoute(&quot;odata&quot;, &quot;odata&quot;, GetEdmModel());
+        &#125;);
     &#125;
-</code></pre>
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>基于$filter的示例:</p>
 <p><strong>GET</strong> <a target="_blank" rel="noopener" href="http://localhost:5000/odata/Books?$filter=Price">http://localhost:5000/odata/Books?$filter=Price</a> le 50</p>
 <p>响应内容为:</p>
-<pre><code class="json">&#123;
-    &quot;@odata.context&quot;: &quot;https://localhost:5001/odata/$metadata#Books&quot;,
-    &quot;value&quot;: [
-        &#123;
-            &quot;Id&quot;: 2,
-            &quot;ISBN&quot;: &quot;063-6-920-02371-5&quot;,
-            &quot;Title&quot;: &quot;Enterprise Games&quot;,
-            &quot;Author&quot;: &quot;Michael Hugos&quot;,
-            &quot;Price&quot;: 49.99,
-            &quot;Location&quot;: &#123;
-                &quot;City&quot;: &quot;Bellevue&quot;,
-                &quot;Street&quot;: &quot;Main ST&quot;
-            &#125;
-        &#125;
-    ]
-&#125;
-</code></pre>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+    <span class="token property">"@odata.context"</span><span class="token operator">:</span> <span class="token string">"https://localhost:5001/odata/$metadata#Books"</span><span class="token punctuation">,</span>
+    <span class="token property">"value"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token property">"Id"</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+            <span class="token property">"ISBN"</span><span class="token operator">:</span> <span class="token string">"063-6-920-02371-5"</span><span class="token punctuation">,</span>
+            <span class="token property">"Title"</span><span class="token operator">:</span> <span class="token string">"Enterprise Games"</span><span class="token punctuation">,</span>
+            <span class="token property">"Author"</span><span class="token operator">:</span> <span class="token string">"Michael Hugos"</span><span class="token punctuation">,</span>
+            <span class="token property">"Price"</span><span class="token operator">:</span> <span class="token number">49.99</span><span class="token punctuation">,</span>
+            <span class="token property">"Location"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+                <span class="token property">"City"</span><span class="token operator">:</span> <span class="token string">"Bellevue"</span><span class="token punctuation">,</span>
+                <span class="token property">"Street"</span><span class="token operator">:</span> <span class="token string">"Main ST"</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>它还支持更为复杂的查询选项，例如：</p>
 <p><strong>GET</strong> <a target="_blank" rel="noopener" href="http://localhost:5000/odata/Books?$filter=Price">http://localhost:5000/odata/Books?$filter=Price</a> le 50&amp;$expand=Press($select=Name)&amp;$select=ISBN</p>
 <p>响应结果为:</p>
-<pre><code class="json">&#123;
-    &quot;@odata.context&quot;: &quot;http://localhost:5000/odata/$metadata#Books(ISBN,Press(Name))&quot;,
-    &quot;value&quot;: [
-        &#123;
-            &quot;ISBN&quot;: &quot;063-6-920-02371-5&quot;,
-            &quot;Press&quot;: &#123;
-                &quot;Name&quot;: &quot;O&#39;Reilly&quot;
-            &#125;
-        &#125;
-    ]
-&#125;
-</code></pre>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+    <span class="token property">"@odata.context"</span><span class="token operator">:</span> <span class="token string">"http://localhost:5000/odata/$metadata#Books(ISBN,Press(Name))"</span><span class="token punctuation">,</span>
+    <span class="token property">"value"</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token property">"ISBN"</span><span class="token operator">:</span> <span class="token string">"063-6-920-02371-5"</span><span class="token punctuation">,</span>
+            <span class="token property">"Press"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+                <span class="token property">"Name"</span><span class="token operator">:</span> <span class="token string">"O'Reilly"</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <p>更多的查询方式可以在官方网站查看，这些都是基于OData协议进行的</p>
 <h3 id="如果在Swagger中显示OData路由"><a href="#如果在Swagger中显示OData路由" class="headerlink" title="如果在Swagger中显示OData路由"></a>如果在Swagger中显示OData路由</h3><p>使用NuGet安装<code>OData.Swagger</code>程序包</p>
 <p>打开<strong>Startup.cs</strong>文件，在ConfigureService方法中添加如下服务</p>
-<pre><code class="c#">services.AddOdataSwaggerSupport();
-</code></pre>
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">services.AddOdataSwaggerSupport();<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
 <p>重新启动程序即可</p>
 <p>如果你的控制器是继承自<code>ODataController</code>，则需要添加<code>[ApiExplorerSettings(IgnoreApi = false)]</code></p>
-<pre><code class="c#">    [ApiController]
-    [ApiExplorerSettings(IgnoreApi = false)]
-    [Route(&quot;[controller]&quot;)]
-    public class BooksController : ODataController
-    &#123;
-        //...
-    &#125;
-</code></pre>
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">[ApiController]
+   [ApiExplorerSettings(IgnoreApi &#x3D; false)]
+   [Route(&quot;[controller]&quot;)]
+public class BooksController : ODataController
+   &#123;
+       &#x2F;&#x2F;...
+   &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+
 <p>本文参考：</p>
 <p>OData参考：<a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/odata/asp-net-core-odata-now-available/">https://devblogs.microsoft.com/odata/asp-net-core-odata-now-available/</a></p>
 <p>OData参考：<a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/odata/asp-net-odata-8-0-preview-for-net-5/">https://devblogs.microsoft.com/odata/asp-net-odata-8-0-preview-for-net-5/</a></p>
@@ -939,27 +956,6 @@ public IActionResult Post([FromBody] Book book)
   </div>
   <div class="categories-list">
     
-      <a href="/categories/Java/">
-        <div class="categories-list-item">
-          Java
-          <span class="categories-list-item-badge">12</span>
-        </div>
-      </a>
-    
-      <a href="/categories/SpringBoot/">
-        <div class="categories-list-item">
-          SpringBoot
-          <span class="categories-list-item-badge">16</span>
-        </div>
-      </a>
-    
-      <a href="/categories/WPF/">
-        <div class="categories-list-item">
-          WPF
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
       <a href="/categories/Docker/">
         <div class="categories-list-item">
           Docker
@@ -981,44 +977,23 @@ public IActionResult Post([FromBody] Book book)
         </div>
       </a>
     
-      <a href="/categories/%E6%8E%92%E5%BA%8F/">
+      <a href="/categories/HBase/">
         <div class="categories-list-item">
-          排序
+          HBase
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
-      <a href="/categories/Redis/">
+      <a href="/categories/Java/">
         <div class="categories-list-item">
-          Redis
-          <span class="categories-list-item-badge">6</span>
-        </div>
-      </a>
-    
-      <a href="/categories/COS/">
-        <div class="categories-list-item">
-          COS
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Spring/">
-        <div class="categories-list-item">
-          Spring
-          <span class="categories-list-item-badge">1</span>
+          Java
+          <span class="categories-list-item-badge">12</span>
         </div>
       </a>
     
       <a href="/categories/IText/">
         <div class="categories-list-item">
           IText
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/GateWay/">
-        <div class="categories-list-item">
-          GateWay
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -1030,16 +1005,51 @@ public IActionResult Post([FromBody] Book book)
         </div>
       </a>
     
-      <a href="/categories/Netty/">
+      <a href="/categories/Log4j/">
         <div class="categories-list-item">
-          Netty
+          Log4j
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
-      <a href="/categories/Log4j/">
+      <a href="/categories/Redis/">
         <div class="categories-list-item">
-          Log4j
+          Redis
+          <span class="categories-list-item-badge">6</span>
+        </div>
+      </a>
+    
+      <a href="/categories/SpringBoot/">
+        <div class="categories-list-item">
+          SpringBoot
+          <span class="categories-list-item-badge">16</span>
+        </div>
+      </a>
+    
+      <a href="/categories/GateWay/">
+        <div class="categories-list-item">
+          GateWay
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/WPF/">
+        <div class="categories-list-item">
+          WPF
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E6%8E%92%E5%BA%8F/">
+        <div class="categories-list-item">
+          排序
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/COS/">
+        <div class="categories-list-item">
+          COS
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -1051,9 +1061,16 @@ public IActionResult Post([FromBody] Book book)
         </div>
       </a>
     
-      <a href="/categories/HBase/">
+      <a href="/categories/Spring/">
         <div class="categories-list-item">
-          HBase
+          Spring
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Netty/">
+        <div class="categories-list-item">
+          Netty
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -1079,15 +1096,15 @@ public IActionResult Post([FromBody] Book book)
       </a>
     
       <a 
-        href="/tags/Java/" 
-        title="Java">
-        <div class="tags-list-item">Java</div>
-      </a>
-    
-      <a 
         href="/tags/Spring/" 
         title="Spring">
         <div class="tags-list-item">Spring</div>
+      </a>
+    
+      <a 
+        href="/tags/Java/" 
+        title="Java">
+        <div class="tags-list-item">Java</div>
       </a>
     
       <a 
@@ -1127,33 +1144,9 @@ public IActionResult Post([FromBody] Book book)
       </a>
     
       <a 
-        href="/tags/HBase/" 
-        title="HBase">
-        <div class="tags-list-item">HBase</div>
-      </a>
-    
-      <a 
-        href="/tags/Jackson/" 
-        title="Jackson">
-        <div class="tags-list-item">Jackson</div>
-      </a>
-    
-      <a 
-        href="/tags/snowflake/" 
-        title="snowflake">
-        <div class="tags-list-item">snowflake</div>
-      </a>
-    
-      <a 
-        href="/tags/algorithm/" 
-        title="algorithm">
-        <div class="tags-list-item">algorithm</div>
-      </a>
-    
-      <a 
-        href="/tags/Log4j/" 
-        title="Log4j">
-        <div class="tags-list-item">Log4j</div>
+        href="/tags/Jvm/" 
+        title="Jvm">
+        <div class="tags-list-item">Jvm</div>
       </a>
     
       <a 
@@ -1166,6 +1159,30 @@ public IActionResult Post([FromBody] Book book)
         href="/tags/Netty/" 
         title="Netty">
         <div class="tags-list-item">Netty</div>
+      </a>
+    
+      <a 
+        href="/tags/NIO/" 
+        title="NIO">
+        <div class="tags-list-item">NIO</div>
+      </a>
+    
+      <a 
+        href="/tags/SpringSecurity/" 
+        title="SpringSecurity">
+        <div class="tags-list-item">SpringSecurity</div>
+      </a>
+    
+      <a 
+        href="/tags/Kafka/" 
+        title="Kafka">
+        <div class="tags-list-item">Kafka</div>
+      </a>
+    
+      <a 
+        href="/tags/IOC/" 
+        title="IOC">
+        <div class="tags-list-item">IOC</div>
       </a>
     
   </div>

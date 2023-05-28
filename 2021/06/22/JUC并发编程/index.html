@@ -307,7 +307,7 @@
     
     
       <span class="dot"></span>
-      <span>682 字</span>
+      <span>666 字</span>
     
   </div>
   
@@ -387,38 +387,38 @@
 </ul>
 <h2 id="公平锁-非公平锁"><a href="#公平锁-非公平锁" class="headerlink" title="公平锁/非公平锁"></a>公平锁/非公平锁</h2><p><strong>公平锁: 十分公平: 可以先来后到,一定要排队</strong></p>
 <p><strong>非公平锁: 十分不公平,可以插队(默认)</strong></p>
-<pre><code class="java">public static void main(String[] args) &#123;
-    Ticket ticket = new Ticket();
-    new Thread(() -&gt; &#123;
-        for (int i = 0; i &lt; 40; i++) ticket.sale();
-    &#125;, &quot;a&quot;).start();
-    new Thread(() -&gt; &#123;
-        for (int i = 0; i &lt; 40; i++) ticket.sale();
-    &#125;, &quot;b&quot;).start();
-    new Thread(() -&gt; &#123;
-        for (int i = 0; i &lt; 40; i++) ticket.sale();
-    &#125;, &quot;c&quot;).start();
-&#125;
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token class-name">Ticket</span> ticket <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Ticket</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">40</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> ticket<span class="token punctuation">.</span><span class="token function">sale</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token string">"a"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">40</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> ticket<span class="token punctuation">.</span><span class="token function">sale</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token string">"b"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">40</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> ticket<span class="token punctuation">.</span><span class="token function">sale</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token string">"c"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
 
-static class Ticket &#123;
-    private int ticketNum = 30;
-    private Lock lock = new ReentrantLock(true);
-    public void sale() &#123;
-        lock.lock();
-        try &#123;
-            if (this.ticketNum &gt; 0) &#123;
-                System.out.println(Thread.currentThread().getName() + &quot;购得第&quot; + ticketNum-- + &quot;张票, 剩余&quot; + ticketNum + &quot;张票&quot;);
-            &#125;
-            //增加错误的发生几率
-            Thread.sleep(10);
-        &#125; catch (Exception e) &#123;
-            e.printStackTrace();
-        &#125; finally &#123;
-            lock.unlock();
-        &#125;
-    &#125;
-&#125;
-</code></pre>
+<span class="token keyword">static</span> <span class="token keyword">class</span> <span class="token class-name">Ticket</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> ticketNum <span class="token operator">=</span> <span class="token number">30</span><span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token class-name">Lock</span> lock <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ReentrantLock</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">sale</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        lock<span class="token punctuation">.</span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>ticketNum <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"购得第"</span> <span class="token operator">+</span> ticketNum<span class="token operator">--</span> <span class="token operator">+</span> <span class="token string">"张票, 剩余"</span> <span class="token operator">+</span> ticketNum <span class="token operator">+</span> <span class="token string">"张票"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token comment">//增加错误的发生几率</span>
+            <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">finally</span> <span class="token punctuation">&#123;</span>
+            lock<span class="token punctuation">.</span><span class="token function">unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>文章1: <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_22155255/article/details/109749311">https://blog.csdn.net/qq_22155255/article/details/109749311</a></p>
 
   </div>
@@ -567,27 +567,6 @@ static class Ticket &#123;
   </div>
   <div class="categories-list">
     
-      <a href="/categories/Java/">
-        <div class="categories-list-item">
-          Java
-          <span class="categories-list-item-badge">12</span>
-        </div>
-      </a>
-    
-      <a href="/categories/SpringBoot/">
-        <div class="categories-list-item">
-          SpringBoot
-          <span class="categories-list-item-badge">16</span>
-        </div>
-      </a>
-    
-      <a href="/categories/WPF/">
-        <div class="categories-list-item">
-          WPF
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
       <a href="/categories/Docker/">
         <div class="categories-list-item">
           Docker
@@ -609,44 +588,23 @@ static class Ticket &#123;
         </div>
       </a>
     
-      <a href="/categories/%E6%8E%92%E5%BA%8F/">
+      <a href="/categories/HBase/">
         <div class="categories-list-item">
-          排序
+          HBase
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
-      <a href="/categories/Redis/">
+      <a href="/categories/Java/">
         <div class="categories-list-item">
-          Redis
-          <span class="categories-list-item-badge">6</span>
-        </div>
-      </a>
-    
-      <a href="/categories/COS/">
-        <div class="categories-list-item">
-          COS
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Spring/">
-        <div class="categories-list-item">
-          Spring
-          <span class="categories-list-item-badge">1</span>
+          Java
+          <span class="categories-list-item-badge">12</span>
         </div>
       </a>
     
       <a href="/categories/IText/">
         <div class="categories-list-item">
           IText
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/GateWay/">
-        <div class="categories-list-item">
-          GateWay
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -658,16 +616,51 @@ static class Ticket &#123;
         </div>
       </a>
     
-      <a href="/categories/Netty/">
+      <a href="/categories/Log4j/">
         <div class="categories-list-item">
-          Netty
+          Log4j
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
-      <a href="/categories/Log4j/">
+      <a href="/categories/Redis/">
         <div class="categories-list-item">
-          Log4j
+          Redis
+          <span class="categories-list-item-badge">6</span>
+        </div>
+      </a>
+    
+      <a href="/categories/SpringBoot/">
+        <div class="categories-list-item">
+          SpringBoot
+          <span class="categories-list-item-badge">16</span>
+        </div>
+      </a>
+    
+      <a href="/categories/GateWay/">
+        <div class="categories-list-item">
+          GateWay
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/WPF/">
+        <div class="categories-list-item">
+          WPF
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E6%8E%92%E5%BA%8F/">
+        <div class="categories-list-item">
+          排序
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/COS/">
+        <div class="categories-list-item">
+          COS
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -679,9 +672,16 @@ static class Ticket &#123;
         </div>
       </a>
     
-      <a href="/categories/HBase/">
+      <a href="/categories/Spring/">
         <div class="categories-list-item">
-          HBase
+          Spring
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Netty/">
+        <div class="categories-list-item">
+          Netty
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -707,15 +707,15 @@ static class Ticket &#123;
       </a>
     
       <a 
-        href="/tags/Java/" 
-        title="Java">
-        <div class="tags-list-item">Java</div>
-      </a>
-    
-      <a 
         href="/tags/Spring/" 
         title="Spring">
         <div class="tags-list-item">Spring</div>
+      </a>
+    
+      <a 
+        href="/tags/Java/" 
+        title="Java">
+        <div class="tags-list-item">Java</div>
       </a>
     
       <a 
@@ -755,33 +755,9 @@ static class Ticket &#123;
       </a>
     
       <a 
-        href="/tags/HBase/" 
-        title="HBase">
-        <div class="tags-list-item">HBase</div>
-      </a>
-    
-      <a 
-        href="/tags/Jackson/" 
-        title="Jackson">
-        <div class="tags-list-item">Jackson</div>
-      </a>
-    
-      <a 
-        href="/tags/snowflake/" 
-        title="snowflake">
-        <div class="tags-list-item">snowflake</div>
-      </a>
-    
-      <a 
-        href="/tags/algorithm/" 
-        title="algorithm">
-        <div class="tags-list-item">algorithm</div>
-      </a>
-    
-      <a 
-        href="/tags/Log4j/" 
-        title="Log4j">
-        <div class="tags-list-item">Log4j</div>
+        href="/tags/Jvm/" 
+        title="Jvm">
+        <div class="tags-list-item">Jvm</div>
       </a>
     
       <a 
@@ -794,6 +770,30 @@ static class Ticket &#123;
         href="/tags/Netty/" 
         title="Netty">
         <div class="tags-list-item">Netty</div>
+      </a>
+    
+      <a 
+        href="/tags/NIO/" 
+        title="NIO">
+        <div class="tags-list-item">NIO</div>
+      </a>
+    
+      <a 
+        href="/tags/SpringSecurity/" 
+        title="SpringSecurity">
+        <div class="tags-list-item">SpringSecurity</div>
+      </a>
+    
+      <a 
+        href="/tags/Kafka/" 
+        title="Kafka">
+        <div class="tags-list-item">Kafka</div>
+      </a>
+    
+      <a 
+        href="/tags/IOC/" 
+        title="IOC">
+        <div class="tags-list-item">IOC</div>
       </a>
     
   </div>

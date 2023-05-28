@@ -324,7 +324,7 @@
     
     
       <span class="dot"></span>
-      <span>819 字</span>
+      <span>902 字</span>
     
   </div>
   
@@ -366,51 +366,45 @@
 <p><img  srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2020/10/16/JWT%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81%E6%95%99%E7%A8%8B/JWTBearer.png" class="lozad post-image"src="/2020/10/16/JWT%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81%E6%95%99%E7%A8%8B/JWTBearer.png"></p>
 <ol start="2">
 <li><p>打开 Startup.cs 在 ConfigureServices 添加如下代码</p>
-<pre><code class="c#">services.AddScoped&lt;IUserService, UserService&gt;();
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">services.AddScoped&lt;IUserService, UserService&gt;();
 
-//将appsettings.json中的jwtsettings部分读取到jwtsettings中，给其他地方用
+&#x2F;&#x2F;将appsettings.json中的jwtsettings部分读取到jwtsettings中，给其他地方用
 services.Configure&lt;JwtSettings&gt;(config.GetSection(&quot;JwtSettings&quot;));
-//由于初始化的时候我们就需要用，所有用bind方法读取配置
-var jwtSettings = new JwtSettings();
+&#x2F;&#x2F;由于初始化的时候我们就需要用，所有用bind方法读取配置
+var jwtSettings &#x3D; new JwtSettings();
 config.Bind(&quot;JwtSettings&quot;, jwtSettings);
 
-//添加身份验证
-services.AddAuthentication(option =&gt;
+&#x2F;&#x2F;添加身份验证
+services.AddAuthentication(option &#x3D;&gt;
 &#123;
-    //认证middleware配置
-    option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-&#125;).AddJwtBearer(o =&gt;
+    &#x2F;&#x2F;认证middleware配置
+    option.DefaultAuthenticateScheme &#x3D; JwtBearerDefaults.AuthenticationScheme;
+    option.DefaultChallengeScheme &#x3D; JwtBearerDefaults.AuthenticationScheme;
+&#125;).AddJwtBearer(o &#x3D;&gt;
 &#123;
-    //jwt token参数设置
-    o.TokenValidationParameters = new TokenValidationParameters
+    &#x2F;&#x2F;jwt token参数设置
+    o.TokenValidationParameters &#x3D; new TokenValidationParameters
     &#123;
-        NameClaimType = JwtClaimTypes.Name,
-        RoleClaimType = JwtClaimTypes.Role,
-        //token颁发机构
-        ValidIssuer = jwtSettings.Issuer,
-        //颁发给谁
-        ValidAudience = jwtSettings.Audience,
-        //这里的key要加密
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
+        NameClaimType &#x3D; JwtClaimTypes.Name,
+        RoleClaimType &#x3D; JwtClaimTypes.Role,
+        &#x2F;&#x2F;token颁发机构
+        ValidIssuer &#x3D; jwtSettings.Issuer,
+        &#x2F;&#x2F;颁发给谁
+        ValidAudience &#x3D; jwtSettings.Audience,
+        &#x2F;&#x2F;这里的key要加密
+        IssuerSigningKey &#x3D; new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
     &#125;;
-&#125;);
-</code></pre>
-</li>
+&#125;);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p>Configure 配置认证中间件</p>
-<pre><code class="c#">app.UseAuthentication();//认证中间件
-</code></pre>
-</li>
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">app.UseAuthentication();&#x2F;&#x2F;认证中间件<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>创建登录用实体类，也可以直接使用 Identity Server 的，这里图个方便</p>
-<pre><code class="c#">public class LoginInput
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">public class LoginInput
 &#123;
 
     public string Username &#123; get; set; &#125;
 
     public string Password &#123; get; set; &#125;
-&#125;
-</code></pre>
-</li>
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p>创建一个UserService类用于验证用户凭据和返回JWT令牌</p>
 <p>文件的顶部包含一个定义用户服务的接口，下面是实现该接口的具体用户服务类。</p>
 <p>身份验证成功后，该<code>Authenticate()</code>方法将使用<code>JwtSecurityTokenHandler</code>该类生成JWT（JSON Web令牌），该类将生成使用存储在<code>appsettings.json</code>中的密钥进行数字签名的令牌。</p>
@@ -424,102 +418,96 @@ services.AddAuthentication(option =&gt;
 <li><strong>iat</strong>: jwt的签发时间</li>
 <li><strong>jti</strong>: jwt的唯一身份标识，主要用来作为一次性token,从而回避重放攻击。</li>
 </ul>
-<pre><code class="c#"> public interface IUserService
-    &#123;
-        Task&lt;AuthenticateResponse&gt; Authenticate(LoginDto model);
-    &#125;
-
-    public class UserService : IUserService
-    &#123;
-        private readonly UserManager&lt;IdentityUser&gt; _userManager;
-
-        public JwtSettings _JwtSettings &#123; get; &#125;
-
-        public UserService(UserManager&lt;IdentityUser&gt; userManager, IOptions&lt;JwtSettings&gt; jwtSettings)
-        &#123;
-            this._userManager = userManager;
-            this._JwtSettings = jwtSettings.Value;
-        &#125;
-
-        /// &lt;summary&gt;
-        /// 进行身份验证
-        /// &lt;/summary&gt;
-        /// &lt;param name=&quot;model&quot;&gt;LoginDto模型&lt;/param&gt;
-        /// &lt;returns&gt;AuthenticateResponse&lt;/returns&gt;
-        public async Task&lt;AuthenticateResponse&gt; Authenticate(LoginDto model)
-        &#123;
-            var user = await _userManager.FindByNameAsync(model.UserName);
-
-            // 没用用户或密码错误返回null
-            if (user == null &amp;&amp; !await _userManager.CheckPasswordAsync(user, model.Password)) return null;
-
-            // 验证成功 生成jwt令牌
-            var token = generateJwtToken(user);
-
-            return new AuthenticateResponse(user, token);
-        &#125;
-
-        //获取Jwt Token
-        private string generateJwtToken(IdentityUser user)
-        &#123;
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var tokenDescriptor = new SecurityTokenDescriptor
-            &#123;
-                Subject = new ClaimsIdentity(new[] &#123;
-                    new Claim(JwtClaimTypes.Audience, _JwtSettings.Audience),
-                    new Claim(JwtClaimTypes.Issuer, _JwtSettings.Issuer),
-                    new Claim(JwtClaimTypes.Name, user.UserName),
-                    new Claim(&quot;id&quot;, user.Id.ToString())
-                &#125;),
-                Expires = DateTime.UtcNow.AddDays(1),//有效日期
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_JwtSettings.SecretKey)), SecurityAlgorithms.HmacSha256Signature)
-            &#125;;
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
-        &#125;
-    &#125;
-</code></pre>
-</li>
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">public interface IUserService
+   &#123;
+       Task&lt;AuthenticateResponse&gt; Authenticate(LoginDto model);
+   &#125;
+   
+   public class UserService : IUserService
+   &#123;
+       private readonly UserManager&lt;IdentityUser&gt; _userManager;
+   
+       public JwtSettings _JwtSettings &#123; get; &#125;
+   
+       public UserService(UserManager&lt;IdentityUser&gt; userManager, IOptions&lt;JwtSettings&gt; jwtSettings)
+       &#123;
+           this._userManager &#x3D; userManager;
+           this._JwtSettings &#x3D; jwtSettings.Value;
+       &#125;
+   
+       &#x2F;&#x2F;&#x2F; &lt;summary&gt;
+       &#x2F;&#x2F;&#x2F; 进行身份验证
+       &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;
+       &#x2F;&#x2F;&#x2F; &lt;param name&#x3D;&quot;model&quot;&gt;LoginDto模型&lt;&#x2F;param&gt;
+       &#x2F;&#x2F;&#x2F; &lt;returns&gt;AuthenticateResponse&lt;&#x2F;returns&gt;
+       public async Task&lt;AuthenticateResponse&gt; Authenticate(LoginDto model)
+       &#123;
+           var user &#x3D; await _userManager.FindByNameAsync(model.UserName);
+   
+           &#x2F;&#x2F; 没用用户或密码错误返回null
+           if (user &#x3D;&#x3D; null &amp;&amp; !await _userManager.CheckPasswordAsync(user, model.Password)) return null;
+   
+           &#x2F;&#x2F; 验证成功 生成jwt令牌
+           var token &#x3D; generateJwtToken(user);
+   
+           return new AuthenticateResponse(user, token);
+       &#125;
+   
+       &#x2F;&#x2F;获取Jwt Token
+       private string generateJwtToken(IdentityUser user)
+       &#123;
+           var tokenHandler &#x3D; new JwtSecurityTokenHandler();
+           var tokenDescriptor &#x3D; new SecurityTokenDescriptor
+           &#123;
+               Subject &#x3D; new ClaimsIdentity(new[] &#123;
+                   new Claim(JwtClaimTypes.Audience, _JwtSettings.Audience),
+                   new Claim(JwtClaimTypes.Issuer, _JwtSettings.Issuer),
+                   new Claim(JwtClaimTypes.Name, user.UserName),
+                   new Claim(&quot;id&quot;, user.Id.ToString())
+               &#125;),
+               Expires &#x3D; DateTime.UtcNow.AddDays(1),&#x2F;&#x2F;有效日期
+               SigningCredentials &#x3D; new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_JwtSettings.SecretKey)), SecurityAlgorithms.HmacSha256Signature)
+           &#125;;
+           var token &#x3D; tokenHandler.CreateToken(tokenDescriptor);
+           return tokenHandler.WriteToken(token);
+       &#125;
+   &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p>添加登录控制器</p>
-<pre><code class="c#">    [Route(&quot;api/[controller]&quot;)]
-    [ApiController]
-    public class UserController : ControllerBase
+<pre class="line-numbers language-c#" data-language="c#"><code class="language-c#">[Route(&quot;api&#x2F;[controller]&quot;)]
+[ApiController]
+public class UserController : ControllerBase
+&#123;
+    private readonly IUserService userService;
+   
+    public UserController(IUserService userService)
     &#123;
-        private readonly IUserService userService;
-
-        public UserController(IUserService userService)
-        &#123;
-            this.userService = userService;
-        &#125;
-        
-        /// &lt;summary&gt; 
-        /// 实现用户登录 post: /api/user/Login/model
-        /// &lt;/summary&gt;
-        /// &lt;param name=&quot;model&quot;&gt;LoginInput&lt;/param&gt;
-        /// &lt;returns&gt;&lt;/returns&gt;
-        [HttpPost]
-        [Route(&quot;Login&quot;)]
-        [AllowAnonymous]
-        public async Task&lt;IActionResult&gt; Login(LoginInput model)
-        &#123;
-            var response = await userService.Authenticate(model);
-
-            if (response == null)
-                return BadRequest(new &#123; message = &quot;用户名或密码错误&quot; &#125;);
-
-            return Ok(response);
-        &#125;
+        this.userService &#x3D; userService;
     &#125;
-</code></pre>
-</li>
+    
+    &#x2F;&#x2F;&#x2F; &lt;summary&gt; 
+    &#x2F;&#x2F;&#x2F; 实现用户登录 post: &#x2F;api&#x2F;user&#x2F;Login&#x2F;model
+    &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;
+    &#x2F;&#x2F;&#x2F; &lt;param name&#x3D;&quot;model&quot;&gt;LoginInput&lt;&#x2F;param&gt;
+    &#x2F;&#x2F;&#x2F; &lt;returns&gt;&lt;&#x2F;returns&gt;
+    [HttpPost]
+    [Route(&quot;Login&quot;)]
+    [AllowAnonymous]
+    public async Task&lt;IActionResult&gt; Login(LoginInput model)
+    &#123;
+        var response &#x3D; await userService.Authenticate(model);
+   
+        if (response &#x3D;&#x3D; null)
+            return BadRequest(new &#123; message &#x3D; &quot;用户名或密码错误&quot; &#125;);
+   
+        return Ok(response);
+    &#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p>appsettings.json</p>
-<pre><code class="json">  &quot;JwtSettings&quot;: &#123;
-    &quot;Issuer&quot;: &quot;https://localhost:44336&quot;,
-    &quot;Audience&quot;: &quot;https://localhost:44336&quot;,
-    &quot;SecretKey&quot;: &quot;Hello-key----------&quot;//注意 必须达到16位
-  &#125;
-</code></pre>
-</li>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token property">"JwtSettings"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+  <span class="token property">"Issuer"</span><span class="token operator">:</span> <span class="token string">"https://localhost:44336"</span><span class="token punctuation">,</span>
+  <span class="token property">"Audience"</span><span class="token operator">:</span> <span class="token string">"https://localhost:44336"</span><span class="token punctuation">,</span>
+  <span class="token property">"SecretKey"</span><span class="token operator">:</span> <span class="token string">"Hello-key----------"</span><span class="token comment">//注意 必须达到16位</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 </ol>
 
   </div>
@@ -668,27 +656,6 @@ services.AddAuthentication(option =&gt;
   </div>
   <div class="categories-list">
     
-      <a href="/categories/Java/">
-        <div class="categories-list-item">
-          Java
-          <span class="categories-list-item-badge">12</span>
-        </div>
-      </a>
-    
-      <a href="/categories/SpringBoot/">
-        <div class="categories-list-item">
-          SpringBoot
-          <span class="categories-list-item-badge">16</span>
-        </div>
-      </a>
-    
-      <a href="/categories/WPF/">
-        <div class="categories-list-item">
-          WPF
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
       <a href="/categories/Docker/">
         <div class="categories-list-item">
           Docker
@@ -710,44 +677,23 @@ services.AddAuthentication(option =&gt;
         </div>
       </a>
     
-      <a href="/categories/%E6%8E%92%E5%BA%8F/">
+      <a href="/categories/HBase/">
         <div class="categories-list-item">
-          排序
+          HBase
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
-      <a href="/categories/Redis/">
+      <a href="/categories/Java/">
         <div class="categories-list-item">
-          Redis
-          <span class="categories-list-item-badge">6</span>
-        </div>
-      </a>
-    
-      <a href="/categories/COS/">
-        <div class="categories-list-item">
-          COS
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Spring/">
-        <div class="categories-list-item">
-          Spring
-          <span class="categories-list-item-badge">1</span>
+          Java
+          <span class="categories-list-item-badge">12</span>
         </div>
       </a>
     
       <a href="/categories/IText/">
         <div class="categories-list-item">
           IText
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/GateWay/">
-        <div class="categories-list-item">
-          GateWay
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -759,16 +705,51 @@ services.AddAuthentication(option =&gt;
         </div>
       </a>
     
-      <a href="/categories/Netty/">
+      <a href="/categories/Log4j/">
         <div class="categories-list-item">
-          Netty
+          Log4j
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
-      <a href="/categories/Log4j/">
+      <a href="/categories/Redis/">
         <div class="categories-list-item">
-          Log4j
+          Redis
+          <span class="categories-list-item-badge">6</span>
+        </div>
+      </a>
+    
+      <a href="/categories/SpringBoot/">
+        <div class="categories-list-item">
+          SpringBoot
+          <span class="categories-list-item-badge">16</span>
+        </div>
+      </a>
+    
+      <a href="/categories/GateWay/">
+        <div class="categories-list-item">
+          GateWay
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/WPF/">
+        <div class="categories-list-item">
+          WPF
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E6%8E%92%E5%BA%8F/">
+        <div class="categories-list-item">
+          排序
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/COS/">
+        <div class="categories-list-item">
+          COS
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -780,9 +761,16 @@ services.AddAuthentication(option =&gt;
         </div>
       </a>
     
-      <a href="/categories/HBase/">
+      <a href="/categories/Spring/">
         <div class="categories-list-item">
-          HBase
+          Spring
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Netty/">
+        <div class="categories-list-item">
+          Netty
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -808,15 +796,15 @@ services.AddAuthentication(option =&gt;
       </a>
     
       <a 
-        href="/tags/Java/" 
-        title="Java">
-        <div class="tags-list-item">Java</div>
-      </a>
-    
-      <a 
         href="/tags/Spring/" 
         title="Spring">
         <div class="tags-list-item">Spring</div>
+      </a>
+    
+      <a 
+        href="/tags/Java/" 
+        title="Java">
+        <div class="tags-list-item">Java</div>
       </a>
     
       <a 
@@ -856,33 +844,9 @@ services.AddAuthentication(option =&gt;
       </a>
     
       <a 
-        href="/tags/HBase/" 
-        title="HBase">
-        <div class="tags-list-item">HBase</div>
-      </a>
-    
-      <a 
-        href="/tags/Jackson/" 
-        title="Jackson">
-        <div class="tags-list-item">Jackson</div>
-      </a>
-    
-      <a 
-        href="/tags/snowflake/" 
-        title="snowflake">
-        <div class="tags-list-item">snowflake</div>
-      </a>
-    
-      <a 
-        href="/tags/algorithm/" 
-        title="algorithm">
-        <div class="tags-list-item">algorithm</div>
-      </a>
-    
-      <a 
-        href="/tags/Log4j/" 
-        title="Log4j">
-        <div class="tags-list-item">Log4j</div>
+        href="/tags/Jvm/" 
+        title="Jvm">
+        <div class="tags-list-item">Jvm</div>
       </a>
     
       <a 
@@ -895,6 +859,30 @@ services.AddAuthentication(option =&gt;
         href="/tags/Netty/" 
         title="Netty">
         <div class="tags-list-item">Netty</div>
+      </a>
+    
+      <a 
+        href="/tags/NIO/" 
+        title="NIO">
+        <div class="tags-list-item">NIO</div>
+      </a>
+    
+      <a 
+        href="/tags/SpringSecurity/" 
+        title="SpringSecurity">
+        <div class="tags-list-item">SpringSecurity</div>
+      </a>
+    
+      <a 
+        href="/tags/Kafka/" 
+        title="Kafka">
+        <div class="tags-list-item">Kafka</div>
+      </a>
+    
+      <a 
+        href="/tags/IOC/" 
+        title="IOC">
+        <div class="tags-list-item">IOC</div>
       </a>
     
   </div>

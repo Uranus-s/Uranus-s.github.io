@@ -349,16 +349,12 @@
     class="post-content">
     <h2 id="Bitmaps"><a href="#Bitmaps" class="headerlink" title="Bitmaps"></a>Bitmaps</h2><ul>
 <li><p>获取指定 key 对应偏移量上的 bit 值</p>
-<pre><code class="shell">getbit key offset
-</code></pre>
-</li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">getbit key offset<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>设置指定 key 对应偏移量上的 bit 值，value 只能说 0 或 1</p>
-<pre><code class="shell">setbit ket offset value
-</code></pre>
-</li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">setbit ket offset value<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>对指定 key 按位进行交、并、非、异或操作，并将结果保存到 destKet 中</p>
-<pre><code class="shell">bitop op destKet key1 [key2...]
-</code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">bitop op destKet key1 [key2...]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
 <ul>
 <li><p>and:交</p>
 </li>
@@ -371,9 +367,7 @@
 </ul>
 </li>
 <li><p>统计指定 ket 中 1 的数量</p>
-<pre><code class="shell">bitcount key [start end]
-</code></pre>
-</li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">bitcount key [start end]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 </ul>
 <h2 id="HyperLogLog"><a href="#HyperLogLog" class="headerlink" title="HyperLogLog"></a>HyperLogLog</h2><p>用于进行基数统计，不是集合，不保存数据，只记录数量而不是具体数据</p>
 <p>核心是基数估计算法，最终数据存在一定误差</p>
@@ -383,43 +377,25 @@
 <p>pfmerge 命令合并后占用储存空间为 12K，无论合并之前数据量是多少</p>
 <ul>
 <li><p>添加数据</p>
-<pre><code class="shell">pfadd ket  element [element...]
-</code></pre>
-</li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">pfadd ket  element [element...]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>统计数据</p>
-<pre><code class="shell">pfcount ket [key...]
-</code></pre>
-</li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">pfcount ket [key...]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>合并数据</p>
-<pre><code class="shell">pfmerge destkey sourcekey [sourcekey...]
-</code></pre>
-</li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">pfmerge destkey sourcekey [sourcekey...]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 </ul>
 <h2 id="GEO"><a href="#GEO" class="headerlink" title="GEO"></a>GEO</h2><ul>
 <li><p>添加坐标点</p>
-<pre><code class="shell">geoadd key longitude latitude member [longitude latitude member ...]
-</code></pre>
-</li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">geoadd key longitude latitude member [longitude latitude member ...]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>获取坐标点</p>
-<pre><code class="shell">geopos key member [member ...]
-</code></pre>
-</li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">geopos key member [member ...]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>计算坐标点距离</p>
-<pre><code class="shell">geodist key member1 member2 [unit]
-</code></pre>
-</li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">geodist key member1 member2 [unit]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>根据坐标求范围内的数据</p>
-<pre><code class="shell">georadius ket longitude latitude radius m|km|ft|mi [withdist] [withhash] [withhash] [count count]
-</code></pre>
-</li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">georadius ket longitude latitude radius m|km|ft|mi [withdist] [withhash] [withhash] [count count]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>根据点求范围内的数据</p>
-<pre><code class="shell">georadiusbymember key member radius m|km|ft|mi [withdist] [withhash] [withhash] [count count]
-</code></pre>
-</li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">georadiusbymember key member radius m|km|ft|mi [withdist] [withhash] [withhash] [count count]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>获取指定点对应的坐标 hash 值</p>
-<pre><code class="shel">geohash key member [member ...]
-</code></pre>
-</li>
+<pre class="line-numbers language-shel" data-language="shel"><code class="language-shel">geohash key member [member ...]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 </ul>
 
   </div>
@@ -568,27 +544,6 @@
   </div>
   <div class="categories-list">
     
-      <a href="/categories/Java/">
-        <div class="categories-list-item">
-          Java
-          <span class="categories-list-item-badge">12</span>
-        </div>
-      </a>
-    
-      <a href="/categories/SpringBoot/">
-        <div class="categories-list-item">
-          SpringBoot
-          <span class="categories-list-item-badge">16</span>
-        </div>
-      </a>
-    
-      <a href="/categories/WPF/">
-        <div class="categories-list-item">
-          WPF
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
       <a href="/categories/Docker/">
         <div class="categories-list-item">
           Docker
@@ -610,44 +565,23 @@
         </div>
       </a>
     
-      <a href="/categories/%E6%8E%92%E5%BA%8F/">
+      <a href="/categories/HBase/">
         <div class="categories-list-item">
-          排序
+          HBase
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
-      <a href="/categories/Redis/">
+      <a href="/categories/Java/">
         <div class="categories-list-item">
-          Redis
-          <span class="categories-list-item-badge">6</span>
-        </div>
-      </a>
-    
-      <a href="/categories/COS/">
-        <div class="categories-list-item">
-          COS
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Spring/">
-        <div class="categories-list-item">
-          Spring
-          <span class="categories-list-item-badge">1</span>
+          Java
+          <span class="categories-list-item-badge">12</span>
         </div>
       </a>
     
       <a href="/categories/IText/">
         <div class="categories-list-item">
           IText
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/GateWay/">
-        <div class="categories-list-item">
-          GateWay
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -659,16 +593,51 @@
         </div>
       </a>
     
-      <a href="/categories/Netty/">
+      <a href="/categories/Log4j/">
         <div class="categories-list-item">
-          Netty
+          Log4j
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
-      <a href="/categories/Log4j/">
+      <a href="/categories/Redis/">
         <div class="categories-list-item">
-          Log4j
+          Redis
+          <span class="categories-list-item-badge">6</span>
+        </div>
+      </a>
+    
+      <a href="/categories/SpringBoot/">
+        <div class="categories-list-item">
+          SpringBoot
+          <span class="categories-list-item-badge">16</span>
+        </div>
+      </a>
+    
+      <a href="/categories/GateWay/">
+        <div class="categories-list-item">
+          GateWay
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/WPF/">
+        <div class="categories-list-item">
+          WPF
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E6%8E%92%E5%BA%8F/">
+        <div class="categories-list-item">
+          排序
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/COS/">
+        <div class="categories-list-item">
+          COS
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -680,9 +649,16 @@
         </div>
       </a>
     
-      <a href="/categories/HBase/">
+      <a href="/categories/Spring/">
         <div class="categories-list-item">
-          HBase
+          Spring
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Netty/">
+        <div class="categories-list-item">
+          Netty
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -708,15 +684,15 @@
       </a>
     
       <a 
-        href="/tags/Java/" 
-        title="Java">
-        <div class="tags-list-item">Java</div>
-      </a>
-    
-      <a 
         href="/tags/Spring/" 
         title="Spring">
         <div class="tags-list-item">Spring</div>
+      </a>
+    
+      <a 
+        href="/tags/Java/" 
+        title="Java">
+        <div class="tags-list-item">Java</div>
       </a>
     
       <a 
@@ -756,33 +732,9 @@
       </a>
     
       <a 
-        href="/tags/HBase/" 
-        title="HBase">
-        <div class="tags-list-item">HBase</div>
-      </a>
-    
-      <a 
-        href="/tags/Jackson/" 
-        title="Jackson">
-        <div class="tags-list-item">Jackson</div>
-      </a>
-    
-      <a 
-        href="/tags/snowflake/" 
-        title="snowflake">
-        <div class="tags-list-item">snowflake</div>
-      </a>
-    
-      <a 
-        href="/tags/algorithm/" 
-        title="algorithm">
-        <div class="tags-list-item">algorithm</div>
-      </a>
-    
-      <a 
-        href="/tags/Log4j/" 
-        title="Log4j">
-        <div class="tags-list-item">Log4j</div>
+        href="/tags/Jvm/" 
+        title="Jvm">
+        <div class="tags-list-item">Jvm</div>
       </a>
     
       <a 
@@ -795,6 +747,30 @@
         href="/tags/Netty/" 
         title="Netty">
         <div class="tags-list-item">Netty</div>
+      </a>
+    
+      <a 
+        href="/tags/NIO/" 
+        title="NIO">
+        <div class="tags-list-item">NIO</div>
+      </a>
+    
+      <a 
+        href="/tags/SpringSecurity/" 
+        title="SpringSecurity">
+        <div class="tags-list-item">SpringSecurity</div>
+      </a>
+    
+      <a 
+        href="/tags/Kafka/" 
+        title="Kafka">
+        <div class="tags-list-item">Kafka</div>
+      </a>
+    
+      <a 
+        href="/tags/IOC/" 
+        title="IOC">
+        <div class="tags-list-item">IOC</div>
       </a>
     
   </div>
