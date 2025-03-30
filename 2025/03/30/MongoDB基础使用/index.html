@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="Gas">
+  <link 
+    rel="icon" 
+    href="/img/Kaze.png">
+  <title>MongoDB基础使用</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="MongoDB基础使用">
+    
+    
+      <meta 
+        property="og:url" 
+        content="http://example.com/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="/img/Kaze.png">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2025-03-30">
+      <meta 
+        property="og:article:modified_time" 
+        content="2025-03-30">
+      <meta 
+        property="og:article:author" 
+        content="Gas">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="MongoDB">
+        
+      
+    
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+      
+      
+      
+      
+        
+        
+        
+        <script>
+          function prismThemeChange() {
+            if(document.getElementById('theme-color').dataset.mode === 'dark') {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism-tomorrow.min.css', '[data-prism]', 'prism-tomorrow');
+              } else {
+                loadCSS('/js/lib/prism/prism-tomorrow.min.css', 'prism', 'prism-tomorrow');
+              }
+            } else {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism-okaidia.min.css', '[data-prism]', 'prism-okaidia');
+              } else {
+                loadCSS('/js/lib/prism/prism-okaidia.min.css', 'prism', 'prism-okaidia');
+              }
+            }
+          }
+          prismThemeChange()
+        </script>
+      
+      
+        
+        <link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+      
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+        prismThemeChange();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_2818401_duebq0kmk47.css">
+  
+    <link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+        <img 
+          class="navbar-logo-img" 
+          src="/img/Kaze.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">Gas</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/" 
+        class="navbar-menu-item">
+        
+          首页
+        
+      </a>
+    
+      <a 
+        href="/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+      <a 
+        href="/links" 
+        class="navbar-menu-item">
+        
+          友链
+        
+      </a>
+    
+    <a 
+      class="navbar-menu-item darknavbar" 
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </a>
+    <a 
+      class="navbar-menu-item searchnavbar" 
+      id="search">
+      <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i>
+    </a>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      MongoDB基础使用
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2025-03-30T10:18:14.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2025-03-30</span>
+    </time>
+    
+      <span class="dot"></span>
+      
+        <a 
+          href="/categories/MongoDB/" 
+          class="post-meta-link">
+          MongoDB
+        </a>
+      
+    
+    
+      <span class="dot"></span>
+      <span>1.4k 字</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/tags/MongoDB/" 
+            class="post-meta-link">
+            MongoDB
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h2 id="MongoDB基础使用"><a href="#MongoDB基础使用" class="headerlink" title="MongoDB基础使用"></a>MongoDB基础使用</h2><h3 id="什么是MongoDB"><a href="#什么是MongoDB" class="headerlink" title="什么是MongoDB"></a>什么是MongoDB</h3><p>MongoDB是一个NoSQL的<strong>非关系型</strong>数据库，支持海量数据存储，高性能读写。</p>
+<p>在使用过程中，需要搞清楚MongoDB的体系结构：</p>
+<ol>
+<li><p>Mongo中的<strong>集合</strong>相当于MySQL中的<strong>表</strong></p>
+</li>
+<li><p>Mongo中的<strong>文档</strong>相当于MySQL中的<strong>行</strong></p>
+</li>
+<li><p>Mongo中的<strong>域</strong>相当于MySQL中的<strong>字段/列</strong></p>
+</li>
+</ol>
+<h5 id="Mongo与MySQL、Redis对比："><a href="#Mongo与MySQL、Redis对比：" class="headerlink" title="Mongo与MySQL、Redis对比："></a>Mongo与MySQL、Redis对比：</h5><table>
+<thead>
+<tr>
+<th>特性/维度</th>
+<th>MySQL</th>
+<th>MongoDB</th>
+<th>Redis</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数据模型</td>
+<td>关系型数据库，使用预定义的表、行、列；数据模式固定</td>
+<td>文档型数据库，采用 BSON/JSON 格式，模式灵活，无需事先定义 Schema</td>
+<td>键值型数据库，支持字符串、哈希、列表、集合、有序集合等多种数据结构</td>
+</tr>
+<tr>
+<td>存储方式</td>
+<td>数据存储在硬盘上，依赖索引与缓存优化查询</td>
+<td>结合内存映射与磁盘存储，常将热点数据加载到内存中；支持分片和副本集</td>
+<td>数据主要存储在内存中，通过 RDB/AOF 方式实现持久化，适合高速读写</td>
+</tr>
+<tr>
+<td>性能与扩展性</td>
+<td>性能稳定，复杂查询表现优异，但水平扩展较为复杂</td>
+<td>高扩展性，适合大数据量场景，支持自动分片，能快速响应热点数据</td>
+<td>响应速度极快，适合高并发场景；扩展依赖内存容量，支持集群分片管理</td>
+</tr>
+<tr>
+<td>事务与数据一致性</td>
+<td>完整支持 ACID 事务，保证强一致性</td>
+<td>近期开始支持多文档事务，但跨分片时可能采用最终一致性模型</td>
+<td>仅支持简单事务（MULTI/EXEC），不支持回滚，主要用于缓存及非关键场景</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>适用于结构化数据存储、复杂关联查询及对数据一致性要求较高的系统（如金融、ERP）</td>
+<td>适用于非结构化或半结构化数据、大数据量、内容管理和日志存储等互联网应用</td>
+<td>适用于缓存、会话管理、排行榜、消息队列和实时数据处理等对速度要求极高的场景</td>
+</tr>
+</tbody></table>
+<h3 id="Docker安装MongoDB"><a href="#Docker安装MongoDB" class="headerlink" title="Docker安装MongoDB"></a>Docker安装MongoDB</h3><ol>
+<li><p>拉去镜像</p>
+<pre class="line-numbers language-docker" data-language="docker"><code class="language-docker">docker pull mongo<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<li><p>创建容器</p>
+<pre class="line-numbers language-docker" data-language="docker"><code class="language-docker">docker run --restart=always --name mongo \
+-p 27017:27017 \
+-e TZ=Asia/Shanghai \
+-v /data/mongo/data:/data/db \
+-v /data/mongo/log:/data/log \
+--privileged=true \
+-e MONGO_INITDB_ROOT_USERNAME=mongo \
+-e MONGO_INITDB_ROOT_PASSWORD=mongo \
+-d mongo<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ol>
+<p>PS：<code>MONGO_INITDB_ROOT_USERNAME</code>和<code>MONGO_INITDB_ROOT_PASSWORD</code>是初始的用户名密码</p>
+<ol start="3">
+<li>连接MongoDB连接MongoDB除了可以用官网提供的GUI工具，还可以使用VsCode插件进行连接，在VsCode插件库中搜索<code>MongoDB for VS Code</code>安装，然后输入连接地址即可。如果你选择使用VsCode连接Mongo，你可以使用JavaScript的形式来操作数据库，但是无法直接使用Shell，还是需要下载MongoSh</li>
+</ol>
+<h3 id="MongoDB基础使用-1"><a href="#MongoDB基础使用-1" class="headerlink" title="MongoDB基础使用"></a>MongoDB基础使用</h3><pre class="line-numbers language-mongodb" data-language="mongodb"><code class="language-mongodb"><span class="token operator">--</span>查看当前数据库
+show databases
+show dbs<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-mongodb" data-language="mongodb"><code class="language-mongodb"><span class="token operator">--</span>切换数据库
+use 数据库名<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>PS：<code>use</code>可以使用一个并不存在的数据库，这是MongoDB的特点，当插入数据时，如果数据库不存在，会自动创建</p>
+<pre class="line-numbers language-mongodb" data-language="mongodb"><code class="language-mongodb"><span class="token operator">--</span>插入数据
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">insertOne</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">name</span><span class="token operator">:</span> <span class="token string">"laoyang"</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">insertOne</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">name</span><span class="token operator">:</span> <span class="token string">"zhangsan"</span><span class="token punctuation">,</span> <span class="token property">age</span><span class="token operator">:</span> <span class="token number">18</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">insertMany</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">&#123;</span><span class="token property">name</span><span class="token operator">:</span> <span class="token string">"lisi"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token punctuation">&#123;</span><span class="token property">name</span><span class="token operator">:</span> <span class="token string">"wangwu"</span><span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img  srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/2025-03-30-11-12-14-image.png" class="lozad post-image"src="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/2025-03-30-11-12-14-image.png"></p>
+<p><img  srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/2025-03-30-11-19-10-image.png" class="lozad post-image"src="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/2025-03-30-11-19-10-image.png"></p>
+<p><code>acknowledged</code>表述是否插入成功</p>
+<p><code>insertedId</code>数据全局唯一ID</p>
+<p>插入的数据字段<strong>不一定</strong>要相同符合</p>
+<pre class="line-numbers language-mongodb" data-language="mongodb"><code class="language-mongodb"><span class="token operator">--</span>查寻全部数据
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token operator">--</span>只查询一条数据
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">limit</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+
+<span class="token operator">--</span>查询条件，查询level为<span class="token number">3</span>的数据，这里要注意level为数字，如果你传入字符串则查询失败
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">level</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token operator">--</span>设置返回字段，查询时只返回name和email，如果设置为<span class="token number">0</span> 则不返回字段
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">level</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token punctuation">&#123;</span><span class="token property">name</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token property">email</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token operator">--</span>查询level大于<span class="token number">3</span>的数据
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">level</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property"><span class="token keyword">$gt</span></span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token operator">--</span>类似于Sql中的<span class="token keyword">in</span>
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">level</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property"><span class="token keyword">$in</span></span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token operator">--</span>查询存在email字段的数据，也可以传入<span class="token number">1</span>表示<span class="token boolean">true</span> <span class="token number">0</span>表示<span class="token boolean">false</span>
+<span class="token operator">--</span><span class="token property">注意</span><span class="token operator">:</span>$exists只能判断字段是否存在，不能用于字段中的值是否存在
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">email</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property"><span class="token keyword">$exists</span></span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token operator">--</span>查询level大于等于<span class="token number">3</span>和小于等于<span class="token number">5</span>的数据，Sql中的And，两个语句同样的效果
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">level</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property"><span class="token keyword">$gte</span></span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token property"><span class="token keyword">$lte</span></span><span class="token operator">:</span> <span class="token number">5</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property"><span class="token keyword">$and</span></span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">&#123;</span><span class="token property">level</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property"><span class="token keyword">$gte</span></span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token punctuation">&#123;</span><span class="token property">level</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property"><span class="token keyword">$lte</span></span><span class="token operator">:</span> <span class="token number">5</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token operator">--</span>类似于Sql中的or
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property"><span class="token keyword">$or</span></span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">&#123;</span><span class="token property">level</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property"><span class="token keyword">$gte</span></span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token punctuation">&#123;</span><span class="token property">level</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property"><span class="token keyword">$lte</span></span><span class="token operator">:</span> <span class="token number">5</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token operator">--</span>查询level不为<span class="token number">3</span>的数据
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">level</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property"><span class="token keyword">$not</span></span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property"><span class="token keyword">$eq</span></span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token operator">--</span>用正则表达式查询，带<span class="token string">'张'</span>的数据，$options表述忽略大小写
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">name</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property"><span class="token keyword">$regex</span></span><span class="token operator">:</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">张</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">name</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property"><span class="token keyword">$regex</span></span><span class="token operator">:</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">张</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">,</span> <span class="token property">$options</span><span class="token operator">:</span> <span class="token string">'i'</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token operator">--</span>查询第一条数据
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">findOne</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">level</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property"><span class="token keyword">$gte</span></span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token operator">--</span>查询排序，根据level字段排序，<span class="token number">1</span>是升序，<span class="token operator">-</span><span class="token number">1</span>是降序
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">level</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">level</span><span class="token operator">:</span> <span class="token number">1</span><span class="token property">，name</span><span class="token operator">:</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token operator">--</span>skip用于跳过数据，跳过了第一条
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">level</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">skip</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img  srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/2025-03-30-11-14-32-image.png" class="lozad post-image"src="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/2025-03-30-11-14-32-image.png"></p>
+<pre class="line-numbers language-mongodb" data-language="mongodb"><code class="language-mongodb"><span class="token operator">--</span>更新level为<span class="token number">1</span>的第一条数据，如果money不存在，则直接插入
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">updateOne</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">level</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token property"><span class="token keyword">$set</span></span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span><span class="token property">money</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token operator">--</span>更新多条数据
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">updateMany</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">level</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token property"><span class="token keyword">$set</span></span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span><span class="token property">money</span><span class="token operator">:</span> <span class="token number">100</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img  srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/2025-03-30-12-05-55-image.png" class="lozad post-image"src="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/2025-03-30-12-05-55-image.png"></p>
+<pre class="line-numbers language-mongodb" data-language="mongodb"><code class="language-mongodb"><span class="token operator">--</span>删除level为<span class="token number">1</span>的第一条数据
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">deleteOne</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">level</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token operator">--</span>删除level为<span class="token number">1</span>的多条数据
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">deleteMany</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">level</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img  srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/2025-03-30-15-00-55-image.png" class="lozad post-image"src="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/2025-03-30-15-00-55-image.png"></p>
+<h5 id="聚合"><a href="#聚合" class="headerlink" title="聚合"></a>聚合</h5><pre class="line-numbers language-mongodb" data-language="mongodb"><code class="language-mongodb"><span class="token operator">--</span>查询users表的数据行数，里面参数和find类似
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">countDocuments</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">countDocuments</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">level</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property"><span class="token keyword">$gte</span></span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p><img  srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/2025-03-30-12-02-04-image.png" class="lozad post-image"src="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/2025-03-30-12-02-04-image.png"></p>
+<h5 id="常见查询条件"><a href="#常见查询条件" class="headerlink" title="常见查询条件"></a>常见查询条件</h5><table>
+<thead>
+<tr>
+<th>中文</th>
+<th align="center">符号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>小于</td>
+<td align="center">$lt</td>
+</tr>
+<tr>
+<td>大于</td>
+<td align="center">$gt</td>
+</tr>
+<tr>
+<td>小于或等于</td>
+<td align="center">$lte</td>
+</tr>
+<tr>
+<td>大于或等于</td>
+<td align="center">$gte</td>
+</tr>
+<tr>
+<td>不等于</td>
+<td align="center">$ne</td>
+</tr>
+</tbody></table>
+
+  </div>
+  <div>
+    
+      <div 
+        class="post-note note-warning copyright" 
+        style="margin-top: 42px">
+        <p>
+          <span style="font-weight: bold;">作者：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="/about">
+            Gas
+          </a>
+        </p>
+        <p>
+          <span style="font-weight: bold;">文章链接：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="http://example.com/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/">
+            http://example.com/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/
+          </a>
+        </p>
+        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+      </div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/2023/05/28/YOLO-PyTorch-CUDN%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">下一篇</div>
+          
+            <div class="nav-title">YOLO PyTorch CUDN环境安装 </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">MongoDB基础使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFMongoDB"><span class="toc-number">1.1.</span> <span class="toc-text">什么是MongoDB</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Mongo%E4%B8%8EMySQL%E3%80%81Redis%E5%AF%B9%E6%AF%94%EF%BC%9A"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">Mongo与MySQL、Redis对比：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E5%AE%89%E8%A3%85MongoDB"><span class="toc-number">1.2.</span> <span class="toc-text">Docker安装MongoDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8-1"><span class="toc-number">1.3.</span> <span class="toc-text">MongoDB基础使用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%81%9A%E5%90%88"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">聚合</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">常见查询条件</span></a></li></ol></li></ol></li></ol></li></ol>
+</div></main>
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="/img/Kaze.png" 
+    class="author-img" 
+    alt="author avatar">
+
+<p class="author-name">Gas</p>
+<p class="author-description">想当画家的咸鱼罢了</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/archives">
+    <span>55</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/categories">
+    <span>19</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/tags">
+    <span>50</span>
+    <span>标签</span>
+  </a>
+</div>
+
+  <div class="author-card-society">
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://github.com/Uranus-s">
+          <i class="iconfont social_github icon-github society-icon"></i>
+        </a>
+      </div>
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://gitee.com/L-sama">
+          <i class="iconfont social_github icon-gitee2 society-icon"></i>
+        </a>
+      </div>
+    
+  </div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">MongoDB基础使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFMongoDB"><span class="toc-number">1.1.</span> <span class="toc-text">什么是MongoDB</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Mongo%E4%B8%8EMySQL%E3%80%81Redis%E5%AF%B9%E6%AF%94%EF%BC%9A"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">Mongo与MySQL、Redis对比：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E5%AE%89%E8%A3%85MongoDB"><span class="toc-number">1.2.</span> <span class="toc-text">Docker安装MongoDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8-1"><span class="toc-number">1.3.</span> <span class="toc-text">MongoDB基础使用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%81%9A%E5%90%88"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">聚合</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">常见查询条件</span></a></li></ol></li></ol></li></ol></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+      <a href="/categories/Docker/">
+        <div class="categories-list-item">
+          Docker
+          <span class="categories-list-item-badge">3</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Net/">
+        <div class="categories-list-item">
+          Net
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/HBase/">
+        <div class="categories-list-item">
+          HBase
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/DotNetCore/">
+        <div class="categories-list-item">
+          DotNetCore
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Java/">
+        <div class="categories-list-item">
+          Java
+          <span class="categories-list-item-badge">12</span>
+        </div>
+      </a>
+    
+      <a href="/categories/IText/">
+        <div class="categories-list-item">
+          IText
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Jenkins/">
+        <div class="categories-list-item">
+          Jenkins
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Log4j/">
+        <div class="categories-list-item">
+          Log4j
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/MongoDB/">
+        <div class="categories-list-item">
+          MongoDB
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Netty/">
+        <div class="categories-list-item">
+          Netty
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Redis/">
+        <div class="categories-list-item">
+          Redis
+          <span class="categories-list-item-badge">6</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Spring/">
+        <div class="categories-list-item">
+          Spring
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/SpringBoot/">
+        <div class="categories-list-item">
+          SpringBoot
+          <span class="categories-list-item-badge">16</span>
+        </div>
+      </a>
+    
+      <a href="/categories/GateWay/">
+        <div class="categories-list-item">
+          GateWay
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/WPF/">
+        <div class="categories-list-item">
+          WPF
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Python/">
+        <div class="categories-list-item">
+          Python
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E6%8E%92%E5%BA%8F/">
+        <div class="categories-list-item">
+          排序
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/COS/">
+        <div class="categories-list-item">
+          COS
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/algorithm/">
+        <div class="categories-list-item">
+          algorithm
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/tags/SpringBoot/" 
+        title="SpringBoot">
+        <div class="tags-list-item">SpringBoot</div>
+      </a>
+    
+      <a 
+        href="/tags/Spring/" 
+        title="Spring">
+        <div class="tags-list-item">Spring</div>
+      </a>
+    
+      <a 
+        href="/tags/Java/" 
+        title="Java">
+        <div class="tags-list-item">Java</div>
+      </a>
+    
+      <a 
+        href="/tags/Redis/" 
+        title="Redis">
+        <div class="tags-list-item">Redis</div>
+      </a>
+    
+      <a 
+        href="/tags/Docker/" 
+        title="Docker">
+        <div class="tags-list-item">Docker</div>
+      </a>
+    
+      <a 
+        href="/tags/DotNetCore/" 
+        title="DotNetCore">
+        <div class="tags-list-item">DotNetCore</div>
+      </a>
+    
+      <a 
+        href="/tags/IDEA/" 
+        title="IDEA">
+        <div class="tags-list-item">IDEA</div>
+      </a>
+    
+      <a 
+        href="/tags/Maven/" 
+        title="Maven">
+        <div class="tags-list-item">Maven</div>
+      </a>
+    
+      <a 
+        href="/tags/RabbitMQ/" 
+        title="RabbitMQ">
+        <div class="tags-list-item">RabbitMQ</div>
+      </a>
+    
+      <a 
+        href="/tags/snowflake/" 
+        title="snowflake">
+        <div class="tags-list-item">snowflake</div>
+      </a>
+    
+      <a 
+        href="/tags/algorithm/" 
+        title="algorithm">
+        <div class="tags-list-item">algorithm</div>
+      </a>
+    
+      <a 
+        href="/tags/COS/" 
+        title="COS">
+        <div class="tags-list-item">COS</div>
+      </a>
+    
+      <a 
+        href="/tags/Vue/" 
+        title="Vue">
+        <div class="tags-list-item">Vue</div>
+      </a>
+    
+      <a 
+        href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" 
+        title="腾讯云">
+        <div class="tags-list-item">腾讯云</div>
+      </a>
+    
+      <a 
+        href="/tags/HTML/" 
+        title="HTML">
+        <div class="tags-list-item">HTML</div>
+      </a>
+    
+      <a 
+        href="/tags/Jvm/" 
+        title="Jvm">
+        <div class="tags-list-item">Jvm</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">MongoDB基础使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFMongoDB"><span class="toc-number">1.1.</span> <span class="toc-text">什么是MongoDB</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Mongo%E4%B8%8EMySQL%E3%80%81Redis%E5%AF%B9%E6%AF%94%EF%BC%9A"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">Mongo与MySQL、Redis对比：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E5%AE%89%E8%A3%85MongoDB"><span class="toc-number">1.2.</span> <span class="toc-text">Docker安装MongoDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8-1"><span class="toc-number">1.3.</span> <span class="toc-text">MongoDB基础使用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%81%9A%E5%90%88"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">聚合</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">常见查询条件</span></a></li></ol></li></ol></li></ol></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2025-03-30</div>
+        <a href="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/"><div class="recent-posts-item-content">MongoDB基础使用</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-05-28</div>
+        <a href="/2023/05/28/YOLO-PyTorch-CUDN%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/"><div class="recent-posts-item-content">YOLO PyTorch CUDN环境安装</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-12-20</div>
+        <a href="/2022/12/20/HBase%E5%88%9D%E8%AF%86/"><div class="recent-posts-item-content">HBase初识</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-10-30</div>
+        <a href="/2022/10/30/Java%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E5%8C%96/"><div class="recent-posts-item-content">Java时间格式化</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2020 -
+          
+          2025
+        </span>
+        &nbsp;
+        <a 
+          href="/" 
+          class="footer-link">
+          Gas
+        </a>
+      </div>
+    </div>
+
+    
+      <div class="footer-dsc">
+        
+          Powered by
+          <a 
+            href="https://hexo.io/" 
+            class="footer-link" 
+            target="_blank" 
+            rel="nofollow noopener noreferrer">
+            &nbsp;Hexo
+          </a>
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          Theme -
+          <a 
+            href="https://github.com/theme-kaze" 
+            class="footer-link" 
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            &nbsp;Kaze
+          </a>
+        
+      </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer> 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton" 
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/js/main.js"></script> 
+    
+      <script> 
+        loadScript('/js/lib/busuanzi.min.js') 
+      </script>
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/js/lib/lozad.min.js', addLazyload)
+      </script>
+     
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>
