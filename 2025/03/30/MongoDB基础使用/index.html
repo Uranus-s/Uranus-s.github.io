@@ -33,7 +33,7 @@
     
       <meta 
         property="og:img" 
-        content="/img/Kaze.png">
+        content="IMG_6357.JPG">
     
     
     
@@ -45,7 +45,7 @@
         content="2025-03-30">
       <meta 
         property="og:article:modified_time" 
-        content="2025-03-30">
+        content="2025-06-07">
       <meta 
         property="og:article:author" 
         content="Gas">
@@ -294,6 +294,15 @@
         <div class="container">
           <div class="columns">
             <main class="main-column">
+  <div class="image-wrapper">
+    <img 
+      src="IMG_6357.JPG" 
+      data-src="IMG_6357.JPG"
+      srcset="data:image/svg+xml,%3Csvg%20xmlns=&#39;http://www.w3.org/2000/svg&#39;%20viewBox=&#39;0%200%20300%20300&#39;%3E%3C/svg%3E"
+      class="image lozad"
+      alt="MongoDB基础使用 thumbnail">
+  </div>
+
 <article class="card card-content">
   <header>
     <h1 class="post-title">
@@ -320,7 +329,7 @@
     
     
       <span class="dot"></span>
-      <span>1.4k 字</span>
+      <span>7k 字</span>
     
   </div>
   
@@ -357,7 +366,7 @@
 <li><p>Mongo中的<strong>域</strong>相当于MySQL中的<strong>字段/列</strong></p>
 </li>
 </ol>
-<h5 id="Mongo与MySQL、Redis对比："><a href="#Mongo与MySQL、Redis对比：" class="headerlink" title="Mongo与MySQL、Redis对比："></a>Mongo与MySQL、Redis对比：</h5><table>
+<h4 id="Mongo与MySQL、Redis对比："><a href="#Mongo与MySQL、Redis对比：" class="headerlink" title="Mongo与MySQL、Redis对比："></a>Mongo与MySQL、Redis对比：</h4><table>
 <thead>
 <tr>
 <th>特性/维度</th>
@@ -494,12 +503,12 @@ db<span class="token punctuation">.</span>users<span class="token punctuation">.
 db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">deleteMany</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">level</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p><img  srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/2025-03-30-15-00-55-image.png" class="lozad post-image"src="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/2025-03-30-15-00-55-image.png"></p>
-<h5 id="聚合"><a href="#聚合" class="headerlink" title="聚合"></a>聚合</h5><pre class="line-numbers language-mongodb" data-language="mongodb"><code class="language-mongodb"><span class="token operator">--</span>查询users表的数据行数，里面参数和find类似
+<h4 id="聚合"><a href="#聚合" class="headerlink" title="聚合"></a>聚合</h4><pre class="line-numbers language-mongodb" data-language="mongodb"><code class="language-mongodb"><span class="token operator">--</span>查询users表的数据行数，里面参数和find类似
 db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">countDocuments</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 db<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">countDocuments</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">level</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property"><span class="token keyword">$gte</span></span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <p><img  srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/2025-03-30-12-02-04-image.png" class="lozad post-image"src="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/2025-03-30-12-02-04-image.png"></p>
-<h5 id="常见查询条件"><a href="#常见查询条件" class="headerlink" title="常见查询条件"></a>常见查询条件</h5><table>
+<h4 id="常见查询条件"><a href="#常见查询条件" class="headerlink" title="常见查询条件"></a>常见查询条件</h4><table>
 <thead>
 <tr>
 <th>中文</th>
@@ -527,6 +536,659 @@ db<span class="token punctuation">.</span>users<span class="token punctuation">.
 <td align="center">$ne</td>
 </tr>
 </tbody></table>
+<h2 id="MongoDB数据备份"><a href="#MongoDB数据备份" class="headerlink" title="MongoDB数据备份"></a>MongoDB数据备份</h2><p>MongoDB提供了4个命令行工具给我们进行数据库备份与恢复以及导入导出数据</p>
+<p>备份与恢复的数据文件格式是bson格式，二进制文件，不需要进入mongo终端</p>
+<p>导入与导出的数据文件格式是json格式，文本文档，不需要进入mongo终端</p>
+<pre class="line-numbers language-mongodb" data-language="mongodb"><code class="language-mongodb"><span class="token operator">--</span>备份数据库
+mongodump <span class="token operator">-</span>h dbhost <span class="token operator">-</span>d dbname <span class="token operator">-</span>o uri
+mongodump <span class="token operator">-</span>h <span class="token number">127.0</span><span class="token number">.0</span><span class="token number">.1</span><span class="token operator">:</span><span class="token number">27017</span> <span class="token operator">-</span>d user_table <span class="token operator">-</span>o <span class="token operator">/</span>home<span class="token operator">/</span>desk
+
+<span class="token operator">--</span>恢复数据库 <span class="token operator">--</span>drop表示删库再恢复 不保留已有数据
+mongorestore <span class="token operator">-</span>h dbhost <span class="token operator">-</span>d dbname <span class="token operator">--</span>dir uri <span class="token operator">--</span>drop
+mongorestore <span class="token operator">-</span>h <span class="token number">127.0</span><span class="token number">.0</span><span class="token number">.1</span><span class="token operator">:</span><span class="token number">27017</span> <span class="token operator">-</span>d user_table <span class="token operator">--</span>dir <span class="token operator">/</span>home<span class="token operator">/</span>desk <span class="token operator">--</span>drop<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-mongodb" data-language="mongodb"><code class="language-mongodb"><span class="token operator">--</span>导出数据
+mongoexport <span class="token operator">-</span>h dbhost <span class="token operator">-</span>d dbname <span class="token operator">-</span>c collectionname <span class="token operator">-</span>o file <span class="token operator">--</span>type json<span class="token operator">/</span>csv <span class="token operator">-</span>f field
+mongoexport <span class="token operator">-</span>h <span class="token number">127.0</span><span class="token number">.0</span><span class="token number">.1</span><span class="token operator">:</span><span class="token number">27017</span> <span class="token operator">-</span>d test <span class="token operator">-</span>c user <span class="token operator">-</span>o <span class="token operator">/</span>home<span class="token operator">/</span>desk<span class="token operator">/</span>user<span class="token punctuation">.</span>json <span class="token operator">--</span>type json
+
+<span class="token operator">--</span>导入数据
+mongoimport <span class="token operator">-</span>h dbhost <span class="token operator">-</span>d dbname <span class="token operator">-</span>c collectionname <span class="token operator">--</span>file filename <span class="token operator">--</span>type json<span class="token operator">/</span>csv <span class="token operator">--</span>headerline <span class="token operator">-</span>f field<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>作用</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-h</td>
+<td>服务端地址</td>
+<td>–host=address –port=port</td>
+</tr>
+<tr>
+<td>-d</td>
+<td>数据库名称</td>
+<td>–db=数据库名称</td>
+</tr>
+<tr>
+<td>-c</td>
+<td>集合名称</td>
+<td>–collection=集合名称</td>
+</tr>
+<tr>
+<td>-o</td>
+<td>保存文件名称</td>
+<td></td>
+</tr>
+<tr>
+<td>-f</td>
+<td>导出字段列表</td>
+<td></td>
+</tr>
+<tr>
+<td>–type</td>
+<td>导出文件格式</td>
+<td>默认json，当为csv时，需要加上-f ‘字段1,字段2…’</td>
+</tr>
+</tbody></table>
+<h2 id="MongoDB用户管理"><a href="#MongoDB用户管理" class="headerlink" title="MongoDB用户管理"></a>MongoDB用户管理</h2><pre class="line-numbers language-mongodb" data-language="mongodb"><code class="language-mongodb">db<span class="token punctuation">.</span><span class="token function">createUser</span><span class="token punctuation">(</span>user<span class="token punctuation">,</span>pwd<span class="token punctuation">,</span>writeConcem<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>创建一个用户用<code>db.createUser</code>，如果用户存在会返回错误</p>
+<pre class="line-numbers language-mongodb" data-language="mongodb"><code class="language-mongodb">db<span class="token punctuation">.</span><span class="token function">createUser</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token property">user</span><span class="token operator">:</span> <span class="token string">'&lt;用户名>'</span><span class="token punctuation">,</span>
+    <span class="token property">pwd</span><span class="token operator">:</span> <span class="token string">'&lt;密码>'</span><span class="token punctuation">,</span>
+    <span class="token property">customData</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span><span class="token property">'xxx'</span><span class="token operator">:</span><span class="token string">'xxx'</span><span class="token punctuation">,</span><span class="token string">'yyy‘:'</span>yyy'<span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token comment">//任意用户描述</span>
+    <span class="token property">roles</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">&#123;</span><span class="token property">role</span><span class="token operator">:</span> <span class="token string">'&lt;角色名>'</span><span class="token punctuation">,</span><span class="token property">db</span><span class="token operator">:</span><span class="token string">'&lt;数据库名>'</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token comment">//    </span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>PS:</p>
+<p>MongoDB的用户是以数据库为单位分别划分管理的，每个数据库有自己的管理员</p>
+<p>管理员只可以管理自己的数据库</p>
+</blockquote>
+<blockquote>
+<p>内置角色：</p>
+<p>数据库用户角色：read，readWrite</p>
+<p>数库管理角色：dbAdmin，dbOwner，userAdmin</p>
+<p>集群管理角色：clusterAdmin，clusterManager，clusterMonitor，hostManager</p>
+<p>备份恢复角色：backup，restore</p>
+<p>所有数据库角色：readAnyDatabase，readWriteAnyDatabase，userAdminAnyDatabase，dbAdminAnyDatabase</p>
+<p>超级用户角色：root</p>
+</blockquote>
+<blockquote>
+<p>Read：允许用户读取指定数据库<br>readWrite：允许用户读写指定数据库<br>dbAdmin：允许用户在指定数据库中执行管理函数，如索引创建、删除，查看统计或访问system.profile</p>
+<p>userAdmin：允许用户向system.users集合写入，可以找指定数据库里创建、删除和管理用户</p>
+<p>clusterAdmin：只在admin数据库中可用，赋予用户所有分片和复制集相关函数的管理权限</p>
+<p>readAnyDatabase:只在admin数据库中可用，赋予用户所有数据库的读权限</p>
+<p>readWriteAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的读写权限</p>
+<p>userAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的userAdmin权限</p>
+<p>dbAdminAnyDatabase：只在admin数据库中可用，赋予用户所有数据库的dbAdmin权限</p>
+<p>root：只在admin数据库中可用。超级账号，摊有超级权限</p>
+</blockquote>
+<pre class="line-numbers language-mongodb" data-language="mongodb"><code class="language-mongodb"><span class="token operator">--</span>查看当前数据库下用户
+use dataName
+show users
+
+<span class="token operator">--</span>查看所有用户
+use admin
+<span class="token comment">//db.auth('root','123456')//如果开启了访问控制，需要验证才能操作</span>
+db<span class="token punctuation">.</span>system<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment">//只能在admin数据库中使用</span>
+db<span class="token punctuation">.</span>system<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">pretty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment">//5.0之前的版本用这个</span>
+
+<span class="token operator">--</span>删除用户
+db<span class="token punctuation">.</span>system<span class="token punctuation">.</span>users<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token property">user</span><span class="token operator">:</span><span class="token string">'test'</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+
+<span class="token operator">--</span>修改密码
+db<span class="token punctuation">.</span><span class="token function">changeUserPassword</span><span class="token punctuation">(</span><span class="token string">'账户名称'</span><span class="token punctuation">,</span><span class="token string">'新密码'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="MongoDB索引"><a href="#MongoDB索引" class="headerlink" title="MongoDB索引"></a>MongoDB索引</h2><p>MongoDB的索引是存储在运行内存(RAM)中的，必须确保索引大小不超过内存限制，如果超过内存限制，会自动删除部分索引，这涉及到MongoDB的驱逐机制</p>
+<p>同样，MongoDB的索引在部分查询条件下不生效：</p>
+<ul>
+<li><p>正则表达式及非操作符，如<code>$nin</code>，<code>$not</code>等</p>
+</li>
+<li><p>算数运算符，如<code>$mod</code>等</p>
+</li>
+<li><p><code>$where</code>自定义查询函数</p>
+</li>
+<li><p>……</p>
+</li>
+</ul>
+<p>如果项目是写多读少，建议少量使用或者不使用缓存，因为索引会在写入时重排</p>
+<p>使用索引注意事项：</p>
+<ol>
+<li><p>一个集合中索引数量不能超过64个</p>
+</li>
+<li><p>索引名称不能超过126个字符</p>
+</li>
+<li><p>复合索引最多有31个字段</p>
+</li>
+<li><p>索引会在<code>system.index</code>集合中管理，这个集合只能通过<code>createIndex</code>和<code>dropIndexes</code>操作</p>
+</li>
+</ol>
+<pre class="line-numbers language-mongodb" data-language="mongodb"><code class="language-mongodb"><span class="token operator">--</span>获取当前集合中已创建的所有集合信息
+db<span class="token punctuation">.</span>集合<span class="token punctuation">.</span><span class="token function">getIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token operator">--</span>获取当前集合中已创建集合的索引总大小（<span class="token constant">KB</span>）
+db<span class="token punctuation">.</span>集合<span class="token punctuation">.</span><span class="token function">totalIndexSize</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token operator">--</span>获取当前数据库中所有的索引
+db<span class="token punctuation">.</span>system<span class="token punctuation">.</span>indexes<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>MongoDB在插入文档会默认生成<code>_id</code>字段索引</p>
+<h3 id="查询分析"><a href="#查询分析" class="headerlink" title="查询分析"></a>查询分析</h3><p>与SQL类似，MongoDB提供了一个explan，供开发者进行分析</p>
+<p><code>explain</code>的使用有3个参数，分别为<code>queryPlanner</code>，<code>executionStats</code>，<code>allPlansExecution</code>，默认是<code>queryPlanner</code>，开发中常用<code>executionStats</code></p>
+<pre class="line-numbers language-mongodb" data-language="mongodb"><code class="language-mongodb">db<span class="token punctuation">.</span>orders<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token string">'title'</span><span class="token punctuation">,</span><span class="token string">'愉快-6'</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">explain</span><span class="token punctuation">(</span><span class="token string">'executionStats'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>executionStats.stage扫描类型</p>
+<table>
+<thead>
+<tr>
+<th>类型名称</th>
+<th>描述</th>
+<th>期望</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>COLLSCAN</td>
+<td>全表扫描</td>
+<td>False</td>
+</tr>
+<tr>
+<td>IXSCAN</td>
+<td>索引扫描</td>
+<td>True</td>
+</tr>
+<tr>
+<td>FETCH</td>
+<td>根据索引检索指定document</td>
+<td>True</td>
+</tr>
+<tr>
+<td>IDHACK</td>
+<td>针对_id进行查询</td>
+<td>True</td>
+</tr>
+<tr>
+<td>COUNTSCAN</td>
+<td>count不使用Index进行count时返回</td>
+<td>False</td>
+</tr>
+<tr>
+<td>COUNT_SCAN</td>
+<td>count使用了Index进行count时返回</td>
+<td>True</td>
+</tr>
+<tr>
+<td>SUBPLA</td>
+<td>未使用到索引的<code>$or</code>查询时返回</td>
+<td>False</td>
+</tr>
+<tr>
+<td>TEST</td>
+<td>使用全文索引进行查询时返回</td>
+<td>-</td>
+</tr>
+<tr>
+<td>SORT</td>
+<td>使用sort排序但是无index时返回</td>
+<td>False</td>
+</tr>
+<tr>
+<td>SKIP</td>
+<td>使用skip跳过但是无index时返回</td>
+<td>False</td>
+</tr>
+<tr>
+<td>PROJECTION</td>
+<td>使用limit限定结果但是无index时返回</td>
+<td>False</td>
+</tr>
+</tbody></table>
+<h3 id="索引创建"><a href="#索引创建" class="headerlink" title="索引创建"></a>索引创建</h3><p>MongoDB支持多种类型的索引，<code>普通索引</code>，<code>符合索引</code>，<code>多列索引</code>，<code>全文索引</code>，<code>哈希索引</code>，<code>地理位置索引</code>等，支持不同场合，还有一种<code>TTL索引</code>，是在普通索引基础上加了过期时间，但字段类型必须为<code>Date</code>，到期删除数据，全文索引在MongoDB中很不好用，建议使用<code>ES</code>或者<code>Sphinx</code></p>
+<pre class="line-numbers language-mongodb" data-language="mongodb"><code class="language-mongodb"><span class="token operator">--</span>创建索引
+db<span class="token punctuation">.</span>集合<span class="token punctuation">.</span><span class="token function">createIndex</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">//单个字段，则为普通索引，sort表示排序，1升序2降序</span>
+    <span class="token property">"字段名1"</span><span class="token operator">:</span><span class="token operator">&lt;</span>sort<span class="token operator">|</span>type<span class="token operator">></span><span class="token punctuation">,</span><span class="token comment">//type为text则为全文索引，</span>
+    <span class="token property">"字段名2"</span><span class="token operator">:</span><span class="token operator">&lt;</span>sort<span class="token operator">|</span>type<span class="token operator">></span><span class="token punctuation">,</span><span class="token comment">//多个字段为复合索引</span>
+    <span class="token property">"字段名3"</span><span class="token operator">:</span><span class="token punctuation">[</span><span class="token operator">&lt;</span>值<span class="token number">1</span><span class="token operator">></span><span class="token punctuation">,</span><span class="token operator">&lt;</span>值<span class="token number">2</span><span class="token operator">></span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token comment">//多列索引</span>
+    <span class="token operator">...</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">,</span><span class="token punctuation">&#123;</span>
+    <span class="token property">background</span><span class="token operator">:</span> <span class="token operator">&lt;</span>Boolean<span class="token operator">></span><span class="token punctuation">,</span><span class="token comment">//建立索引会阻塞数据库其他操作，可以指定是否异步，默认False</span>
+    <span class="token property">unique</span><span class="token operator">:</span><span class="token operator">&lt;</span>Boolean<span class="token operator">></span><span class="token punctuation">,</span><span class="token comment">//是否建立唯一索引，默认False</span>
+    <span class="token property">name</span><span class="token operator">:</span><span class="token operator">&lt;</span>String<span class="token operator">></span><span class="token punctuation">,</span><span class="token comment">//索引名称</span>
+    <span class="token property">expireAfterSeconds</span><span class="token operator">:</span><span class="token operator">&lt;</span>integer<span class="token operator">></span><span class="token punctuation">,</span><span class="token comment">//过期时间，TTL索引</span>
+    <span class="token property">sparse</span><span class="token operator">:</span><span class="token operator">&lt;</span>Boolean<span class="token operator">></span><span class="token comment">//对文档中不存在的字段数据是否启用索引，默认False</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="MongoDB进阶"><a href="#MongoDB进阶" class="headerlink" title="MongoDB进阶"></a>MongoDB进阶</h2><blockquote>
+<p>MongoDB集群有三种模式，<strong>主从模式</strong>，<strong>副本集模式</strong>、<strong>sharding分片集模式</strong>。</p>
+<p><u>官网不推荐上生产环境上部署主从模式，主要是安全性太低。</u>副本集和sharding分片集模式目前使用的最广的方案，通常这2种方案的选择通过数据量和并发数来权衡。</p>
+<p>在GB级别的基本上副本集方案可满足，TB级别或以上采用sharding分片集模式，分片集模式可以解决单机容量和单机并发能力。这两种既有自己的优势也有自己的缺点，比如sharding分片集模式分片越多，性能自然下降越多</p>
+</blockquote>
+<h3 id="副本集"><a href="#副本集" class="headerlink" title="副本集"></a><a target="_blank" rel="noopener" href="https://www.mongodb.com/zh-cn/docs/manual/replication/">副本集</a></h3><blockquote>
+<p>副本集也叫复制集，本质上来说就是一种具有监控能力的主从模式，类似redis中的哨兵主从模式。</p>
+<p>一组MongoDB复制集，就是一组MongoDB进程，这些进程维护同一个数据集合。复制集提供了数据冗余和高等级的可靠性，这是生产部署的基础。说白了，就是高级主从，它可以保证数据在生产部署时的兄余和可靠性，通过在不同的机器上保存副本来保证数据的不会因为单点损坏而丢失。能够随时应对数据丢失、机器损坏带来的风险</p>
+</blockquote>
+<h4 id="副本集基本架构"><a href="#副本集基本架构" class="headerlink" title="副本集基本架构"></a>副本集基本架构</h4><ul>
+<li><p>副本集：一组副本集就是一组MongDB实例组成的集群，由一个主（Primary）服务器和多个备份（Secondary）服务器构成</p>
+</li>
+<li><p>主节点（Primary）：主节点接受所有<strong>写入操作</strong>，对其数据集所做的所有更改记录到oplog日志</p>
+</li>
+<li><p>副节点（Secondary）：复制主节点的oplog日志并将其操作应用到其数据集，如果主节点不可用，一个合格的副节点将被<strong>选举</strong>为新的主节点</p>
+</li>
+<li><p>仲裁节点（Arbiter）：负责选举，当主节点不可用，它将从副节点选一个作为主节点</p>
+</li>
+</ul>
+<p>副本集的基本架构又3台服务器组成，有两种模式组成：</p>
+<ol>
+<li><p>三成员的复制集，有3个主从节点（1主2从）</p>
+</li>
+<li><p>两成员的复制集，有2个主从节点，一个仲裁节点（1主1从1仲裁）</p>
+</li>
+</ol>
+<p>如果没有仲裁节点，从节点也会自行选举，仲裁节点只会进行投票选举，本身不会成为主库或从库</p>
+<h4 id="Primary选举"><a href="#Primary选举" class="headerlink" title="Primary选举"></a>Primary选举</h4><p>复制集通过<code>replsetlnitiate</code>命令(或<code>mongo shell</code>的<code>rs.initiate()</code>)进行初始化，初始化后各个成员间开始发送心跳消息，并发起Priamry选举操作，获得【【多数（总服务器-仲裁节点/2&gt;50%）】成员投票支持的节点，会成为Primary主节点，其余节点成为Secondary</p>
+<p><strong>【大多数】的定义</strong><br>假设复制集内投票成员数量为N，则大多数为 N/2+1，当复制集内存活成员数量不足大多数时，整个复制集将无法选举出复制集将无法提供写服务，外于只读状态。</p>
+<p>通常建议将复制集的数量设置为<strong>奇数</strong></p>
+<h4 id="Docker-Compose搭建MongoDB复制集"><a href="#Docker-Compose搭建MongoDB复制集" class="headerlink" title="Docker-Compose搭建MongoDB复制集"></a>Docker-Compose搭建MongoDB复制集</h4><blockquote>
+<p>MongoDB使用keyFile认证，副本集中的每个MongoDB实例使用keyFile内容作为认证其他成员的共享密码。MongoDB实例只有拥有正确的keyFile才可以加入副本集。</p>
+<p>keyFile的内容必须是6到1024个字符的长度，且副本集所有成员的keyFile内容必须相同。</p>
+</blockquote>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">## 生成KeyFile方式
+## 400权限是要保证安全性，否则mongod启动会报错
+openssl rand -base64 756 &gt; mongodb.key
+chmod 400 mongodb.key<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-yml" data-language="yml"><code class="language-yml">version: &quot;3&quot;
+
+services:
+  #主节点
+  mongodb1:
+    image: mongo:6.0.6
+    container_name: mongo1
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME&#x3D;root
+      - MONGO_INITDB_ROOT_PASSWORD&#x3D;mongodb@evescn
+    command: mongod --replSet rs0 --keyFile &#x2F;mongodb.key
+    volumes:
+      - &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;localtime
+      - &#x2F;data&#x2F;mongodb&#x2F;mongo1&#x2F;data:&#x2F;data&#x2F;db
+      - &#x2F;data&#x2F;mongodb&#x2F;mongo1&#x2F;configdb:&#x2F;data&#x2F;configdb
+      - &#x2F;data&#x2F;mongodb&#x2F;mongo1&#x2F;mongodb.key:&#x2F;mongodb.key
+    networks:
+      - mongoNet
+    entrypoint:
+      - bash
+      - -c
+      - |
+        chmod 400 &#x2F;mongodb.key
+        chown 999:999 &#x2F;mongodb.key
+        exec docker-entrypoint.sh       $$@
+  # 副节点
+  mongodb2:
+    image: mongo:6.0.6
+    container_name: mongo2
+    restart: always
+    ports:
+      - 27018:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME&#x3D;root
+      - MONGO_INITDB_ROOT_PASSWORD&#x3D;mongodb@evescn
+    command: mongod --replSet rs0 --keyFile &#x2F;mongodb.key
+    volumes:
+      - &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;localtime
+      - &#x2F;data&#x2F;mongodb&#x2F;mongo2&#x2F;data:&#x2F;data&#x2F;db
+      - &#x2F;data&#x2F;mongodb&#x2F;mongo2&#x2F;configdb:&#x2F;data&#x2F;configdb
+      - &#x2F;data&#x2F;mongodb&#x2F;mongo2&#x2F;mongodb.key:&#x2F;mongodb.key
+    networks:
+      - mongoNet
+    entrypoint:
+      - bash
+      - -c
+      - |
+        chmod 400 &#x2F;mongodb.key
+        chown 999:999 &#x2F;mongodb.key
+        exec docker-entrypoint.sh $$@
+  # 副节点
+  mongodb3:
+    image: mongo:6.0.6
+    container_name: mongo3
+    restart: always
+    ports:
+      - 27019:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME&#x3D;root
+      - MONGO_INITDB_ROOT_PASSWORD&#x3D;mongodb@evescn
+    command: mongod --replSet rs0 --keyFile &#x2F;mongodb.key
+    volumes:
+      - &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;localtime
+      - &#x2F;data&#x2F;mongodb&#x2F;mongo3&#x2F;data:&#x2F;data&#x2F;db
+      - &#x2F;data&#x2F;mongodb&#x2F;mongo3&#x2F;configdb:&#x2F;data&#x2F;configdb
+      - &#x2F;data&#x2F;mongodb&#x2F;mongo3&#x2F;mongodb.key:&#x2F;mongodb.key
+    networks:
+      - mongoNet
+    entrypoint:
+      - bash
+      - -c
+      - |
+        chmod 400 &#x2F;mongodb.key
+        chown 999:999 &#x2F;mongodb.key
+        exec docker-entrypoint.sh $$@
+networks:
+  mongoNet:
+    driver: bridge<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>集群部署</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">mkdir &#x2F;data&#x2F;mongodb&#x2F;mongo&#123;1,2,3&#125;&#x2F;&#123;data,configdb&#125; -pv
+
+## 提供redis.conf配置
+cp mongodb.key &#x2F;data&#x2F;mongodb&#x2F;mongo1&#x2F;
+cp mongodb.key &#x2F;data&#x2F;mongodb&#x2F;mongo2&#x2F;
+cp mongodb.key &#x2F;data&#x2F;mongodb&#x2F;mongo3&#x2F;
+
+docker-compose up -d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>进入主节点初始化集群</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">use admin
+db.auth(&#39;root&#39;, &#39;mongodb@evescn&#39;)
+rs.initiate(&#123;_id:&quot;rs0&quot;,members:[ 
+&#123;_id:0,host:&quot;10.0.0.1:27017&quot;&#125;, 
+&#123;_id:1,host:&quot;10.0.0.1:27018&quot;&#125;, 
+&#123;_id:2,host:&quot;10.0.0.1:27019&quot;&#125;]   
+&#125;)
+## 查看副本集配置
+rs.config();
+## 查看副本集状态
+rs.status();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="分片集"><a href="#分片集" class="headerlink" title="分片集"></a><a target="_blank" rel="noopener" href="https://www.mongodb.com/zh-cn/docs/manual/sharding/">分片集</a></h3><blockquote>
+<p>当数据量比较大的时候(TB级别以上)，我们需要把数据分片保存并运行在不同的服务器中，以降低CPU、内存和IO的压力，分片集(Sharding Set)就是MongoDB用于横向扩容的技术。</p>
+<p>分片是数据跨多台机器存储，MongoDB使用分片来支持具有非常大的数据集和高吞吐量操作的部署。MongoDB分片技术类似MySQL的水平切分和垂直切分，Mongo数据库实现Shardin分片集主要有两种方式:<strong>垂直扩展</strong>/<strong>横向切分</strong>(也叫水平扩展)</p>
+<ol>
+<li><p>垂直扩展的方式就是进行<strong>计算机资源扩容</strong>，添加更多的CPU，内存，磁盘空间等。</p>
+</li>
+<li><p>水平扩展则是通过数据分片的方式<strong>将数据集分布在多个服务器上</strong>，通过集群统一提供服务。</p>
+</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>分片为应对高吞吐量与大数据量提供了方法。使用分片减少了每个分片需要处理的请求数，因此通过水平扩展，集群可以提高自己的存储容量和吞吐量。</p>
+<p>举例来说，当插入一条数据时，项目应用只需要访问存储这条数据的分片.使用分片减少了每个分片存储的数据。</p>
+<p>例如如果数据库1tb的数据集，并有4个分片，然后每个分片可能仅持有256 GB的数据。如果有40个分片，那么每个切分可能只有25GB的数据。</p>
+</blockquote>
+<h4 id="分片机制的优势"><a href="#分片机制的优势" class="headerlink" title="分片机制的优势"></a>分片机制的优势</h4><ol>
+<li><p>对集群进行抽象，让集群“不可见”</p>
+<blockquote>
+<p>MongoDB自带了一个叫做Mongos的专有路由进程。Mongos就是掌握统一路口的路由器，其会将客户端发来的请求准确无误的路由到集群中的一个或者一组服务器上，同时会把接收到的响应拼装起来发回到客户端</p>
+</blockquote>
+</li>
+<li><p>保证集群总是可读写</p>
+<blockquote>
+<p>MongoDB通过多种途径来确保集群的可用性和可靠性。将MongoDB的分片和复制功能结合使用，在确保数据分片到多台服务器的同时，也确保了每分数据都有相应的备份，这样就可以确保有服务器换掉时，其他的从库可以立即接替坏掉的部分继续工作</p>
+</blockquote>
+</li>
+<li><p>使集群易于扩展</p>
+<blockquote>
+<p>当系统需要更多的空间和资源的时候，MongoDB使我们可以按需方便的扩充系统容量</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="分片集群架构"><a href="#分片集群架构" class="headerlink" title="分片集群架构"></a>分片集群架构</h4><table>
+<thead>
+<tr>
+<th>组件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ConfigServer</td>
+<td>配置服务器，是一个 mongod 实例，用于存储整个分片集群的 元数据，包括所有分片节点的信息、数据分片的路由规则、分片配置等关键内容。默认需要部署 3 个 Config Server 节点，以确保高可用性。<br><br>Config Server 中保存的信息包括：<br>• 所有数据的存取方式<br>• 所有 shard 节点的信息<br>• 分片功能的配置细节</td>
+</tr>
+<tr>
+<td>Mongos</td>
+<td>路由服务，负责与客户端进行交互。所有对数据库的操作请求都必须通过 mongos 进行转发。<br><br>• 启动后会从 Config Server 加载最新的元数据<br>• 根据路由规则将请求发送到对应的 shard 节点<br>• 本身不存储数据<br><br>在实际部署中，通常会部署多个 mongos 实例，以提升访问性能与容错能力。</td>
+</tr>
+<tr>
+<td>Mongod</td>
+<td>数据分片中的核心组件，负责实际的数据存储。每个 shard 通常由一个或多个 mongod 实例组成，用于存储具体的业务数据。<br><br>• 数据以 chunk（数据块）为单位进行分片存储<br>• mongod 是唯一持久化数据的组件<br><br>多个 mongod 共同构成了一个完整的分片集群。</td>
+</tr>
+</tbody></table>
+<img src="https://www.mongodb.com/zh-cn/docs/manual/images/sharded-cluster-production-architecture.bakedsvg.svg" title alt="Diagram of a sample sharded cluster for production purposes.  Contains exactly 3 config servers, 2 or more ``mongos`` query routers, and at least 2 shards. The shards are replica sets." data-align="center" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://www.mongodb.com/zh-cn/docs/manual/images/sharded-cluster-production-architecture.bakedsvg.svg" class="lozad post-image">
+
+<p><strong>Mongos的路由功能</strong><br>当客户端连接mongoDB写入数据时，MongoDB Cluster根据<strong>分片键</strong>设计写入数据。<br>当外部语句发起数据查询时，MongoDB根据数据分布自动路由至指定节点返回数据。</p>
+<p><strong>分片集群中的数据分布</strong></p>
+<ol>
+<li><p>使用chunk（数据块）来把数据存储不同的分片（shard）</p>
+</li>
+<li><p>集群搭建完成之后，默认开启一个chunk，大小是64M，chunk的大小容量可以通过配置chunksize修改。</p>
+</li>
+<li><p>存储数据的容量只要超过64M，chunk会进行平均分裂，如果单位时间存储需求很大，设置更大的chunk</p>
+</li>
+<li><p>chunk会被自动均衡迁移到各个Shard分片节点下面</p>
+</li>
+</ol>
+<h5 id="Chunk（数据块）"><a href="#Chunk（数据块）" class="headerlink" title="Chunk（数据块）"></a>Chunk（数据块）</h5><p>在 MongoDB 中，<strong>chunk（数据块）</strong> 是用于分割和管理数据的基本单位，便于系统进行数据的分裂（切割）和迁移（平衡负载）。</p>
+<p>在每个分片节点内部，MongoDB 会将存储的数据划分为多个 chunk，每个 chunk 代表该节点中一部分数据的范围。</p>
+<h6 id="chunk-的两个主要作用："><a href="#chunk-的两个主要作用：" class="headerlink" title="chunk 的两个主要作用："></a>chunk 的两个主要作用：</h6><ol>
+<li><p><strong>分裂（Splitting）：</strong><br>当某个 chunk 的大小超过了配置项 <code>chunkSize</code> 所设定的上限（默认是 128MB），MongoDB 会自动将这个 chunk 拆分成两个或多个更小的 chunk，以防止单个 chunk 过大，影响系统性能和数据迁移效率。</p>
+</li>
+<li><p><strong>迁移（Balancing）：</strong><br>MongoDB 的后台进程 <code>balancer</code> 负责在各个分片之间迁移 chunk，从而实现数据的负载均衡。通过迁移 chunk，可以避免某些分片节点数据过多而其他节点数据过少的情况。</p>
+</li>
+</ol>
+<h5 id="Chunksize的选择"><a href="#Chunksize的选择" class="headerlink" title="Chunksize的选择"></a>Chunksize的选择</h5><p>在 MongoDB 中，<code>chunkSize</code>（分片数据块的大小）默认是 <strong>128MB</strong>（具体值可能随版本略有不同）。如果没有特殊需求，建议保持默认值，或者设置在 <strong>100MB ~ 200MB</strong> 之间。</p>
+<p>设置合适的 <code>chunkSize</code> 对系统性能非常关键，因为它会直接影响 <strong>chunk 的分裂和迁移行为</strong>，而这些操作会消耗大量的 <strong>I/O 资源</strong>。</p>
+<h6 id="chunk-什么时候会分裂？"><a href="#chunk-什么时候会分裂？" class="headerlink" title="chunk 什么时候会分裂？"></a>chunk 什么时候会分裂？</h6><ul>
+<li><p>只有在 <strong>插入或更新数据</strong> 时才会触发分裂。</p>
+</li>
+<li><p><strong>读取数据</strong> 不会触发分裂。</p>
+</li>
+<li><p>chunk <strong>只会分裂，不会合并</strong>。</p>
+</li>
+</ul>
+<h6 id="小-chunkSize-的优缺点："><a href="#小-chunkSize-的优缺点：" class="headerlink" title="小 chunkSize 的优缺点："></a>小 <code>chunkSize</code> 的优缺点：</h6><p><strong>优点：</strong></p>
+<ul>
+<li><p>chunk 更小，数据分布更均匀。</p>
+</li>
+<li><p>迁移更快，灵活性更高。</p>
+</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li><p>分裂频率高，系统资源消耗大（尤其是路由节点的负担）。</p>
+</li>
+<li><p>如果 <code>chunkSize</code> 过小，容易出现 <strong>jumbo chunk</strong> —— 即某个分片键的值非常集中，导致这部分数据无法再继续分裂，从而不能迁移。</p>
+</li>
+</ul>
+<h6 id="大-chunkSize-的优缺点："><a href="#大-chunkSize-的优缺点：" class="headerlink" title="大 chunkSize 的优缺点："></a>大 <code>chunkSize</code> 的优缺点：</h6><p><strong>优点：</strong></p>
+<ul>
+<li>分裂频率低，系统压力较小。</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li><p>迁移速度慢，I/O 消耗集中。</p>
+</li>
+<li><p>chunk 内可能包含大量文档，迁移过程中占用资源较多，甚至可能因为太大而无法迁移。</p>
+</li>
+</ul>
+<h5 id="分片键"><a href="#分片键" class="headerlink" title="分片键"></a>分片键</h5><p>分片键就是集合中的一个字段，MongoDB根据这个字段的值来决定数据该存储到哪个分片。分片键必须满足以下几个条件：</p>
+<ul>
+<li><p><strong>必须是索引字段</strong>（系统会在调用 <code>sh.shardCollection</code> 时自动为分片键创建索引，前提是该索引不存在）。</p>
+</li>
+<li><p><strong>每个文档必须包含分片键</strong>，不能为 null 或缺失。</p>
+</li>
+<li><p><strong>分片键一旦设定就不能修改</strong>。</p>
+</li>
+<li><p><strong>大小不能超过 512 bytes</strong>。</p>
+</li>
+</ul>
+<h6 id="分片方式"><a href="#分片方式" class="headerlink" title="分片方式"></a>分片方式</h6><p>MongoDB 提供两种主要的分片策略：</p>
+<ol>
+<li><p>基于范围的分片（Range Sharding）</p>
+<ul>
+<li><p>将数据按照分片键的<strong>值的范围</strong>进行划分。</p>
+</li>
+<li><p>常用于有序数据，如时间戳、自增ID等。</p>
+</li>
+<li><p><strong>优点</strong>：范围查询效率高，适用于连续数据分析。</p>
+</li>
+<li><p><strong>缺点</strong>：若使用自增字段作为分片键，会导致数据集中写入某一分片，出现写入热点，负载不均。</p>
+</li>
+</ul>
+</li>
+<li><p>基于哈希的分片（Hash Sharding）</p>
+<ul>
+<li><p>MongoDB 对分片键进行哈希计算，然后按哈希值范围划分数据块。</p>
+</li>
+<li><p>哈希后的值是伪随机的，相近分片键的文档通常不会落在同一数据块中。</p>
+</li>
+<li><p><strong>优点</strong>：数据分布更加均匀，有效防止热点分片，提升写入扩展性。</p>
+</li>
+<li><p><strong>缺点</strong>：不适合范围查询，因为哈希打乱了原始顺序，范围查询往往需要<strong>广播到所有分片</strong>后再汇总结果，效率较低。</p>
+</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>范围分片适合有序范围查询但可能有热点问题，哈希分片适合写入密集型应用但牺牲了一部分查询效率，两者可根据业务场景灵活选择。</p>
+</blockquote>
+<h6 id="查询与性能"><a href="#查询与性能" class="headerlink" title="查询与性能"></a>查询与性能</h6><ul>
+<li><p>查询时应尽量包含分片键，以便 <code>mongos</code> 能快速定位目标分片。</p>
+</li>
+<li><p>如果查询条件不包含分片键，<code>mongos</code> 会将请求广播到所有分片，然后合并结果（归并排序），效率较低。</p>
+</li>
+</ul>
+<h6 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h6><ul>
+<li><p>已分片的集合不能插入不包含分片键的文档。</p>
+</li>
+<li><p>不允许插入分片键为 null 或缺失的文档。</p>
+</li>
+<li><p>分片键在集群中起到了路由作用，是性能优化的关键。</p>
+</li>
+</ul>
+<h4 id="Docker-Compose搭建MongoDB分片集"><a href="#Docker-Compose搭建MongoDB分片集" class="headerlink" title="Docker-Compose搭建MongoDB分片集"></a>Docker-Compose搭建MongoDB分片集</h4><p>TODO</p>
+<h2 id="SpringBoot与MongoDB"><a href="#SpringBoot与MongoDB" class="headerlink" title="SpringBoot与MongoDB"></a>SpringBoot与MongoDB</h2><ol>
+<li><p>引入Maven包</p>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-starter-data-mongodb<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>添加YML配置&amp;映射实体类</p>
+<pre class="line-numbers language-yml" data-language="yml"><code class="language-yml">spring:
+  data:
+    mongodb:
+      ## 最好采用这种写法 不然可能有些报错
+      uri: mongodb:&#x2F;&#x2F;root:123456@192.168.0.107:27017&#x2F;game?authSource&#x3D;admin<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//指定实体类和数据库文档的映射关系 默认实体类名  数据库如果没有该文档，会自动创建</span>
+<span class="token annotation punctuation">@Document</span><span class="token punctuation">(</span>value<span class="token operator">=</span><span class="token string">"users"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">GameUser</span> <span class="token punctuation">&#123;</span>
+    <span class="token annotation punctuation">@Id</span>
+    <span class="token keyword">private</span> <span class="token class-name">ObjectId</span> id<span class="token punctuation">;</span> <span class="token comment">//mongoDB推荐使用ID</span>
+    <span class="token comment">//指定属性名和数据库域的映射关系   默认属性名</span>
+    <span class="token annotation punctuation">@Field</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> name<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Field</span><span class="token punctuation">(</span><span class="token string">"age"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">Integer</span> age<span class="token punctuation">;</span>
+    <span class="token annotation punctuation">@Field</span><span class="token punctuation">(</span><span class="token string">"gold"</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">Integer</span> gold<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>基于MongoTemplate增删改查操作</p>
+<blockquote>
+<p>基础的操作方法：</p>
+<p><code>mongoTemplate.findAll(User.class)</code></p>
+<p><code>mongoTemplate.findById(, User.class)</code></p>
+<p><code>mongoTemplate.find(query, User.class)</code></p>
+<p><code>mongoTemplate.upsert(query, update, User.class)</code></p>
+<p><code>mongoTemplate.remove(query, User.class)</code></p>
+<p><code>mongoTemplate.insert(User)</code></p>
+<p><code>mongoTemplate.save(User)</code></p>
+</blockquote>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">import</span> <span class="token namespace">com<span class="token punctuation">.</span>example<span class="token punctuation">.</span>mongostudy<span class="token punctuation">.</span></span><span class="token class-name">Entity<span class="token punctuation">.</span>GameUser</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">org<span class="token punctuation">.</span>junit<span class="token punctuation">.</span>jupiter<span class="token punctuation">.</span>api<span class="token punctuation">.</span></span><span class="token class-name">Test</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>beans<span class="token punctuation">.</span>factory<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span></span><span class="token class-name">Autowired</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>boot<span class="token punctuation">.</span>test<span class="token punctuation">.</span>context<span class="token punctuation">.</span></span><span class="token class-name">SpringBootTest</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>data<span class="token punctuation">.</span>domain<span class="token punctuation">.</span></span><span class="token class-name">Sort</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>data<span class="token punctuation">.</span>mongodb<span class="token punctuation">.</span>core<span class="token punctuation">.</span></span><span class="token class-name">MongoTemplate</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>data<span class="token punctuation">.</span>mongodb<span class="token punctuation">.</span>core<span class="token punctuation">.</span>query<span class="token punctuation">.</span></span><span class="token class-name">Criteria</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>data<span class="token punctuation">.</span>mongodb<span class="token punctuation">.</span>core<span class="token punctuation">.</span>query<span class="token punctuation">.</span></span><span class="token class-name">Query</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>data<span class="token punctuation">.</span>mongodb<span class="token punctuation">.</span>core<span class="token punctuation">.</span>query<span class="token punctuation">.</span></span><span class="token class-name">Update</span><span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> <span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span></span><span class="token class-name">List</span><span class="token punctuation">;</span>
+
+<span class="token annotation punctuation">@SpringBootTest</span>
+<span class="token keyword">class</span> <span class="token class-name">MongoStudyApplicationTests</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token annotation punctuation">@Autowired</span>
+    <span class="token keyword">private</span> <span class="token class-name">MongoTemplate</span> mongoTemplate<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">void</span> <span class="token function">find</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">//设置查询条件 age小于20,且name="laoyang"</span>
+        <span class="token class-name">Criteria</span> criteria <span class="token operator">=</span> <span class="token class-name">Criteria</span><span class="token punctuation">.</span><span class="token function">where</span><span class="token punctuation">(</span><span class="token string">"age"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">lt</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">is</span><span class="token punctuation">(</span><span class="token string">"laoyang"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token class-name">Query</span> query <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Query</span><span class="token punctuation">(</span>criteria<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">GameUser</span><span class="token punctuation">></span></span> userList <span class="token operator">=</span> mongoTemplate<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>query<span class="token punctuation">,</span> <span class="token class-name">GameUser</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        userList<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>user <span class="token operator">-></span> <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">void</span> <span class="token function">pageFind</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token comment">//设置查询条件 age小于20,且person_name="张三"</span>
+        <span class="token class-name">Criteria</span> criteria <span class="token operator">=</span> <span class="token class-name">Criteria</span><span class="token punctuation">.</span><span class="token function">where</span><span class="token punctuation">(</span><span class="token string">"age"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">lt</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">and</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">is</span><span class="token punctuation">(</span><span class="token string">"laoyang"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">//根据条件 查询总数</span>
+        <span class="token class-name">Query</span> queryCount <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Query</span><span class="token punctuation">(</span>criteria<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">long</span> count <span class="token operator">=</span> mongoTemplate<span class="token punctuation">.</span><span class="token function">count</span><span class="token punctuation">(</span>queryCount<span class="token punctuation">,</span> <span class="token class-name">GameUser</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">//查询当前页的数据列表, 查询第二页，每页查询2条</span>
+        <span class="token class-name">Query</span> queryLimit <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Query</span><span class="token punctuation">(</span>criteria<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token keyword">with</span><span class="token punctuation">(</span><span class="token class-name">Sort</span><span class="token punctuation">.</span><span class="token function">by</span><span class="token punctuation">(</span><span class="token class-name">Sort<span class="token punctuation">.</span>Order</span><span class="token punctuation">.</span><span class="token function">desc</span><span class="token punctuation">(</span><span class="token string">"age"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">limit</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token comment">//每页查询条数</span>
+                <span class="token punctuation">.</span><span class="token function">skip</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//从第几页开始 （page-1）*size</span>
+
+        <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">GameUser</span><span class="token punctuation">></span></span> userList <span class="token operator">=</span> mongoTemplate<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span>queryLimit<span class="token punctuation">,</span> <span class="token class-name">GameUser</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        userList<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>user <span class="token operator">-></span> <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">void</span> <span class="token function">save</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">GameUser</span> add <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">GameUser</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        add<span class="token punctuation">.</span><span class="token function">setName</span><span class="token punctuation">(</span><span class="token string">"张三"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        add<span class="token punctuation">.</span><span class="token function">setAge</span><span class="token punctuation">(</span><span class="token number">18</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        mongoTemplate<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>add<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">void</span> <span class="token function">update</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">Criteria</span> criteria <span class="token operator">=</span> <span class="token class-name">Criteria</span><span class="token punctuation">.</span><span class="token function">where</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">is</span><span class="token punctuation">(</span><span class="token string">"张三"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//设置更新条件</span>
+        <span class="token class-name">Query</span> query <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Query</span><span class="token punctuation">(</span>criteria<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//设置更新数据</span>
+        <span class="token class-name">Update</span> update <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Update</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        update<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">"age"</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        mongoTemplate<span class="token punctuation">.</span><span class="token function">upsert</span><span class="token punctuation">(</span>query<span class="token punctuation">,</span> update<span class="token punctuation">,</span> <span class="token class-name">GameUser</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">void</span> <span class="token function">dlete</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        mongoTemplate<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token class-name">Query</span><span class="token punctuation">.</span><span class="token function">query</span><span class="token punctuation">(</span><span class="token class-name">Criteria</span><span class="token punctuation">.</span><span class="token function">where</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">is</span><span class="token punctuation">(</span><span class="token string">"张三"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token class-name">GameUser</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>基于MongoRepository增删改查</p>
+<blockquote>
+<p>这里不展开细讲，需要自己去了解</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>MongoDB副本集部署：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/evescn/p/16203350.html">https://www.cnblogs.com/evescn/p/16203350.html</a></p>
 
   </div>
   <div>
@@ -583,7 +1245,7 @@ db<span class="token punctuation">.</span>users<span class="token punctuation">.
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">MongoDB基础使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFMongoDB"><span class="toc-number">1.1.</span> <span class="toc-text">什么是MongoDB</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Mongo%E4%B8%8EMySQL%E3%80%81Redis%E5%AF%B9%E6%AF%94%EF%BC%9A"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">Mongo与MySQL、Redis对比：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E5%AE%89%E8%A3%85MongoDB"><span class="toc-number">1.2.</span> <span class="toc-text">Docker安装MongoDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8-1"><span class="toc-number">1.3.</span> <span class="toc-text">MongoDB基础使用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%81%9A%E5%90%88"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">聚合</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">常见查询条件</span></a></li></ol></li></ol></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">MongoDB基础使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFMongoDB"><span class="toc-number">1.1.</span> <span class="toc-text">什么是MongoDB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Mongo%E4%B8%8EMySQL%E3%80%81Redis%E5%AF%B9%E6%AF%94%EF%BC%9A"><span class="toc-number">1.1.1.</span> <span class="toc-text">Mongo与MySQL、Redis对比：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E5%AE%89%E8%A3%85MongoDB"><span class="toc-number">1.2.</span> <span class="toc-text">Docker安装MongoDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8-1"><span class="toc-number">1.3.</span> <span class="toc-text">MongoDB基础使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%81%9A%E5%90%88"><span class="toc-number">1.3.1.</span> <span class="toc-text">聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.3.2.</span> <span class="toc-text">常见查询条件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD"><span class="toc-number">2.</span> <span class="toc-text">MongoDB数据备份</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">MongoDB用户管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB%E7%B4%A2%E5%BC%95"><span class="toc-number">4.</span> <span class="toc-text">MongoDB索引</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E5%88%86%E6%9E%90"><span class="toc-number">4.1.</span> <span class="toc-text">查询分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%88%9B%E5%BB%BA"><span class="toc-number">4.2.</span> <span class="toc-text">索引创建</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB%E8%BF%9B%E9%98%B6"><span class="toc-number">5.</span> <span class="toc-text">MongoDB进阶</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%AF%E6%9C%AC%E9%9B%86"><span class="toc-number">5.1.</span> <span class="toc-text">副本集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%AF%E6%9C%AC%E9%9B%86%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84"><span class="toc-number">5.1.1.</span> <span class="toc-text">副本集基本架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Primary%E9%80%89%E4%B8%BE"><span class="toc-number">5.1.2.</span> <span class="toc-text">Primary选举</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-Compose%E6%90%AD%E5%BB%BAMongoDB%E5%A4%8D%E5%88%B6%E9%9B%86"><span class="toc-number">5.1.3.</span> <span class="toc-text">Docker-Compose搭建MongoDB复制集</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%89%87%E9%9B%86"><span class="toc-number">5.2.</span> <span class="toc-text">分片集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E7%89%87%E6%9C%BA%E5%88%B6%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="toc-number">5.2.1.</span> <span class="toc-text">分片机制的优势</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E7%89%87%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84"><span class="toc-number">5.2.2.</span> <span class="toc-text">分片集群架构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Chunk%EF%BC%88%E6%95%B0%E6%8D%AE%E5%9D%97%EF%BC%89"><span class="toc-number">5.2.2.1.</span> <span class="toc-text">Chunk（数据块）</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#chunk-%E7%9A%84%E4%B8%A4%E4%B8%AA%E4%B8%BB%E8%A6%81%E4%BD%9C%E7%94%A8%EF%BC%9A"><span class="toc-number">5.2.2.1.1.</span> <span class="toc-text">chunk 的两个主要作用：</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Chunksize%E7%9A%84%E9%80%89%E6%8B%A9"><span class="toc-number">5.2.2.2.</span> <span class="toc-text">Chunksize的选择</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#chunk-%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BC%9A%E5%88%86%E8%A3%82%EF%BC%9F"><span class="toc-number">5.2.2.2.1.</span> <span class="toc-text">chunk 什么时候会分裂？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%B0%8F-chunkSize-%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%EF%BC%9A"><span class="toc-number">5.2.2.2.2.</span> <span class="toc-text">小 chunkSize 的优缺点：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%A4%A7-chunkSize-%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%EF%BC%9A"><span class="toc-number">5.2.2.2.3.</span> <span class="toc-text">大 chunkSize 的优缺点：</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E7%89%87%E9%94%AE"><span class="toc-number">5.2.2.3.</span> <span class="toc-text">分片键</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%88%86%E7%89%87%E6%96%B9%E5%BC%8F"><span class="toc-number">5.2.2.3.1.</span> <span class="toc-text">分片方式</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E4%B8%8E%E6%80%A7%E8%83%BD"><span class="toc-number">5.2.2.3.2.</span> <span class="toc-text">查询与性能</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">5.2.2.3.3.</span> <span class="toc-text">注意事项</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-Compose%E6%90%AD%E5%BB%BAMongoDB%E5%88%86%E7%89%87%E9%9B%86"><span class="toc-number">5.2.3.</span> <span class="toc-text">Docker-Compose搭建MongoDB分片集</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringBoot%E4%B8%8EMongoDB"><span class="toc-number">6.</span> <span class="toc-text">SpringBoot与MongoDB</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">7.</span> <span class="toc-text">参考</span></a></li></ol>
 </div></main>
             <aside class="left-column">
               
@@ -645,7 +1307,7 @@ db<span class="token punctuation">.</span>users<span class="token punctuation">.
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">MongoDB基础使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFMongoDB"><span class="toc-number">1.1.</span> <span class="toc-text">什么是MongoDB</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Mongo%E4%B8%8EMySQL%E3%80%81Redis%E5%AF%B9%E6%AF%94%EF%BC%9A"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">Mongo与MySQL、Redis对比：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E5%AE%89%E8%A3%85MongoDB"><span class="toc-number">1.2.</span> <span class="toc-text">Docker安装MongoDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8-1"><span class="toc-number">1.3.</span> <span class="toc-text">MongoDB基础使用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%81%9A%E5%90%88"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">聚合</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">常见查询条件</span></a></li></ol></li></ol></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">MongoDB基础使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFMongoDB"><span class="toc-number">1.1.</span> <span class="toc-text">什么是MongoDB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Mongo%E4%B8%8EMySQL%E3%80%81Redis%E5%AF%B9%E6%AF%94%EF%BC%9A"><span class="toc-number">1.1.1.</span> <span class="toc-text">Mongo与MySQL、Redis对比：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E5%AE%89%E8%A3%85MongoDB"><span class="toc-number">1.2.</span> <span class="toc-text">Docker安装MongoDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8-1"><span class="toc-number">1.3.</span> <span class="toc-text">MongoDB基础使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%81%9A%E5%90%88"><span class="toc-number">1.3.1.</span> <span class="toc-text">聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.3.2.</span> <span class="toc-text">常见查询条件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD"><span class="toc-number">2.</span> <span class="toc-text">MongoDB数据备份</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">MongoDB用户管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB%E7%B4%A2%E5%BC%95"><span class="toc-number">4.</span> <span class="toc-text">MongoDB索引</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E5%88%86%E6%9E%90"><span class="toc-number">4.1.</span> <span class="toc-text">查询分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%88%9B%E5%BB%BA"><span class="toc-number">4.2.</span> <span class="toc-text">索引创建</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB%E8%BF%9B%E9%98%B6"><span class="toc-number">5.</span> <span class="toc-text">MongoDB进阶</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%AF%E6%9C%AC%E9%9B%86"><span class="toc-number">5.1.</span> <span class="toc-text">副本集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%AF%E6%9C%AC%E9%9B%86%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84"><span class="toc-number">5.1.1.</span> <span class="toc-text">副本集基本架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Primary%E9%80%89%E4%B8%BE"><span class="toc-number">5.1.2.</span> <span class="toc-text">Primary选举</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-Compose%E6%90%AD%E5%BB%BAMongoDB%E5%A4%8D%E5%88%B6%E9%9B%86"><span class="toc-number">5.1.3.</span> <span class="toc-text">Docker-Compose搭建MongoDB复制集</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%89%87%E9%9B%86"><span class="toc-number">5.2.</span> <span class="toc-text">分片集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E7%89%87%E6%9C%BA%E5%88%B6%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="toc-number">5.2.1.</span> <span class="toc-text">分片机制的优势</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E7%89%87%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84"><span class="toc-number">5.2.2.</span> <span class="toc-text">分片集群架构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Chunk%EF%BC%88%E6%95%B0%E6%8D%AE%E5%9D%97%EF%BC%89"><span class="toc-number">5.2.2.1.</span> <span class="toc-text">Chunk（数据块）</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#chunk-%E7%9A%84%E4%B8%A4%E4%B8%AA%E4%B8%BB%E8%A6%81%E4%BD%9C%E7%94%A8%EF%BC%9A"><span class="toc-number">5.2.2.1.1.</span> <span class="toc-text">chunk 的两个主要作用：</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Chunksize%E7%9A%84%E9%80%89%E6%8B%A9"><span class="toc-number">5.2.2.2.</span> <span class="toc-text">Chunksize的选择</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#chunk-%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BC%9A%E5%88%86%E8%A3%82%EF%BC%9F"><span class="toc-number">5.2.2.2.1.</span> <span class="toc-text">chunk 什么时候会分裂？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%B0%8F-chunkSize-%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%EF%BC%9A"><span class="toc-number">5.2.2.2.2.</span> <span class="toc-text">小 chunkSize 的优缺点：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%A4%A7-chunkSize-%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%EF%BC%9A"><span class="toc-number">5.2.2.2.3.</span> <span class="toc-text">大 chunkSize 的优缺点：</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E7%89%87%E9%94%AE"><span class="toc-number">5.2.2.3.</span> <span class="toc-text">分片键</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%88%86%E7%89%87%E6%96%B9%E5%BC%8F"><span class="toc-number">5.2.2.3.1.</span> <span class="toc-text">分片方式</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E4%B8%8E%E6%80%A7%E8%83%BD"><span class="toc-number">5.2.2.3.2.</span> <span class="toc-text">查询与性能</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">5.2.2.3.3.</span> <span class="toc-text">注意事项</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-Compose%E6%90%AD%E5%BB%BAMongoDB%E5%88%86%E7%89%87%E9%9B%86"><span class="toc-number">5.2.3.</span> <span class="toc-text">Docker-Compose搭建MongoDB分片集</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringBoot%E4%B8%8EMongoDB"><span class="toc-number">6.</span> <span class="toc-text">SpringBoot与MongoDB</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">7.</span> <span class="toc-text">参考</span></a></li></ol>
       </div>
     </article>
   
@@ -709,16 +1371,16 @@ db<span class="token punctuation">.</span>users<span class="token punctuation">.
         </div>
       </a>
     
-      <a href="/categories/Log4j/">
+      <a href="/categories/MongoDB/">
         <div class="categories-list-item">
-          Log4j
+          MongoDB
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
-      <a href="/categories/MongoDB/">
+      <a href="/categories/Log4j/">
         <div class="categories-list-item">
-          MongoDB
+          Log4j
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -862,6 +1524,12 @@ db<span class="token punctuation">.</span>users<span class="token punctuation">.
       </a>
     
       <a 
+        href="/tags/Jackson/" 
+        title="Jackson">
+        <div class="tags-list-item">Jackson</div>
+      </a>
+    
+      <a 
         href="/tags/snowflake/" 
         title="snowflake">
         <div class="tags-list-item">snowflake</div>
@@ -871,6 +1539,12 @@ db<span class="token punctuation">.</span>users<span class="token punctuation">.
         href="/tags/algorithm/" 
         title="algorithm">
         <div class="tags-list-item">algorithm</div>
+      </a>
+    
+      <a 
+        href="/tags/Jvm/" 
+        title="Jvm">
+        <div class="tags-list-item">Jvm</div>
       </a>
     
       <a 
@@ -891,18 +1565,6 @@ db<span class="token punctuation">.</span>users<span class="token punctuation">.
         <div class="tags-list-item">腾讯云</div>
       </a>
     
-      <a 
-        href="/tags/HTML/" 
-        title="HTML">
-        <div class="tags-list-item">HTML</div>
-      </a>
-    
-      <a 
-        href="/tags/Jvm/" 
-        title="Jvm">
-        <div class="tags-list-item">Jvm</div>
-      </a>
-    
   </div>
 </div>
   </article>
@@ -921,7 +1583,7 @@ db<span class="token punctuation">.</span>users<span class="token punctuation">.
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">MongoDB基础使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFMongoDB"><span class="toc-number">1.1.</span> <span class="toc-text">什么是MongoDB</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Mongo%E4%B8%8EMySQL%E3%80%81Redis%E5%AF%B9%E6%AF%94%EF%BC%9A"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">Mongo与MySQL、Redis对比：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E5%AE%89%E8%A3%85MongoDB"><span class="toc-number">1.2.</span> <span class="toc-text">Docker安装MongoDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8-1"><span class="toc-number">1.3.</span> <span class="toc-text">MongoDB基础使用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%81%9A%E5%90%88"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">聚合</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">常见查询条件</span></a></li></ol></li></ol></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">MongoDB基础使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFMongoDB"><span class="toc-number">1.1.</span> <span class="toc-text">什么是MongoDB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Mongo%E4%B8%8EMySQL%E3%80%81Redis%E5%AF%B9%E6%AF%94%EF%BC%9A"><span class="toc-number">1.1.1.</span> <span class="toc-text">Mongo与MySQL、Redis对比：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker%E5%AE%89%E8%A3%85MongoDB"><span class="toc-number">1.2.</span> <span class="toc-text">Docker安装MongoDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8-1"><span class="toc-number">1.3.</span> <span class="toc-text">MongoDB基础使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%81%9A%E5%90%88"><span class="toc-number">1.3.1.</span> <span class="toc-text">聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.3.2.</span> <span class="toc-text">常见查询条件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB%E6%95%B0%E6%8D%AE%E5%A4%87%E4%BB%BD"><span class="toc-number">2.</span> <span class="toc-text">MongoDB数据备份</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">MongoDB用户管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB%E7%B4%A2%E5%BC%95"><span class="toc-number">4.</span> <span class="toc-text">MongoDB索引</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E5%88%86%E6%9E%90"><span class="toc-number">4.1.</span> <span class="toc-text">查询分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%88%9B%E5%BB%BA"><span class="toc-number">4.2.</span> <span class="toc-text">索引创建</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MongoDB%E8%BF%9B%E9%98%B6"><span class="toc-number">5.</span> <span class="toc-text">MongoDB进阶</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%AF%E6%9C%AC%E9%9B%86"><span class="toc-number">5.1.</span> <span class="toc-text">副本集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%AF%E6%9C%AC%E9%9B%86%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84"><span class="toc-number">5.1.1.</span> <span class="toc-text">副本集基本架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Primary%E9%80%89%E4%B8%BE"><span class="toc-number">5.1.2.</span> <span class="toc-text">Primary选举</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-Compose%E6%90%AD%E5%BB%BAMongoDB%E5%A4%8D%E5%88%B6%E9%9B%86"><span class="toc-number">5.1.3.</span> <span class="toc-text">Docker-Compose搭建MongoDB复制集</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%89%87%E9%9B%86"><span class="toc-number">5.2.</span> <span class="toc-text">分片集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E7%89%87%E6%9C%BA%E5%88%B6%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="toc-number">5.2.1.</span> <span class="toc-text">分片机制的优势</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E7%89%87%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84"><span class="toc-number">5.2.2.</span> <span class="toc-text">分片集群架构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Chunk%EF%BC%88%E6%95%B0%E6%8D%AE%E5%9D%97%EF%BC%89"><span class="toc-number">5.2.2.1.</span> <span class="toc-text">Chunk（数据块）</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#chunk-%E7%9A%84%E4%B8%A4%E4%B8%AA%E4%B8%BB%E8%A6%81%E4%BD%9C%E7%94%A8%EF%BC%9A"><span class="toc-number">5.2.2.1.1.</span> <span class="toc-text">chunk 的两个主要作用：</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Chunksize%E7%9A%84%E9%80%89%E6%8B%A9"><span class="toc-number">5.2.2.2.</span> <span class="toc-text">Chunksize的选择</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#chunk-%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BC%9A%E5%88%86%E8%A3%82%EF%BC%9F"><span class="toc-number">5.2.2.2.1.</span> <span class="toc-text">chunk 什么时候会分裂？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%B0%8F-chunkSize-%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%EF%BC%9A"><span class="toc-number">5.2.2.2.2.</span> <span class="toc-text">小 chunkSize 的优缺点：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%A4%A7-chunkSize-%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%EF%BC%9A"><span class="toc-number">5.2.2.2.3.</span> <span class="toc-text">大 chunkSize 的优缺点：</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E7%89%87%E9%94%AE"><span class="toc-number">5.2.2.3.</span> <span class="toc-text">分片键</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%88%86%E7%89%87%E6%96%B9%E5%BC%8F"><span class="toc-number">5.2.2.3.1.</span> <span class="toc-text">分片方式</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E4%B8%8E%E6%80%A7%E8%83%BD"><span class="toc-number">5.2.2.3.2.</span> <span class="toc-text">查询与性能</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">5.2.2.3.3.</span> <span class="toc-text">注意事项</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-Compose%E6%90%AD%E5%BB%BAMongoDB%E5%88%86%E7%89%87%E9%9B%86"><span class="toc-number">5.2.3.</span> <span class="toc-text">Docker-Compose搭建MongoDB分片集</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringBoot%E4%B8%8EMongoDB"><span class="toc-number">6.</span> <span class="toc-text">SpringBoot与MongoDB</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">7.</span> <span class="toc-text">参考</span></a></li></ol>
     </article>
   
   
