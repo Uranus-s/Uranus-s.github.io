@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="Gas">
+  <link 
+    rel="icon" 
+    href="/img/Kaze.png">
+  <title>SpringAi基础</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="SpringAi基础">
+    
+    
+      <meta 
+        property="og:url" 
+        content="http://example.com/2026/07/26/SpringAi%E5%9F%BA%E7%A1%80/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="/images/banner/xzcc-yc.jpg">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2026-07-26">
+      <meta 
+        property="og:article:modified_time" 
+        content="2026-08-01">
+      <meta 
+        property="og:article:author" 
+        content="Gas">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="Spring">
+        
+          <meta 
+            property="og:article:tag" 
+            content="Spring Boot">
+        
+          <meta 
+            property="og:article:tag" 
+            content="Spring AI">
+        
+          <meta 
+            property="og:article:tag" 
+            content="RAG">
+        
+      
+    
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+      
+      
+      
+      
+        
+        
+        
+        <script>
+          function prismThemeChange() {
+            if(document.getElementById('theme-color').dataset.mode === 'dark') {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism-tomorrow.min.css', '[data-prism]', 'prism-tomorrow');
+              } else {
+                loadCSS('/js/lib/prism/prism-tomorrow.min.css', 'prism', 'prism-tomorrow');
+              }
+            } else {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism-okaidia.min.css', '[data-prism]', 'prism-okaidia');
+              } else {
+                loadCSS('/js/lib/prism/prism-okaidia.min.css', 'prism', 'prism-okaidia');
+              }
+            }
+          }
+          prismThemeChange()
+        </script>
+      
+      
+        
+        <link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+      
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+        prismThemeChange();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_2818401_duebq0kmk47.css">
+  
+    <link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+        <img 
+          class="navbar-logo-img" 
+          src="/img/Kaze.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">Gas</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/" 
+        class="navbar-menu-item">
+        
+          首页
+        
+      </a>
+    
+      <a 
+        href="/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+      <a 
+        href="/links" 
+        class="navbar-menu-item">
+        
+          友链
+        
+      </a>
+    
+    <a 
+      class="navbar-menu-item darknavbar" 
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </a>
+    <a 
+      class="navbar-menu-item searchnavbar" 
+      id="search">
+      <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i>
+    </a>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <main class="main-column">
+  <div class="image-wrapper">
+    <img 
+      src="/images/banner/xzcc-yc.jpg" 
+      data-src="/images/banner/xzcc-yc.jpg"
+      srcset="data:image/svg+xml,%3Csvg%20xmlns=&#39;http://www.w3.org/2000/svg&#39;%20viewBox=&#39;0%200%20300%20300&#39;%3E%3C/svg%3E"
+      class="image lozad"
+      alt="SpringAi基础 thumbnail">
+  </div>
+
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      SpringAi基础
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2026-07-25T16:00:00.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2026-07-26</span>
+    </time>
+    
+      <span class="dot"></span>
+      
+        <a 
+          href="/categories/AI/" 
+          class="post-meta-link">
+          AI
+        </a>
+      
+    
+    
+      <span class="dot"></span>
+      <span>4.8k 字</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/tags/Spring/" 
+            class="post-meta-link">
+            Spring
+          </a>
+        
+          
+            <span class="dot"></span>
+          
+          <a 
+            href="/tags/Spring-Boot/" 
+            class="post-meta-link">
+            Spring Boot
+          </a>
+        
+          
+            <span class="dot"></span>
+          
+          <a 
+            href="/tags/Spring-AI/" 
+            class="post-meta-link">
+            Spring AI
+          </a>
+        
+          
+            <span class="dot"></span>
+          
+          <a 
+            href="/tags/RAG/" 
+            class="post-meta-link">
+            RAG
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h2 id="Spring-AI简介"><a href="#Spring-AI简介" class="headerlink" title="Spring AI简介"></a>Spring AI简介</h2><p>Spring AI 是 Spring 官方提供的 AI 应用开发框架，目标是用熟悉的 Spring 编程方式接入大语言模型、Embedding 模型和向量数据库。</p>
+<p>日常开发中常用的能力主要有：</p>
+<table>
+<thead>
+<tr>
+<th>能力</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Chat Model</td>
+<td>统一不同模型厂商的对话调用方式</td>
+</tr>
+<tr>
+<td>ChatClient</td>
+<td>使用链式 API 构造提示词并调用模型</td>
+</tr>
+<tr>
+<td>Chat Memory</td>
+<td>保存多轮对话需要的上下文</td>
+</tr>
+<tr>
+<td>Advisor</td>
+<td>在模型调用前后统一处理日志、记忆和 RAG</td>
+</tr>
+<tr>
+<td>Tool Calling</td>
+<td>让模型按需调用 Java 方法</td>
+</tr>
+<tr>
+<td>Embedding Model</td>
+<td>将文本转换为向量</td>
+</tr>
+<tr>
+<td>Vector Store</td>
+<td>保存向量并进行相似度检索</td>
+</tr>
+<tr>
+<td>RAG</td>
+<td>检索私有知识并作为上下文交给模型回答</td>
+</tr>
+</tbody></table>
+<p>本文代码以 <strong>Spring AI 1.1.0</strong> 为例。Spring AI 不同版本之间的依赖名称和部分 API 可能发生变化，升级版本时需要同时查看对应版本的参考文档和 Javadoc。</p>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><h3 id="引入Spring-AI-BOM"><a href="#引入Spring-AI-BOM" class="headerlink" title="引入Spring AI BOM"></a>引入Spring AI BOM</h3><p>使用 BOM 统一管理 Spring AI 组件版本，后续引入 Spring AI 依赖时不需要再单独填写版本号。</p>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependencyManagement</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependencies</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.ai<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-ai-bom<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">></span></span>1.1.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>type</span><span class="token punctuation">></span></span>pom<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>type</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>scope</span><span class="token punctuation">></span></span>import<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>scope</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependencies</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependencyManagement</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="引入模型依赖"><a href="#引入模型依赖" class="headerlink" title="引入模型依赖"></a>引入模型依赖</h3><p>下面使用 OpenAI Starter。它同时提供 Chat Model、Embedding Model、ChatClient 自动配置和 Tool Calling 支持。</p>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-starter-web<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.ai<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-ai-starter-model-openai<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>如果使用 Anthropic、Ollama、Azure OpenAI 等模型，需要替换成对应的 Starter。业务代码尽量依赖 <code>ChatModel</code>、<code>EmbeddingModel</code> 和 <code>ChatClient</code> 等通用接口，切换模型时改动会更小。</p>
+<h3 id="配置模型"><a href="#配置模型" class="headerlink" title="配置模型"></a>配置模型</h3><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">ai</span><span class="token punctuation">:</span>
+    <span class="token key atrule">openai</span><span class="token punctuation">:</span>
+      <span class="token key atrule">api-key</span><span class="token punctuation">:</span> $<span class="token punctuation">&#123;</span>OPENAI_API_KEY<span class="token punctuation">&#125;</span>
+
+      <span class="token comment"># 使用 OpenAI 兼容接口时再配置</span>
+      <span class="token comment"># base-url: $&#123;OPENAI_BASE_URL&#125;</span>
+
+      <span class="token key atrule">chat</span><span class="token punctuation">:</span>
+        <span class="token key atrule">options</span><span class="token punctuation">:</span>
+          <span class="token key atrule">model</span><span class="token punctuation">:</span> $<span class="token punctuation">&#123;</span>CHAT_MODEL<span class="token punctuation">&#125;</span>
+          <span class="token key atrule">temperature</span><span class="token punctuation">:</span> <span class="token number">0.7</span>
+
+      <span class="token key atrule">embedding</span><span class="token punctuation">:</span>
+        <span class="token key atrule">options</span><span class="token punctuation">:</span>
+          <span class="token key atrule">model</span><span class="token punctuation">:</span> $<span class="token punctuation">&#123;</span>EMBEDDING_MODEL<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>API Key 应通过环境变量、配置中心或密钥管理服务提供，不要直接提交到代码仓库。</p>
+<p><code>chat.options.model</code> 和 <code>embedding.options.model</code> 是两种不同类型的模型，不能混用：</p>
+<ul>
+<li>Chat Model 负责生成回答。</li>
+<li>Embedding Model 负责把文本转换成向量。</li>
+</ul>
+<h3 id="创建ChatClient"><a href="#创建ChatClient" class="headerlink" title="创建ChatClient"></a>创建ChatClient</h3><p>Spring Boot 会自动创建一个 <code>ChatClient.Builder</code>，可以直接注入并构建 <code>ChatClient</code>。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AiConfiguration</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">ChatClient</span> <span class="token function">chatClient</span><span class="token punctuation">(</span><span class="token class-name">ChatClient<span class="token punctuation">.</span>Builder</span> builder<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> builder
+                <span class="token punctuation">.</span><span class="token function">defaultSystem</span><span class="token punctuation">(</span><span class="token string">"你是一个严谨、简洁的技术助手"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>基本调用：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AiChatService</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">ChatClient</span> chatClient<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">AiChatService</span><span class="token punctuation">(</span><span class="token class-name">ChatClient</span> chatClient<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>chatClient <span class="token operator">=</span> chatClient<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">chat</span><span class="token punctuation">(</span><span class="token class-name">String</span> question<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> chatClient<span class="token punctuation">.</span><span class="token function">prompt</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">user</span><span class="token punctuation">(</span>question<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">content</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><code>call()</code> 表示同步调用，<code>content()</code> 只返回最终文本。如果还需要 Token 使用量、Generation 或模型元数据，应获取完整的 <code>ChatResponse</code>。</p>
+<h2 id="ChatClient更多使用"><a href="#ChatClient更多使用" class="headerlink" title="ChatClient更多使用"></a>ChatClient更多使用</h2><h3 id="设置System和User消息"><a href="#设置System和User消息" class="headerlink" title="设置System和User消息"></a>设置System和User消息</h3><p>System 消息用于定义角色、边界和输出要求，User 消息用于传递本次请求。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">String</span> answer <span class="token operator">=</span> chatClient<span class="token punctuation">.</span><span class="token function">prompt</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">system</span><span class="token punctuation">(</span><span class="token triple-quoted-string string">"""
+                你是一个 Java 代码审查助手。
+                只指出能够确认的问题，并给出修改建议。
+                """</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">user</span><span class="token punctuation">(</span><span class="token triple-quoted-string string">"""
+                请检查下面的方法：
+
+                public int divide(int a, int b) &#123;
+                    return a / b;
+                &#125;
+                """</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">content</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>需要动态替换提示词参数时，可以使用模板变量：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">String</span> answer <span class="token operator">=</span> chatClient<span class="token punctuation">.</span><span class="token function">prompt</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">system</span><span class="token punctuation">(</span>system <span class="token operator">-></span> system
+                <span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token string">"你是一个技术助手，回答必须使用 &#123;language&#125;"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">param</span><span class="token punctuation">(</span><span class="token string">"language"</span><span class="token punctuation">,</span> <span class="token string">"中文"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">user</span><span class="token punctuation">(</span><span class="token string">"解释什么是向量检索"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">content</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>不要直接用字符串拼接来自用户的内容构造 System Prompt。固定规则和用户输入应放在不同消息中，降低提示词注入带来的影响。</p>
+<h3 id="获取完整响应"><a href="#获取完整响应" class="headerlink" title="获取完整响应"></a>获取完整响应</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">ChatResponse</span> response <span class="token operator">=</span> chatClient<span class="token punctuation">.</span><span class="token function">prompt</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">user</span><span class="token punctuation">(</span><span class="token string">"解释 Spring AI Advisor"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">chatResponse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>只需要回答正文时使用 <code>content()</code>；需要 Token 使用情况或其他模型信息时使用 <code>chatResponse()</code>。</p>
+<h3 id="返回Java对象"><a href="#返回Java对象" class="headerlink" title="返回Java对象"></a>返回Java对象</h3><p>可以让 ChatClient 将模型输出转换为 Java 类型：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">record</span> <span class="token class-name">BookRecommendation</span><span class="token punctuation">(</span>
+        <span class="token class-name">String</span> title<span class="token punctuation">,</span>
+        <span class="token class-name">String</span> author<span class="token punctuation">,</span>
+        <span class="token class-name">String</span> reason
+<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">BookRecommendation</span> recommendation <span class="token operator">=</span> chatClient<span class="token punctuation">.</span><span class="token function">prompt</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">user</span><span class="token punctuation">(</span><span class="token string">"推荐一本适合 Java 开发者学习分布式系统的书"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">entity</span><span class="token punctuation">(</span><span class="token class-name">BookRecommendation</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>结构化输出仍由模型生成，反序列化成功不代表内容一定正确。重要业务字段仍需要校验。</p>
+<h3 id="流式输出"><a href="#流式输出" class="headerlink" title="流式输出"></a>流式输出</h3><p>流式调用返回 <code>Flux</code>，需要 Reactive Web 支持：</p>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-starter-webflux<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token class-name">Flux</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> <span class="token function">stream</span><span class="token punctuation">(</span><span class="token class-name">String</span> question<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> chatClient<span class="token punctuation">.</span><span class="token function">prompt</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">user</span><span class="token punctuation">(</span>question<span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">content</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>流式响应适合聊天页面逐字展示。Tool Calling 本身可能包含阻塞操作，使用流式接口不代表整条调用链都是非阻塞的。</p>
+<h2 id="Chat-Memory"><a href="#Chat-Memory" class="headerlink" title="Chat Memory"></a>Chat Memory</h2><p>大语言模型本身是无状态的。需要多轮对话时，应用必须在每次请求中把相关历史消息重新发送给模型。</p>
+<p>Chat Memory 用于维护模型当前需要的上下文，不等同于完整聊天记录。需要审计或永久保存全部消息时，应单独设计聊天历史表。</p>
+<h3 id="内存会话"><a href="#内存会话" class="headerlink" title="内存会话"></a>内存会话</h3><p><code>MessageWindowChatMemory</code> 只保留指定数量的最近消息：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ChatMemoryConfiguration</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">ChatMemory</span> <span class="token function">chatMemory</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> <span class="token class-name">MessageWindowChatMemory</span><span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">maxMessages</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">ChatClient</span> <span class="token function">memoryChatClient</span><span class="token punctuation">(</span>
+            <span class="token class-name">ChatClient<span class="token punctuation">.</span>Builder</span> builder<span class="token punctuation">,</span>
+            <span class="token class-name">ChatMemory</span> chatMemory<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+
+        <span class="token keyword">return</span> builder
+                <span class="token punctuation">.</span><span class="token function">defaultAdvisors</span><span class="token punctuation">(</span>
+                        <span class="token class-name">MessageChatMemoryAdvisor</span><span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span>chatMemory<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>内存存储会在应用重启后丢失，适合本地开发、测试和不需要持久化的临时会话。</p>
+<h3 id="指定会话ID"><a href="#指定会话ID" class="headerlink" title="指定会话ID"></a>指定会话ID</h3><p>每次使用 Memory Advisor 时都应传入明确的 conversation ID：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">chat</span><span class="token punctuation">(</span><span class="token class-name">String</span> conversationId<span class="token punctuation">,</span> <span class="token class-name">String</span> question<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> chatClient<span class="token punctuation">.</span><span class="token function">prompt</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">user</span><span class="token punctuation">(</span>question<span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">advisors</span><span class="token punctuation">(</span>advisor <span class="token operator">-></span> advisor
+                    <span class="token punctuation">.</span><span class="token function">param</span><span class="token punctuation">(</span><span class="token class-name">ChatMemory</span><span class="token punctuation">.</span>CONVERSATION_ID<span class="token punctuation">,</span> conversationId<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">content</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>会话 ID 的设计原则：</p>
+<ul>
+<li>同一段多轮对话使用相同 ID。</li>
+<li>不同用户、租户或业务会话使用不同 ID。</li>
+<li>不要把可猜测的会话 ID 直接当成权限凭证。</li>
+<li>服务端应校验当前用户是否有权访问该会话。</li>
+</ul>
+<p>清理指定会话：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">chatMemory<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span>conversationId<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="JDBC持久化"><a href="#JDBC持久化" class="headerlink" title="JDBC持久化"></a>JDBC持久化</h3><p>需要在应用重启后保留会话上下文时，可以使用 JDBC Chat Memory。</p>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.ai<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-ai-starter-model-chat-memory-repository-jdbc<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-starter-jdbc<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span>
+
+<span class="token comment">&lt;!-- 根据实际数据库替换 JDBC Driver --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.postgresql<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>postgresql<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>scope</span><span class="token punctuation">></span></span>runtime<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>scope</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">datasource</span><span class="token punctuation">:</span>
+    <span class="token key atrule">url</span><span class="token punctuation">:</span> $<span class="token punctuation">&#123;</span>DB_URL<span class="token punctuation">&#125;</span>
+    <span class="token key atrule">username</span><span class="token punctuation">:</span> $<span class="token punctuation">&#123;</span>DB_USERNAME<span class="token punctuation">&#125;</span>
+    <span class="token key atrule">password</span><span class="token punctuation">:</span> $<span class="token punctuation">&#123;</span>DB_PASSWORD<span class="token punctuation">&#125;</span>
+
+  <span class="token key atrule">ai</span><span class="token punctuation">:</span>
+    <span class="token key atrule">chat</span><span class="token punctuation">:</span>
+      <span class="token key atrule">memory</span><span class="token punctuation">:</span>
+        <span class="token key atrule">repository</span><span class="token punctuation">:</span>
+          <span class="token key atrule">jdbc</span><span class="token punctuation">:</span>
+            <span class="token key atrule">initialize-schema</span><span class="token punctuation">:</span> always
+            <span class="token key atrule">platform</span><span class="token punctuation">:</span> postgresql<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>使用自动配置的 <code>JdbcChatMemoryRepository</code>：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Bean</span>
+<span class="token keyword">public</span> <span class="token class-name">ChatMemory</span> <span class="token function">chatMemory</span><span class="token punctuation">(</span>
+        <span class="token class-name">JdbcChatMemoryRepository</span> repository<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">return</span> <span class="token class-name">MessageWindowChatMemory</span><span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">chatMemoryRepository</span><span class="token punctuation">(</span>repository<span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">maxMessages</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>生产环境通常应使用 Flyway 或 Liquibase 管理表结构，并将 <code>initialize-schema</code> 设置为 <code>never</code>，避免应用启动时自动修改数据库。</p>
+<h2 id="Advisor"><a href="#Advisor" class="headerlink" title="Advisor"></a>Advisor</h2><p>Advisor 类似 ChatClient 的拦截器，可以在请求发送给模型之前补充内容，也可以在模型响应后执行统一处理。</p>
+<p>常见用途：</p>
+<ul>
+<li>添加多轮对话记忆。</li>
+<li>记录请求和响应。</li>
+<li>执行 RAG 检索。</li>
+<li>添加公共上下文。</li>
+<li>统一修改 Prompt。</li>
+</ul>
+<h3 id="注册默认Advisor"><a href="#注册默认Advisor" class="headerlink" title="注册默认Advisor"></a>注册默认Advisor</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Bean</span>
+<span class="token keyword">public</span> <span class="token class-name">ChatClient</span> <span class="token function">chatClient</span><span class="token punctuation">(</span>
+        <span class="token class-name">ChatClient<span class="token punctuation">.</span>Builder</span> builder<span class="token punctuation">,</span>
+        <span class="token class-name">ChatMemory</span> chatMemory<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">return</span> builder
+            <span class="token punctuation">.</span><span class="token function">defaultAdvisors</span><span class="token punctuation">(</span>
+                    <span class="token class-name">MessageChatMemoryAdvisor</span><span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span>chatMemory<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                    <span class="token keyword">new</span> <span class="token class-name">SimpleLoggerAdvisor</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>默认 Advisor 会参与该 ChatClient 的每一次请求。</p>
+<h3 id="只在当前请求使用"><a href="#只在当前请求使用" class="headerlink" title="只在当前请求使用"></a>只在当前请求使用</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">String</span> answer <span class="token operator">=</span> chatClient<span class="token punctuation">.</span><span class="token function">prompt</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">user</span><span class="token punctuation">(</span>question<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">advisors</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">SimpleLoggerAdvisor</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">content</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Advisor 会根据 <code>getOrder()</code> 排序：</p>
+<ul>
+<li>order 数值越小，请求阶段越先执行。</li>
+<li>响应会沿 Advisor 链反向返回。</li>
+<li>多个 Advisor 存在依赖关系时，应明确设置顺序。</li>
+</ul>
+<p>开启 <code>SimpleLoggerAdvisor</code> 日志：</p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">logging</span><span class="token punctuation">:</span>
+  <span class="token key atrule">level</span><span class="token punctuation">:</span>
+    <span class="token key atrule">org.springframework.ai.chat.client.advisor</span><span class="token punctuation">:</span> DEBUG<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>日志可能包含用户问题、模型响应和 RAG 上下文。生产环境需要脱敏并限制日志访问权限。</p>
+<h2 id="Tool-Calling"><a href="#Tool-Calling" class="headerlink" title="Tool Calling"></a>Tool Calling</h2><p>Tool Calling 允许模型根据工具描述决定是否调用 Java 方法。模型负责生成工具名称和参数，真正的方法执行发生在应用本地。</p>
+<h3 id="定义Tool"><a href="#定义Tool" class="headerlink" title="定义Tool"></a>定义Tool</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Component</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">TimeTools</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token annotation punctuation">@Tool</span><span class="token punctuation">(</span>description <span class="token operator">=</span> <span class="token string">"获取用户所在时区的当前日期和时间"</span><span class="token punctuation">)</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">getCurrentDateTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">ZoneId</span> zoneId <span class="token operator">=</span> <span class="token class-name">LocaleContextHolder</span>
+                <span class="token punctuation">.</span><span class="token function">getTimeZone</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">toZoneId</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">return</span> <span class="token class-name">ZonedDateTime</span><span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span>zoneId<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>带参数的工具：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Tool</span><span class="token punctuation">(</span>description <span class="token operator">=</span> <span class="token string">"查询指定城市的天气"</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">getWeather</span><span class="token punctuation">(</span>
+        <span class="token annotation punctuation">@ToolParam</span><span class="token punctuation">(</span>description <span class="token operator">=</span> <span class="token string">"城市名称，例如：杭州"</span><span class="token punctuation">)</span>
+        <span class="token class-name">String</span> city<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">return</span> weatherClient<span class="token punctuation">.</span><span class="token function">query</span><span class="token punctuation">(</span>city<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>工具描述应说明：</p>
+<ul>
+<li>什么情况下调用。</li>
+<li>每个参数的含义和格式。</li>
+<li>返回结果代表什么。</li>
+</ul>
+<p>描述不清楚时，模型可能不调用工具，也可能生成错误参数。</p>
+<h3 id="注册Tool"><a href="#注册Tool" class="headerlink" title="注册Tool"></a>注册Tool</h3><p>为 ChatClient 的所有请求注册：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Bean</span>
+<span class="token keyword">public</span> <span class="token class-name">ChatClient</span> <span class="token function">chatClient</span><span class="token punctuation">(</span>
+        <span class="token class-name">ChatClient<span class="token punctuation">.</span>Builder</span> builder<span class="token punctuation">,</span>
+        <span class="token class-name">TimeTools</span> timeTools<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">return</span> builder
+            <span class="token punctuation">.</span><span class="token function">defaultTools</span><span class="token punctuation">(</span>timeTools<span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>只为当前请求注册：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">String</span> answer <span class="token operator">=</span> chatClient<span class="token punctuation">.</span><span class="token function">prompt</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">user</span><span class="token punctuation">(</span><span class="token string">"现在几点？"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">tools</span><span class="token punctuation">(</span>timeTools<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">content</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="Tool异常处理"><a href="#Tool异常处理" class="headerlink" title="Tool异常处理"></a>Tool异常处理</h3><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">ai</span><span class="token punctuation">:</span>
+    <span class="token key atrule">tools</span><span class="token punctuation">:</span>
+      <span class="token key atrule">throw-exception-on-error</span><span class="token punctuation">:</span> <span class="token boolean important">false</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<table>
+<thead>
+<tr>
+<th>配置</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>false</code></td>
+<td>将可处理的工具错误交回模型，由模型继续生成响应</td>
+</tr>
+<tr>
+<td><code>true</code></td>
+<td>工具异常直接向调用方抛出</td>
+</tr>
+</tbody></table>
+<p>Tool 本质上是本地代码，必须像普通业务接口一样处理参数校验、权限检查、超时、幂等和审计。删除数据、支付、发消息等有副作用的操作，不应仅依赖模型判断是否执行。</p>
+<h2 id="Embedding"><a href="#Embedding" class="headerlink" title="Embedding"></a>Embedding</h2><p>Embedding Model 会把文本转换为数值向量。语义越接近的文本，其向量通常也越接近。</p>
+<p>常见用途：</p>
+<ul>
+<li>语义搜索。</li>
+<li>文本聚类。</li>
+<li>相似内容推荐。</li>
+<li>RAG 知识检索。</li>
+</ul>
+<h3 id="文本转向量"><a href="#文本转向量" class="headerlink" title="文本转向量"></a>文本转向量</h3><p><code>spring-ai-starter-model-openai</code> 已经提供 <code>EmbeddingModel</code>：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Service</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">TextVectorizer</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token class-name">EmbeddingModel</span> embeddingModel<span class="token punctuation">;</span>
+
+    <span class="token keyword">public</span> <span class="token class-name">TextVectorizer</span><span class="token punctuation">(</span><span class="token class-name">EmbeddingModel</span> embeddingModel<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>embeddingModel <span class="token operator">=</span> embeddingModel<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">float</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">embed</span><span class="token punctuation">(</span><span class="token class-name">String</span> text<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> embeddingModel<span class="token punctuation">.</span><span class="token function">embed</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>向量维度由 Embedding Model 决定。更换模型后维度可能变化，已有向量索引通常需要重新创建并重新写入数据。</p>
+<h3 id="创建Document"><a href="#创建Document" class="headerlink" title="创建Document"></a>创建Document</h3><p>Spring AI 使用 <code>Document</code> 表示需要向量化和检索的内容：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">Document</span> document <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Document</span><span class="token punctuation">(</span>
+        <span class="token string">"Spring AI 提供了统一的模型和向量数据库抽象。"</span><span class="token punctuation">,</span>
+        <span class="token class-name">Map</span><span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>
+                <span class="token string">"source_id"</span><span class="token punctuation">,</span> <span class="token string">"article-001"</span><span class="token punctuation">,</span>
+                <span class="token string">"category"</span><span class="token punctuation">,</span> <span class="token string">"spring"</span><span class="token punctuation">,</span>
+                <span class="token string">"title"</span><span class="token punctuation">,</span> <span class="token string">"Spring AI"</span>
+        <span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>metadata 用于保存来源、分类和业务 ID。后续需要按 metadata 过滤或删除时，应在写入前设计好字段。</p>
+<h3 id="文档切块"><a href="#文档切块" class="headerlink" title="文档切块"></a>文档切块</h3><p>长文档不应整体生成一个向量。通常需要先拆成较小的文本块：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">TokenTextSplitter</span> splitter <span class="token operator">=</span>
+        <span class="token keyword">new</span> <span class="token class-name">TokenTextSplitter</span><span class="token punctuation">(</span><span class="token number">2000</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">10000</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Document</span><span class="token punctuation">></span></span> chunks <span class="token operator">=</span> splitter<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>documents<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>切块参数需要根据内容和模型上下文调整：</p>
+<ul>
+<li>块太大：检索命中后携带的无关内容较多。</li>
+<li>块太小：语义不完整，回答缺少上下文。</li>
+<li>不同业务文档应分别评估切块大小，不要只使用固定经验值。</li>
+</ul>
+<h3 id="按Token分批"><a href="#按Token分批" class="headerlink" title="按Token分批"></a>按Token分批</h3><p>切块决定检索粒度，分批只决定一次 Embedding 请求发送多少内容。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Bean</span>
+<span class="token keyword">public</span> <span class="token class-name">BatchingStrategy</span> <span class="token function">batchingStrategy</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token class-name">TokenCountEstimator</span> estimator <span class="token operator">=</span>
+            <span class="token keyword">new</span> <span class="token class-name">JTokkitTokenCountEstimator</span><span class="token punctuation">(</span>
+                    <span class="token class-name">EncodingType</span><span class="token punctuation">.</span>CL100K_BASE
+            <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">TokenCountBatchingStrategy</span><span class="token punctuation">(</span>
+            estimator<span class="token punctuation">,</span>
+            <span class="token number">8000</span><span class="token punctuation">,</span>
+            <span class="token number">0.1</span><span class="token punctuation">,</span>
+            <span class="token class-name">Document</span><span class="token punctuation">.</span>DEFAULT_CONTENT_FORMATTER<span class="token punctuation">,</span>
+            <span class="token class-name">MetadataMode</span><span class="token punctuation">.</span>NONE
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">List</span><span class="token punctuation">&lt;</span><span class="token class-name">Document</span><span class="token punctuation">></span><span class="token punctuation">></span></span> batches <span class="token operator">=</span>
+        batchingStrategy<span class="token punctuation">.</span><span class="token function">batch</span><span class="token punctuation">(</span>chunks<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>上面的 <code>0.1</code> 表示预留 10% Token 空间，降低请求接近模型上限时被拒绝的概率。<code>MetadataMode.NONE</code> 表示 metadata 不参与嵌入文本，但仍可以保存在向量文档中用于过滤。</p>
+<h2 id="Vector-Store"><a href="#Vector-Store" class="headerlink" title="Vector Store"></a>Vector Store</h2><p>Vector Store 用于保存文本向量并执行相似度检索。Spring AI 提供统一的 <code>VectorStore</code> 接口，底层可以使用 Redis、PGVector、Milvus、Qdrant、Pinecone 等实现。</p>
+<p>基本流程：</p>
+<ol>
+<li>将原始内容封装成 <code>Document</code>。</li>
+<li>对长文档进行切块。</li>
+<li>使用 Embedding Model 生成向量。</li>
+<li>写入 Vector Store。</li>
+<li>将用户问题转换为向量并检索相似文档。</li>
+</ol>
+<h3 id="Redis-Vector-Store"><a href="#Redis-Vector-Store" class="headerlink" title="Redis Vector Store"></a>Redis Vector Store</h3><p>Redis 方案需要 Redis Stack，普通 Redis 只支持基础数据结构，不能直接使用向量索引和相似度搜索。</p>
+<p>引入依赖：</p>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.ai<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-ai-starter-vector-store-redis<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>基本配置：</p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">data</span><span class="token punctuation">:</span>
+    <span class="token key atrule">redis</span><span class="token punctuation">:</span>
+      <span class="token key atrule">host</span><span class="token punctuation">:</span> $<span class="token punctuation">&#123;</span>REDIS_HOST<span class="token punctuation">&#125;</span>
+      <span class="token key atrule">port</span><span class="token punctuation">:</span> $<span class="token punctuation">&#123;</span>REDIS_PORT<span class="token punctuation">:</span><span class="token number">6379</span><span class="token punctuation">&#125;</span>
+      <span class="token key atrule">password</span><span class="token punctuation">:</span> $<span class="token punctuation">&#123;</span>REDIS_PASSWORD<span class="token punctuation">:</span><span class="token punctuation">&#125;</span>
+
+  <span class="token key atrule">ai</span><span class="token punctuation">:</span>
+    <span class="token key atrule">vectorstore</span><span class="token punctuation">:</span>
+      <span class="token key atrule">redis</span><span class="token punctuation">:</span>
+        <span class="token key atrule">initialize-schema</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+        <span class="token key atrule">index-name</span><span class="token punctuation">:</span> spring<span class="token punctuation">-</span>ai<span class="token punctuation">-</span>index
+        <span class="token key atrule">prefix</span><span class="token punctuation">:</span> <span class="token string">"spring-ai:"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>需要声明可过滤的 metadata 字段时，可以手动创建 <code>RedisVectorStore</code>：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Configuration</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">RedisVectorConfiguration</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">JedisPooled</span> <span class="token function">jedisPooled</span><span class="token punctuation">(</span>
+            <span class="token annotation punctuation">@Value</span><span class="token punctuation">(</span><span class="token string">"$&#123;spring.data.redis.host&#125;"</span><span class="token punctuation">)</span> <span class="token class-name">String</span> host<span class="token punctuation">,</span>
+            <span class="token annotation punctuation">@Value</span><span class="token punctuation">(</span><span class="token string">"$&#123;spring.data.redis.port&#125;"</span><span class="token punctuation">)</span> <span class="token keyword">int</span> port<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+
+        <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">JedisPooled</span><span class="token punctuation">(</span>host<span class="token punctuation">,</span> port<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token annotation punctuation">@Bean</span>
+    <span class="token keyword">public</span> <span class="token class-name">RedisVectorStore</span> <span class="token function">redisVectorStore</span><span class="token punctuation">(</span>
+            <span class="token class-name">JedisPooled</span> jedisPooled<span class="token punctuation">,</span>
+            <span class="token class-name">EmbeddingModel</span> embeddingModel<span class="token punctuation">,</span>
+            <span class="token annotation punctuation">@Value</span><span class="token punctuation">(</span><span class="token string">"$&#123;spring.ai.vectorstore.redis.index-name&#125;"</span><span class="token punctuation">)</span>
+            <span class="token class-name">String</span> indexName<span class="token punctuation">,</span>
+            <span class="token annotation punctuation">@Value</span><span class="token punctuation">(</span><span class="token string">"$&#123;spring.ai.vectorstore.redis.prefix&#125;"</span><span class="token punctuation">)</span>
+            <span class="token class-name">String</span> prefix<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+
+        <span class="token keyword">return</span> <span class="token class-name">RedisVectorStore</span>
+                <span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span>jedisPooled<span class="token punctuation">,</span> embeddingModel<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">indexName</span><span class="token punctuation">(</span>indexName<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">prefix</span><span class="token punctuation">(</span>prefix<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">initializeSchema</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">metadataFields</span><span class="token punctuation">(</span>
+                        <span class="token class-name">RedisVectorStore<span class="token punctuation">.</span>MetadataField</span><span class="token punctuation">.</span><span class="token function">tag</span><span class="token punctuation">(</span><span class="token string">"source_id"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                        <span class="token class-name">RedisVectorStore<span class="token punctuation">.</span>MetadataField</span><span class="token punctuation">.</span><span class="token function">tag</span><span class="token punctuation">(</span><span class="token string">"category"</span><span class="token punctuation">)</span>
+                <span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>如果 Redis 开启了用户名、密码或 TLS，应使用相应的 <code>JedisClientConfig</code> 创建连接，不要把密码写在 Java 代码中。</p>
+<h3 id="写入文档"><a href="#写入文档" class="headerlink" title="写入文档"></a>写入文档</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">Document</span> document <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Document</span><span class="token punctuation">(</span>
+        <span class="token string">"Spring AI 可以通过 Advisor 组合聊天记忆和 RAG。"</span><span class="token punctuation">,</span>
+        <span class="token class-name">Map</span><span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>
+                <span class="token string">"source_id"</span><span class="token punctuation">,</span> <span class="token string">"article-001"</span><span class="token punctuation">,</span>
+                <span class="token string">"category"</span><span class="token punctuation">,</span> <span class="token string">"spring"</span>
+        <span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+vectorStore<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>document<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>写入时会调用 Embedding Model，因此需要同时保证模型服务和 Vector Store 可用。</p>
+<p>写入长文档：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Document</span><span class="token punctuation">></span></span> chunks <span class="token operator">=</span> splitter<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>documents<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Document</span><span class="token punctuation">></span></span> batch <span class="token operator">:</span> batchingStrategy<span class="token punctuation">.</span><span class="token function">batch</span><span class="token punctuation">(</span>chunks<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    vectorStore<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>batch<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="相似度搜索"><a href="#相似度搜索" class="headerlink" title="相似度搜索"></a>相似度搜索</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">SearchRequest</span> request <span class="token operator">=</span> <span class="token class-name">SearchRequest</span><span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">query</span><span class="token punctuation">(</span><span class="token string">"如何给对话增加历史记忆？"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">topK</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">similarityThreshold</span><span class="token punctuation">(</span><span class="token number">0.7</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">filterExpression</span><span class="token punctuation">(</span><span class="token string">"category == 'spring'"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Document</span><span class="token punctuation">></span></span> results <span class="token operator">=</span>
+        vectorStore<span class="token punctuation">.</span><span class="token function">similaritySearch</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>常用参数：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>query</code></td>
+<td>需要检索的自然语言问题</td>
+</tr>
+<tr>
+<td><code>topK</code></td>
+<td>最多返回多少条文档</td>
+</tr>
+<tr>
+<td><code>similarityThreshold</code></td>
+<td>最低相似度阈值</td>
+</tr>
+<tr>
+<td><code>filterExpression</code></td>
+<td>按 metadata 过滤</td>
+</tr>
+</tbody></table>
+<p>检索为空时，先去掉 metadata 过滤条件，再降低相似度阈值排查。不要一开始就把阈值设置得过高。</p>
+<h3 id="删除文档"><a href="#删除文档" class="headerlink" title="删除文档"></a>删除文档</h3><p>已知文档 ID 时可以按 ID 删除：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">vectorStore<span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>documentId<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>需要删除一篇原始文档产生的全部切块时，使用稳定的业务 ID：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">vectorStore<span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span><span class="token string">"source_id == 'article-001'"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>不要使用空字符串相似度搜索后再根据 <code>topK</code> 删除，检索结果可能被截断，导致部分切块残留。</p>
+<h3 id="更新文档"><a href="#更新文档" class="headerlink" title="更新文档"></a>更新文档</h3><p>大多数 Vector Store 没有通用的原地更新语义。更新原始文档通常采用“删除旧切块，再写入新切块”：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">String</span> sourceId <span class="token operator">=</span> <span class="token string">"article-001"</span><span class="token punctuation">;</span>
+
+vectorStore<span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span>
+        <span class="token string">"source_id == '"</span> <span class="token operator">+</span> sourceId <span class="token operator">+</span> <span class="token string">"'"</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token class-name">Document</span> replacement <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Document</span><span class="token punctuation">(</span>
+        newContent<span class="token punctuation">,</span>
+        <span class="token class-name">Map</span><span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>
+                <span class="token string">"source_id"</span><span class="token punctuation">,</span> sourceId<span class="token punctuation">,</span>
+                <span class="token string">"category"</span><span class="token punctuation">,</span> <span class="token string">"spring"</span>
+        <span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Document</span><span class="token punctuation">></span></span> newChunks <span class="token operator">=</span>
+        splitter<span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>replacement<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+vectorStore<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>newChunks<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>生产代码需要考虑“删除成功但新增失败”的情况，可以使用重试、补偿任务、版本字段或新旧索引切换降低数据不一致风险。</p>
+<h3 id="metadata字段变更"><a href="#metadata字段变更" class="headerlink" title="metadata字段变更"></a>metadata字段变更</h3><p><code>initializeSchema(true)</code> 通常只负责创建不存在的索引，不会自动修改已经存在的索引结构。</p>
+<p>新增可过滤 metadata 字段后，需要：</p>
+<ol>
+<li>修改 Vector Store 中的 metadata 字段声明。</li>
+<li>创建新索引或重建旧索引。</li>
+<li>重新写入文档向量。</li>
+</ol>
+<p>生产环境不建议直接删除正在使用的索引，可以创建带版本号的新索引，完成数据迁移和验证后再切换。</p>
+<h2 id="RAG"><a href="#RAG" class="headerlink" title="RAG"></a>RAG</h2><p>RAG（Retrieval Augmented Generation，检索增强生成）的核心流程是：</p>
+<ol>
+<li>接收用户问题。</li>
+<li>从 Vector Store 检索相关文档。</li>
+<li>将文档作为上下文加入 Prompt。</li>
+<li>调用 Chat Model 生成回答。</li>
+</ol>
+<p>RAG 不会自动保证答案正确。检索质量、切块策略、Prompt 约束和模型能力都会影响最终结果。</p>
+<h3 id="QuestionAnswerAdvisor"><a href="#QuestionAnswerAdvisor" class="headerlink" title="QuestionAnswerAdvisor"></a>QuestionAnswerAdvisor</h3><p>只需要常规的“检索 → 注入上下文 → 回答”流程时，可以使用 <code>QuestionAnswerAdvisor</code>。</p>
+<p>引入依赖：</p>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.ai<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-ai-advisors-vector-store<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">QuestionAnswerAdvisor</span> qaAdvisor <span class="token operator">=</span>
+        <span class="token class-name">QuestionAnswerAdvisor</span><span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span>vectorStore<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token class-name">String</span> answer <span class="token operator">=</span> chatClient<span class="token punctuation">.</span><span class="token function">prompt</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">user</span><span class="token punctuation">(</span><span class="token string">"Spring AI 如何保存多轮对话？"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">advisors</span><span class="token punctuation">(</span>qaAdvisor<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">content</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>自定义 RAG Prompt：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">PromptTemplate</span> promptTemplate <span class="token operator">=</span> <span class="token class-name">PromptTemplate</span><span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">renderer</span><span class="token punctuation">(</span><span class="token class-name">StTemplateRenderer</span><span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">startDelimiterToken</span><span class="token punctuation">(</span><span class="token string">'&lt;'</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">endDelimiterToken</span><span class="token punctuation">(</span><span class="token string">'>'</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">template</span><span class="token punctuation">(</span><span class="token triple-quoted-string string">"""
+                &lt;query>
+
+                请只根据下面的资料回答问题。
+                如果资料中没有答案，请直接回答“不知道”。
+
+                ---------------------
+                &lt;question_answer_context>
+                ---------------------
+                """</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token class-name">QuestionAnswerAdvisor</span> qaAdvisor <span class="token operator">=</span>
+        <span class="token class-name">QuestionAnswerAdvisor</span><span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span>vectorStore<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">promptTemplate</span><span class="token punctuation">(</span>promptTemplate<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Spring AI 1.1.0 的自定义模板需要保留 <code>&lt;query&gt;</code> 和 <code>&lt;question_answer_context&gt;</code> 占位符，否则 Advisor 无法正确注入问题和检索结果。</p>
+<h3 id="RetrievalAugmentationAdvisor"><a href="#RetrievalAugmentationAdvisor" class="headerlink" title="RetrievalAugmentationAdvisor"></a>RetrievalAugmentationAdvisor</h3><p>需要自定义查询改写、文档检索和上下文增强流程时，使用模块化 RAG。</p>
+<pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">></span></span>org.springframework.ai<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-ai-rag<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">RewriteQueryTransformer</span> queryTransformer <span class="token operator">=</span>
+        <span class="token class-name">RewriteQueryTransformer</span><span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">chatClientBuilder</span><span class="token punctuation">(</span>
+                        <span class="token class-name">ChatClient</span><span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span>chatModel<span class="token punctuation">)</span>
+                <span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token class-name">DocumentRetriever</span> documentRetriever <span class="token operator">=</span>
+        <span class="token class-name">VectorStoreDocumentRetriever</span><span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">vectorStore</span><span class="token punctuation">(</span>vectorStore<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">similarityThreshold</span><span class="token punctuation">(</span><span class="token number">0.5</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">topK</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token class-name">Advisor</span> ragAdvisor <span class="token operator">=</span>
+        <span class="token class-name">RetrievalAugmentationAdvisor</span><span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">queryTransformers</span><span class="token punctuation">(</span>queryTransformer<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">documentRetriever</span><span class="token punctuation">(</span>documentRetriever<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">queryAugmenter</span><span class="token punctuation">(</span>
+                        <span class="token class-name">ContextualQueryAugmenter</span><span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                                <span class="token punctuation">.</span><span class="token function">allowEmptyContext</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span>
+                                <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token class-name">String</span> answer <span class="token operator">=</span> chatClient<span class="token punctuation">.</span><span class="token function">prompt</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">user</span><span class="token punctuation">(</span>question<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">advisors</span><span class="token punctuation">(</span>ragAdvisor<span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">content</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>查询改写最好使用独立的裸 <code>ChatClient</code>：</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">ChatClient</span><span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span>chatModel<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果从业务 ChatClient 调用 <code>mutate()</code>，查询改写可能继承默认 System Prompt、Chat Memory、Tools 或其他 Advisor，从而干扰改写结果。</p>
+<p>空上下文策略：</p>
+<table>
+<thead>
+<tr>
+<th>设置</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>allowEmptyContext(false)</code></td>
+<td>没有检索到资料时，不允许模型脱离知识库自由回答</td>
+</tr>
+<tr>
+<td><code>allowEmptyContext(true)</code></td>
+<td>没有检索结果时仍继续调用模型</td>
+</tr>
+</tbody></table>
+<p>企业知识、法规、财务等强约束场景通常应设置为 <code>false</code>，并明确设计“未找到答案”的响应。</p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><table>
+<thead>
+<tr>
+<th>现象</th>
+<th>常见原因</th>
+<th>处理方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ChatClient 无法注入</td>
+<td>没有引入模型 Starter，或存在多个 Chat Model</td>
+<td>检查依赖；为主要模型设置 <code>@Primary</code> 或手动创建 Builder</td>
+</tr>
+<tr>
+<td>模型调用返回 401</td>
+<td>API Key 无效或没有传入环境变量</td>
+<td>检查密钥、环境变量和模型平台权限</td>
+</tr>
+<tr>
+<td>模型名称不存在</td>
+<td>Chat Model 与 Embedding Model 配置混用</td>
+<td>分别检查 chat 和 embedding 下的 model</td>
+</tr>
+<tr>
+<td>流式调用无法工作</td>
+<td>没有引入 WebFlux，或使用的模型不支持流式输出</td>
+<td>引入 WebFlux 并检查模型能力</td>
+</tr>
+<tr>
+<td>多轮对话没有上下文</td>
+<td>没有注册 Memory Advisor，或 conversation ID 不一致</td>
+<td>检查默认 Advisor 和每次请求的会话 ID</td>
+</tr>
+<tr>
+<td>不同用户对话串线</td>
+<td>多个用户共用 conversation ID</td>
+<td>按用户和业务会话生成隔离的 ID，并进行权限校验</td>
+</tr>
+<tr>
+<td>Tool 没有执行</td>
+<td>模型不支持 Tool Calling、工具未注册或描述不清</td>
+<td>检查模型能力、<code>.tools()</code>/<code>.defaultTools()</code> 和工具描述</td>
+</tr>
+<tr>
+<td>普通 Redis 可用但向量检索失败</td>
+<td>Redis 不包含 Search 和 Vector 能力</td>
+<td>使用 Redis Stack 或支持向量检索的 Redis 服务</td>
+</tr>
+<tr>
+<td>Redis 报索引不存在</td>
+<td>索引未初始化或索引名不一致</td>
+<td>检查 <code>initialize-schema</code> 和 <code>index-name</code></td>
+</tr>
+<tr>
+<td>metadata 过滤无效</td>
+<td>字段没有加入索引，或旧索引结构未更新</td>
+<td>声明 metadata 字段并重建索引</td>
+</tr>
+<tr>
+<td>向量检索一直为空</td>
+<td>未写入数据、阈值过高或过滤条件不匹配</td>
+<td>确认数据，去掉过滤条件并逐步降低阈值</td>
+</tr>
+<tr>
+<td>RAG 不使用知识库</td>
+<td>没有注册 Advisor、检索为空或模板占位符错误</td>
+<td>检查检索结果、Advisor 和 PromptTemplate</td>
+</tr>
+<tr>
+<td>RAG 产生无依据回答</td>
+<td>允许空上下文，或 Prompt 没有限制</td>
+<td>禁止空上下文并明确无答案策略</td>
+</tr>
+<tr>
+<td>日志包含敏感内容</td>
+<td>开启了 Advisor DEBUG 日志</td>
+<td>关闭生产 DEBUG 日志并进行脱敏</td>
+</tr>
+</tbody></table>
+<h2 id="开发注意事项"><a href="#开发注意事项" class="headerlink" title="开发注意事项"></a>开发注意事项</h2><ul>
+<li>API Key、数据库密码和 Redis 密码不要写入代码或提交到仓库。</li>
+<li>Prompt、Tool 参数和模型结构化输出都需要做业务校验。</li>
+<li>Tool 具有本地代码权限，涉及副作用时必须增加鉴权、幂等和审计。</li>
+<li>Chat Memory 只保存模型所需上下文，完整聊天记录应独立存储。</li>
+<li>Embedding Model 变更后，应检查向量维度并重新生成已有向量。</li>
+<li>文档写入 Vector Store 前，应先确定业务 ID、metadata 和切块策略。</li>
+<li>metadata 索引结构发生变化时，应执行索引迁移。</li>
+<li>RAG 上线前，应准备固定问题集评估召回率和回答准确率。</li>
+<li>模型、数据库和向量库调用都可能失败，应设置超时、重试和降级策略。</li>
+<li>对用户输入、RAG 上下文和模型输出进行日志脱敏。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-ai/reference/">Spring AI Reference</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-ai/reference/api/chatclient.html">ChatClient</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-ai/reference/api/chat-memory.html">Chat Memory</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-ai/reference/api/advisors.html">Advisors</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-ai/reference/api/tools.html">Tool Calling</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-ai/reference/api/embeddings.html">Embeddings</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-ai/reference/api/vectordbs.html">Vector Databases</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-ai/reference/api/vectordbs/redis.html">Redis Vector Store</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-ai/reference/api/retrieval-augmented-generation.html">Retrieval Augmented Generation</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.spring.io/spring-ai/docs/1.1.0/api/">Spring AI 1.1.0 API Javadoc</a></li>
+</ul>
+
+  </div>
+  <div>
+    
+      <div 
+        class="post-note note-warning copyright" 
+        style="margin-top: 42px">
+        <p>
+          <span style="font-weight: bold;">作者：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="/about">
+            Gas
+          </a>
+        </p>
+        <p>
+          <span style="font-weight: bold;">文章链接：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="http://example.com/2026/07/26/SpringAi%E5%9F%BA%E7%A1%80/">
+            http://example.com/2026/07/26/SpringAi%E5%9F%BA%E7%A1%80/
+          </a>
+        </p>
+        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+      </div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/2026/01/09/Windows%20%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8%20Docker%20%E6%90%AD%E5%BB%BA%20Redis%20%E9%9B%86%E7%BE%A4%E6%8C%87%E5%8D%97/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">下一篇</div>
+          
+            <div class="nav-title">Windows 环境下使用 Docker 搭建 Redis 集群指南 </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-AI%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">Spring AI简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">基本使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E5%85%A5Spring-AI-BOM"><span class="toc-number">2.1.</span> <span class="toc-text">引入Spring AI BOM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E5%85%A5%E6%A8%A1%E5%9E%8B%E4%BE%9D%E8%B5%96"><span class="toc-number">2.2.</span> <span class="toc-text">引入模型依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.3.</span> <span class="toc-text">配置模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAChatClient"><span class="toc-number">2.4.</span> <span class="toc-text">创建ChatClient</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ChatClient%E6%9B%B4%E5%A4%9A%E4%BD%BF%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">ChatClient更多使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AESystem%E5%92%8CUser%E6%B6%88%E6%81%AF"><span class="toc-number">3.1.</span> <span class="toc-text">设置System和User消息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%AE%8C%E6%95%B4%E5%93%8D%E5%BA%94"><span class="toc-number">3.2.</span> <span class="toc-text">获取完整响应</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%94%E5%9B%9EJava%E5%AF%B9%E8%B1%A1"><span class="toc-number">3.3.</span> <span class="toc-text">返回Java对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E5%BC%8F%E8%BE%93%E5%87%BA"><span class="toc-number">3.4.</span> <span class="toc-text">流式输出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Chat-Memory"><span class="toc-number">4.</span> <span class="toc-text">Chat Memory</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E4%BC%9A%E8%AF%9D"><span class="toc-number">4.1.</span> <span class="toc-text">内存会话</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E4%BC%9A%E8%AF%9DID"><span class="toc-number">4.2.</span> <span class="toc-text">指定会话ID</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDBC%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">4.3.</span> <span class="toc-text">JDBC持久化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Advisor"><span class="toc-number">5.</span> <span class="toc-text">Advisor</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E9%BB%98%E8%AE%A4Advisor"><span class="toc-number">5.1.</span> <span class="toc-text">注册默认Advisor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AA%E5%9C%A8%E5%BD%93%E5%89%8D%E8%AF%B7%E6%B1%82%E4%BD%BF%E7%94%A8"><span class="toc-number">5.2.</span> <span class="toc-text">只在当前请求使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tool-Calling"><span class="toc-number">6.</span> <span class="toc-text">Tool Calling</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89Tool"><span class="toc-number">6.1.</span> <span class="toc-text">定义Tool</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8CTool"><span class="toc-number">6.2.</span> <span class="toc-text">注册Tool</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tool%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="toc-number">6.3.</span> <span class="toc-text">Tool异常处理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Embedding"><span class="toc-number">7.</span> <span class="toc-text">Embedding</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E8%BD%AC%E5%90%91%E9%87%8F"><span class="toc-number">7.1.</span> <span class="toc-text">文本转向量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BADocument"><span class="toc-number">7.2.</span> <span class="toc-text">创建Document</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%A1%A3%E5%88%87%E5%9D%97"><span class="toc-number">7.3.</span> <span class="toc-text">文档切块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89Token%E5%88%86%E6%89%B9"><span class="toc-number">7.4.</span> <span class="toc-text">按Token分批</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vector-Store"><span class="toc-number">8.</span> <span class="toc-text">Vector Store</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis-Vector-Store"><span class="toc-number">8.1.</span> <span class="toc-text">Redis Vector Store</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E5%85%A5%E6%96%87%E6%A1%A3"><span class="toc-number">8.2.</span> <span class="toc-text">写入文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E4%BC%BC%E5%BA%A6%E6%90%9C%E7%B4%A2"><span class="toc-number">8.3.</span> <span class="toc-text">相似度搜索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%96%87%E6%A1%A3"><span class="toc-number">8.4.</span> <span class="toc-text">删除文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%96%87%E6%A1%A3"><span class="toc-number">8.5.</span> <span class="toc-text">更新文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#metadata%E5%AD%97%E6%AE%B5%E5%8F%98%E6%9B%B4"><span class="toc-number">8.6.</span> <span class="toc-text">metadata字段变更</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RAG"><span class="toc-number">9.</span> <span class="toc-text">RAG</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#QuestionAnswerAdvisor"><span class="toc-number">9.1.</span> <span class="toc-text">QuestionAnswerAdvisor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RetrievalAugmentationAdvisor"><span class="toc-number">9.2.</span> <span class="toc-text">RetrievalAugmentationAdvisor</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">10.</span> <span class="toc-text">常见问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">11.</span> <span class="toc-text">开发注意事项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">12.</span> <span class="toc-text">参考</span></a></li></ol>
+</div></main>
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="/img/Kaze.png" 
+    class="author-img" 
+    alt="author avatar">
+
+<p class="author-name">Gas</p>
+<p class="author-description">想当画家的咸鱼罢了</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/archives">
+    <span>58</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/categories">
+    <span>7</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/tags">
+    <span>63</span>
+    <span>标签</span>
+  </a>
+</div>
+
+  <div class="author-card-society">
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://github.com/Uranus-s">
+          <i class="iconfont social_github icon-github society-icon"></i>
+        </a>
+      </div>
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://gitee.com/L-sama">
+          <i class="iconfont social_github icon-gitee2 society-icon"></i>
+        </a>
+      </div>
+    
+  </div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-AI%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">Spring AI简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">基本使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E5%85%A5Spring-AI-BOM"><span class="toc-number">2.1.</span> <span class="toc-text">引入Spring AI BOM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E5%85%A5%E6%A8%A1%E5%9E%8B%E4%BE%9D%E8%B5%96"><span class="toc-number">2.2.</span> <span class="toc-text">引入模型依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.3.</span> <span class="toc-text">配置模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAChatClient"><span class="toc-number">2.4.</span> <span class="toc-text">创建ChatClient</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ChatClient%E6%9B%B4%E5%A4%9A%E4%BD%BF%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">ChatClient更多使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AESystem%E5%92%8CUser%E6%B6%88%E6%81%AF"><span class="toc-number">3.1.</span> <span class="toc-text">设置System和User消息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%AE%8C%E6%95%B4%E5%93%8D%E5%BA%94"><span class="toc-number">3.2.</span> <span class="toc-text">获取完整响应</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%94%E5%9B%9EJava%E5%AF%B9%E8%B1%A1"><span class="toc-number">3.3.</span> <span class="toc-text">返回Java对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E5%BC%8F%E8%BE%93%E5%87%BA"><span class="toc-number">3.4.</span> <span class="toc-text">流式输出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Chat-Memory"><span class="toc-number">4.</span> <span class="toc-text">Chat Memory</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E4%BC%9A%E8%AF%9D"><span class="toc-number">4.1.</span> <span class="toc-text">内存会话</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E4%BC%9A%E8%AF%9DID"><span class="toc-number">4.2.</span> <span class="toc-text">指定会话ID</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDBC%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">4.3.</span> <span class="toc-text">JDBC持久化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Advisor"><span class="toc-number">5.</span> <span class="toc-text">Advisor</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E9%BB%98%E8%AE%A4Advisor"><span class="toc-number">5.1.</span> <span class="toc-text">注册默认Advisor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AA%E5%9C%A8%E5%BD%93%E5%89%8D%E8%AF%B7%E6%B1%82%E4%BD%BF%E7%94%A8"><span class="toc-number">5.2.</span> <span class="toc-text">只在当前请求使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tool-Calling"><span class="toc-number">6.</span> <span class="toc-text">Tool Calling</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89Tool"><span class="toc-number">6.1.</span> <span class="toc-text">定义Tool</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8CTool"><span class="toc-number">6.2.</span> <span class="toc-text">注册Tool</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tool%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="toc-number">6.3.</span> <span class="toc-text">Tool异常处理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Embedding"><span class="toc-number">7.</span> <span class="toc-text">Embedding</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E8%BD%AC%E5%90%91%E9%87%8F"><span class="toc-number">7.1.</span> <span class="toc-text">文本转向量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BADocument"><span class="toc-number">7.2.</span> <span class="toc-text">创建Document</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%A1%A3%E5%88%87%E5%9D%97"><span class="toc-number">7.3.</span> <span class="toc-text">文档切块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89Token%E5%88%86%E6%89%B9"><span class="toc-number">7.4.</span> <span class="toc-text">按Token分批</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vector-Store"><span class="toc-number">8.</span> <span class="toc-text">Vector Store</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis-Vector-Store"><span class="toc-number">8.1.</span> <span class="toc-text">Redis Vector Store</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E5%85%A5%E6%96%87%E6%A1%A3"><span class="toc-number">8.2.</span> <span class="toc-text">写入文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E4%BC%BC%E5%BA%A6%E6%90%9C%E7%B4%A2"><span class="toc-number">8.3.</span> <span class="toc-text">相似度搜索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%96%87%E6%A1%A3"><span class="toc-number">8.4.</span> <span class="toc-text">删除文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%96%87%E6%A1%A3"><span class="toc-number">8.5.</span> <span class="toc-text">更新文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#metadata%E5%AD%97%E6%AE%B5%E5%8F%98%E6%9B%B4"><span class="toc-number">8.6.</span> <span class="toc-text">metadata字段变更</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RAG"><span class="toc-number">9.</span> <span class="toc-text">RAG</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#QuestionAnswerAdvisor"><span class="toc-number">9.1.</span> <span class="toc-text">QuestionAnswerAdvisor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RetrievalAugmentationAdvisor"><span class="toc-number">9.2.</span> <span class="toc-text">RetrievalAugmentationAdvisor</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">10.</span> <span class="toc-text">常见问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">11.</span> <span class="toc-text">开发注意事项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">12.</span> <span class="toc-text">参考</span></a></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+      <a href="/categories/DevOps/">
+        <div class="categories-list-item">
+          DevOps
+          <span class="categories-list-item-badge">6</span>
+        </div>
+      </a>
+    
+      <a href="/categories/dotnet/">
+        <div class="categories-list-item">
+          dotnet
+          <span class="categories-list-item-badge">5</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Database/">
+        <div class="categories-list-item">
+          Database
+          <span class="categories-list-item-badge">8</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Java/">
+        <div class="categories-list-item">
+          Java
+          <span class="categories-list-item-badge">34</span>
+        </div>
+      </a>
+    
+      <a href="/categories/AI/">
+        <div class="categories-list-item">
+          AI
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Algorithm/">
+        <div class="categories-list-item">
+          Algorithm
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Frontend/">
+        <div class="categories-list-item">
+          Frontend
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/tags/Spring-Boot/" 
+        title="Spring Boot">
+        <div class="tags-list-item">Spring Boot</div>
+      </a>
+    
+      <a 
+        href="/tags/Redis/" 
+        title="Redis">
+        <div class="tags-list-item">Redis</div>
+      </a>
+    
+      <a 
+        href="/tags/Docker/" 
+        title="Docker">
+        <div class="tags-list-item">Docker</div>
+      </a>
+    
+      <a 
+        href="/tags/NET-Core/" 
+        title=".NET Core">
+        <div class="tags-list-item">.NET Core</div>
+      </a>
+    
+      <a 
+        href="/tags/Bean-Validation/" 
+        title="Bean Validation">
+        <div class="tags-list-item">Bean Validation</div>
+      </a>
+    
+      <a 
+        href="/tags/JSON/" 
+        title="JSON">
+        <div class="tags-list-item">JSON</div>
+      </a>
+    
+      <a 
+        href="/tags/Spring/" 
+        title="Spring">
+        <div class="tags-list-item">Spring</div>
+      </a>
+    
+      <a 
+        href="/tags/IDEA/" 
+        title="IDEA">
+        <div class="tags-list-item">IDEA</div>
+      </a>
+    
+      <a 
+        href="/tags/Maven/" 
+        title="Maven">
+        <div class="tags-list-item">Maven</div>
+      </a>
+    
+      <a 
+        href="/tags/RabbitMQ/" 
+        title="RabbitMQ">
+        <div class="tags-list-item">RabbitMQ</div>
+      </a>
+    
+      <a 
+        href="/tags/MySQL/" 
+        title="MySQL">
+        <div class="tags-list-item">MySQL</div>
+      </a>
+    
+      <a 
+        href="/tags/RAG/" 
+        title="RAG">
+        <div class="tags-list-item">RAG</div>
+      </a>
+    
+      <a 
+        href="/tags/Spring-AI/" 
+        title="Spring AI">
+        <div class="tags-list-item">Spring AI</div>
+      </a>
+    
+      <a 
+        href="/tags/Snowflake-Algorithm/" 
+        title="Snowflake Algorithm">
+        <div class="tags-list-item">Snowflake Algorithm</div>
+      </a>
+    
+      <a 
+        href="/tags/COS/" 
+        title="COS">
+        <div class="tags-list-item">COS</div>
+      </a>
+    
+      <a 
+        href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" 
+        title="腾讯云">
+        <div class="tags-list-item">腾讯云</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-AI%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">Spring AI简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">基本使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E5%85%A5Spring-AI-BOM"><span class="toc-number">2.1.</span> <span class="toc-text">引入Spring AI BOM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E5%85%A5%E6%A8%A1%E5%9E%8B%E4%BE%9D%E8%B5%96"><span class="toc-number">2.2.</span> <span class="toc-text">引入模型依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.3.</span> <span class="toc-text">配置模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAChatClient"><span class="toc-number">2.4.</span> <span class="toc-text">创建ChatClient</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ChatClient%E6%9B%B4%E5%A4%9A%E4%BD%BF%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">ChatClient更多使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AESystem%E5%92%8CUser%E6%B6%88%E6%81%AF"><span class="toc-number">3.1.</span> <span class="toc-text">设置System和User消息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%AE%8C%E6%95%B4%E5%93%8D%E5%BA%94"><span class="toc-number">3.2.</span> <span class="toc-text">获取完整响应</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%94%E5%9B%9EJava%E5%AF%B9%E8%B1%A1"><span class="toc-number">3.3.</span> <span class="toc-text">返回Java对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%81%E5%BC%8F%E8%BE%93%E5%87%BA"><span class="toc-number">3.4.</span> <span class="toc-text">流式输出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Chat-Memory"><span class="toc-number">4.</span> <span class="toc-text">Chat Memory</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E4%BC%9A%E8%AF%9D"><span class="toc-number">4.1.</span> <span class="toc-text">内存会话</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E4%BC%9A%E8%AF%9DID"><span class="toc-number">4.2.</span> <span class="toc-text">指定会话ID</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JDBC%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-number">4.3.</span> <span class="toc-text">JDBC持久化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Advisor"><span class="toc-number">5.</span> <span class="toc-text">Advisor</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E9%BB%98%E8%AE%A4Advisor"><span class="toc-number">5.1.</span> <span class="toc-text">注册默认Advisor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AA%E5%9C%A8%E5%BD%93%E5%89%8D%E8%AF%B7%E6%B1%82%E4%BD%BF%E7%94%A8"><span class="toc-number">5.2.</span> <span class="toc-text">只在当前请求使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tool-Calling"><span class="toc-number">6.</span> <span class="toc-text">Tool Calling</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89Tool"><span class="toc-number">6.1.</span> <span class="toc-text">定义Tool</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8CTool"><span class="toc-number">6.2.</span> <span class="toc-text">注册Tool</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tool%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="toc-number">6.3.</span> <span class="toc-text">Tool异常处理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Embedding"><span class="toc-number">7.</span> <span class="toc-text">Embedding</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E8%BD%AC%E5%90%91%E9%87%8F"><span class="toc-number">7.1.</span> <span class="toc-text">文本转向量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BADocument"><span class="toc-number">7.2.</span> <span class="toc-text">创建Document</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%A1%A3%E5%88%87%E5%9D%97"><span class="toc-number">7.3.</span> <span class="toc-text">文档切块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89Token%E5%88%86%E6%89%B9"><span class="toc-number">7.4.</span> <span class="toc-text">按Token分批</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vector-Store"><span class="toc-number">8.</span> <span class="toc-text">Vector Store</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis-Vector-Store"><span class="toc-number">8.1.</span> <span class="toc-text">Redis Vector Store</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E5%85%A5%E6%96%87%E6%A1%A3"><span class="toc-number">8.2.</span> <span class="toc-text">写入文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E4%BC%BC%E5%BA%A6%E6%90%9C%E7%B4%A2"><span class="toc-number">8.3.</span> <span class="toc-text">相似度搜索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%96%87%E6%A1%A3"><span class="toc-number">8.4.</span> <span class="toc-text">删除文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%96%87%E6%A1%A3"><span class="toc-number">8.5.</span> <span class="toc-text">更新文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#metadata%E5%AD%97%E6%AE%B5%E5%8F%98%E6%9B%B4"><span class="toc-number">8.6.</span> <span class="toc-text">metadata字段变更</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RAG"><span class="toc-number">9.</span> <span class="toc-text">RAG</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#QuestionAnswerAdvisor"><span class="toc-number">9.1.</span> <span class="toc-text">QuestionAnswerAdvisor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RetrievalAugmentationAdvisor"><span class="toc-number">9.2.</span> <span class="toc-text">RetrievalAugmentationAdvisor</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">10.</span> <span class="toc-text">常见问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">11.</span> <span class="toc-text">开发注意事项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">12.</span> <span class="toc-text">参考</span></a></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2026-07-26</div>
+        <a href="/2026/07/26/SpringAi%E5%9F%BA%E7%A1%80/"><div class="recent-posts-item-content">SpringAi基础</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2026-01-09</div>
+        <a href="/2026/01/09/Windows%20%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8%20Docker%20%E6%90%AD%E5%BB%BA%20Redis%20%E9%9B%86%E7%BE%A4%E6%8C%87%E5%8D%97/"><div class="recent-posts-item-content">Windows 环境下使用 Docker 搭建 Redis 集群指南</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2026-01-02</div>
+        <a href="/2026/01/02/Docker%20%E6%90%AD%E5%BB%BA%20MySQL%E4%B8%BB%E4%BB%8E/"><div class="recent-posts-item-content">Docker 搭建 MySQL主从</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2025-03-30</div>
+        <a href="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/"><div class="recent-posts-item-content">MongoDB基础使用</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2020 -
+          
+          2026
+        </span>
+        &nbsp;
+        <a 
+          href="/" 
+          class="footer-link">
+          Gas
+        </a>
+      </div>
+    </div>
+
+    
+      <div class="footer-dsc">
+        
+          Powered by
+          <a 
+            href="https://hexo.io/" 
+            class="footer-link" 
+            target="_blank" 
+            rel="nofollow noopener noreferrer">
+            &nbsp;Hexo
+          </a>
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          Theme -
+          <a 
+            href="https://github.com/theme-kaze" 
+            class="footer-link" 
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            &nbsp;Kaze
+          </a>
+        
+      </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer> 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton" 
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/js/main.js"></script> 
+    
+      <script> 
+        loadScript('/js/lib/busuanzi.min.js') 
+      </script>
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/js/lib/lozad.min.js', addLazyload)
+      </script>
+     
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>
