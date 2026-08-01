@@ -45,15 +45,11 @@
         content="2021-06-18">
       <meta 
         property="og:article:modified_time" 
-        content="2021-06-22">
+        content="2026-08-01">
       <meta 
         property="og:article:author" 
         content="Gas">
       
-        
-          <meta 
-            property="og:article:tag" 
-            content="Java">
         
           <meta 
             property="og:article:tag" 
@@ -339,15 +335,6 @@
         
           
           <a 
-            href="/tags/Java/" 
-            class="post-meta-link">
-            Java
-          </a>
-        
-          
-            <span class="dot"></span>
-          
-          <a 
             href="/tags/%E9%9B%86%E5%90%88/" 
             class="post-meta-link">
             集合
@@ -362,7 +349,7 @@
     class="post-content">
     <h2 id="Java集合"><a href="#Java集合" class="headerlink" title="Java集合"></a>Java集合</h2><p>Java集合是学习Java中必须掌握的,面试也会经常问道.</p>
 <p>Java集合框架图</p>
-<p><img src="/2021/06/18/Java-%E9%9B%86%E5%90%88/image-20210618092536178.png" alt="image-20210618092536178" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/06/18/Java-%E9%9B%86%E5%90%88/image-20210618092536178.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Java-%E9%9B%86%E5%90%88/image-20210618092536178.png" alt="image-20210618092536178" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Java-%E9%9B%86%E5%90%88/image-20210618092536178.png" class="lozad post-image"></p>
 <p>从上面可以看出,集合主要分两大类,一种是<code>Collection</code>,存储的是元素集合,另一种是<code>Map</code>,存储Key/Value,其中<code>Collection</code>又分为<code>List</code>、<code>Set</code>和<code>Queue</code>在下面也是一些抽象类,最后是具体实现类,常用的有 <a target="_blank" rel="noopener" href="https://www.runoob.com/java/java-arraylist.html">ArrayList</a>、<a target="_blank" rel="noopener" href="https://www.runoob.com/java/java-linkedlist.html">LinkedList</a>、<a target="_blank" rel="noopener" href="https://www.runoob.com/java/java-hashset.html">HashSet</a>、LinkedHashSet、<a target="_blank" rel="noopener" href="https://www.runoob.com/java/java-hashmap.html">HashMap</a>、LinkedHashMap等等.</p>
 <h2 id="集合接口"><a href="#集合接口" class="headerlink" title="集合接口"></a>集合接口</h2><table>
 <thead>
@@ -411,7 +398,7 @@
 </ol>
 <h2 id="常用集合"><a href="#常用集合" class="headerlink" title="常用集合"></a>常用集合</h2><h3 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h3><p><code>ArrayList</code>是可以动态修改的数组,于普通数组的区别就是没有固定的大小限制,我们可以添加或删除数据</p>
 <p><code>ArrayList</code>继承了<code>AbstractList</code>并实现了<code>List</code>接口</p>
-<p><img src="/2021/06/18/Java-%E9%9B%86%E5%90%88/image-20210618103119745.png" alt="image-20210618103119745" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/06/18/Java-%E9%9B%86%E5%90%88/image-20210618103119745.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Java-%E9%9B%86%E5%90%88/image-20210618103119745.png" alt="image-20210618103119745" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Java-%E9%9B%86%E5%90%88/image-20210618103119745.png" class="lozad post-image"></p>
 <p><strong>ArrayList常用方法</strong></p>
 <table>
 <thead>
@@ -526,9 +513,9 @@
 <h3 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h3><p>链表是一种常见的基本数据结构,是一种线性表,但并不会按线性顺序存储数据,而是在每一个节点里存到下一个节点的地址.</p>
 <p>链表有单向和双向链表之分.</p>
 <p>单向链表包含两个值:当前节点的值和指向下一个节点的链接</p>
-<p><img src="/2021/06/18/Java-%E9%9B%86%E5%90%88/image-20210618104604427.png" alt="image-20210618104604427" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/06/18/Java-%E9%9B%86%E5%90%88/image-20210618104604427.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Java-%E9%9B%86%E5%90%88/image-20210618104604427.png" alt="image-20210618104604427" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Java-%E9%9B%86%E5%90%88/image-20210618104604427.png" class="lozad post-image"></p>
 <p>双向链表有三个数值:向前的节点链接,数值,向后的节点链接</p>
-<p><img src="/2021/06/18/Java-%E9%9B%86%E5%90%88/image-20210618104645755.png" alt="image-20210618104645755" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/06/18/Java-%E9%9B%86%E5%90%88/image-20210618104645755.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Java-%E9%9B%86%E5%90%88/image-20210618104645755.png" alt="image-20210618104645755" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Java-%E9%9B%86%E5%90%88/image-20210618104645755.png" class="lozad post-image"></p>
 <p>于<code>ArrayList</code>相比,LinkedList的增加和删除效率更高,而查找和修改的操作效率低</p>
 <p><strong>以下情况使用ArrayList</strong></p>
 <ul>
@@ -546,7 +533,7 @@
 <p>LinkedList 实现了 Deque 接口，可作为队列使用。</p>
 <p>LinkedList 实现了 Cloneable 接口，可实现克隆。</p>
 <p>LinkedList 实现了 java.io.Serializable 接口，即可支持序列化，能通过序列化去传输。</p>
-<p><img src="/2021/06/18/Java-%E9%9B%86%E5%90%88/image-20210618105347249.png" alt="image-20210618105347249" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/06/18/Java-%E9%9B%86%E5%90%88/image-20210618105347249.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Java-%E9%9B%86%E5%90%88/image-20210618105347249.png" alt="image-20210618105347249" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Java-%E9%9B%86%E5%90%88/image-20210618105347249.png" class="lozad post-image"></p>
 <p><strong>常用方法</strong></p>
 <table>
 <thead>
@@ -690,7 +677,7 @@
 </tbody></table>
 <h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h3><p>HashMap是一个散列表,存储键值对,实现了Mao接口,根据键的HashCode值存储数据,具有很快的访问速度,最多允许一条记录的键为null,不支持线程同步.</p>
 <p>HashMap是无序的,HashMap 继承于AbstractMap，实现了 Map、Cloneable、java.io.Serializable 接口。</p>
-<p><img src="/2021/06/18/Java-%E9%9B%86%E5%90%88/image-20210618112102975.png" alt="image-20210618112102975" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/06/18/Java-%E9%9B%86%E5%90%88/image-20210618112102975.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Java-%E9%9B%86%E5%90%88/image-20210618112102975.png" alt="image-20210618112102975" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Java-%E9%9B%86%E5%90%88/image-20210618112102975.png" class="lozad post-image"></p>
 <p>HashMap的key和Value可以相同也可以不相同</p>
 <p><strong>常用方法</strong></p>
 <table>
@@ -792,7 +779,7 @@
 <h3 id="HashSet"><a href="#HashSet" class="headerlink" title="HashSet"></a>HashSet</h3><p>HashSet基于HashMap来实现,是一个不允许有重复元素的集合.</p>
 <p>HashSet允许有空值.是无序的,不是线程安全的.</p>
 <p>HashSet实现了Set接口</p>
-<p><img src="/2021/06/18/Java-%E9%9B%86%E5%90%88/image-20210618113323485.png" alt="image-20210618113323485" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/06/18/Java-%E9%9B%86%E5%90%88/image-20210618113323485.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Java-%E9%9B%86%E5%90%88/image-20210618113323485.png" alt="image-20210618113323485" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Java-%E9%9B%86%E5%90%88/image-20210618113323485.png" class="lozad post-image"></p>
 
   </div>
   <div>
@@ -880,19 +867,19 @@
   <a 
     class="author-posts-count" 
     href="/archives">
-    <span>55</span>
+    <span>57</span>
     <span>文章</span>
   </a>
   <a 
     class="author-categories-count" 
     href="/categories">
-    <span>19</span>
+    <span>7</span>
     <span>分类</span>
   </a>
   <a 
     class="author-tags-count" 
     href="/tags">
-    <span>50</span>
+    <span>61</span>
     <span>标签</span>
   </a>
 </div>
@@ -940,135 +927,51 @@
   </div>
   <div class="categories-list">
     
-      <a href="/categories/Docker/">
+      <a href="/categories/DevOps/">
         <div class="categories-list-item">
-          Docker
-          <span class="categories-list-item-badge">3</span>
+          DevOps
+          <span class="categories-list-item-badge">6</span>
         </div>
       </a>
     
-      <a href="/categories/Net/">
+      <a href="/categories/dotnet/">
         <div class="categories-list-item">
-          Net
-          <span class="categories-list-item-badge">2</span>
+          dotnet
+          <span class="categories-list-item-badge">5</span>
         </div>
       </a>
     
-      <a href="/categories/HBase/">
+      <a href="/categories/Database/">
         <div class="categories-list-item">
-          HBase
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/DotNetCore/">
-        <div class="categories-list-item">
-          DotNetCore
-          <span class="categories-list-item-badge">2</span>
+          Database
+          <span class="categories-list-item-badge">8</span>
         </div>
       </a>
     
       <a href="/categories/Java/">
         <div class="categories-list-item">
           Java
-          <span class="categories-list-item-badge">12</span>
+          <span class="categories-list-item-badge">34</span>
         </div>
       </a>
     
-      <a href="/categories/IText/">
+      <a href="/categories/AI/">
         <div class="categories-list-item">
-          IText
+          AI
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
-      <a href="/categories/Jenkins/">
+      <a href="/categories/Algorithm/">
         <div class="categories-list-item">
-          Jenkins
-          <span class="categories-list-item-badge">1</span>
+          Algorithm
+          <span class="categories-list-item-badge">2</span>
         </div>
       </a>
     
-      <a href="/categories/MongoDB/">
+      <a href="/categories/Frontend/">
         <div class="categories-list-item">
-          MongoDB
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Log4j/">
-        <div class="categories-list-item">
-          Log4j
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Netty/">
-        <div class="categories-list-item">
-          Netty
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Redis/">
-        <div class="categories-list-item">
-          Redis
-          <span class="categories-list-item-badge">6</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Spring/">
-        <div class="categories-list-item">
-          Spring
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/SpringBoot/">
-        <div class="categories-list-item">
-          SpringBoot
-          <span class="categories-list-item-badge">16</span>
-        </div>
-      </a>
-    
-      <a href="/categories/GateWay/">
-        <div class="categories-list-item">
-          GateWay
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/WPF/">
-        <div class="categories-list-item">
-          WPF
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Python/">
-        <div class="categories-list-item">
-          Python
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/%E6%8E%92%E5%BA%8F/">
-        <div class="categories-list-item">
-          排序
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/COS/">
-        <div class="categories-list-item">
-          COS
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/algorithm/">
-        <div class="categories-list-item">
-          algorithm
+          Frontend
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -1088,21 +991,9 @@
   <div class="tags-list">
     
       <a 
-        href="/tags/SpringBoot/" 
-        title="SpringBoot">
-        <div class="tags-list-item">SpringBoot</div>
-      </a>
-    
-      <a 
-        href="/tags/Spring/" 
-        title="Spring">
-        <div class="tags-list-item">Spring</div>
-      </a>
-    
-      <a 
-        href="/tags/Java/" 
-        title="Java">
-        <div class="tags-list-item">Java</div>
+        href="/tags/Spring-Boot/" 
+        title="Spring Boot">
+        <div class="tags-list-item">Spring Boot</div>
       </a>
     
       <a 
@@ -1118,9 +1009,21 @@
       </a>
     
       <a 
-        href="/tags/DotNetCore/" 
-        title="DotNetCore">
-        <div class="tags-list-item">DotNetCore</div>
+        href="/tags/NET-Core/" 
+        title=".NET Core">
+        <div class="tags-list-item">.NET Core</div>
+      </a>
+    
+      <a 
+        href="/tags/Bean-Validation/" 
+        title="Bean Validation">
+        <div class="tags-list-item">Bean Validation</div>
+      </a>
+    
+      <a 
+        href="/tags/JSON/" 
+        title="JSON">
+        <div class="tags-list-item">JSON</div>
       </a>
     
       <a 
@@ -1142,27 +1045,15 @@
       </a>
     
       <a 
-        href="/tags/Jackson/" 
-        title="Jackson">
-        <div class="tags-list-item">Jackson</div>
+        href="/tags/MySQL/" 
+        title="MySQL">
+        <div class="tags-list-item">MySQL</div>
       </a>
     
       <a 
-        href="/tags/snowflake/" 
-        title="snowflake">
-        <div class="tags-list-item">snowflake</div>
-      </a>
-    
-      <a 
-        href="/tags/algorithm/" 
-        title="algorithm">
-        <div class="tags-list-item">algorithm</div>
-      </a>
-    
-      <a 
-        href="/tags/Jvm/" 
-        title="Jvm">
-        <div class="tags-list-item">Jvm</div>
+        href="/tags/Snowflake-Algorithm/" 
+        title="Snowflake Algorithm">
+        <div class="tags-list-item">Snowflake Algorithm</div>
       </a>
     
       <a 
@@ -1172,15 +1063,27 @@
       </a>
     
       <a 
+        href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" 
+        title="腾讯云">
+        <div class="tags-list-item">腾讯云</div>
+      </a>
+    
+      <a 
         href="/tags/Vue/" 
         title="Vue">
         <div class="tags-list-item">Vue</div>
       </a>
     
       <a 
-        href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" 
-        title="腾讯云">
-        <div class="tags-list-item">腾讯云</div>
+        href="/tags/HTML/" 
+        title="HTML">
+        <div class="tags-list-item">HTML</div>
+      </a>
+    
+      <a 
+        href="/tags/JVM/" 
+        title="JVM">
+        <div class="tags-list-item">JVM</div>
       </a>
     
   </div>
@@ -1216,6 +1119,16 @@
   <div class="recent-posts-list">
     
       <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2026-01-09</div>
+        <a href="/2026/01/09/Windows%20%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8%20Docker%20%E6%90%AD%E5%BB%BA%20Redis%20%E9%9B%86%E7%BE%A4%E6%8C%87%E5%8D%97/"><div class="recent-posts-item-content">Windows 环境下使用 Docker 搭建 Redis 集群指南</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2026-01-02</div>
+        <a href="/2026/01/02/Docker%20%E6%90%AD%E5%BB%BA%20MySQL%E4%B8%BB%E4%BB%8E/"><div class="recent-posts-item-content">Windows 环境下使用 Docker 搭建 MySQL 8 一主两从指南</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
         <div class="recent-posts-item-title">2025-03-30</div>
         <a href="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/"><div class="recent-posts-item-content">MongoDB基础使用</div></a>
       </div>
@@ -1223,16 +1136,6 @@
       <div class="recent-posts-item">
         <div class="recent-posts-item-title">2023-05-28</div>
         <a href="/2023/05/28/YOLO-PyTorch-CUDN%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/"><div class="recent-posts-item-content">YOLO PyTorch CUDN环境安装</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-12-20</div>
-        <a href="/2022/12/20/HBase%E5%88%9D%E8%AF%86/"><div class="recent-posts-item-content">HBase初识</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-10-30</div>
-        <a href="/2022/10/30/Java%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E5%8C%96/"><div class="recent-posts-item-content">Java时间格式化</div></a>
       </div>
     
   </div>
@@ -1256,7 +1159,7 @@
           
             2020 -
           
-          2025
+          2026
         </span>
         &nbsp;
         <a 

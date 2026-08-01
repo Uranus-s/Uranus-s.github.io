@@ -45,7 +45,7 @@
         content="2021-10-17">
       <meta 
         property="og:article:modified_time" 
-        content="2021-11-29">
+        content="2026-08-01">
       <meta 
         property="og:article:author" 
         content="Gas">
@@ -312,9 +312,9 @@
       <span class="dot"></span>
       
         <a 
-          href="/categories/Jenkins/" 
+          href="/categories/DevOps/" 
           class="post-meta-link">
-          Jenkins
+          DevOps
         </a>
       
     
@@ -349,7 +349,7 @@
     class="post-content">
     <h2 id="为什么要用Jenkins"><a href="#为什么要用Jenkins" class="headerlink" title="为什么要用Jenkins"></a>为什么要用Jenkins</h2><p>每次开发完成一个项目之后，需要打包部署，没用专门的运维人员，只能由开发人员打包程序，把线上的服务关了，把打包好的应用程序部署进服务器，这是一个繁琐的过程，而Jenkins正好帮助我们解决了这个问题，自动构建部署，非常方便。</p>
 <h2 id="Jenkins"><a href="#Jenkins" class="headerlink" title="Jenkins"></a>Jenkins</h2><p>Jenkins是一个开源软件项目，是基于Java开发的一种持续集成工具，用于监控持续重复的工作，旨在提供一个开放易用的软件平台，使软件的持续集成变成可能。</p>
-<h2 id="Jenkins工作原理"><a href="#Jenkins工作原理" class="headerlink" title="Jenkins工作原理"></a>Jenkins工作原理</h2><p><img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017092457876.png" alt="image-20211017092457876" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017092457876.png" class="lozad post-image"></p>
+<h2 id="Jenkins工作原理"><a href="#Jenkins工作原理" class="headerlink" title="Jenkins工作原理"></a>Jenkins工作原理</h2><p><img src="/images/posts/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017092457876.png" alt="image-20211017092457876" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017092457876.png" class="lozad post-image"></p>
 <p>以上为基本工作原理，只是为了开发人员更好的理解画的，详情可查看官方文档：<a target="_blank" rel="noopener" href="https://www.jenkins.io/zh/">https://www.jenkins.io/zh/</a></p>
 <h2 id="安装Jenkins"><a href="#安装Jenkins" class="headerlink" title="安装Jenkins"></a>安装Jenkins</h2><p>首先准备一台服务器/虚拟机，安装好Docker，还有远程连接工具等辅助软件。</p>
 <ol>
@@ -377,11 +377,11 @@
 <li><p>浏览器输入<code>http://192.168.140.128:10240/</code>看到如下界面表示成功</p>
 </li>
 </ol>
-<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017094458693.png" alt="image-20211017094458693" style="zoom:67%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017094458693.png" class="lozad post-image">
+<img src="/images/posts/Jenkins自动部署/image-20211017094458693.png" alt="image-20211017094458693" style="zoom:67%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Jenkins自动部署/image-20211017094458693.png" class="lozad post-image">
 
 <ol start="4">
 <li><p>等待一段时间，可以看到如下界面</p>
-<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017094736568.png" alt="image-20211017094736568" style="zoom: 50%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017094736568.png" class="lozad post-image">
+<img src="/images/posts/Jenkins自动部署/image-20211017094736568.png" alt="image-20211017094736568" style="zoom: 50%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Jenkins自动部署/image-20211017094736568.png" class="lozad post-image">
 
 <pre class="line-numbers language-java" data-language="java"><code class="language-java">#进入容器
 docker exec <span class="token operator">-</span>it xxxxxxxxxxx <span class="token operator">/</span>bin<span class="token operator">/</span>bash
@@ -392,25 +392,25 @@ xxxxxxxxxxxxxxxxxxxxxxxxxx<span aria-hidden="true" class="line-numbers-rows"><sp
 <p>复制上面的xxxxxxxxxxxxxxxxxxxxxxxxxx密钥拿到浏览器的编辑框黏贴,点击继续等待一段时间。</p>
 </li>
 <li><p>安装插件</p>
-<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017094935167.png" alt="image-20211017094935167" style="zoom: 67%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017094935167.png" class="lozad post-image">
+<img src="/images/posts/Jenkins自动部署/image-20211017094935167.png" alt="image-20211017094935167" style="zoom: 67%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Jenkins自动部署/image-20211017094935167.png" class="lozad post-image">
 
 <p>选择<code>安装推荐的插件</code>即可</p>
 <p>然后根据步骤配置<code>管理员账号</code>和<code>JenkinsURL</code>保存并完成，然后就可以使用了</p>
-<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017095157924.png" alt="image-20211017095157924" style="zoom:67%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017095157924.png" class="lozad post-image">
+<img src="/images/posts/Jenkins自动部署/image-20211017095157924.png" alt="image-20211017095157924" style="zoom:67%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Jenkins自动部署/image-20211017095157924.png" class="lozad post-image">
 
 <p>注意：<strong>首次进入Jenkins部分菜单会还没有中文，需要重新启动。</strong></p>
 </li>
 </ol>
 <h2 id="实现Jenkins-Docker部署项目"><a href="#实现Jenkins-Docker部署项目" class="headerlink" title="实现Jenkins+Docker部署项目"></a>实现Jenkins+Docker部署项目</h2><ol>
 <li><p>Jenkins安装maven打包插件：Jenkins -&gt; 系统管理 -&gt; 插件管理 -&gt; 可选插件，搜索<code>Maven Integration</code>和<code>Docker</code></p>
-<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017095941550.png" alt="image-20211017095941550" style="zoom: 80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017095941550.png" class="lozad post-image">
+<img src="/images/posts/Jenkins自动部署/image-20211017095941550.png" alt="image-20211017095941550" style="zoom: 80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Jenkins自动部署/image-20211017095941550.png" class="lozad post-image">
 
-<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017095959730.png" alt="image-20211017095959730" style="zoom: 80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017095959730.png" class="lozad post-image">
+<img src="/images/posts/Jenkins自动部署/image-20211017095959730.png" alt="image-20211017095959730" style="zoom: 80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Jenkins自动部署/image-20211017095959730.png" class="lozad post-image">
 
 <p>等待安装即可</p>
 </li>
 <li><p>进行全局工具配置；Jenkins -&gt; 系统管理 -&gt; 全局工具配置</p>
-<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100121963.png" alt="image-20211017100121963" style="zoom:80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100121963.png" class="lozad post-image">
+<img src="/images/posts/Jenkins自动部署/image-20211017100121963.png" alt="image-20211017100121963" style="zoom:80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Jenkins自动部署/image-20211017100121963.png" class="lozad post-image">
 
 <p>进行JDK配置，在此之前你需要查看<code>JAVA_HOM</code>路径，使用<code>docker inspect xxxxxxx</code>即可，大致如下，有<code>JAVA_HOM</code>即可。</p>
 <pre class="line-numbers language-none"><code class="language-none">&quot;Env&quot;: [
@@ -430,36 +430,36 @@ xxxxxxxxxxxxxxxxxxxxxxxxxx<span aria-hidden="true" class="line-numbers-rows"><sp
     &quot;COPY_REFERENCE_FILE_LOG&#x3D;&#x2F;var&#x2F;jenkins_home&#x2F;copy_reference_file.log&quot;
 ],<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100444541.png" alt="image-20211017100444541" style="zoom:80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100444541.png" class="lozad post-image">
+<img src="/images/posts/Jenkins自动部署/image-20211017100444541.png" alt="image-20211017100444541" style="zoom:80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Jenkins自动部署/image-20211017100444541.png" class="lozad post-image">
 
 <p>进行git配置</p>
-<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100512317.png" alt="image-20211017100512317" style="zoom:80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100512317.png" class="lozad post-image">
+<img src="/images/posts/Jenkins自动部署/image-20211017100512317.png" alt="image-20211017100512317" style="zoom:80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Jenkins自动部署/image-20211017100512317.png" class="lozad post-image">
 
 <p>maven配置</p>
-<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100604189.png" alt="image-20211017100604189" style="zoom:80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100604189.png" class="lozad post-image">
+<img src="/images/posts/Jenkins自动部署/image-20211017100604189.png" alt="image-20211017100604189" style="zoom:80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Jenkins自动部署/image-20211017100604189.png" class="lozad post-image">
 
 <p>docker配置</p>
-<img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100625289.png" alt="image-20211017100625289" style="zoom:80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100625289.png" class="lozad post-image">
+<img src="/images/posts/Jenkins自动部署/image-20211017100625289.png" alt="image-20211017100625289" style="zoom:80%;" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Jenkins自动部署/image-20211017100625289.png" class="lozad post-image">
 
 <p>最后点击保存即可。</p>
 </li>
 <li><p>开始新建任务</p>
 <ol>
 <li><p>点击新建任务</p>
-<p><img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100737517.png" alt="image-20211017100737517" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100737517.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100737517.png" alt="image-20211017100737517" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100737517.png" class="lozad post-image"></p>
 </li>
 <li><p>任务填写</p>
-<p><img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100811356.png" alt="image-20211017100811356" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100811356.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100811356.png" alt="image-20211017100811356" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017100811356.png" class="lozad post-image"></p>
 </li>
 <li><p>进行任务配置</p>
 <p>添加git仓库</p>
-<p><img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101155113.png" alt="image-20211017101155113" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101155113.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101155113.png" alt="image-20211017101155113" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101155113.png" class="lozad post-image"></p>
 <p>构建触发器</p>
-<p><img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101251020.png" alt="image-20211017101251020" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101251020.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101251020.png" alt="image-20211017101251020" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101251020.png" class="lozad post-image"></p>
 <p>build编译</p>
-<p><img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101323986.png" alt="image-20211017101323986" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101323986.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101323986.png" alt="image-20211017101323986" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101323986.png" class="lozad post-image"></p>
 <p>编译build的shell命令</p>
-<p><img src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101436546.png" alt="image-20211017101436546" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/10/17/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101436546.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101436546.png" alt="image-20211017101436546" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101436546.png" class="lozad post-image"></p>
 <pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#将打包好的jar项目，移到&#x2F;opt&#x2F;data&#x2F;build目录
 #&#x2F;var&#x2F;jenkins_home&#x2F;workspace&#x2F;SpringBoot_AutoTest&#x2F;target&#x2F;jenkins-0.0.1-SNAPSHOT.jar构建好的jar路径
 #&#x2F;opt&#x2F;data&#x2F;build进入到容器创建这个目录
@@ -592,19 +592,19 @@ ENTRYPOINT [&quot;java&quot;,&quot;-jar&quot;,&quot;springboot-AutoTest-0.0.1-SN
   <a 
     class="author-posts-count" 
     href="/archives">
-    <span>55</span>
+    <span>57</span>
     <span>文章</span>
   </a>
   <a 
     class="author-categories-count" 
     href="/categories">
-    <span>19</span>
+    <span>7</span>
     <span>分类</span>
   </a>
   <a 
     class="author-tags-count" 
     href="/tags">
-    <span>50</span>
+    <span>61</span>
     <span>标签</span>
   </a>
 </div>
@@ -652,135 +652,51 @@ ENTRYPOINT [&quot;java&quot;,&quot;-jar&quot;,&quot;springboot-AutoTest-0.0.1-SN
   </div>
   <div class="categories-list">
     
-      <a href="/categories/Docker/">
+      <a href="/categories/DevOps/">
         <div class="categories-list-item">
-          Docker
-          <span class="categories-list-item-badge">3</span>
+          DevOps
+          <span class="categories-list-item-badge">6</span>
         </div>
       </a>
     
-      <a href="/categories/Net/">
+      <a href="/categories/dotnet/">
         <div class="categories-list-item">
-          Net
-          <span class="categories-list-item-badge">2</span>
+          dotnet
+          <span class="categories-list-item-badge">5</span>
         </div>
       </a>
     
-      <a href="/categories/HBase/">
+      <a href="/categories/Database/">
         <div class="categories-list-item">
-          HBase
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/DotNetCore/">
-        <div class="categories-list-item">
-          DotNetCore
-          <span class="categories-list-item-badge">2</span>
+          Database
+          <span class="categories-list-item-badge">8</span>
         </div>
       </a>
     
       <a href="/categories/Java/">
         <div class="categories-list-item">
           Java
-          <span class="categories-list-item-badge">12</span>
+          <span class="categories-list-item-badge">34</span>
         </div>
       </a>
     
-      <a href="/categories/IText/">
+      <a href="/categories/AI/">
         <div class="categories-list-item">
-          IText
+          AI
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
-      <a href="/categories/Jenkins/">
+      <a href="/categories/Algorithm/">
         <div class="categories-list-item">
-          Jenkins
-          <span class="categories-list-item-badge">1</span>
+          Algorithm
+          <span class="categories-list-item-badge">2</span>
         </div>
       </a>
     
-      <a href="/categories/MongoDB/">
+      <a href="/categories/Frontend/">
         <div class="categories-list-item">
-          MongoDB
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Log4j/">
-        <div class="categories-list-item">
-          Log4j
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Netty/">
-        <div class="categories-list-item">
-          Netty
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Redis/">
-        <div class="categories-list-item">
-          Redis
-          <span class="categories-list-item-badge">6</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Spring/">
-        <div class="categories-list-item">
-          Spring
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/SpringBoot/">
-        <div class="categories-list-item">
-          SpringBoot
-          <span class="categories-list-item-badge">16</span>
-        </div>
-      </a>
-    
-      <a href="/categories/GateWay/">
-        <div class="categories-list-item">
-          GateWay
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/WPF/">
-        <div class="categories-list-item">
-          WPF
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Python/">
-        <div class="categories-list-item">
-          Python
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/%E6%8E%92%E5%BA%8F/">
-        <div class="categories-list-item">
-          排序
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/COS/">
-        <div class="categories-list-item">
-          COS
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/algorithm/">
-        <div class="categories-list-item">
-          algorithm
+          Frontend
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -800,21 +716,9 @@ ENTRYPOINT [&quot;java&quot;,&quot;-jar&quot;,&quot;springboot-AutoTest-0.0.1-SN
   <div class="tags-list">
     
       <a 
-        href="/tags/SpringBoot/" 
-        title="SpringBoot">
-        <div class="tags-list-item">SpringBoot</div>
-      </a>
-    
-      <a 
-        href="/tags/Spring/" 
-        title="Spring">
-        <div class="tags-list-item">Spring</div>
-      </a>
-    
-      <a 
-        href="/tags/Java/" 
-        title="Java">
-        <div class="tags-list-item">Java</div>
+        href="/tags/Spring-Boot/" 
+        title="Spring Boot">
+        <div class="tags-list-item">Spring Boot</div>
       </a>
     
       <a 
@@ -830,9 +734,21 @@ ENTRYPOINT [&quot;java&quot;,&quot;-jar&quot;,&quot;springboot-AutoTest-0.0.1-SN
       </a>
     
       <a 
-        href="/tags/DotNetCore/" 
-        title="DotNetCore">
-        <div class="tags-list-item">DotNetCore</div>
+        href="/tags/NET-Core/" 
+        title=".NET Core">
+        <div class="tags-list-item">.NET Core</div>
+      </a>
+    
+      <a 
+        href="/tags/Bean-Validation/" 
+        title="Bean Validation">
+        <div class="tags-list-item">Bean Validation</div>
+      </a>
+    
+      <a 
+        href="/tags/JSON/" 
+        title="JSON">
+        <div class="tags-list-item">JSON</div>
       </a>
     
       <a 
@@ -854,27 +770,15 @@ ENTRYPOINT [&quot;java&quot;,&quot;-jar&quot;,&quot;springboot-AutoTest-0.0.1-SN
       </a>
     
       <a 
-        href="/tags/Jackson/" 
-        title="Jackson">
-        <div class="tags-list-item">Jackson</div>
+        href="/tags/MySQL/" 
+        title="MySQL">
+        <div class="tags-list-item">MySQL</div>
       </a>
     
       <a 
-        href="/tags/snowflake/" 
-        title="snowflake">
-        <div class="tags-list-item">snowflake</div>
-      </a>
-    
-      <a 
-        href="/tags/algorithm/" 
-        title="algorithm">
-        <div class="tags-list-item">algorithm</div>
-      </a>
-    
-      <a 
-        href="/tags/Jvm/" 
-        title="Jvm">
-        <div class="tags-list-item">Jvm</div>
+        href="/tags/Snowflake-Algorithm/" 
+        title="Snowflake Algorithm">
+        <div class="tags-list-item">Snowflake Algorithm</div>
       </a>
     
       <a 
@@ -884,15 +788,27 @@ ENTRYPOINT [&quot;java&quot;,&quot;-jar&quot;,&quot;springboot-AutoTest-0.0.1-SN
       </a>
     
       <a 
+        href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" 
+        title="腾讯云">
+        <div class="tags-list-item">腾讯云</div>
+      </a>
+    
+      <a 
         href="/tags/Vue/" 
         title="Vue">
         <div class="tags-list-item">Vue</div>
       </a>
     
       <a 
-        href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" 
-        title="腾讯云">
-        <div class="tags-list-item">腾讯云</div>
+        href="/tags/HTML/" 
+        title="HTML">
+        <div class="tags-list-item">HTML</div>
+      </a>
+    
+      <a 
+        href="/tags/JVM/" 
+        title="JVM">
+        <div class="tags-list-item">JVM</div>
       </a>
     
   </div>
@@ -928,6 +844,16 @@ ENTRYPOINT [&quot;java&quot;,&quot;-jar&quot;,&quot;springboot-AutoTest-0.0.1-SN
   <div class="recent-posts-list">
     
       <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2026-01-09</div>
+        <a href="/2026/01/09/Windows%20%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8%20Docker%20%E6%90%AD%E5%BB%BA%20Redis%20%E9%9B%86%E7%BE%A4%E6%8C%87%E5%8D%97/"><div class="recent-posts-item-content">Windows 环境下使用 Docker 搭建 Redis 集群指南</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2026-01-02</div>
+        <a href="/2026/01/02/Docker%20%E6%90%AD%E5%BB%BA%20MySQL%E4%B8%BB%E4%BB%8E/"><div class="recent-posts-item-content">Windows 环境下使用 Docker 搭建 MySQL 8 一主两从指南</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
         <div class="recent-posts-item-title">2025-03-30</div>
         <a href="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/"><div class="recent-posts-item-content">MongoDB基础使用</div></a>
       </div>
@@ -935,16 +861,6 @@ ENTRYPOINT [&quot;java&quot;,&quot;-jar&quot;,&quot;springboot-AutoTest-0.0.1-SN
       <div class="recent-posts-item">
         <div class="recent-posts-item-title">2023-05-28</div>
         <a href="/2023/05/28/YOLO-PyTorch-CUDN%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/"><div class="recent-posts-item-content">YOLO PyTorch CUDN环境安装</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-12-20</div>
-        <a href="/2022/12/20/HBase%E5%88%9D%E8%AF%86/"><div class="recent-posts-item-content">HBase初识</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-10-30</div>
-        <a href="/2022/10/30/Java%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E5%8C%96/"><div class="recent-posts-item-content">Java时间格式化</div></a>
       </div>
     
   </div>
@@ -968,7 +884,7 @@ ENTRYPOINT [&quot;java&quot;,&quot;-jar&quot;,&quot;springboot-AutoTest-0.0.1-SN
           
             2020 -
           
-          2025
+          2026
         </span>
         &nbsp;
         <a 

@@ -33,7 +33,7 @@
     
       <meta 
         property="og:img" 
-        content="asdfghjkl.jpg">
+        content="/images/banner/asdfghjkl.jpg">
     
     
     
@@ -45,15 +45,11 @@
         content="2021-09-28">
       <meta 
         property="og:article:modified_time" 
-        content="2021-12-04">
+        content="2026-08-01">
       <meta 
         property="og:article:author" 
         content="Gas">
       
-        
-          <meta 
-            property="og:article:tag" 
-            content="Java">
         
           <meta 
             property="og:article:tag" 
@@ -300,8 +296,8 @@
             <main class="main-column">
   <div class="image-wrapper">
     <img 
-      src="asdfghjkl.jpg" 
-      data-src="asdfghjkl.jpg"
+      src="/images/banner/asdfghjkl.jpg" 
+      data-src="/images/banner/asdfghjkl.jpg"
       srcset="data:image/svg+xml,%3Csvg%20xmlns=&#39;http://www.w3.org/2000/svg&#39;%20viewBox=&#39;0%200%20300%20300&#39;%3E%3C/svg%3E"
       class="image lozad"
       alt="Java-NIO thumbnail">
@@ -348,15 +344,6 @@
         
           
           <a 
-            href="/tags/Java/" 
-            class="post-meta-link">
-            Java
-          </a>
-        
-          
-            <span class="dot"></span>
-          
-          <a 
             href="/tags/NIO/" 
             class="post-meta-link">
             NIO
@@ -371,7 +358,7 @@
     class="post-content">
     <h2 id="Java-NIO-概述"><a href="#Java-NIO-概述" class="headerlink" title="Java NIO 概述"></a>Java NIO 概述</h2><p>NIO主要有三大核心部分: <code>Channel(通道)</code>、<code>Buffer(缓冲区)</code>、<code>Selector</code>(选择区),区别与传统<code>IO</code>基于字节流和字符流进行操作,而<code>NIO</code>基于<code>Channel</code>和<code>Buffer</code>进行操作,数据总是从通道读取到缓存区中,或者从缓冲区写入到通道中,<code>Selector</code>用与监听多个通道的事件.因此单线程可以监听多个数据通道.</p>
 <h2 id="Channel-和-Buffer"><a href="#Channel-和-Buffer" class="headerlink" title="Channel 和 Buffer"></a>Channel 和 Buffer</h2><p>基本上，所有的 IO 在NIO 中都从一个Channel 开始。Channel 有点象流。 数据可以从Channel读到Buffer中，也可以从Buffer 写到Channel中。</p>
-<p><img src="/2021/09/28/Java-NIO/image-20211128222910933.png" alt="image-20211128222910933" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/09/28/Java-NIO/image-20211128222910933.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Java-NIO/image-20211128222910933.png" alt="image-20211128222910933" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Java-NIO/image-20211128222910933.png" class="lozad post-image"></p>
 <p>Channel的主要实现:</p>
 <ul>
 <li>FileChannel</li>
@@ -394,7 +381,7 @@
 </ul>
 <p>这些Buffer覆盖了你能通过IO发送的基本数据类型：byte, short, int, long, float, double 和 char。</p>
 <h2 id="Selector"><a href="#Selector" class="headerlink" title="Selector"></a>Selector</h2><p>Selector允许单个线程处理多个Channel,如果你的应用打开了多个连接(通道),但每个流量都很低(低流量场景),使用Selector会方便.</p>
-<p><img src="/2021/09/28/Java-NIO/image-20211128223911936.png" alt="image-20211128223911936" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/09/28/Java-NIO/image-20211128223911936.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Java-NIO/image-20211128223911936.png" alt="image-20211128223911936" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Java-NIO/image-20211128223911936.png" class="lozad post-image"></p>
 <p>要使用Selector,得向Selector注册Channel,然后调用它的<code>Select()</code>方法.<strong>这个方法会一直阻塞到某个注册的通道有事件就绪</strong>,一旦这个方法返回,线程就可以处理这些事件.</p>
 <h2 id="Buffer"><a href="#Buffer" class="headerlink" title="Buffer"></a>Buffer</h2><p>使用Buffer读写数据一般遵循四个步骤</p>
 <ol>
@@ -442,7 +429,7 @@
 <li>limit</li>
 </ul>
 <p>position和limit的含义取决于Buffer是处于<strong>读模式</strong>还是<strong>写模式</strong>.不管Buffer处于什么模式,capacity的含义是一样的.</p>
-<p><img src="/2021/09/28/Java-NIO/image-20211128224235167.png" alt="image-20211128224235167" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/09/28/Java-NIO/image-20211128224235167.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Java-NIO/image-20211128224235167.png" alt="image-20211128224235167" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Java-NIO/image-20211128224235167.png" class="lozad post-image"></p>
 <blockquote>
 <p><strong>capacity</strong></p>
 <p>作为一个内存块,Buffer有一个固定的大小,值为capacity,你只能往里面写入capacity个byte、long、char等类型,一旦写满,需要将其清空（通过读数据或者清除数据）才能继续写入数据.</p>
@@ -554,7 +541,7 @@ buffer1<span class="token punctuation">.</span><span class="token function">flip
 <p>Gather(集散)写入Channel是指在<strong>写操作</strong>时将多个Buffer的数据写入同一个Channel中，因此，Channel将多个Buffer中的数据“聚集(Gather)”后发送到Buffer中。</p>
 <p>scatter / gather经常用于需要将传输的数据分开处理的场合，例如传输一个由消息头和消息体组成的消息，你可能会将消息体和消息头分散到不同的buffer中，这样你可以方便的处理消息头和消息体。</p>
 <h3 id="Scatterering-Reads"><a href="#Scatterering-Reads" class="headerlink" title="Scatterering Reads"></a>Scatterering Reads</h3><p>Scattering Reads是指数据从一个channel读取到多个buffer中。如下图描述：</p>
-<p><img src="/2021/09/28/Java-NIO/image-20211004161855199.png" alt="image-20211004161855199" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/09/28/Java-NIO/image-20211004161855199.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Java-NIO/image-20211004161855199.png" alt="image-20211004161855199" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Java-NIO/image-20211004161855199.png" class="lozad post-image"></p>
 <p>代码示例：</p>
 <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">try</span> <span class="token punctuation">(</span><span class="token class-name">FileChannel</span> channel <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">RandomAccessFile</span><span class="token punctuation">(</span><span class="token string">"words.txt"</span><span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getChannel</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
     <span class="token class-name">ByteBuffer</span> b1 <span class="token operator">=</span> <span class="token class-name">ByteBuffer</span><span class="token punctuation">.</span><span class="token function">allocate</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -575,7 +562,7 @@ buffer1<span class="token punctuation">.</span><span class="token function">flip
 <p>这里需要注意，Buffer数组作为<code>read()</code>的入参，会按顺序将将数据写入到Buffer中，当写满一个才会到下一个。</p>
 <p>Scattering Reads在移动下一个buffer前，必须填满当前的buffer，意味着它不适合动态的消息，或者说大小不固定的消息，换句话说，如果存在消息头和消息体，消息头必须完成填充（例如 128byte），Scattering Reads才能正常工作。</p>
 <h3 id="Gathering-Writes"><a href="#Gathering-Writes" class="headerlink" title="Gathering Writes"></a>Gathering Writes</h3><p>Gathering Writes是指数据从多个buffer写入到同一个channel。如下图描述：</p>
-<p><img src="/2021/09/28/Java-NIO/image-20211004162805846.png" alt="image-20211004162805846" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/09/28/Java-NIO/image-20211004162805846.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Java-NIO/image-20211004162805846.png" alt="image-20211004162805846" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Java-NIO/image-20211004162805846.png" class="lozad post-image"></p>
 <p>代码示例：</p>
 <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">ByteBuffer</span> b1 <span class="token operator">=</span> <span class="token class-name">StandardCharsets</span><span class="token punctuation">.</span>UTF_8<span class="token punctuation">.</span><span class="token function">encode</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token class-name">ByteBuffer</span> b2 <span class="token operator">=</span> <span class="token class-name">StandardCharsets</span><span class="token punctuation">.</span>UTF_8<span class="token punctuation">.</span><span class="token function">encode</span><span class="token punctuation">(</span><span class="token string">"world"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -632,7 +619,7 @@ toChannel<span class="token punctuation">.</span><span class="token function">tr
 <h2 id="Selector-1"><a href="#Selector-1" class="headerlink" title="Selector"></a>Selector</h2><p>Selector(选择器)是Java NIO中能够检测一到多个NIO通道，并能够知晓通道是否为诸如读写事件做好准备的组件，这样，一个单独的线程可以管理多个Channel，从而管理多个网络连接。</p>
 <h3 id="为什么使用Selector"><a href="#为什么使用Selector" class="headerlink" title="为什么使用Selector"></a>为什么使用Selector</h3><p>仅用单个线程来处理多个Channels的好处是，只需要更少的线程来处理通道。事实上，可以只用一个线程处理所有的通道。对于操作系统来说，线程之间上下文切换的开销很大，而且每个线程都要占用系统的一些资源（如内存）。因此，使用的线程越少越好。</p>
 <p>但是，需要记住，现代的操作系统和CPU在多任务方面表现的越来越好，所以多线程的开销随着时间的推移，变得越来越小了。实际上，如果一个CPU有多个内核，不使用多任务可能是在浪费CPU能力。不管怎么说，关于那种设计的讨论应该放在另一篇不同的文章中。在这里，只要知道使用Selector能够处理多个通道就足够了。</p>
-<p><img src="/2021/09/28/Java-NIO/image-20211005224348776.png" alt="image-20211005224348776" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/09/28/Java-NIO/image-20211005224348776.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Java-NIO/image-20211005224348776.png" alt="image-20211005224348776" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Java-NIO/image-20211005224348776.png" class="lozad post-image"></p>
 <h3 id="Selector的创建"><a href="#Selector的创建" class="headerlink" title="Selector的创建"></a>Selector的创建</h3><p>通过调用<code>Selector.open()</code>方法创建一个Selector，如下：</p>
 <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">Selector</span> selector <span class="token operator">=</span> <span class="token class-name">Selector</span><span class="token punctuation">.</span><span class="token keyword">open</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
@@ -816,7 +803,7 @@ sc<span class="token punctuation">.</span><span class="token function">connect</
 <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"waiting..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
 <h2 id="消息边界问题"><a href="#消息边界问题" class="headerlink" title="消息边界问题"></a>消息边界问题</h2><p>在服务器端接收到的消息，长度是不定的，如图：</p>
-<p><img src="/2021/09/28/Java-NIO/image-20211107221846884.png" alt="image-20211107221846884" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/09/28/Java-NIO/image-20211107221846884.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Java-NIO/image-20211107221846884.png" alt="image-20211107221846884" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Java-NIO/image-20211107221846884.png" class="lozad post-image"></p>
 <p>为了解决这种情况，有如下三种方法：</p>
 <ol>
 <li>固定消息长度，数据大小一样，服务器按照预定长度读取</li>
@@ -827,7 +814,7 @@ sc<span class="token punctuation">.</span><span class="token function">connect</
 </ul>
 </li>
 </ol>
-<p><img src="/2021/09/28/Java-NIO/image-20211114145030707.png" alt="image-20211114145030707" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/09/28/Java-NIO/image-20211114145030707.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Java-NIO/image-20211114145030707.png" alt="image-20211114145030707" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Java-NIO/image-20211114145030707.png" class="lozad post-image"></p>
 <p>使用第二种方式的代码：</p>
 <p>服务器端</p>
 <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">IOException</span> <span class="token punctuation">&#123;</span>
@@ -942,7 +929,7 @@ file<span class="token punctuation">.</span><span class="token function">read</s
 socket<span class="token punctuation">.</span><span class="token function">getOutputStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>内部工作流程：</p>
-<p><img src="/2021/09/28/Java-NIO/image-20211204111314653.png" alt="image-20211204111314653" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/09/28/Java-NIO/image-20211204111314653.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Java-NIO/image-20211204111314653.png" alt="image-20211204111314653" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Java-NIO/image-20211204111314653.png" class="lozad post-image"></p>
 <ol>
 <li><p>java本身不具备IO读写能力，因此Read方法调用后，要从java程序的<strong>用户态</strong>切换到<strong>内核态</strong>，去调用操作系统（Kernel）的读能力，将数据读入<strong>内核缓冲区</strong>。这期间用户线程阻塞，操作系统会使用DMA(Direct Memory Access)来实现文件读，期间也不会使用CPU</p>
 <blockquote>
@@ -966,7 +953,7 @@ socket<span class="token punctuation">.</span><span class="token function">getOu
 <li><code>ByteBuffer.allocate(10)  HeapByteBuffer</code> <strong>使用的是 java 内存</strong></li>
 <li><code>ByteBuffer.allocateDirect(10)  DirectByteBuffer</code> <strong>使用的是操作系统内存</strong></li>
 </ul>
-<p><img src="/2021/09/28/Java-NIO/image-20211204112340504.png" alt="image-20211204112340504" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/09/28/Java-NIO/image-20211204112340504.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Java-NIO/image-20211204112340504.png" alt="image-20211204112340504" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Java-NIO/image-20211204112340504.png" class="lozad post-image"></p>
 <p>基本和优化前相同，唯有一点：java可以通过 <code>DirectByteBuff </code> 将堆外内存映射到jvm内存中来直接访问使用</p>
 <ul>
 <li>这块内存不受jvm垃圾回收的影响，因此内存地址固定，有助于IO读写</li>
@@ -979,7 +966,7 @@ socket<span class="token punctuation">.</span><span class="token function">getOu
 </ul>
 <hr>
 <p>进一步优化（底层使用了lunux2.1后提供的sendFile方法），java中对应着两个channel调用<code>transferTo</code>和<code>transferForm</code>方法拷贝数据</p>
-<p><img src="/2021/09/28/Java-NIO/image-20211204113142011.png" alt="image-20211204113142011" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/09/28/Java-NIO/image-20211204113142011.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Java-NIO/image-20211204113142011.png" alt="image-20211204113142011" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Java-NIO/image-20211204113142011.png" class="lozad post-image"></p>
 <ol>
 <li>java调用transferTo方法后，要从java程序的<strong>用户态</strong>切换至<strong>内核态</strong>，使用DMA将数据读入<strong>内核缓冲区</strong>，不会使用</li>
 <li>数据从<strong>内核缓冲区</strong>传输到socket缓冲区，cpu会参与拷贝</li>
@@ -988,7 +975,7 @@ socket<span class="token punctuation">.</span><span class="token function">getOu
 <p>可以看到，只发生了一次用户态和内核态的切换，数据拷贝了3次</p>
 <hr>
 <p>再进一步优化（linux2.4）</p>
-<p><img src="/2021/09/28/Java-NIO/image-20211204113641189.png" alt="image-20211204113641189" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/09/28/Java-NIO/image-20211204113641189.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Java-NIO/image-20211204113641189.png" alt="image-20211204113641189" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Java-NIO/image-20211204113641189.png" class="lozad post-image"></p>
 <ol>
 <li>java调用transferTo方法后，要从java程序的<strong>用户态</strong>切换到<strong>内核态</strong>，使用DMA将数据读入<strong>内核缓冲区</strong>，不会使用cpu</li>
 <li>只会将一些 offset 和 length 信息考入 <strong>socket缓冲区</strong>，几乎无消耗</li>
@@ -1147,19 +1134,19 @@ socket<span class="token punctuation">.</span><span class="token function">getOu
   <a 
     class="author-posts-count" 
     href="/archives">
-    <span>55</span>
+    <span>57</span>
     <span>文章</span>
   </a>
   <a 
     class="author-categories-count" 
     href="/categories">
-    <span>19</span>
+    <span>7</span>
     <span>分类</span>
   </a>
   <a 
     class="author-tags-count" 
     href="/tags">
-    <span>50</span>
+    <span>61</span>
     <span>标签</span>
   </a>
 </div>
@@ -1207,135 +1194,51 @@ socket<span class="token punctuation">.</span><span class="token function">getOu
   </div>
   <div class="categories-list">
     
-      <a href="/categories/Docker/">
+      <a href="/categories/DevOps/">
         <div class="categories-list-item">
-          Docker
-          <span class="categories-list-item-badge">3</span>
+          DevOps
+          <span class="categories-list-item-badge">6</span>
         </div>
       </a>
     
-      <a href="/categories/Net/">
+      <a href="/categories/dotnet/">
         <div class="categories-list-item">
-          Net
-          <span class="categories-list-item-badge">2</span>
+          dotnet
+          <span class="categories-list-item-badge">5</span>
         </div>
       </a>
     
-      <a href="/categories/HBase/">
+      <a href="/categories/Database/">
         <div class="categories-list-item">
-          HBase
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/DotNetCore/">
-        <div class="categories-list-item">
-          DotNetCore
-          <span class="categories-list-item-badge">2</span>
+          Database
+          <span class="categories-list-item-badge">8</span>
         </div>
       </a>
     
       <a href="/categories/Java/">
         <div class="categories-list-item">
           Java
-          <span class="categories-list-item-badge">12</span>
+          <span class="categories-list-item-badge">34</span>
         </div>
       </a>
     
-      <a href="/categories/IText/">
+      <a href="/categories/AI/">
         <div class="categories-list-item">
-          IText
+          AI
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
-      <a href="/categories/Jenkins/">
+      <a href="/categories/Algorithm/">
         <div class="categories-list-item">
-          Jenkins
-          <span class="categories-list-item-badge">1</span>
+          Algorithm
+          <span class="categories-list-item-badge">2</span>
         </div>
       </a>
     
-      <a href="/categories/MongoDB/">
+      <a href="/categories/Frontend/">
         <div class="categories-list-item">
-          MongoDB
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Log4j/">
-        <div class="categories-list-item">
-          Log4j
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Netty/">
-        <div class="categories-list-item">
-          Netty
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Redis/">
-        <div class="categories-list-item">
-          Redis
-          <span class="categories-list-item-badge">6</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Spring/">
-        <div class="categories-list-item">
-          Spring
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/SpringBoot/">
-        <div class="categories-list-item">
-          SpringBoot
-          <span class="categories-list-item-badge">16</span>
-        </div>
-      </a>
-    
-      <a href="/categories/GateWay/">
-        <div class="categories-list-item">
-          GateWay
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/WPF/">
-        <div class="categories-list-item">
-          WPF
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Python/">
-        <div class="categories-list-item">
-          Python
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/%E6%8E%92%E5%BA%8F/">
-        <div class="categories-list-item">
-          排序
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/COS/">
-        <div class="categories-list-item">
-          COS
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/algorithm/">
-        <div class="categories-list-item">
-          algorithm
+          Frontend
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -1355,21 +1258,9 @@ socket<span class="token punctuation">.</span><span class="token function">getOu
   <div class="tags-list">
     
       <a 
-        href="/tags/SpringBoot/" 
-        title="SpringBoot">
-        <div class="tags-list-item">SpringBoot</div>
-      </a>
-    
-      <a 
-        href="/tags/Spring/" 
-        title="Spring">
-        <div class="tags-list-item">Spring</div>
-      </a>
-    
-      <a 
-        href="/tags/Java/" 
-        title="Java">
-        <div class="tags-list-item">Java</div>
+        href="/tags/Spring-Boot/" 
+        title="Spring Boot">
+        <div class="tags-list-item">Spring Boot</div>
       </a>
     
       <a 
@@ -1385,9 +1276,21 @@ socket<span class="token punctuation">.</span><span class="token function">getOu
       </a>
     
       <a 
-        href="/tags/DotNetCore/" 
-        title="DotNetCore">
-        <div class="tags-list-item">DotNetCore</div>
+        href="/tags/NET-Core/" 
+        title=".NET Core">
+        <div class="tags-list-item">.NET Core</div>
+      </a>
+    
+      <a 
+        href="/tags/Bean-Validation/" 
+        title="Bean Validation">
+        <div class="tags-list-item">Bean Validation</div>
+      </a>
+    
+      <a 
+        href="/tags/JSON/" 
+        title="JSON">
+        <div class="tags-list-item">JSON</div>
       </a>
     
       <a 
@@ -1409,27 +1312,15 @@ socket<span class="token punctuation">.</span><span class="token function">getOu
       </a>
     
       <a 
-        href="/tags/Jackson/" 
-        title="Jackson">
-        <div class="tags-list-item">Jackson</div>
+        href="/tags/MySQL/" 
+        title="MySQL">
+        <div class="tags-list-item">MySQL</div>
       </a>
     
       <a 
-        href="/tags/snowflake/" 
-        title="snowflake">
-        <div class="tags-list-item">snowflake</div>
-      </a>
-    
-      <a 
-        href="/tags/algorithm/" 
-        title="algorithm">
-        <div class="tags-list-item">algorithm</div>
-      </a>
-    
-      <a 
-        href="/tags/Jvm/" 
-        title="Jvm">
-        <div class="tags-list-item">Jvm</div>
+        href="/tags/Snowflake-Algorithm/" 
+        title="Snowflake Algorithm">
+        <div class="tags-list-item">Snowflake Algorithm</div>
       </a>
     
       <a 
@@ -1439,15 +1330,27 @@ socket<span class="token punctuation">.</span><span class="token function">getOu
       </a>
     
       <a 
+        href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" 
+        title="腾讯云">
+        <div class="tags-list-item">腾讯云</div>
+      </a>
+    
+      <a 
         href="/tags/Vue/" 
         title="Vue">
         <div class="tags-list-item">Vue</div>
       </a>
     
       <a 
-        href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" 
-        title="腾讯云">
-        <div class="tags-list-item">腾讯云</div>
+        href="/tags/HTML/" 
+        title="HTML">
+        <div class="tags-list-item">HTML</div>
+      </a>
+    
+      <a 
+        href="/tags/JVM/" 
+        title="JVM">
+        <div class="tags-list-item">JVM</div>
       </a>
     
   </div>
@@ -1483,6 +1386,16 @@ socket<span class="token punctuation">.</span><span class="token function">getOu
   <div class="recent-posts-list">
     
       <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2026-01-09</div>
+        <a href="/2026/01/09/Windows%20%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8%20Docker%20%E6%90%AD%E5%BB%BA%20Redis%20%E9%9B%86%E7%BE%A4%E6%8C%87%E5%8D%97/"><div class="recent-posts-item-content">Windows 环境下使用 Docker 搭建 Redis 集群指南</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2026-01-02</div>
+        <a href="/2026/01/02/Docker%20%E6%90%AD%E5%BB%BA%20MySQL%E4%B8%BB%E4%BB%8E/"><div class="recent-posts-item-content">Windows 环境下使用 Docker 搭建 MySQL 8 一主两从指南</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
         <div class="recent-posts-item-title">2025-03-30</div>
         <a href="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/"><div class="recent-posts-item-content">MongoDB基础使用</div></a>
       </div>
@@ -1490,16 +1403,6 @@ socket<span class="token punctuation">.</span><span class="token function">getOu
       <div class="recent-posts-item">
         <div class="recent-posts-item-title">2023-05-28</div>
         <a href="/2023/05/28/YOLO-PyTorch-CUDN%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/"><div class="recent-posts-item-content">YOLO PyTorch CUDN环境安装</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-12-20</div>
-        <a href="/2022/12/20/HBase%E5%88%9D%E8%AF%86/"><div class="recent-posts-item-content">HBase初识</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-10-30</div>
-        <a href="/2022/10/30/Java%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E5%8C%96/"><div class="recent-posts-item-content">Java时间格式化</div></a>
       </div>
     
   </div>
@@ -1523,7 +1426,7 @@ socket<span class="token punctuation">.</span><span class="token function">getOu
           
             2020 -
           
-          2025
+          2026
         </span>
         &nbsp;
         <a 

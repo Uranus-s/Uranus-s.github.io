@@ -45,7 +45,7 @@
         content="2021-03-28">
       <meta 
         property="og:article:modified_time" 
-        content="2021-04-27">
+        content="2026-08-01">
       <meta 
         property="og:article:author" 
         content="Gas">
@@ -61,7 +61,7 @@
         
           <meta 
             property="og:article:tag" 
-            content="IOC">
+            content="IoC">
         
       
     
@@ -320,9 +320,9 @@
       <span class="dot"></span>
       
         <a 
-          href="/categories/Spring/" 
+          href="/categories/Java/" 
           class="post-meta-link">
-          Spring
+          Java
         </a>
       
     
@@ -361,9 +361,9 @@
             <span class="dot"></span>
           
           <a 
-            href="/tags/IOC/" 
+            href="/tags/IoC/" 
             class="post-meta-link">
-            IOC
+            IoC
           </a>
         
       </div>
@@ -380,7 +380,7 @@
 <li>支持事务的处理，对框架整合的支持</li>
 </ul>
 <p><strong>总结一句话：Spring 是一个轻量级的控制反转和面向切面编程的框架</strong></p>
-<h3 id="1-3、组成"><a href="#1-3、组成" class="headerlink" title="1.3、组成"></a>1.3、组成</h3><p><img  srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/03/28/Spring/Spring_01.png" class="lozad post-image"src="/2021/03/28/Spring/Spring_01.png"></p>
+<h3 id="1-3、组成"><a href="#1-3、组成" class="headerlink" title="1.3、组成"></a>1.3、组成</h3><p><img  srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Spring/Spring_01.png" class="lozad post-image"src="/images/posts/Spring/Spring_01.png"></p>
 <h3 id="1-4、拓展"><a href="#1-4、拓展" class="headerlink" title="1.4、拓展"></a>1.4、拓展</h3><ul>
 <li>SpringBoot<ul>
 <li>一个快速开发的脚手架</li>
@@ -689,18 +689,18 @@
 <pre class="line-numbers language-xml" data-language="xml"><code class="language-xml">xmlns:p="http://www.springframework.org/schema/p"
 xmlns:c="http://www.springframew<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
-<h3 id="6-4、bean-的作用域"><a href="#6-4、bean-的作用域" class="headerlink" title="6.4、bean 的作用域"></a>6.4、bean 的作用域</h3><p><img src="/2021/03/28/Spring/image-20210324163350637.png" alt="image-20210324163350637" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/03/28/Spring/image-20210324163350637.png" class="lozad post-image"></p>
+<h3 id="6-4、bean-的作用域"><a href="#6-4、bean-的作用域" class="headerlink" title="6.4、bean 的作用域"></a>6.4、bean 的作用域</h3><p><img src="/images/posts/Spring/image-20210324163350637.png" alt="image-20210324163350637" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Spring/image-20210324163350637.png" class="lozad post-image"></p>
 <ol>
 <li><p>单例模式（spring 的默认模式）</p>
 <pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token comment">&lt;!-- the following is equivalent, though redundant (singleton scope is the default) --></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>accountService<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>com.something.DefaultAccountService<span class="token punctuation">"</span></span> <span class="token attr-name">scope</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>singleton<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
-<p><img src="/2021/03/28/Spring/image-20210324163751380.png" alt="image-20210324163751380" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/03/28/Spring/image-20210324163751380.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Spring/image-20210324163751380.png" alt="image-20210324163751380" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Spring/image-20210324163751380.png" class="lozad post-image"></p>
 </li>
 <li><p>原型模式：每次从容器 get 的时候，都会产生一个新的对象</p>
 <pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>bean</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>accountService<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>com.something.DefaultAccountService<span class="token punctuation">"</span></span> <span class="token attr-name">scope</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>prototype<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<p><img src="/2021/03/28/Spring/image-20210324163817956.png" alt="image-20210324163817956" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/03/28/Spring/image-20210324163817956.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Spring/image-20210324163817956.png" alt="image-20210324163817956" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Spring/image-20210324163817956.png" class="lozad post-image"></p>
 </li>
 <li><p>其余的<code>request</code>，<code>session</code>，<code>applicatoin</code>这些只能在 web 开发中使用！</p>
 </li>
@@ -799,7 +799,7 @@ xmlns:c="http://www.springframew<span aria-hidden="true" class="line-numbers-row
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">context:</span>component-scan</span> <span class="token attr-name">base-package</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>com.kuang.pojo<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">context:</span>annotation-config</span><span class="token punctuation">/></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 
-<p><img src="/2021/03/28/Spring/image-20210324191701964.png" alt="image-20210324191701964" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/03/28/Spring/image-20210324191701964.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Spring/image-20210324191701964.png" alt="image-20210324191701964" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Spring/image-20210324191701964.png" class="lozad post-image"></p>
 <p><strong>@Component</strong> 组件</p>
 <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//等价于&lt;bean id="user" class="com.kuang.pojo.User"/> 无须在xml中写</span>
 <span class="token annotation punctuation">@Component</span>
@@ -907,7 +907,7 @@ xmlns:c="http://www.springframew<span aria-hidden="true" class="line-numbers-row
 <li>静态代理</li>
 <li>动态代理</li>
 </ul>
-<p><img src="/2021/03/28/Spring/image-20210325152819245.png" alt="image-20210325152819245" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/03/28/Spring/image-20210325152819245.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Spring/image-20210325152819245.png" alt="image-20210325152819245" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Spring/image-20210325152819245.png" class="lozad post-image"></p>
 <h3 id="10-1、静态代理"><a href="#10-1、静态代理" class="headerlink" title="10.1、静态代理"></a>10.1、静态代理</h3><p>角色分析：</p>
 <ul>
 <li>抽象角色：一般会使用接口或抽象类来解决</li>
@@ -1045,9 +1045,9 @@ xmlns:c="http://www.springframew<span aria-hidden="true" class="line-numbers-row
 <li>切入点（PointCut）：切面通知 执行的“地点”的定义</li>
 <li>连接点（JointPoint）：与切入点匹配的执行点</li>
 </ul>
-<p><img src="/2021/03/28/Spring/image-20210326092139762.png" alt="image-20210326092139762" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/03/28/Spring/image-20210326092139762.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Spring/image-20210326092139762.png" alt="image-20210326092139762" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Spring/image-20210326092139762.png" class="lozad post-image"></p>
 <p>SpringAOP 中，通过 Advice 定义横切逻辑，Spring 中支持 5 种类型的 Advice：</p>
-<p><img src="/2021/03/28/Spring/image-20210326092851839.png" alt="image-20210326092851839" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2021/03/28/Spring/image-20210326092851839.png" class="lozad post-image"></p>
+<p><img src="/images/posts/Spring/image-20210326092851839.png" alt="image-20210326092851839" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Spring/image-20210326092851839.png" class="lozad post-image"></p>
 <p>即 AOP 在不改变原有代码的情况下，去增加新的功能</p>
 <h3 id="11-3、使用-Spring-实现-AOP"><a href="#11-3、使用-Spring-实现-AOP" class="headerlink" title="11.3、使用 Spring 实现 AOP"></a>11.3、使用 Spring 实现 AOP</h3><p><strong>使用 AOP 织入，需要导入一个依赖包</strong></p>
 <pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">></span></span>
@@ -1301,19 +1301,19 @@ xmlns:c="http://www.springframew<span aria-hidden="true" class="line-numbers-row
   <a 
     class="author-posts-count" 
     href="/archives">
-    <span>55</span>
+    <span>57</span>
     <span>文章</span>
   </a>
   <a 
     class="author-categories-count" 
     href="/categories">
-    <span>19</span>
+    <span>7</span>
     <span>分类</span>
   </a>
   <a 
     class="author-tags-count" 
     href="/tags">
-    <span>50</span>
+    <span>61</span>
     <span>标签</span>
   </a>
 </div>
@@ -1361,135 +1361,51 @@ xmlns:c="http://www.springframew<span aria-hidden="true" class="line-numbers-row
   </div>
   <div class="categories-list">
     
-      <a href="/categories/Docker/">
+      <a href="/categories/DevOps/">
         <div class="categories-list-item">
-          Docker
-          <span class="categories-list-item-badge">3</span>
+          DevOps
+          <span class="categories-list-item-badge">6</span>
         </div>
       </a>
     
-      <a href="/categories/Net/">
+      <a href="/categories/dotnet/">
         <div class="categories-list-item">
-          Net
-          <span class="categories-list-item-badge">2</span>
+          dotnet
+          <span class="categories-list-item-badge">5</span>
         </div>
       </a>
     
-      <a href="/categories/HBase/">
+      <a href="/categories/Database/">
         <div class="categories-list-item">
-          HBase
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/DotNetCore/">
-        <div class="categories-list-item">
-          DotNetCore
-          <span class="categories-list-item-badge">2</span>
+          Database
+          <span class="categories-list-item-badge">8</span>
         </div>
       </a>
     
       <a href="/categories/Java/">
         <div class="categories-list-item">
           Java
-          <span class="categories-list-item-badge">12</span>
+          <span class="categories-list-item-badge">34</span>
         </div>
       </a>
     
-      <a href="/categories/IText/">
+      <a href="/categories/AI/">
         <div class="categories-list-item">
-          IText
+          AI
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
-      <a href="/categories/Jenkins/">
+      <a href="/categories/Algorithm/">
         <div class="categories-list-item">
-          Jenkins
-          <span class="categories-list-item-badge">1</span>
+          Algorithm
+          <span class="categories-list-item-badge">2</span>
         </div>
       </a>
     
-      <a href="/categories/MongoDB/">
+      <a href="/categories/Frontend/">
         <div class="categories-list-item">
-          MongoDB
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Log4j/">
-        <div class="categories-list-item">
-          Log4j
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Netty/">
-        <div class="categories-list-item">
-          Netty
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Redis/">
-        <div class="categories-list-item">
-          Redis
-          <span class="categories-list-item-badge">6</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Spring/">
-        <div class="categories-list-item">
-          Spring
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/SpringBoot/">
-        <div class="categories-list-item">
-          SpringBoot
-          <span class="categories-list-item-badge">16</span>
-        </div>
-      </a>
-    
-      <a href="/categories/GateWay/">
-        <div class="categories-list-item">
-          GateWay
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/WPF/">
-        <div class="categories-list-item">
-          WPF
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Python/">
-        <div class="categories-list-item">
-          Python
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/%E6%8E%92%E5%BA%8F/">
-        <div class="categories-list-item">
-          排序
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/COS/">
-        <div class="categories-list-item">
-          COS
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/algorithm/">
-        <div class="categories-list-item">
-          algorithm
+          Frontend
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -1509,21 +1425,9 @@ xmlns:c="http://www.springframew<span aria-hidden="true" class="line-numbers-row
   <div class="tags-list">
     
       <a 
-        href="/tags/SpringBoot/" 
-        title="SpringBoot">
-        <div class="tags-list-item">SpringBoot</div>
-      </a>
-    
-      <a 
-        href="/tags/Spring/" 
-        title="Spring">
-        <div class="tags-list-item">Spring</div>
-      </a>
-    
-      <a 
-        href="/tags/Java/" 
-        title="Java">
-        <div class="tags-list-item">Java</div>
+        href="/tags/Spring-Boot/" 
+        title="Spring Boot">
+        <div class="tags-list-item">Spring Boot</div>
       </a>
     
       <a 
@@ -1539,9 +1443,21 @@ xmlns:c="http://www.springframew<span aria-hidden="true" class="line-numbers-row
       </a>
     
       <a 
-        href="/tags/DotNetCore/" 
-        title="DotNetCore">
-        <div class="tags-list-item">DotNetCore</div>
+        href="/tags/NET-Core/" 
+        title=".NET Core">
+        <div class="tags-list-item">.NET Core</div>
+      </a>
+    
+      <a 
+        href="/tags/Bean-Validation/" 
+        title="Bean Validation">
+        <div class="tags-list-item">Bean Validation</div>
+      </a>
+    
+      <a 
+        href="/tags/JSON/" 
+        title="JSON">
+        <div class="tags-list-item">JSON</div>
       </a>
     
       <a 
@@ -1563,27 +1479,15 @@ xmlns:c="http://www.springframew<span aria-hidden="true" class="line-numbers-row
       </a>
     
       <a 
-        href="/tags/Jackson/" 
-        title="Jackson">
-        <div class="tags-list-item">Jackson</div>
+        href="/tags/MySQL/" 
+        title="MySQL">
+        <div class="tags-list-item">MySQL</div>
       </a>
     
       <a 
-        href="/tags/snowflake/" 
-        title="snowflake">
-        <div class="tags-list-item">snowflake</div>
-      </a>
-    
-      <a 
-        href="/tags/algorithm/" 
-        title="algorithm">
-        <div class="tags-list-item">algorithm</div>
-      </a>
-    
-      <a 
-        href="/tags/Jvm/" 
-        title="Jvm">
-        <div class="tags-list-item">Jvm</div>
+        href="/tags/Snowflake-Algorithm/" 
+        title="Snowflake Algorithm">
+        <div class="tags-list-item">Snowflake Algorithm</div>
       </a>
     
       <a 
@@ -1593,15 +1497,27 @@ xmlns:c="http://www.springframew<span aria-hidden="true" class="line-numbers-row
       </a>
     
       <a 
+        href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" 
+        title="腾讯云">
+        <div class="tags-list-item">腾讯云</div>
+      </a>
+    
+      <a 
         href="/tags/Vue/" 
         title="Vue">
         <div class="tags-list-item">Vue</div>
       </a>
     
       <a 
-        href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" 
-        title="腾讯云">
-        <div class="tags-list-item">腾讯云</div>
+        href="/tags/HTML/" 
+        title="HTML">
+        <div class="tags-list-item">HTML</div>
+      </a>
+    
+      <a 
+        href="/tags/JVM/" 
+        title="JVM">
+        <div class="tags-list-item">JVM</div>
       </a>
     
   </div>
@@ -1637,6 +1553,16 @@ xmlns:c="http://www.springframew<span aria-hidden="true" class="line-numbers-row
   <div class="recent-posts-list">
     
       <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2026-01-09</div>
+        <a href="/2026/01/09/Windows%20%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8%20Docker%20%E6%90%AD%E5%BB%BA%20Redis%20%E9%9B%86%E7%BE%A4%E6%8C%87%E5%8D%97/"><div class="recent-posts-item-content">Windows 环境下使用 Docker 搭建 Redis 集群指南</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2026-01-02</div>
+        <a href="/2026/01/02/Docker%20%E6%90%AD%E5%BB%BA%20MySQL%E4%B8%BB%E4%BB%8E/"><div class="recent-posts-item-content">Windows 环境下使用 Docker 搭建 MySQL 8 一主两从指南</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
         <div class="recent-posts-item-title">2025-03-30</div>
         <a href="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/"><div class="recent-posts-item-content">MongoDB基础使用</div></a>
       </div>
@@ -1644,16 +1570,6 @@ xmlns:c="http://www.springframew<span aria-hidden="true" class="line-numbers-row
       <div class="recent-posts-item">
         <div class="recent-posts-item-title">2023-05-28</div>
         <a href="/2023/05/28/YOLO-PyTorch-CUDN%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/"><div class="recent-posts-item-content">YOLO PyTorch CUDN环境安装</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-12-20</div>
-        <a href="/2022/12/20/HBase%E5%88%9D%E8%AF%86/"><div class="recent-posts-item-content">HBase初识</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-10-30</div>
-        <a href="/2022/10/30/Java%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E5%8C%96/"><div class="recent-posts-item-content">Java时间格式化</div></a>
       </div>
     
   </div>
@@ -1677,7 +1593,7 @@ xmlns:c="http://www.springframew<span aria-hidden="true" class="line-numbers-row
           
             2020 -
           
-          2025
+          2026
         </span>
         &nbsp;
         <a 

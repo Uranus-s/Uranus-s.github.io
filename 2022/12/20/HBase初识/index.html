@@ -33,7 +33,7 @@
     
       <meta 
         property="og:img" 
-        content="photo_2022-10-18_01-10-11.jpg">
+        content="/images/banner/photo_2022-10-18_01-10-11.jpg">
     
     
     
@@ -45,7 +45,7 @@
         content="2022-12-20">
       <meta 
         property="og:article:modified_time" 
-        content="2022-12-21">
+        content="2026-08-01">
       <meta 
         property="og:article:author" 
         content="Gas">
@@ -296,8 +296,8 @@
             <main class="main-column">
   <div class="image-wrapper">
     <img 
-      src="photo_2022-10-18_01-10-11.jpg" 
-      data-src="photo_2022-10-18_01-10-11.jpg"
+      src="/images/banner/photo_2022-10-18_01-10-11.jpg" 
+      data-src="/images/banner/photo_2022-10-18_01-10-11.jpg"
       srcset="data:image/svg+xml,%3Csvg%20xmlns=&#39;http://www.w3.org/2000/svg&#39;%20viewBox=&#39;0%200%20300%20300&#39;%3E%3C/svg%3E"
       class="image lozad"
       alt="HBase初识 thumbnail">
@@ -321,9 +321,9 @@
       <span class="dot"></span>
       
         <a 
-          href="/categories/HBase/" 
+          href="/categories/Database/" 
           class="post-meta-link">
-          HBase
+          Database
         </a>
       
     
@@ -358,7 +358,7 @@
     class="post-content">
     <h2 id="HBase初步学习"><a href="#HBase初步学习" class="headerlink" title="HBase初步学习"></a>HBase初步学习</h2><h3 id="什么是HBase"><a href="#什么是HBase" class="headerlink" title="什么是HBase"></a>什么是HBase</h3><p><code>HBase</code>是一个面向列式存储的分布式数据库，底层实现基于<code>HDFS</code>实现，集群管理基于<code>ZooKeeper</code>实现，具有良好的分布式架构设计，为海量数据存储的快速存储、随机访问提供了可能，基于数据副本机制和分区机制，可以轻松实现在线扩容、缩容和数据容灾，是大数据 Key-Value 数据结构存储的常用解决方案</p>
 <h4 id="HBase模块组成"><a href="#HBase模块组成" class="headerlink" title="HBase模块组成"></a>HBase模块组成</h4><p><code>HBase</code>可以将数据存储在本地文件系统，也可以存储在<code>HDFS</code>文件系统，在生存环境中，<code>HBase</code>一般运行在<code>HDFS</code>上，以<code>HDFS</code>作为基础的存储设施，<code>HBase</code>通过<code>HBase Client</code>提供的<code>Java API</code>访问<code>HBase</code>数据库，已完成数据的写入和读取，<code>HBase</code>集群主要由<code>HMaster</code>、<code>Region Server</code>和<code>ZooKeeper</code>组成</p>
-<img src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-41-38-image.png" title alt data-align="center" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-41-38-image.png" class="lozad post-image">
+<img src="/images/posts/HBase初识/2022-12-20-20-41-38-image.png" title alt data-align="center" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/HBase初识/2022-12-20-20-41-38-image.png" class="lozad post-image">
 
 <ul>
 <li><p>HMaster</p>
@@ -394,7 +394,7 @@
 </ul>
 <h4 id="HBase数据模型"><a href="#HBase数据模型" class="headerlink" title="HBase数据模型"></a>HBase数据模型</h4><p><code>HBase</code>是一个面向列式存储的分布式数据库。<code>HBase</code>的数据模型与<code>BigTable</code>十分相似。在 <code>HBase</code>表中，一条数据拥有一个全局唯一的键<code>RowKey</code>和任意数量的列<code>Column</code>，一列或多列组成一个列族<code>Column Family</code>，同一个列族中列的数据在物理上都存储在同一个 HFile 中，这样基于列存储的数据结构有利于数据缓存和查询。 HBase 中的表是疏松地存储的，因此用户可以动态地为数据定义各种不同的列。<code>HBase</code>中的数据按主键排序，同时，<code>HBase</code>会将表按主键划分为多个<code>Region</code>存储在不同<code>RegionServer</code>上，以完成数据的分布式存储和读取。</p>
 <p><code>HBase</code>根据列成来存储数据，一个列族对应物理存储上的一个<code>HFile</code>，列族包含多列列族在创建表的时候被指定。</p>
-<img src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-43-05-image.png" title alt data-align="center" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-43-05-image.png" class="lozad post-image">
+<img src="/images/posts/HBase初识/2022-12-20-20-43-05-image.png" title alt data-align="center" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/HBase初识/2022-12-20-20-43-05-image.png" class="lozad post-image">
 
 <ul>
 <li><p>ColumnFamily</p>
@@ -454,11 +454,11 @@
 </li>
 </ol>
 <p><strong>PS：客户端只有在操作元数据时才会和Master建立连接，也就是<code>getAdmin()</code>，操作其他表数据时，是直接通过<code>zookeeper</code>与<code>Region</code>互动，也就是<code>getTable()</code></strong></p>
-<img src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-36-27-image.png" title alt data-align="center" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-36-27-image.png" class="lozad post-image">
+<img src="/images/posts/HBase初识/2022-12-20-20-36-27-image.png" title alt data-align="center" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/HBase初识/2022-12-20-20-36-27-image.png" class="lozad post-image">
 
 <h4 id="RegionServer"><a href="#RegionServer" class="headerlink" title="RegionServer"></a>RegionServer</h4><p>主要的进程，具体实现类为<code>HRegionServer</code></p>
 <p>通常部署在<code>dataNode</code>上</p>
-<img src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-36-08-image.png" title alt data-align="center" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-36-08-image.png" class="lozad post-image">
+<img src="/images/posts/HBase初识/2022-12-20-20-36-08-image.png" title alt data-align="center" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/HBase初识/2022-12-20-20-36-08-image.png" class="lozad post-image">
 
 <p><code>MemStore</code>的数量取决<code>RegionServer</code>管理了多少个<code>Store</code></p>
 <p><code>Client</code>写入数据时，会先写入<code>MemStore</code>，然后再写入<code>Store</code>中(这一步主要的为了根据<code>RowKey</code>排序)，所以<code>WAL</code>预写日志就是为了防止<code>MemStore</code>数据还没写入到<code>Store</code>时<code>Master</code>就挂了而准备的</p>
@@ -474,7 +474,7 @@
 </li>
 </ol>
 <h4 id="写流程"><a href="#写流程" class="headerlink" title="写流程"></a>写流程</h4><p>写流程从客户端创建连接开始，到最终刷写落盘道HDFS上结束</p>
-<img src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-35-46-image.png" title alt data-align="center" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-35-46-image.png" class="lozad post-image">
+<img src="/images/posts/HBase初识/2022-12-20-20-35-46-image.png" title alt data-align="center" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/HBase初识/2022-12-20-20-35-46-image.png" class="lozad post-image">
 
 <p>先写入<code>WAL</code>的原因是数据在<code>MemStore</code>会排序并保存一段时间，存内存是不安全的</p>
 <p>数据在写入<code>MemStore</code>之后会返回写入成功的<code>ACK</code>，此时宕机可以通过<code>WAL</code>找回</p>
@@ -493,7 +493,7 @@
 </li>
 </ol>
 <h4 id="读流程"><a href="#读流程" class="headerlink" title="读流程"></a>读流程</h4><p>读流程从客户端创建连接开始，到合并数据返回客户端结束</p>
-<img src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-35-19-image.png" title alt data-align="center" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/2022/12/20/HBase%E5%88%9D%E8%AF%86/2022-12-20-20-35-19-image.png" class="lozad post-image">
+<img src="/images/posts/HBase初识/2022-12-20-20-35-19-image.png" title alt data-align="center" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/HBase初识/2022-12-20-20-35-19-image.png" class="lozad post-image">
 
 <p>读流程同写流程差不多</p>
 <ol>
@@ -670,19 +670,19 @@
   <a 
     class="author-posts-count" 
     href="/archives">
-    <span>55</span>
+    <span>57</span>
     <span>文章</span>
   </a>
   <a 
     class="author-categories-count" 
     href="/categories">
-    <span>19</span>
+    <span>7</span>
     <span>分类</span>
   </a>
   <a 
     class="author-tags-count" 
     href="/tags">
-    <span>50</span>
+    <span>61</span>
     <span>标签</span>
   </a>
 </div>
@@ -730,135 +730,51 @@
   </div>
   <div class="categories-list">
     
-      <a href="/categories/Docker/">
+      <a href="/categories/DevOps/">
         <div class="categories-list-item">
-          Docker
-          <span class="categories-list-item-badge">3</span>
+          DevOps
+          <span class="categories-list-item-badge">6</span>
         </div>
       </a>
     
-      <a href="/categories/Net/">
+      <a href="/categories/dotnet/">
         <div class="categories-list-item">
-          Net
-          <span class="categories-list-item-badge">2</span>
+          dotnet
+          <span class="categories-list-item-badge">5</span>
         </div>
       </a>
     
-      <a href="/categories/HBase/">
+      <a href="/categories/Database/">
         <div class="categories-list-item">
-          HBase
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/DotNetCore/">
-        <div class="categories-list-item">
-          DotNetCore
-          <span class="categories-list-item-badge">2</span>
+          Database
+          <span class="categories-list-item-badge">8</span>
         </div>
       </a>
     
       <a href="/categories/Java/">
         <div class="categories-list-item">
           Java
-          <span class="categories-list-item-badge">12</span>
+          <span class="categories-list-item-badge">34</span>
         </div>
       </a>
     
-      <a href="/categories/IText/">
+      <a href="/categories/AI/">
         <div class="categories-list-item">
-          IText
+          AI
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
-      <a href="/categories/Jenkins/">
+      <a href="/categories/Algorithm/">
         <div class="categories-list-item">
-          Jenkins
-          <span class="categories-list-item-badge">1</span>
+          Algorithm
+          <span class="categories-list-item-badge">2</span>
         </div>
       </a>
     
-      <a href="/categories/MongoDB/">
+      <a href="/categories/Frontend/">
         <div class="categories-list-item">
-          MongoDB
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Log4j/">
-        <div class="categories-list-item">
-          Log4j
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Netty/">
-        <div class="categories-list-item">
-          Netty
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Redis/">
-        <div class="categories-list-item">
-          Redis
-          <span class="categories-list-item-badge">6</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Spring/">
-        <div class="categories-list-item">
-          Spring
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/SpringBoot/">
-        <div class="categories-list-item">
-          SpringBoot
-          <span class="categories-list-item-badge">16</span>
-        </div>
-      </a>
-    
-      <a href="/categories/GateWay/">
-        <div class="categories-list-item">
-          GateWay
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/WPF/">
-        <div class="categories-list-item">
-          WPF
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/Python/">
-        <div class="categories-list-item">
-          Python
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/%E6%8E%92%E5%BA%8F/">
-        <div class="categories-list-item">
-          排序
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/COS/">
-        <div class="categories-list-item">
-          COS
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/categories/algorithm/">
-        <div class="categories-list-item">
-          algorithm
+          Frontend
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -878,21 +794,9 @@
   <div class="tags-list">
     
       <a 
-        href="/tags/SpringBoot/" 
-        title="SpringBoot">
-        <div class="tags-list-item">SpringBoot</div>
-      </a>
-    
-      <a 
-        href="/tags/Spring/" 
-        title="Spring">
-        <div class="tags-list-item">Spring</div>
-      </a>
-    
-      <a 
-        href="/tags/Java/" 
-        title="Java">
-        <div class="tags-list-item">Java</div>
+        href="/tags/Spring-Boot/" 
+        title="Spring Boot">
+        <div class="tags-list-item">Spring Boot</div>
       </a>
     
       <a 
@@ -908,9 +812,21 @@
       </a>
     
       <a 
-        href="/tags/DotNetCore/" 
-        title="DotNetCore">
-        <div class="tags-list-item">DotNetCore</div>
+        href="/tags/NET-Core/" 
+        title=".NET Core">
+        <div class="tags-list-item">.NET Core</div>
+      </a>
+    
+      <a 
+        href="/tags/Bean-Validation/" 
+        title="Bean Validation">
+        <div class="tags-list-item">Bean Validation</div>
+      </a>
+    
+      <a 
+        href="/tags/JSON/" 
+        title="JSON">
+        <div class="tags-list-item">JSON</div>
       </a>
     
       <a 
@@ -932,27 +848,15 @@
       </a>
     
       <a 
-        href="/tags/Jackson/" 
-        title="Jackson">
-        <div class="tags-list-item">Jackson</div>
+        href="/tags/MySQL/" 
+        title="MySQL">
+        <div class="tags-list-item">MySQL</div>
       </a>
     
       <a 
-        href="/tags/snowflake/" 
-        title="snowflake">
-        <div class="tags-list-item">snowflake</div>
-      </a>
-    
-      <a 
-        href="/tags/algorithm/" 
-        title="algorithm">
-        <div class="tags-list-item">algorithm</div>
-      </a>
-    
-      <a 
-        href="/tags/Jvm/" 
-        title="Jvm">
-        <div class="tags-list-item">Jvm</div>
+        href="/tags/Snowflake-Algorithm/" 
+        title="Snowflake Algorithm">
+        <div class="tags-list-item">Snowflake Algorithm</div>
       </a>
     
       <a 
@@ -962,15 +866,27 @@
       </a>
     
       <a 
+        href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" 
+        title="腾讯云">
+        <div class="tags-list-item">腾讯云</div>
+      </a>
+    
+      <a 
         href="/tags/Vue/" 
         title="Vue">
         <div class="tags-list-item">Vue</div>
       </a>
     
       <a 
-        href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" 
-        title="腾讯云">
-        <div class="tags-list-item">腾讯云</div>
+        href="/tags/HTML/" 
+        title="HTML">
+        <div class="tags-list-item">HTML</div>
+      </a>
+    
+      <a 
+        href="/tags/JVM/" 
+        title="JVM">
+        <div class="tags-list-item">JVM</div>
       </a>
     
   </div>
@@ -1006,6 +922,16 @@
   <div class="recent-posts-list">
     
       <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2026-01-09</div>
+        <a href="/2026/01/09/Windows%20%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8%20Docker%20%E6%90%AD%E5%BB%BA%20Redis%20%E9%9B%86%E7%BE%A4%E6%8C%87%E5%8D%97/"><div class="recent-posts-item-content">Windows 环境下使用 Docker 搭建 Redis 集群指南</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2026-01-02</div>
+        <a href="/2026/01/02/Docker%20%E6%90%AD%E5%BB%BA%20MySQL%E4%B8%BB%E4%BB%8E/"><div class="recent-posts-item-content">Windows 环境下使用 Docker 搭建 MySQL 8 一主两从指南</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
         <div class="recent-posts-item-title">2025-03-30</div>
         <a href="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/"><div class="recent-posts-item-content">MongoDB基础使用</div></a>
       </div>
@@ -1013,16 +939,6 @@
       <div class="recent-posts-item">
         <div class="recent-posts-item-title">2023-05-28</div>
         <a href="/2023/05/28/YOLO-PyTorch-CUDN%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/"><div class="recent-posts-item-content">YOLO PyTorch CUDN环境安装</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-12-20</div>
-        <a href="/2022/12/20/HBase%E5%88%9D%E8%AF%86/"><div class="recent-posts-item-content">HBase初识</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-10-30</div>
-        <a href="/2022/10/30/Java%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E5%8C%96/"><div class="recent-posts-item-content">Java时间格式化</div></a>
       </div>
     
   </div>
@@ -1046,7 +962,7 @@
           
             2020 -
           
-          2025
+          2026
         </span>
         &nbsp;
         <a 

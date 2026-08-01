@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="Gas">
+  <link 
+    rel="icon" 
+    href="/img/Kaze.png">
+  <title>Windows 环境下使用 Docker 搭建 MySQL 8 一主两从指南</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="Windows 环境下使用 Docker 搭建 MySQL 8 一主两从指南">
+    
+    
+      <meta 
+        property="og:url" 
+        content="http://example.com/2026/01/02/Docker%20%E6%90%AD%E5%BB%BA%20MySQL%E4%B8%BB%E4%BB%8E/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="/images/banner/xzcc.jpg">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2026-01-02">
+      <meta 
+        property="og:article:modified_time" 
+        content="2026-08-01">
+      <meta 
+        property="og:article:author" 
+        content="Gas">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="Docker">
+        
+          <meta 
+            property="og:article:tag" 
+            content="MySQL">
+        
+      
+    
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+      
+      
+      
+      
+        
+        
+        
+        <script>
+          function prismThemeChange() {
+            if(document.getElementById('theme-color').dataset.mode === 'dark') {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism-tomorrow.min.css', '[data-prism]', 'prism-tomorrow');
+              } else {
+                loadCSS('/js/lib/prism/prism-tomorrow.min.css', 'prism', 'prism-tomorrow');
+              }
+            } else {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism-okaidia.min.css', '[data-prism]', 'prism-okaidia');
+              } else {
+                loadCSS('/js/lib/prism/prism-okaidia.min.css', 'prism', 'prism-okaidia');
+              }
+            }
+          }
+          prismThemeChange()
+        </script>
+      
+      
+        
+        <link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+      
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+        prismThemeChange();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_2818401_duebq0kmk47.css">
+  
+    <link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+        <img 
+          class="navbar-logo-img" 
+          src="/img/Kaze.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">Gas</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/" 
+        class="navbar-menu-item">
+        
+          首页
+        
+      </a>
+    
+      <a 
+        href="/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+      <a 
+        href="/links" 
+        class="navbar-menu-item">
+        
+          友链
+        
+      </a>
+    
+    <a 
+      class="navbar-menu-item darknavbar" 
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </a>
+    <a 
+      class="navbar-menu-item searchnavbar" 
+      id="search">
+      <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i>
+    </a>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <main class="main-column">
+  <div class="image-wrapper">
+    <img 
+      src="/images/banner/xzcc.jpg" 
+      data-src="/images/banner/xzcc.jpg"
+      srcset="data:image/svg+xml,%3Csvg%20xmlns=&#39;http://www.w3.org/2000/svg&#39;%20viewBox=&#39;0%200%20300%20300&#39;%3E%3C/svg%3E"
+      class="image lozad"
+      alt="Windows 环境下使用 Docker 搭建 MySQL 8 一主两从指南 thumbnail">
+  </div>
+
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      Windows 环境下使用 Docker 搭建 MySQL 8 一主两从指南
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2026-01-01T16:20:19.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2026-01-02</span>
+    </time>
+    
+      <span class="dot"></span>
+      
+        <a 
+          href="/categories/DevOps/" 
+          class="post-meta-link">
+          DevOps
+        </a>
+      
+    
+    
+      <span class="dot"></span>
+      <span>839 字</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/tags/Docker/" 
+            class="post-meta-link">
+            Docker
+          </a>
+        
+          
+            <span class="dot"></span>
+          
+          <a 
+            href="/tags/MySQL/" 
+            class="post-meta-link">
+            MySQL
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h1 id="Windows-环境下使用-Docker-搭建-MySQL-8-一主两从指南"><a href="#Windows-环境下使用-Docker-搭建-MySQL-8-一主两从指南" class="headerlink" title="Windows 环境下使用 Docker 搭建 MySQL 8 一主两从指南"></a>Windows 环境下使用 Docker 搭建 MySQL 8 一主两从指南</h1><blockquote>
+<p>本文档基于 <strong>Windows + Docker Desktop + MySQL 8 官方镜像</strong> 的真实踩坑过程整理，<br>适合：后端开发 / 学习 MySQL 主从 / 本地模拟生产环境。</p>
+</blockquote>
+<hr>
+<h2 id="一、目标架构"><a href="#一、目标架构" class="headerlink" title="一、目标架构"></a>一、目标架构</h2><ul>
+<li>1 个主库（mysql-master）</li>
+<li>2 个从库（mysql-slave1 / mysql-slave2）</li>
+<li>使用 <strong>GTID + AUTO_POSITION</strong></li>
+<li>Docker Compose 一键启动</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">mysql-master   (server-id&#x3D;1)
+     │
+     ├── mysql-slave1 (server-id&#x3D;2)
+     └── mysql-slave2 (server-id&#x3D;3)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="二、核心原则（非常重要）"><a href="#二、核心原则（非常重要）" class="headerlink" title="二、核心原则（非常重要）"></a>二、核心原则（非常重要）</h2><h3 id="Windows-下必须遵守的-3-条原则"><a href="#Windows-下必须遵守的-3-条原则" class="headerlink" title="Windows 下必须遵守的 3 条原则"></a>Windows 下必须遵守的 3 条原则</h3><ol>
+<li><strong>不要挂载 conf.d</strong>（否则 MySQL 会忽略配置）</li>
+<li><strong>MySQL 配置全部写在 command 里</strong></li>
+<li><strong>修改配置后必须 <code>docker compose down -v</code></strong></li>
+</ol>
+<blockquote>
+<p>原因：</p>
+<ul>
+<li>Windows bind mount 的目录权限是 777</li>
+<li>MySQL 8 会直接忽略 world-writable 的 cnf 文件</li>
+<li>导致：<code>server_id=1</code>、<code>gtid_mode=OFF</code> 永远改不掉</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="三、完整-docker-compose-yml（最终可用版）"><a href="#三、完整-docker-compose-yml（最终可用版）" class="headerlink" title="三、完整 docker-compose.yml（最终可用版）"></a>三、完整 docker-compose.yml（最终可用版）</h2><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">"3.8"</span>
+
+<span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">mysql-master</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> mysql<span class="token punctuation">:</span><span class="token number">8.0</span>
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> mysql<span class="token punctuation">-</span>master
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> always
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token string">"3306:3306"</span>
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token key atrule">MYSQL_ROOT_PASSWORD</span><span class="token punctuation">:</span> <span class="token number">123456</span>
+    <span class="token key atrule">command</span><span class="token punctuation">:</span>
+      <span class="token punctuation">[</span>
+        <span class="token string">"mysqld"</span><span class="token punctuation">,</span>
+        <span class="token string">"--default-authentication-plugin=mysql_native_password"</span><span class="token punctuation">,</span>
+        <span class="token string">"--server-id=1"</span><span class="token punctuation">,</span>
+        <span class="token string">"--log-bin=mysql-bin"</span><span class="token punctuation">,</span>
+        <span class="token string">"--binlog-format=ROW"</span><span class="token punctuation">,</span>
+        <span class="token string">"--gtid-mode=ON"</span><span class="token punctuation">,</span>
+        <span class="token string">"--enforce-gtid-consistency=ON"</span>
+      <span class="token punctuation">]</span>
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> mysql<span class="token punctuation">-</span>master<span class="token punctuation">-</span>data<span class="token punctuation">:</span>/var/lib/mysql
+    <span class="token key atrule">networks</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> mysql<span class="token punctuation">-</span>net
+
+  <span class="token key atrule">mysql-slave1</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> mysql<span class="token punctuation">:</span><span class="token number">8.0</span>
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> mysql<span class="token punctuation">-</span>slave1
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> always
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token string">"3307:3306"</span>
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token key atrule">MYSQL_ROOT_PASSWORD</span><span class="token punctuation">:</span> <span class="token number">123456</span>
+    <span class="token key atrule">depends_on</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> mysql<span class="token punctuation">-</span>master
+    <span class="token key atrule">command</span><span class="token punctuation">:</span>
+      <span class="token punctuation">[</span>
+        <span class="token string">"mysqld"</span><span class="token punctuation">,</span>
+        <span class="token string">"--default-authentication-plugin=mysql_native_password"</span><span class="token punctuation">,</span>
+        <span class="token string">"--server-id=2"</span><span class="token punctuation">,</span>
+        <span class="token string">"--gtid-mode=ON"</span><span class="token punctuation">,</span>
+        <span class="token string">"--enforce-gtid-consistency=ON"</span><span class="token punctuation">,</span>
+        <span class="token string">"--relay-log=relay-bin"</span><span class="token punctuation">,</span>
+        <span class="token string">"--log-slave-updates=ON"</span><span class="token punctuation">,</span>
+        <span class="token string">"--read-only=ON"</span>
+      <span class="token punctuation">]</span>
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> mysql<span class="token punctuation">-</span>slave1<span class="token punctuation">-</span>data<span class="token punctuation">:</span>/var/lib/mysql
+    <span class="token key atrule">networks</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> mysql<span class="token punctuation">-</span>net
+
+  <span class="token key atrule">mysql-slave2</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> mysql<span class="token punctuation">:</span><span class="token number">8.0</span>
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> mysql<span class="token punctuation">-</span>slave2
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> always
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token string">"3308:3306"</span>
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token key atrule">MYSQL_ROOT_PASSWORD</span><span class="token punctuation">:</span> <span class="token number">123456</span>
+    <span class="token key atrule">depends_on</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> mysql<span class="token punctuation">-</span>master
+    <span class="token key atrule">command</span><span class="token punctuation">:</span>
+      <span class="token punctuation">[</span>
+        <span class="token string">"mysqld"</span><span class="token punctuation">,</span>
+        <span class="token string">"--default-authentication-plugin=mysql_native_password"</span><span class="token punctuation">,</span>
+        <span class="token string">"--server-id=3"</span><span class="token punctuation">,</span>
+        <span class="token string">"--gtid-mode=ON"</span><span class="token punctuation">,</span>
+        <span class="token string">"--enforce-gtid-consistency=ON"</span><span class="token punctuation">,</span>
+        <span class="token string">"--relay-log=relay-bin"</span><span class="token punctuation">,</span>
+        <span class="token string">"--log-slave-updates=ON"</span><span class="token punctuation">,</span>
+        <span class="token string">"--read-only=ON"</span>
+      <span class="token punctuation">]</span>
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> mysql<span class="token punctuation">-</span>slave2<span class="token punctuation">-</span>data<span class="token punctuation">:</span>/var/lib/mysql
+    <span class="token key atrule">networks</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> mysql<span class="token punctuation">-</span>net
+
+<span class="token key atrule">networks</span><span class="token punctuation">:</span>
+  <span class="token key atrule">mysql-net</span><span class="token punctuation">:</span>
+    <span class="token key atrule">driver</span><span class="token punctuation">:</span> bridge
+
+<span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+  <span class="token key atrule">mysql-master-data</span><span class="token punctuation">:</span>
+  <span class="token key atrule">mysql-slave1-data</span><span class="token punctuation">:</span>
+  mysql<span class="token punctuation">-</span>slave2<span class="token punctuation">-</span>data<span class="token punctuation">:</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="四、启动步骤（顺序不能错）"><a href="#四、启动步骤（顺序不能错）" class="headerlink" title="四、启动步骤（顺序不能错）"></a>四、启动步骤（顺序不能错）</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker compose down -v
+docker compose up -d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p><code>-v</code> 必须加，否则 MySQL 会继续使用旧数据目录，配置不会生效</p>
+</blockquote>
+<p>等待日志出现：</p>
+<pre class="line-numbers language-none"><code class="language-none">ready for connections<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<hr>
+<h2 id="五、登录注意事项（MySQL-8-坑点）"><a href="#五、登录注意事项（MySQL-8-坑点）" class="headerlink" title="五、登录注意事项（MySQL 8 坑点）"></a>五、登录注意事项（MySQL 8 坑点）</h2><h3 id="错误方式"><a href="#错误方式" class="headerlink" title="错误方式"></a>错误方式</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">mysql -uroot -p123456<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>报错：</p>
+<pre class="line-numbers language-none"><code class="language-none">Access denied for user &#39;root&#39;@&#39;localhost&#39;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="正确方式（强制-TCP）"><a href="#正确方式（强制-TCP）" class="headerlink" title="正确方式（强制 TCP）"></a>正确方式（强制 TCP）</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">docker <span class="token builtin class-name">exec</span> -it mysql-slave1 mysql -uroot -p123456 -h127.0.0.1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>原因：</p>
+<ul>
+<li>MySQL 8 官方镜像默认只有 <code>root@&#39;%&#39;</code></li>
+<li>socket 登录等于 <code>root@localhost</code></li>
+</ul>
+<hr>
+<h2 id="六、验证基础配置"><a href="#六、验证基础配置" class="headerlink" title="六、验证基础配置"></a>六、验证基础配置</h2><p>在 slave 上：</p>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">SHOW</span> VARIABLES <span class="token operator">LIKE</span> <span class="token string">'server_id'</span><span class="token punctuation">;</span>
+<span class="token keyword">SHOW</span> VARIABLES <span class="token operator">LIKE</span> <span class="token string">'gtid_mode'</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>期望结果：</p>
+<pre class="line-numbers language-none"><code class="language-none">server_id &#x3D; 2&#x2F;3
+gtid_mode &#x3D; ON<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="七、创建复制用户（主库）"><a href="#七、创建复制用户（主库）" class="headerlink" title="七、创建复制用户（主库）"></a>七、创建复制用户（主库）</h2><pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">USER</span> <span class="token keyword">IF</span> <span class="token operator">NOT</span> <span class="token keyword">EXISTS</span> <span class="token string">'repl'</span><span class="token variable">@'%'</span> IDENTIFIED <span class="token keyword">WITH</span> mysql_native_password <span class="token keyword">BY</span> <span class="token string">'123456'</span><span class="token punctuation">;</span>
+<span class="token keyword">GRANT</span> <span class="token keyword">REPLICATION</span> SLAVE <span class="token keyword">ON</span> <span class="token operator">*</span><span class="token punctuation">.</span><span class="token operator">*</span> <span class="token keyword">TO</span> <span class="token string">'repl'</span><span class="token variable">@'%'</span><span class="token punctuation">;</span>
+FLUSH <span class="token keyword">PRIVILEGES</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="八、配置从库复制（GTID）"><a href="#八、配置从库复制（GTID）" class="headerlink" title="八、配置从库复制（GTID）"></a>八、配置从库复制（GTID）</h2><p>在 slave1 / slave2：</p>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql">CHANGE <span class="token keyword">REPLICATION</span> SOURCE <span class="token keyword">TO</span>
+  SOURCE_HOST<span class="token operator">=</span><span class="token string">'mysql-master'</span><span class="token punctuation">,</span>
+  SOURCE_USER<span class="token operator">=</span><span class="token string">'repl'</span><span class="token punctuation">,</span>
+  SOURCE_PASSWORD<span class="token operator">=</span><span class="token string">'123456'</span><span class="token punctuation">,</span>
+  SOURCE_AUTO_POSITION<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
+
+<span class="token keyword">START</span> REPLICA<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="九、常见错误-amp-解决方案汇总"><a href="#九、常见错误-amp-解决方案汇总" class="headerlink" title="九、常见错误 &amp; 解决方案汇总"></a>九、常见错误 &amp; 解决方案汇总</h2><h3 id="1-ERROR-1200-The-server-is-not-configured-as-replica"><a href="#1-ERROR-1200-The-server-is-not-configured-as-replica" class="headerlink" title="1. ERROR 1200: The server is not configured as replica"></a>1. <code>ERROR 1200: The server is not configured as replica</code></h3><p><strong>原因</strong>：</p>
+<ul>
+<li><code>server_id</code> 未生效</li>
+<li>配置文件被忽略</li>
+</ul>
+<p><strong>解决</strong>：</p>
+<ul>
+<li>不挂载 conf.d</li>
+<li>使用 command</li>
+<li><code>docker compose down -v</code></li>
+</ul>
+<hr>
+<h3 id="2-ERROR-1777-GTID-MODE-OFF"><a href="#2-ERROR-1777-GTID-MODE-OFF" class="headerlink" title="2. ERROR 1777: GTID_MODE = OFF"></a>2. <code>ERROR 1777: GTID_MODE = OFF</code></h3><p><strong>原因</strong>：</p>
+<ul>
+<li>gtid_mode 未真正生效</li>
+</ul>
+<p><strong>解决</strong>：</p>
+<ul>
+<li>确认 command 中包含 <code>--gtid-mode=ON</code></li>
+<li>删除 volume 重新启动</li>
+</ul>
+<hr>
+<h3 id="3-Replica-IO-Running-Connecting"><a href="#3-Replica-IO-Running-Connecting" class="headerlink" title="3. Replica_IO_Running: Connecting"></a>3. <code>Replica_IO_Running: Connecting</code></h3><p><strong>原因</strong>：</p>
+<ul>
+<li>master 尚未 ready</li>
+<li>复制用户不存在</li>
+</ul>
+<p><strong>解决</strong>：</p>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql">STOP REPLICA<span class="token punctuation">;</span>
+RESET REPLICA <span class="token keyword">ALL</span><span class="token punctuation">;</span>
+<span class="token comment">-- 重新 CHANGE REPLICATION SOURCE TO</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="4-conf-d-提示被忽略"><a href="#4-conf-d-提示被忽略" class="headerlink" title="4. conf.d 提示被忽略"></a>4. conf.d 提示被忽略</h3><pre class="line-numbers language-text" data-language="text"><code class="language-text">World-writable config file ... is ignored<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>原因</strong>：Windows 挂载权限问题</p>
+<p><strong>解决</strong>：完全不用 conf.d</p>
+<hr>
+<h2 id="十、最终成功标志"><a href="#十、最终成功标志" class="headerlink" title="十、最终成功标志"></a>十、最终成功标志</h2><pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">SHOW</span> REPLICA <span class="token keyword">STATUS</span>\G<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>看到：</p>
+<pre class="line-numbers language-none"><code class="language-none">Replica_IO_Running: Yes
+Replica_SQL_Running: Yes<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="十一、实锤验证复制"><a href="#十一、实锤验证复制" class="headerlink" title="十一、实锤验证复制"></a>十一、实锤验证复制</h2><p>主库：</p>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">DATABASE</span> test_db<span class="token punctuation">;</span>
+<span class="token keyword">USE</span> test_db<span class="token punctuation">;</span>
+<span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> t1 <span class="token punctuation">(</span>id <span class="token keyword">INT</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span><span class="token punctuation">,</span> name <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">INSERT</span> <span class="token keyword">INTO</span> t1 <span class="token keyword">VALUES</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token string">'ok'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>从库：</p>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql"><span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> test_db<span class="token punctuation">.</span>t1<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<hr>
+<h2 id="十二、总结"><a href="#十二、总结" class="headerlink" title="十二、总结"></a>十二、总结</h2><ul>
+<li>这是 <strong>Windows Docker 下 MySQL 主从的正确姿势</strong></li>
+<li>避开了 90% 网络教程的坑</li>
+<li>可直接作为：<ul>
+<li>本地开发环境</li>
+<li>学习主从复制</li>
+<li>面试演示项目</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    
+      <div 
+        class="post-note note-warning copyright" 
+        style="margin-top: 42px">
+        <p>
+          <span style="font-weight: bold;">作者：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="/about">
+            Gas
+          </a>
+        </p>
+        <p>
+          <span style="font-weight: bold;">文章链接：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="http://example.com/2026/01/02/Docker%20%E6%90%AD%E5%BB%BA%20MySQL%E4%B8%BB%E4%BB%8E/">
+            http://example.com/2026/01/02/Docker%20%E6%90%AD%E5%BB%BA%20MySQL%E4%B8%BB%E4%BB%8E/
+          </a>
+        </p>
+        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+      </div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+    <div class="nav-item-prev">
+      <a 
+        href="/2026/01/09/Windows%20%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8%20Docker%20%E6%90%AD%E5%BB%BA%20Redis%20%E9%9B%86%E7%BE%A4%E6%8C%87%E5%8D%97/" 
+        class="nav-link">
+        <i class="iconfont icon-left nav-prev-icon"></i>
+        <div>
+          <div class="nav-label">上一篇</div>
+          
+            <div class="nav-title">Windows 环境下使用 Docker 搭建 Redis 集群指南 </div>
+          
+        </div>
+      </a>
+    </div>
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">下一篇</div>
+          
+            <div class="nav-title">MongoDB基础使用 </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Windows-%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8-Docker-%E6%90%AD%E5%BB%BA-MySQL-8-%E4%B8%80%E4%B8%BB%E4%B8%A4%E4%BB%8E%E6%8C%87%E5%8D%97"><span class="toc-number">1.</span> <span class="toc-text">Windows 环境下使用 Docker 搭建 MySQL 8 一主两从指南</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%9B%AE%E6%A0%87%E6%9E%B6%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">一、目标架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%A0%B8%E5%BF%83%E5%8E%9F%E5%88%99%EF%BC%88%E9%9D%9E%E5%B8%B8%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">二、核心原则（非常重要）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows-%E4%B8%8B%E5%BF%85%E9%A1%BB%E9%81%B5%E5%AE%88%E7%9A%84-3-%E6%9D%A1%E5%8E%9F%E5%88%99"><span class="toc-number">1.2.1.</span> <span class="toc-text">Windows 下必须遵守的 3 条原则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%AE%8C%E6%95%B4-docker-compose-yml%EF%BC%88%E6%9C%80%E7%BB%88%E5%8F%AF%E7%94%A8%E7%89%88%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">三、完整 docker-compose.yml（最终可用版）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%90%AF%E5%8A%A8%E6%AD%A5%E9%AA%A4%EF%BC%88%E9%A1%BA%E5%BA%8F%E4%B8%8D%E8%83%BD%E9%94%99%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">四、启动步骤（顺序不能错）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E7%99%BB%E5%BD%95%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9%EF%BC%88MySQL-8-%E5%9D%91%E7%82%B9%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">五、登录注意事项（MySQL 8 坑点）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E6%96%B9%E5%BC%8F"><span class="toc-number">1.5.1.</span> <span class="toc-text">错误方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E7%A1%AE%E6%96%B9%E5%BC%8F%EF%BC%88%E5%BC%BA%E5%88%B6-TCP%EF%BC%89"><span class="toc-number">1.5.2.</span> <span class="toc-text">正确方式（强制 TCP）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E9%AA%8C%E8%AF%81%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE"><span class="toc-number">1.6.</span> <span class="toc-text">六、验证基础配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E5%88%9B%E5%BB%BA%E5%A4%8D%E5%88%B6%E7%94%A8%E6%88%B7%EF%BC%88%E4%B8%BB%E5%BA%93%EF%BC%89"><span class="toc-number">1.7.</span> <span class="toc-text">七、创建复制用户（主库）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E9%85%8D%E7%BD%AE%E4%BB%8E%E5%BA%93%E5%A4%8D%E5%88%B6%EF%BC%88GTID%EF%BC%89"><span class="toc-number">1.8.</span> <span class="toc-text">八、配置从库复制（GTID）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF-amp-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%B1%87%E6%80%BB"><span class="toc-number">1.9.</span> <span class="toc-text">九、常见错误 &amp; 解决方案汇总</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-ERROR-1200-The-server-is-not-configured-as-replica"><span class="toc-number">1.9.1.</span> <span class="toc-text">1. ERROR 1200: The server is not configured as replica</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ERROR-1777-GTID-MODE-OFF"><span class="toc-number">1.9.2.</span> <span class="toc-text">2. ERROR 1777: GTID_MODE &#x3D; OFF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Replica-IO-Running-Connecting"><span class="toc-number">1.9.3.</span> <span class="toc-text">3. Replica_IO_Running: Connecting</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-conf-d-%E6%8F%90%E7%A4%BA%E8%A2%AB%E5%BF%BD%E7%95%A5"><span class="toc-number">1.9.4.</span> <span class="toc-text">4. conf.d 提示被忽略</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E3%80%81%E6%9C%80%E7%BB%88%E6%88%90%E5%8A%9F%E6%A0%87%E5%BF%97"><span class="toc-number">1.10.</span> <span class="toc-text">十、最终成功标志</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%B8%80%E3%80%81%E5%AE%9E%E9%94%A4%E9%AA%8C%E8%AF%81%E5%A4%8D%E5%88%B6"><span class="toc-number">1.11.</span> <span class="toc-text">十一、实锤验证复制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%BA%8C%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-number">1.12.</span> <span class="toc-text">十二、总结</span></a></li></ol></li></ol>
+</div></main>
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="/img/Kaze.png" 
+    class="author-img" 
+    alt="author avatar">
+
+<p class="author-name">Gas</p>
+<p class="author-description">想当画家的咸鱼罢了</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/archives">
+    <span>57</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/categories">
+    <span>7</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/tags">
+    <span>61</span>
+    <span>标签</span>
+  </a>
+</div>
+
+  <div class="author-card-society">
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://github.com/Uranus-s">
+          <i class="iconfont social_github icon-github society-icon"></i>
+        </a>
+      </div>
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://gitee.com/L-sama">
+          <i class="iconfont social_github icon-gitee2 society-icon"></i>
+        </a>
+      </div>
+    
+  </div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Windows-%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8-Docker-%E6%90%AD%E5%BB%BA-MySQL-8-%E4%B8%80%E4%B8%BB%E4%B8%A4%E4%BB%8E%E6%8C%87%E5%8D%97"><span class="toc-number">1.</span> <span class="toc-text">Windows 环境下使用 Docker 搭建 MySQL 8 一主两从指南</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%9B%AE%E6%A0%87%E6%9E%B6%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">一、目标架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%A0%B8%E5%BF%83%E5%8E%9F%E5%88%99%EF%BC%88%E9%9D%9E%E5%B8%B8%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">二、核心原则（非常重要）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows-%E4%B8%8B%E5%BF%85%E9%A1%BB%E9%81%B5%E5%AE%88%E7%9A%84-3-%E6%9D%A1%E5%8E%9F%E5%88%99"><span class="toc-number">1.2.1.</span> <span class="toc-text">Windows 下必须遵守的 3 条原则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%AE%8C%E6%95%B4-docker-compose-yml%EF%BC%88%E6%9C%80%E7%BB%88%E5%8F%AF%E7%94%A8%E7%89%88%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">三、完整 docker-compose.yml（最终可用版）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%90%AF%E5%8A%A8%E6%AD%A5%E9%AA%A4%EF%BC%88%E9%A1%BA%E5%BA%8F%E4%B8%8D%E8%83%BD%E9%94%99%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">四、启动步骤（顺序不能错）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E7%99%BB%E5%BD%95%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9%EF%BC%88MySQL-8-%E5%9D%91%E7%82%B9%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">五、登录注意事项（MySQL 8 坑点）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E6%96%B9%E5%BC%8F"><span class="toc-number">1.5.1.</span> <span class="toc-text">错误方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E7%A1%AE%E6%96%B9%E5%BC%8F%EF%BC%88%E5%BC%BA%E5%88%B6-TCP%EF%BC%89"><span class="toc-number">1.5.2.</span> <span class="toc-text">正确方式（强制 TCP）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E9%AA%8C%E8%AF%81%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE"><span class="toc-number">1.6.</span> <span class="toc-text">六、验证基础配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E5%88%9B%E5%BB%BA%E5%A4%8D%E5%88%B6%E7%94%A8%E6%88%B7%EF%BC%88%E4%B8%BB%E5%BA%93%EF%BC%89"><span class="toc-number">1.7.</span> <span class="toc-text">七、创建复制用户（主库）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E9%85%8D%E7%BD%AE%E4%BB%8E%E5%BA%93%E5%A4%8D%E5%88%B6%EF%BC%88GTID%EF%BC%89"><span class="toc-number">1.8.</span> <span class="toc-text">八、配置从库复制（GTID）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF-amp-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%B1%87%E6%80%BB"><span class="toc-number">1.9.</span> <span class="toc-text">九、常见错误 &amp; 解决方案汇总</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-ERROR-1200-The-server-is-not-configured-as-replica"><span class="toc-number">1.9.1.</span> <span class="toc-text">1. ERROR 1200: The server is not configured as replica</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ERROR-1777-GTID-MODE-OFF"><span class="toc-number">1.9.2.</span> <span class="toc-text">2. ERROR 1777: GTID_MODE &#x3D; OFF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Replica-IO-Running-Connecting"><span class="toc-number">1.9.3.</span> <span class="toc-text">3. Replica_IO_Running: Connecting</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-conf-d-%E6%8F%90%E7%A4%BA%E8%A2%AB%E5%BF%BD%E7%95%A5"><span class="toc-number">1.9.4.</span> <span class="toc-text">4. conf.d 提示被忽略</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E3%80%81%E6%9C%80%E7%BB%88%E6%88%90%E5%8A%9F%E6%A0%87%E5%BF%97"><span class="toc-number">1.10.</span> <span class="toc-text">十、最终成功标志</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%B8%80%E3%80%81%E5%AE%9E%E9%94%A4%E9%AA%8C%E8%AF%81%E5%A4%8D%E5%88%B6"><span class="toc-number">1.11.</span> <span class="toc-text">十一、实锤验证复制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%BA%8C%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-number">1.12.</span> <span class="toc-text">十二、总结</span></a></li></ol></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+      <a href="/categories/DevOps/">
+        <div class="categories-list-item">
+          DevOps
+          <span class="categories-list-item-badge">6</span>
+        </div>
+      </a>
+    
+      <a href="/categories/dotnet/">
+        <div class="categories-list-item">
+          dotnet
+          <span class="categories-list-item-badge">5</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Database/">
+        <div class="categories-list-item">
+          Database
+          <span class="categories-list-item-badge">8</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Java/">
+        <div class="categories-list-item">
+          Java
+          <span class="categories-list-item-badge">34</span>
+        </div>
+      </a>
+    
+      <a href="/categories/AI/">
+        <div class="categories-list-item">
+          AI
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Algorithm/">
+        <div class="categories-list-item">
+          Algorithm
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Frontend/">
+        <div class="categories-list-item">
+          Frontend
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/tags/Spring-Boot/" 
+        title="Spring Boot">
+        <div class="tags-list-item">Spring Boot</div>
+      </a>
+    
+      <a 
+        href="/tags/Redis/" 
+        title="Redis">
+        <div class="tags-list-item">Redis</div>
+      </a>
+    
+      <a 
+        href="/tags/Docker/" 
+        title="Docker">
+        <div class="tags-list-item">Docker</div>
+      </a>
+    
+      <a 
+        href="/tags/NET-Core/" 
+        title=".NET Core">
+        <div class="tags-list-item">.NET Core</div>
+      </a>
+    
+      <a 
+        href="/tags/Bean-Validation/" 
+        title="Bean Validation">
+        <div class="tags-list-item">Bean Validation</div>
+      </a>
+    
+      <a 
+        href="/tags/JSON/" 
+        title="JSON">
+        <div class="tags-list-item">JSON</div>
+      </a>
+    
+      <a 
+        href="/tags/IDEA/" 
+        title="IDEA">
+        <div class="tags-list-item">IDEA</div>
+      </a>
+    
+      <a 
+        href="/tags/Maven/" 
+        title="Maven">
+        <div class="tags-list-item">Maven</div>
+      </a>
+    
+      <a 
+        href="/tags/RabbitMQ/" 
+        title="RabbitMQ">
+        <div class="tags-list-item">RabbitMQ</div>
+      </a>
+    
+      <a 
+        href="/tags/MySQL/" 
+        title="MySQL">
+        <div class="tags-list-item">MySQL</div>
+      </a>
+    
+      <a 
+        href="/tags/Snowflake-Algorithm/" 
+        title="Snowflake Algorithm">
+        <div class="tags-list-item">Snowflake Algorithm</div>
+      </a>
+    
+      <a 
+        href="/tags/COS/" 
+        title="COS">
+        <div class="tags-list-item">COS</div>
+      </a>
+    
+      <a 
+        href="/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/" 
+        title="腾讯云">
+        <div class="tags-list-item">腾讯云</div>
+      </a>
+    
+      <a 
+        href="/tags/Vue/" 
+        title="Vue">
+        <div class="tags-list-item">Vue</div>
+      </a>
+    
+      <a 
+        href="/tags/HTML/" 
+        title="HTML">
+        <div class="tags-list-item">HTML</div>
+      </a>
+    
+      <a 
+        href="/tags/JVM/" 
+        title="JVM">
+        <div class="tags-list-item">JVM</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Windows-%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8-Docker-%E6%90%AD%E5%BB%BA-MySQL-8-%E4%B8%80%E4%B8%BB%E4%B8%A4%E4%BB%8E%E6%8C%87%E5%8D%97"><span class="toc-number">1.</span> <span class="toc-text">Windows 环境下使用 Docker 搭建 MySQL 8 一主两从指南</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%9B%AE%E6%A0%87%E6%9E%B6%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">一、目标架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%A0%B8%E5%BF%83%E5%8E%9F%E5%88%99%EF%BC%88%E9%9D%9E%E5%B8%B8%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">二、核心原则（非常重要）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows-%E4%B8%8B%E5%BF%85%E9%A1%BB%E9%81%B5%E5%AE%88%E7%9A%84-3-%E6%9D%A1%E5%8E%9F%E5%88%99"><span class="toc-number">1.2.1.</span> <span class="toc-text">Windows 下必须遵守的 3 条原则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%AE%8C%E6%95%B4-docker-compose-yml%EF%BC%88%E6%9C%80%E7%BB%88%E5%8F%AF%E7%94%A8%E7%89%88%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">三、完整 docker-compose.yml（最终可用版）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%90%AF%E5%8A%A8%E6%AD%A5%E9%AA%A4%EF%BC%88%E9%A1%BA%E5%BA%8F%E4%B8%8D%E8%83%BD%E9%94%99%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">四、启动步骤（顺序不能错）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E7%99%BB%E5%BD%95%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9%EF%BC%88MySQL-8-%E5%9D%91%E7%82%B9%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">五、登录注意事项（MySQL 8 坑点）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E6%96%B9%E5%BC%8F"><span class="toc-number">1.5.1.</span> <span class="toc-text">错误方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E7%A1%AE%E6%96%B9%E5%BC%8F%EF%BC%88%E5%BC%BA%E5%88%B6-TCP%EF%BC%89"><span class="toc-number">1.5.2.</span> <span class="toc-text">正确方式（强制 TCP）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E9%AA%8C%E8%AF%81%E5%9F%BA%E7%A1%80%E9%85%8D%E7%BD%AE"><span class="toc-number">1.6.</span> <span class="toc-text">六、验证基础配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E5%88%9B%E5%BB%BA%E5%A4%8D%E5%88%B6%E7%94%A8%E6%88%B7%EF%BC%88%E4%B8%BB%E5%BA%93%EF%BC%89"><span class="toc-number">1.7.</span> <span class="toc-text">七、创建复制用户（主库）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E9%85%8D%E7%BD%AE%E4%BB%8E%E5%BA%93%E5%A4%8D%E5%88%B6%EF%BC%88GTID%EF%BC%89"><span class="toc-number">1.8.</span> <span class="toc-text">八、配置从库复制（GTID）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF-amp-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%B1%87%E6%80%BB"><span class="toc-number">1.9.</span> <span class="toc-text">九、常见错误 &amp; 解决方案汇总</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-ERROR-1200-The-server-is-not-configured-as-replica"><span class="toc-number">1.9.1.</span> <span class="toc-text">1. ERROR 1200: The server is not configured as replica</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ERROR-1777-GTID-MODE-OFF"><span class="toc-number">1.9.2.</span> <span class="toc-text">2. ERROR 1777: GTID_MODE &#x3D; OFF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Replica-IO-Running-Connecting"><span class="toc-number">1.9.3.</span> <span class="toc-text">3. Replica_IO_Running: Connecting</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-conf-d-%E6%8F%90%E7%A4%BA%E8%A2%AB%E5%BF%BD%E7%95%A5"><span class="toc-number">1.9.4.</span> <span class="toc-text">4. conf.d 提示被忽略</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E3%80%81%E6%9C%80%E7%BB%88%E6%88%90%E5%8A%9F%E6%A0%87%E5%BF%97"><span class="toc-number">1.10.</span> <span class="toc-text">十、最终成功标志</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%B8%80%E3%80%81%E5%AE%9E%E9%94%A4%E9%AA%8C%E8%AF%81%E5%A4%8D%E5%88%B6"><span class="toc-number">1.11.</span> <span class="toc-text">十一、实锤验证复制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%BA%8C%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-number">1.12.</span> <span class="toc-text">十二、总结</span></a></li></ol></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2026-01-09</div>
+        <a href="/2026/01/09/Windows%20%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8%20Docker%20%E6%90%AD%E5%BB%BA%20Redis%20%E9%9B%86%E7%BE%A4%E6%8C%87%E5%8D%97/"><div class="recent-posts-item-content">Windows 环境下使用 Docker 搭建 Redis 集群指南</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2026-01-02</div>
+        <a href="/2026/01/02/Docker%20%E6%90%AD%E5%BB%BA%20MySQL%E4%B8%BB%E4%BB%8E/"><div class="recent-posts-item-content">Windows 环境下使用 Docker 搭建 MySQL 8 一主两从指南</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2025-03-30</div>
+        <a href="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/"><div class="recent-posts-item-content">MongoDB基础使用</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-05-28</div>
+        <a href="/2023/05/28/YOLO-PyTorch-CUDN%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/"><div class="recent-posts-item-content">YOLO PyTorch CUDN环境安装</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2020 -
+          
+          2026
+        </span>
+        &nbsp;
+        <a 
+          href="/" 
+          class="footer-link">
+          Gas
+        </a>
+      </div>
+    </div>
+
+    
+      <div class="footer-dsc">
+        
+          Powered by
+          <a 
+            href="https://hexo.io/" 
+            class="footer-link" 
+            target="_blank" 
+            rel="nofollow noopener noreferrer">
+            &nbsp;Hexo
+          </a>
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          Theme -
+          <a 
+            href="https://github.com/theme-kaze" 
+            class="footer-link" 
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            &nbsp;Kaze
+          </a>
+        
+      </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer> 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton" 
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/js/main.js"></script> 
+    
+      <script> 
+        loadScript('/js/lib/busuanzi.min.js') 
+      </script>
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/js/lib/lozad.min.js', addLazyload)
+      </script>
+     
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>
