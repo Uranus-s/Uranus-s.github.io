@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="Gas">
+  <link 
+    rel="icon" 
+    href="/img/Kaze.png">
+  <title>政治复习整理版</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="政治复习整理版">
+    
+    
+      <meta 
+        property="og:url" 
+        content="http://example.com/2024/12/01/%E6%94%BF%E6%B2%BB%E5%A4%8D%E4%B9%A0%E6%95%B4%E7%90%86%E7%89%88/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="/img/Kaze.png">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2024-12-01">
+      <meta 
+        property="og:article:modified_time" 
+        content="2026-09-29">
+      <meta 
+        property="og:article:author" 
+        content="Gas">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="政治">
+        
+          <meta 
+            property="og:article:tag" 
+            content="复习">
+        
+      
+    
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+      
+      
+      
+      
+        
+        
+        
+        <script>
+          function prismThemeChange() {
+            if(document.getElementById('theme-color').dataset.mode === 'dark') {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism-tomorrow.min.css', '[data-prism]', 'prism-tomorrow');
+              } else {
+                loadCSS('/js/lib/prism/prism-tomorrow.min.css', 'prism', 'prism-tomorrow');
+              }
+            } else {
+              if(document.querySelector('[data-prism]')) {
+                changeCSS('/js/lib/prism/prism-okaidia.min.css', '[data-prism]', 'prism-okaidia');
+              } else {
+                loadCSS('/js/lib/prism/prism-okaidia.min.css', 'prism', 'prism-okaidia');
+              }
+            }
+          }
+          prismThemeChange()
+        </script>
+      
+      
+        
+        <link rel="stylesheet" href="/js/lib/prism/prism-line-numbers.min.css">
+      
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+        prismThemeChange();
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+        prismThemeChange();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_2818401_duebq0kmk47.css">
+  
+    <link rel="stylesheet" href="/js/lib/lightbox/baguetteBox.min.css">
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+        <img 
+          class="navbar-logo-img" 
+          src="/img/Kaze.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">Gas</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/" 
+        class="navbar-menu-item">
+        
+          首页
+        
+      </a>
+    
+      <a 
+        href="/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+      <a 
+        href="/links" 
+        class="navbar-menu-item">
+        
+          友链
+        
+      </a>
+    
+    <a 
+      class="navbar-menu-item darknavbar" 
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </a>
+    <a 
+      class="navbar-menu-item searchnavbar" 
+      id="search">
+      <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i>
+    </a>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      政治复习整理版
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2024-11-30T16:00:00.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2024-12-01</span>
+    </time>
+    
+      <span class="dot"></span>
+      
+        <a 
+          href="/categories/%E5%AD%A6%E4%B9%A0/" 
+          class="post-meta-link">
+          学习
+        </a>
+      
+    
+    
+      <span class="dot"></span>
+      <span>4.1k 字</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/tags/%E6%94%BF%E6%B2%BB/" 
+            class="post-meta-link">
+            政治
+          </a>
+        
+          
+            <span class="dot"></span>
+          
+          <a 
+            href="/tags/%E5%A4%8D%E4%B9%A0/" 
+            class="post-meta-link">
+            复习
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h1 id="政治复习整理版"><a href="#政治复习整理版" class="headerlink" title="政治复习整理版"></a>政治复习整理版</h1><blockquote>
+<p>根据 37 份原始笔记按知识体系重新归并。本文不逐篇转录，重复表述已合并；时间、概念和答题要点保留为复习重点。</p>
+</blockquote>
+<h2 id="一、总框架：一条历史线，四组理论成果"><a href="#一、总框架：一条历史线，四组理论成果" class="headerlink" title="一、总框架：一条历史线，四组理论成果"></a>一、总框架：一条历史线，四组理论成果</h2><h3 id="1-历史线"><a href="#1-历史线" class="headerlink" title="1. 历史线"></a>1. 历史线</h3><p>近代中国半殖民地半封建社会的国情，决定了革命首先要完成反帝反封建的任务。中国共产党把马克思主义同中国具体实际相结合，完成新民主主义革命；新中国成立后，经由新民主主义社会过渡到社会主义；改革开放以来，开辟并发展中国特色社会主义；进入新时代，以中国式现代化推进民族复兴。</p>
+<h3 id="2-马克思主义中国化时代化"><a href="#2-马克思主义中国化时代化" class="headerlink" title="2. 马克思主义中国化时代化"></a>2. 马克思主义中国化时代化</h3><ul>
+<li><strong>必要性</strong>：解决中国实际问题的客观需要，也是马克思主义理论发展的内在要求。</li>
+<li><strong>科学内涵</strong>：把基本原理同中国具体实际、时代特征相结合；从实践中总结规律并丰富理论；用人民喜闻乐见的民族语言阐释理论，形成中国特色、中国风格、中国气派。</li>
+<li><strong>两个结合</strong>：同中国具体实际相结合；同中华优秀传统文化相结合。</li>
+<li><strong>三次飞跃</strong>：新民主主义革命时期形成毛泽东思想；改革开放和社会主义现代化建设新时期形成中国特色社会主义理论体系；新时代形成习近平新时代中国特色社会主义思想。</li>
+</ul>
+<h3 id="3-理论成果的脉络"><a href="#3-理论成果的脉络" class="headerlink" title="3. 理论成果的脉络"></a>3. 理论成果的脉络</h3><table>
+<thead>
+<tr>
+<th>理论成果</th>
+<th>核心把握</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>毛泽东思想</td>
+<td>中国革命和建设的正确理论原则和经验总结；党的集体智慧结晶</td>
+</tr>
+<tr>
+<td>邓小平理论</td>
+<td>回答什么是社会主义、怎样建设社会主义；社会主义本质是解放和发展生产力、消灭剥削、消除两极分化、最终达到共同富裕</td>
+</tr>
+<tr>
+<td>“三个代表”重要思想</td>
+<td>始终代表先进生产力发展要求、先进文化前进方向、最广大人民根本利益</td>
+</tr>
+<tr>
+<td>科学发展观</td>
+<td>第一要义是发展，核心是以人为本，基本要求是全面协调可持续，根本方法是统筹兼顾</td>
+</tr>
+<tr>
+<td>习近平新时代中国特色社会主义思想</td>
+<td>回答新时代坚持和发展什么样的中国特色社会主义、怎样坚持和发展；建设什么样的现代化强国、怎样建设；建设什么样的长期执政马克思主义政党、怎样建设</td>
+</tr>
+</tbody></table>
+<h2 id="二、毛泽东思想与新民主主义革命"><a href="#二、毛泽东思想与新民主主义革命" class="headerlink" title="二、毛泽东思想与新民主主义革命"></a>二、毛泽东思想与新民主主义革命</h2><h3 id="1-毛泽东思想"><a href="#1-毛泽东思想" class="headerlink" title="1. 毛泽东思想"></a>1. 毛泽东思想</h3><p>毛泽东思想形成于大革命失败后至遵义会议前，抗日战争时期走向成熟，新中国成立后继续发展。其主要内容包括新民主主义革命理论、社会主义革命和建设理论、革命军队和军事战略理论、政策和策略理论、思想政治工作和文化工作理论、党的建设理论。</p>
+<p><strong>活的灵魂</strong>：</p>
+<ol>
+<li><strong>实事求是</strong>：一切从实际出发，理论联系实际，在实践中检验和发展真理；是党的思想路线。</li>
+<li><strong>群众路线</strong>：一切为了群众、一切依靠群众，从群众中来、到群众中去；本质是马克思主义群众观的中国化。</li>
+<li><strong>独立自主</strong>：把立足点放在依靠自己力量的基础上，同时积极争取外援；是中国革命、建设和改革必须坚持的重要原则。</li>
+</ol>
+<p>党的建设方面要记住三大优良作风：理论联系实际、密切联系群众、批评和自我批评；以及“两个务必”：谦虚谨慎、不骄不躁，艰苦奋斗。</p>
+<h3 id="2-新民主主义革命的依据与总路线"><a href="#2-新民主主义革命的依据与总路线" class="headerlink" title="2. 新民主主义革命的依据与总路线"></a>2. 新民主主义革命的依据与总路线</h3><ul>
+<li><strong>国情</strong>：近代中国是半殖民地半封建社会，主要矛盾是帝国主义和中华民族、封建主义和人民大众的矛盾；根本任务是推翻帝国主义、封建主义和官僚资本主义统治。</li>
+<li><strong>性质</strong>：无产阶级领导的、人民大众的、反对帝国主义封建主义和官僚资本主义的革命。</li>
+<li><strong>对象</strong>：帝国主义是首要、最凶恶的敌人；封建主义是社会基础；官僚资本主义依附帝国主义并勾结封建势力。</li>
+<li><strong>动力</strong>：无产阶级是最基本动力，农民是主力军，城市小资产阶级是可靠同盟者，民族资产阶级具有两面性。</li>
+<li><strong>领导权</strong>：无产阶级及其政党领导，是新民主主义革命区别于旧民主主义革命的根本标志。</li>
+<li><strong>前途</strong>：新民主主义革命是社会主义革命的必要准备，社会主义革命是其必然趋势；二者既相区别又相衔接。</li>
+</ul>
+<h3 id="3-新民主主义基本纲领"><a href="#3-新民主主义基本纲领" class="headerlink" title="3. 新民主主义基本纲领"></a>3. 新民主主义基本纲领</h3><ul>
+<li><strong>政治纲领</strong>：建立无产阶级领导的、以工农联盟为基础的、各革命阶级联合专政的新民主主义共和国。</li>
+<li><strong>经济纲领</strong>：没收封建地主阶级土地归农民所有；没收官僚资本归新民主主义国家所有；保护民族工商业。</li>
+<li><strong>文化纲领</strong>：民族的、科学的、人民大众的文化。</li>
+</ul>
+<h3 id="4-革命道路与三大法宝"><a href="#4-革命道路与三大法宝" class="headerlink" title="4. 革命道路与三大法宝"></a>4. 革命道路与三大法宝</h3><p>中国革命道路是<strong>农村包围城市、武装夺取政权</strong>。它由中国国情和时代特点所决定：在内无民主制度、外受帝国主义压迫的条件下，武装斗争是主要形式；农村是广阔战略回旋空间，能够建立和发展革命根据地。</p>
+<p>三大法宝是<strong>统一战线、武装斗争、党的建设</strong>。统一战线解决团结谁的问题，武装斗争解决主要斗争形式问题，党的建设解决领导核心问题；三者相互联系、相互支撑。</p>
+<h2 id="三、从新民主主义到社会主义"><a href="#三、从新民主主义到社会主义" class="headerlink" title="三、从新民主主义到社会主义"></a>三、从新民主主义到社会主义</h2><h3 id="1-过渡时期"><a href="#1-过渡时期" class="headerlink" title="1. 过渡时期"></a>1. 过渡时期</h3><p>1949 年中华人民共和国成立至 1956 年社会主义改造基本完成，是新民主主义向社会主义过渡时期。此时社会中并存国营经济、合作社经济、个体经济、私人资本主义经济、国家资本主义经济等成分；基本矛盾的突出表现是工人阶级和资产阶级、社会主义道路和资本主义道路之间的矛盾。</p>
+<p>过渡时期总路线的主体是“一化三改”：逐步实现国家社会主义工业化，逐步实现对农业、手工业和资本主义工商业的社会主义改造。现实依据包括国营经济壮大、互助合作发展、国家资本主义产生和有利国际环境。</p>
+<h3 id="2-社会主义改造"><a href="#2-社会主义改造" class="headerlink" title="2. 社会主义改造"></a>2. 社会主义改造</h3><ul>
+<li><strong>农业、手工业</strong>：引导个体劳动者走互助合作道路，遵循自愿互利、典型示范和国家帮助原则，积极领导、稳步前进。</li>
+<li><strong>资本主义工商业</strong>：实行和平赎买，采取由低级到高级的国家资本主义过渡形式，并把资本家改造为自食其力的社会主义劳动者。</li>
+<li><strong>经验</strong>：工业化与改造同时并举；积极引导、逐步过渡；以和平方式进行改造。</li>
+</ul>
+<p>社会主义基本制度确立，是中国历史上最深刻、最伟大的社会变革，为当代中国发展进步奠定制度基础；劳动人民成为国家主人，生产力得到促进，也丰富发展了科学社会主义理论。</p>
+<h3 id="3-社会主义建设的初步探索"><a href="#3-社会主义建设的初步探索" class="headerlink" title="3. 社会主义建设的初步探索"></a>3. 社会主义建设的初步探索</h3><p>探索的重点是走中国工业化道路：明确战略目标与步骤，处理重工业和轻工业、中央和地方、沿海和内地、大型和小型企业等关系，发展科技教育、重视知识分子、调整所有制结构和经济体制。处理人民内部矛盾应坚持团结—批评—团结，统筹兼顾、适当安排，并贯彻百花齐放、百家争鸣。</p>
+<h2 id="四、中国特色社会主义理论体系"><a href="#四、中国特色社会主义理论体系" class="headerlink" title="四、中国特色社会主义理论体系"></a>四、中国特色社会主义理论体系</h2><h3 id="1-邓小平理论"><a href="#1-邓小平理论" class="headerlink" title="1. 邓小平理论"></a>1. 邓小平理论</h3><p>社会主义初级阶段是当代中国最大实际：我国已经进入社会主义社会，但仍处于并将长期处于社会主义初级阶段。判断改革得失的“三个有利于”是：是否有利于发展社会主义社会生产力、增强社会主义国家综合国力、提高人民生活水平。计划和市场都是经济手段，市场经济不具有制度属性。</p>
+<h3 id="2-“三个代表”重要思想与科学发展观"><a href="#2-“三个代表”重要思想与科学发展观" class="headerlink" title="2. “三个代表”重要思想与科学发展观"></a>2. “三个代表”重要思想与科学发展观</h3><p>“三个代表”把党的建设同中国特色社会主义伟大实践联系起来，根本出发点和落脚点是实现、维护、发展最广大人民根本利益。科学发展观要求以人为本，推动经济、政治、文化、社会和生态文明建设协调发展，提高党的建设科学化水平。</p>
+<h2 id="五、新时代的基本立场和战略目标"><a href="#五、新时代的基本立场和战略目标" class="headerlink" title="五、新时代的基本立场和战略目标"></a>五、新时代的基本立场和战略目标</h2><h3 id="1-坚持和发展中国特色社会主义"><a href="#1-坚持和发展中国特色社会主义" class="headerlink" title="1. 坚持和发展中国特色社会主义"></a>1. 坚持和发展中国特色社会主义</h3><p>坚持道路、理论、制度、文化自信：道路是实现途径，理论是行动指南，制度是根本保障，文化是精神力量。政治上要增强“四个意识”、坚定“四个自信”、做到“两个维护”。</p>
+<p>党的创新理论的世界观和方法论包括“六个必须坚持”：人民至上、自信自立、守正创新、问题导向、系统观念、胸怀天下。</p>
+<h3 id="2-中国式现代化"><a href="#2-中国式现代化" class="headerlink" title="2. 中国式现代化"></a>2. 中国式现代化</h3><p>中国式现代化的五个中国特色：人口规模巨大、全体人民共同富裕、物质文明和精神文明相协调、人与自然和谐共生、走和平发展道路。</p>
+<p>推进中国式现代化必须坚持党的全面领导、中国特色社会主义道路、以人民为中心的发展思想、深化改革开放、发扬斗争精神；同时处理好战略与策略、守正与创新、效率与公平、活力与秩序、自立自强与对外开放五对关系。</p>
+<p>战略安排：到 2035 年基本实现社会主义现代化；到本世纪中叶建成富强民主文明和谐美丽的社会主义现代化强国。</p>
+<h2 id="六、新时代重点专题"><a href="#六、新时代重点专题" class="headerlink" title="六、新时代重点专题"></a>六、新时代重点专题</h2><h3 id="1-党的全面领导与全面从严治党"><a href="#1-党的全面领导与全面从严治党" class="headerlink" title="1. 党的全面领导与全面从严治党"></a>1. 党的全面领导与全面从严治党</h3><p>党的领导是中国特色社会主义最本质的特征，是中国特色社会主义制度的最大优势。坚持和加强党的全面领导，要维护党中央权威和集中统一领导，完善党在各种组织中发挥领导作用的制度和协调各方机制。</p>
+<p>全面从严治党以政治建设为统领，思想建设是基础性建设，组织建设是重要基础，作风建设和纪律建设常抓不懈，制度建设贯穿始终，反腐败斗争必须一体推进不敢腐、不能腐、不想腐。坚持思想建党和制度治党、抓关键少数和管绝大多数、党内监督和群众监督相统一。</p>
+<h3 id="2-人民立场、民主与法治"><a href="#2-人民立场、民主与法治" class="headerlink" title="2. 人民立场、民主与法治"></a>2. 人民立场、民主与法治</h3><p>坚持以人民为中心，必须站稳人民立场、保持同人民群众血肉联系、尊重人民主体地位和首创精神。增进民生福祉是立党为公、执政为民的本质要求，也是发展的根本目的。</p>
+<p>全过程人民民主是过程民主和成果民主、程序民主和实质民主、直接民主和间接民主、人民民主和国家意志的统一。发展社会主义民主政治，必须坚持党的领导、人民当家作主、依法治国有机统一。</p>
+<p>全面依法治国是中国特色社会主义的本质要求和重要保障。要坚持党的领导、以人民为中心、法律面前人人平等、依法治国和以德治国相结合、从中国实际出发；统筹建设法治国家、法治政府、法治社会，形成法律规范、法治实施、法治监督、法治保障和党内法规五大体系。</p>
+<h3 id="3-改革、发展与现代化经济体系"><a href="#3-改革、发展与现代化经济体系" class="headerlink" title="3. 改革、发展与现代化经济体系"></a>3. 改革、发展与现代化经济体系</h3><p>全面深化改革的总目标是完善和发展中国特色社会主义制度、推进国家治理体系和治理能力现代化。改革应增强系统性、整体性、协同性，统筹顶层设计与基层探索、改革发展稳定，并坚持重大改革于法有据。</p>
+<p>高质量发展是全面建设现代化国家的首要任务。新发展理念：创新解决动力问题，协调解决不平衡问题，绿色解决人与自然和谐问题，开放解决内外联动问题，共享解决社会公平正义问题。坚持“两个毫不动摇”，建设现代化产业体系，全面推进乡村振兴和区域协调发展。</p>
+<p>教育、科技、人才是全面建设社会主义现代化国家的基础性、战略性支撑。科技自立自强是国家强盛和民族复兴的战略基石；人才工作要坚持党管人才，把人才资源开发放在优先位置，培养、引进、用好人才。</p>
+<h3 id="4-文化、民生、生态"><a href="#4-文化、民生、生态" class="headerlink" title="4. 文化、民生、生态"></a>4. 文化、民生、生态</h3><ul>
+<li><strong>文化</strong>：坚持举旗帜、聚民心、育新人、兴文化、展形象；培育和践行社会主义核心价值观，增强文化自信。</li>
+<li><strong>民生</strong>：坚持尽力而为、量力而行，完善分配、就业、社会保障和健康服务；社会治理坚持系统、依法、综合、源头治理和共建共治共享。</li>
+<li><strong>生态文明</strong>：人与自然是生命共同体；加快形成绿色生产生活方式，推进山水林田湖草沙系统治理，以最严格制度和法治保护生态环境。</li>
+</ul>
+<h3 id="5-安全、国防、统一与外交"><a href="#5-安全、国防、统一与外交" class="headerlink" title="5. 安全、国防、统一与外交"></a>5. 安全、国防、统一与外交</h3><p>总体国家安全观以人民安全为宗旨、政治安全为根本、经济安全为基础、军事科技文化社会安全为保障、促进国际安全为依托。要统筹发展和安全，防范化解重大风险，推进国家安全体系和能力现代化。</p>
+<p>强军目标的战略安排：2027 年实现建军一百年奋斗目标，2035 年基本实现国防和军队现代化，本世纪中叶建成世界一流军队。坚持政治建军、改革强军、科技强军、人才强军、依法治军。</p>
+<p>坚持“一国两制”方针，全面准确贯彻“一个国家、两种制度”、“港人治港”、“澳人治澳”、高度自治；坚持一个中国原则和“九二共识”，反对“台独”，推进祖国完全统一。中国特色大国外交坚持相互尊重、合作共赢，维护世界和平、促进共同发展，推动构建人类命运共同体。</p>
+<h2 id="七、易混点与答题提示"><a href="#七、易混点与答题提示" class="headerlink" title="七、易混点与答题提示"></a>七、易混点与答题提示</h2><ol>
+<li><strong>革命对象与动力</strong>：帝国主义、封建主义、官僚资本主义是对象；无产阶级、农民、城市小资产阶级和具有两面性的民族资产阶级是动力。</li>
+<li><strong>新旧民主主义革命的根本区别</strong>：领导权不同，前者由无产阶级及其政党领导。</li>
+<li><strong>两个革命的关系</strong>：新民主主义革命是社会主义革命的必要准备，不是二者可以并行或彼此替代。</li>
+<li><strong>新民主主义社会性质</strong>：过渡性社会，不是社会主义社会；时间为 1949 年至 1956 年。</li>
+<li><strong>市场与计划</strong>：都是资源配置手段，不能据此划分社会制度。</li>
+<li><strong>发展与民生</strong>：发展是解决民生问题的基础和前提，民生改善又是发展的根本目的。</li>
+<li><strong>论述题写法</strong>：先写总判断或意义，再按“理论依据—主要内容—实践要求/时代价值”分点；每一点用“坚持/推进/完善”起句，避免只罗列口号。</li>
+</ol>
+
+  </div>
+  <div>
+    
+      <div 
+        class="post-note note-warning copyright" 
+        style="margin-top: 42px">
+        <p>
+          <span style="font-weight: bold;">作者：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="/about">
+            Gas
+          </a>
+        </p>
+        <p>
+          <span style="font-weight: bold;">文章链接：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="http://example.com/2024/12/01/%E6%94%BF%E6%B2%BB%E5%A4%8D%E4%B9%A0%E6%95%B4%E7%90%86%E7%89%88/">
+            http://example.com/2024/12/01/%E6%94%BF%E6%B2%BB%E5%A4%8D%E4%B9%A0%E6%95%B4%E7%90%86%E7%89%88/
+          </a>
+        </p>
+        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+      </div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+    <div class="nav-item-prev">
+      <a 
+        href="/2025/03/30/MongoDB%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/" 
+        class="nav-link">
+        <i class="iconfont icon-left nav-prev-icon"></i>
+        <div>
+          <div class="nav-label">上一篇</div>
+          
+            <div class="nav-title">MongoDB基础使用 </div>
+          
+        </div>
+      </a>
+    </div>
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/2023/05/28/YOLO-PyTorch-CUDN%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">下一篇</div>
+          
+            <div class="nav-title">YOLO-PyTorch-CUDN环境安装 </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%94%BF%E6%B2%BB%E5%A4%8D%E4%B9%A0%E6%95%B4%E7%90%86%E7%89%88"><span class="toc-number">1.</span> <span class="toc-text">政治复习整理版</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%80%BB%E6%A1%86%E6%9E%B6%EF%BC%9A%E4%B8%80%E6%9D%A1%E5%8E%86%E5%8F%B2%E7%BA%BF%EF%BC%8C%E5%9B%9B%E7%BB%84%E7%90%86%E8%AE%BA%E6%88%90%E6%9E%9C"><span class="toc-number">1.1.</span> <span class="toc-text">一、总框架：一条历史线，四组理论成果</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%8E%86%E5%8F%B2%E7%BA%BF"><span class="toc-number">1.1.1.</span> <span class="toc-text">1. 历史线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%A9%AC%E5%85%8B%E6%80%9D%E4%B8%BB%E4%B9%89%E4%B8%AD%E5%9B%BD%E5%8C%96%E6%97%B6%E4%BB%A3%E5%8C%96"><span class="toc-number">1.1.2.</span> <span class="toc-text">2. 马克思主义中国化时代化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%90%86%E8%AE%BA%E6%88%90%E6%9E%9C%E7%9A%84%E8%84%89%E7%BB%9C"><span class="toc-number">1.1.3.</span> <span class="toc-text">3. 理论成果的脉络</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%AF%9B%E6%B3%BD%E4%B8%9C%E6%80%9D%E6%83%B3%E4%B8%8E%E6%96%B0%E6%B0%91%E4%B8%BB%E4%B8%BB%E4%B9%89%E9%9D%A9%E5%91%BD"><span class="toc-number">1.2.</span> <span class="toc-text">二、毛泽东思想与新民主主义革命</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%AF%9B%E6%B3%BD%E4%B8%9C%E6%80%9D%E6%83%B3"><span class="toc-number">1.2.1.</span> <span class="toc-text">1. 毛泽东思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%96%B0%E6%B0%91%E4%B8%BB%E4%B8%BB%E4%B9%89%E9%9D%A9%E5%91%BD%E7%9A%84%E4%BE%9D%E6%8D%AE%E4%B8%8E%E6%80%BB%E8%B7%AF%E7%BA%BF"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. 新民主主义革命的依据与总路线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%96%B0%E6%B0%91%E4%B8%BB%E4%B8%BB%E4%B9%89%E5%9F%BA%E6%9C%AC%E7%BA%B2%E9%A2%86"><span class="toc-number">1.2.3.</span> <span class="toc-text">3. 新民主主义基本纲领</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%9D%A9%E5%91%BD%E9%81%93%E8%B7%AF%E4%B8%8E%E4%B8%89%E5%A4%A7%E6%B3%95%E5%AE%9D"><span class="toc-number">1.2.4.</span> <span class="toc-text">4. 革命道路与三大法宝</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%BB%8E%E6%96%B0%E6%B0%91%E4%B8%BB%E4%B8%BB%E4%B9%89%E5%88%B0%E7%A4%BE%E4%BC%9A%E4%B8%BB%E4%B9%89"><span class="toc-number">1.3.</span> <span class="toc-text">三、从新民主主义到社会主义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%BF%87%E6%B8%A1%E6%97%B6%E6%9C%9F"><span class="toc-number">1.3.1.</span> <span class="toc-text">1. 过渡时期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%A4%BE%E4%BC%9A%E4%B8%BB%E4%B9%89%E6%94%B9%E9%80%A0"><span class="toc-number">1.3.2.</span> <span class="toc-text">2. 社会主义改造</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%A4%BE%E4%BC%9A%E4%B8%BB%E4%B9%89%E5%BB%BA%E8%AE%BE%E7%9A%84%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2"><span class="toc-number">1.3.3.</span> <span class="toc-text">3. 社会主义建设的初步探索</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E4%B8%AD%E5%9B%BD%E7%89%B9%E8%89%B2%E7%A4%BE%E4%BC%9A%E4%B8%BB%E4%B9%89%E7%90%86%E8%AE%BA%E4%BD%93%E7%B3%BB"><span class="toc-number">1.4.</span> <span class="toc-text">四、中国特色社会主义理论体系</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%82%93%E5%B0%8F%E5%B9%B3%E7%90%86%E8%AE%BA"><span class="toc-number">1.4.1.</span> <span class="toc-text">1. 邓小平理论</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E2%80%9C%E4%B8%89%E4%B8%AA%E4%BB%A3%E8%A1%A8%E2%80%9D%E9%87%8D%E8%A6%81%E6%80%9D%E6%83%B3%E4%B8%8E%E7%A7%91%E5%AD%A6%E5%8F%91%E5%B1%95%E8%A7%82"><span class="toc-number">1.4.2.</span> <span class="toc-text">2. “三个代表”重要思想与科学发展观</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E6%96%B0%E6%97%B6%E4%BB%A3%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%AB%8B%E5%9C%BA%E5%92%8C%E6%88%98%E7%95%A5%E7%9B%AE%E6%A0%87"><span class="toc-number">1.5.</span> <span class="toc-text">五、新时代的基本立场和战略目标</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%9D%9A%E6%8C%81%E5%92%8C%E5%8F%91%E5%B1%95%E4%B8%AD%E5%9B%BD%E7%89%B9%E8%89%B2%E7%A4%BE%E4%BC%9A%E4%B8%BB%E4%B9%89"><span class="toc-number">1.5.1.</span> <span class="toc-text">1. 坚持和发展中国特色社会主义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%B8%AD%E5%9B%BD%E5%BC%8F%E7%8E%B0%E4%BB%A3%E5%8C%96"><span class="toc-number">1.5.2.</span> <span class="toc-text">2. 中国式现代化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E6%96%B0%E6%97%B6%E4%BB%A3%E9%87%8D%E7%82%B9%E4%B8%93%E9%A2%98"><span class="toc-number">1.6.</span> <span class="toc-text">六、新时代重点专题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%85%9A%E7%9A%84%E5%85%A8%E9%9D%A2%E9%A2%86%E5%AF%BC%E4%B8%8E%E5%85%A8%E9%9D%A2%E4%BB%8E%E4%B8%A5%E6%B2%BB%E5%85%9A"><span class="toc-number">1.6.1.</span> <span class="toc-text">1. 党的全面领导与全面从严治党</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BA%BA%E6%B0%91%E7%AB%8B%E5%9C%BA%E3%80%81%E6%B0%91%E4%B8%BB%E4%B8%8E%E6%B3%95%E6%B2%BB"><span class="toc-number">1.6.2.</span> <span class="toc-text">2. 人民立场、民主与法治</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%94%B9%E9%9D%A9%E3%80%81%E5%8F%91%E5%B1%95%E4%B8%8E%E7%8E%B0%E4%BB%A3%E5%8C%96%E7%BB%8F%E6%B5%8E%E4%BD%93%E7%B3%BB"><span class="toc-number">1.6.3.</span> <span class="toc-text">3. 改革、发展与现代化经济体系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%96%87%E5%8C%96%E3%80%81%E6%B0%91%E7%94%9F%E3%80%81%E7%94%9F%E6%80%81"><span class="toc-number">1.6.4.</span> <span class="toc-text">4. 文化、民生、生态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%AE%89%E5%85%A8%E3%80%81%E5%9B%BD%E9%98%B2%E3%80%81%E7%BB%9F%E4%B8%80%E4%B8%8E%E5%A4%96%E4%BA%A4"><span class="toc-number">1.6.5.</span> <span class="toc-text">5. 安全、国防、统一与外交</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E6%98%93%E6%B7%B7%E7%82%B9%E4%B8%8E%E7%AD%94%E9%A2%98%E6%8F%90%E7%A4%BA"><span class="toc-number">1.7.</span> <span class="toc-text">七、易混点与答题提示</span></a></li></ol></li></ol>
+</div></main>
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="/img/Kaze.png" 
+    class="author-img" 
+    alt="author avatar">
+
+<p class="author-name">Gas</p>
+<p class="author-description">想当画家的咸鱼罢了</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/archives">
+    <span>60</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/categories">
+    <span>8</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/tags">
+    <span>67</span>
+    <span>标签</span>
+  </a>
+</div>
+
+  <div class="author-card-society">
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://github.com/Uranus-s">
+          <i class="iconfont social_github icon-github society-icon"></i>
+        </a>
+      </div>
+    
+      <div class="author-card-society-icon">
+        <a target="_blank" rel="noopener" href="https://gitee.com/L-sama">
+          <i class="iconfont social_github icon-gitee2 society-icon"></i>
+        </a>
+      </div>
+    
+  </div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%94%BF%E6%B2%BB%E5%A4%8D%E4%B9%A0%E6%95%B4%E7%90%86%E7%89%88"><span class="toc-number">1.</span> <span class="toc-text">政治复习整理版</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%80%BB%E6%A1%86%E6%9E%B6%EF%BC%9A%E4%B8%80%E6%9D%A1%E5%8E%86%E5%8F%B2%E7%BA%BF%EF%BC%8C%E5%9B%9B%E7%BB%84%E7%90%86%E8%AE%BA%E6%88%90%E6%9E%9C"><span class="toc-number">1.1.</span> <span class="toc-text">一、总框架：一条历史线，四组理论成果</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%8E%86%E5%8F%B2%E7%BA%BF"><span class="toc-number">1.1.1.</span> <span class="toc-text">1. 历史线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%A9%AC%E5%85%8B%E6%80%9D%E4%B8%BB%E4%B9%89%E4%B8%AD%E5%9B%BD%E5%8C%96%E6%97%B6%E4%BB%A3%E5%8C%96"><span class="toc-number">1.1.2.</span> <span class="toc-text">2. 马克思主义中国化时代化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%90%86%E8%AE%BA%E6%88%90%E6%9E%9C%E7%9A%84%E8%84%89%E7%BB%9C"><span class="toc-number">1.1.3.</span> <span class="toc-text">3. 理论成果的脉络</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%AF%9B%E6%B3%BD%E4%B8%9C%E6%80%9D%E6%83%B3%E4%B8%8E%E6%96%B0%E6%B0%91%E4%B8%BB%E4%B8%BB%E4%B9%89%E9%9D%A9%E5%91%BD"><span class="toc-number">1.2.</span> <span class="toc-text">二、毛泽东思想与新民主主义革命</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%AF%9B%E6%B3%BD%E4%B8%9C%E6%80%9D%E6%83%B3"><span class="toc-number">1.2.1.</span> <span class="toc-text">1. 毛泽东思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%96%B0%E6%B0%91%E4%B8%BB%E4%B8%BB%E4%B9%89%E9%9D%A9%E5%91%BD%E7%9A%84%E4%BE%9D%E6%8D%AE%E4%B8%8E%E6%80%BB%E8%B7%AF%E7%BA%BF"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. 新民主主义革命的依据与总路线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%96%B0%E6%B0%91%E4%B8%BB%E4%B8%BB%E4%B9%89%E5%9F%BA%E6%9C%AC%E7%BA%B2%E9%A2%86"><span class="toc-number">1.2.3.</span> <span class="toc-text">3. 新民主主义基本纲领</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%9D%A9%E5%91%BD%E9%81%93%E8%B7%AF%E4%B8%8E%E4%B8%89%E5%A4%A7%E6%B3%95%E5%AE%9D"><span class="toc-number">1.2.4.</span> <span class="toc-text">4. 革命道路与三大法宝</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%BB%8E%E6%96%B0%E6%B0%91%E4%B8%BB%E4%B8%BB%E4%B9%89%E5%88%B0%E7%A4%BE%E4%BC%9A%E4%B8%BB%E4%B9%89"><span class="toc-number">1.3.</span> <span class="toc-text">三、从新民主主义到社会主义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%BF%87%E6%B8%A1%E6%97%B6%E6%9C%9F"><span class="toc-number">1.3.1.</span> <span class="toc-text">1. 过渡时期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%A4%BE%E4%BC%9A%E4%B8%BB%E4%B9%89%E6%94%B9%E9%80%A0"><span class="toc-number">1.3.2.</span> <span class="toc-text">2. 社会主义改造</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%A4%BE%E4%BC%9A%E4%B8%BB%E4%B9%89%E5%BB%BA%E8%AE%BE%E7%9A%84%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2"><span class="toc-number">1.3.3.</span> <span class="toc-text">3. 社会主义建设的初步探索</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E4%B8%AD%E5%9B%BD%E7%89%B9%E8%89%B2%E7%A4%BE%E4%BC%9A%E4%B8%BB%E4%B9%89%E7%90%86%E8%AE%BA%E4%BD%93%E7%B3%BB"><span class="toc-number">1.4.</span> <span class="toc-text">四、中国特色社会主义理论体系</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%82%93%E5%B0%8F%E5%B9%B3%E7%90%86%E8%AE%BA"><span class="toc-number">1.4.1.</span> <span class="toc-text">1. 邓小平理论</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E2%80%9C%E4%B8%89%E4%B8%AA%E4%BB%A3%E8%A1%A8%E2%80%9D%E9%87%8D%E8%A6%81%E6%80%9D%E6%83%B3%E4%B8%8E%E7%A7%91%E5%AD%A6%E5%8F%91%E5%B1%95%E8%A7%82"><span class="toc-number">1.4.2.</span> <span class="toc-text">2. “三个代表”重要思想与科学发展观</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E6%96%B0%E6%97%B6%E4%BB%A3%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%AB%8B%E5%9C%BA%E5%92%8C%E6%88%98%E7%95%A5%E7%9B%AE%E6%A0%87"><span class="toc-number">1.5.</span> <span class="toc-text">五、新时代的基本立场和战略目标</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%9D%9A%E6%8C%81%E5%92%8C%E5%8F%91%E5%B1%95%E4%B8%AD%E5%9B%BD%E7%89%B9%E8%89%B2%E7%A4%BE%E4%BC%9A%E4%B8%BB%E4%B9%89"><span class="toc-number">1.5.1.</span> <span class="toc-text">1. 坚持和发展中国特色社会主义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%B8%AD%E5%9B%BD%E5%BC%8F%E7%8E%B0%E4%BB%A3%E5%8C%96"><span class="toc-number">1.5.2.</span> <span class="toc-text">2. 中国式现代化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E6%96%B0%E6%97%B6%E4%BB%A3%E9%87%8D%E7%82%B9%E4%B8%93%E9%A2%98"><span class="toc-number">1.6.</span> <span class="toc-text">六、新时代重点专题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%85%9A%E7%9A%84%E5%85%A8%E9%9D%A2%E9%A2%86%E5%AF%BC%E4%B8%8E%E5%85%A8%E9%9D%A2%E4%BB%8E%E4%B8%A5%E6%B2%BB%E5%85%9A"><span class="toc-number">1.6.1.</span> <span class="toc-text">1. 党的全面领导与全面从严治党</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BA%BA%E6%B0%91%E7%AB%8B%E5%9C%BA%E3%80%81%E6%B0%91%E4%B8%BB%E4%B8%8E%E6%B3%95%E6%B2%BB"><span class="toc-number">1.6.2.</span> <span class="toc-text">2. 人民立场、民主与法治</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%94%B9%E9%9D%A9%E3%80%81%E5%8F%91%E5%B1%95%E4%B8%8E%E7%8E%B0%E4%BB%A3%E5%8C%96%E7%BB%8F%E6%B5%8E%E4%BD%93%E7%B3%BB"><span class="toc-number">1.6.3.</span> <span class="toc-text">3. 改革、发展与现代化经济体系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%96%87%E5%8C%96%E3%80%81%E6%B0%91%E7%94%9F%E3%80%81%E7%94%9F%E6%80%81"><span class="toc-number">1.6.4.</span> <span class="toc-text">4. 文化、民生、生态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%AE%89%E5%85%A8%E3%80%81%E5%9B%BD%E9%98%B2%E3%80%81%E7%BB%9F%E4%B8%80%E4%B8%8E%E5%A4%96%E4%BA%A4"><span class="toc-number">1.6.5.</span> <span class="toc-text">5. 安全、国防、统一与外交</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E6%98%93%E6%B7%B7%E7%82%B9%E4%B8%8E%E7%AD%94%E9%A2%98%E6%8F%90%E7%A4%BA"><span class="toc-number">1.7.</span> <span class="toc-text">七、易混点与答题提示</span></a></li></ol></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+      <a href="/categories/DevOps/">
+        <div class="categories-list-item">
+          DevOps
+          <span class="categories-list-item-badge">6</span>
+        </div>
+      </a>
+    
+      <a href="/categories/dotnet/">
+        <div class="categories-list-item">
+          dotnet
+          <span class="categories-list-item-badge">5</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Database/">
+        <div class="categories-list-item">
+          Database
+          <span class="categories-list-item-badge">8</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Java/">
+        <div class="categories-list-item">
+          Java
+          <span class="categories-list-item-badge">35</span>
+        </div>
+      </a>
+    
+      <a href="/categories/AI/">
+        <div class="categories-list-item">
+          AI
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Algorithm/">
+        <div class="categories-list-item">
+          Algorithm
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/categories/Frontend/">
+        <div class="categories-list-item">
+          Frontend
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E5%AD%A6%E4%B9%A0/">
+        <div class="categories-list-item">
+          学习
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/tags/Spring-Boot/" 
+        title="Spring Boot">
+        <div class="tags-list-item">Spring Boot</div>
+      </a>
+    
+      <a 
+        href="/tags/Redis/" 
+        title="Redis">
+        <div class="tags-list-item">Redis</div>
+      </a>
+    
+      <a 
+        href="/tags/Docker/" 
+        title="Docker">
+        <div class="tags-list-item">Docker</div>
+      </a>
+    
+      <a 
+        href="/tags/NET-Core/" 
+        title=".NET Core">
+        <div class="tags-list-item">.NET Core</div>
+      </a>
+    
+      <a 
+        href="/tags/Bean-Validation/" 
+        title="Bean Validation">
+        <div class="tags-list-item">Bean Validation</div>
+      </a>
+    
+      <a 
+        href="/tags/JSON/" 
+        title="JSON">
+        <div class="tags-list-item">JSON</div>
+      </a>
+    
+      <a 
+        href="/tags/Spring/" 
+        title="Spring">
+        <div class="tags-list-item">Spring</div>
+      </a>
+    
+      <a 
+        href="/tags/IDEA/" 
+        title="IDEA">
+        <div class="tags-list-item">IDEA</div>
+      </a>
+    
+      <a 
+        href="/tags/Maven/" 
+        title="Maven">
+        <div class="tags-list-item">Maven</div>
+      </a>
+    
+      <a 
+        href="/tags/RabbitMQ/" 
+        title="RabbitMQ">
+        <div class="tags-list-item">RabbitMQ</div>
+      </a>
+    
+      <a 
+        href="/tags/MySQL/" 
+        title="MySQL">
+        <div class="tags-list-item">MySQL</div>
+      </a>
+    
+      <a 
+        href="/tags/%E5%A4%8D%E4%B9%A0/" 
+        title="复习">
+        <div class="tags-list-item">复习</div>
+      </a>
+    
+      <a 
+        href="/tags/%E6%94%BF%E6%B2%BB/" 
+        title="政治">
+        <div class="tags-list-item">政治</div>
+      </a>
+    
+      <a 
+        href="/tags/%E9%9D%A2%E8%AF%95/" 
+        title="面试">
+        <div class="tags-list-item">面试</div>
+      </a>
+    
+      <a 
+        href="/tags/Java/" 
+        title="Java">
+        <div class="tags-list-item">Java</div>
+      </a>
+    
+      <a 
+        href="/tags/RAG/" 
+        title="RAG">
+        <div class="tags-list-item">RAG</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%94%BF%E6%B2%BB%E5%A4%8D%E4%B9%A0%E6%95%B4%E7%90%86%E7%89%88"><span class="toc-number">1.</span> <span class="toc-text">政治复习整理版</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%80%BB%E6%A1%86%E6%9E%B6%EF%BC%9A%E4%B8%80%E6%9D%A1%E5%8E%86%E5%8F%B2%E7%BA%BF%EF%BC%8C%E5%9B%9B%E7%BB%84%E7%90%86%E8%AE%BA%E6%88%90%E6%9E%9C"><span class="toc-number">1.1.</span> <span class="toc-text">一、总框架：一条历史线，四组理论成果</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%8E%86%E5%8F%B2%E7%BA%BF"><span class="toc-number">1.1.1.</span> <span class="toc-text">1. 历史线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%A9%AC%E5%85%8B%E6%80%9D%E4%B8%BB%E4%B9%89%E4%B8%AD%E5%9B%BD%E5%8C%96%E6%97%B6%E4%BB%A3%E5%8C%96"><span class="toc-number">1.1.2.</span> <span class="toc-text">2. 马克思主义中国化时代化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%90%86%E8%AE%BA%E6%88%90%E6%9E%9C%E7%9A%84%E8%84%89%E7%BB%9C"><span class="toc-number">1.1.3.</span> <span class="toc-text">3. 理论成果的脉络</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%AF%9B%E6%B3%BD%E4%B8%9C%E6%80%9D%E6%83%B3%E4%B8%8E%E6%96%B0%E6%B0%91%E4%B8%BB%E4%B8%BB%E4%B9%89%E9%9D%A9%E5%91%BD"><span class="toc-number">1.2.</span> <span class="toc-text">二、毛泽东思想与新民主主义革命</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%AF%9B%E6%B3%BD%E4%B8%9C%E6%80%9D%E6%83%B3"><span class="toc-number">1.2.1.</span> <span class="toc-text">1. 毛泽东思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%96%B0%E6%B0%91%E4%B8%BB%E4%B8%BB%E4%B9%89%E9%9D%A9%E5%91%BD%E7%9A%84%E4%BE%9D%E6%8D%AE%E4%B8%8E%E6%80%BB%E8%B7%AF%E7%BA%BF"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. 新民主主义革命的依据与总路线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%96%B0%E6%B0%91%E4%B8%BB%E4%B8%BB%E4%B9%89%E5%9F%BA%E6%9C%AC%E7%BA%B2%E9%A2%86"><span class="toc-number">1.2.3.</span> <span class="toc-text">3. 新民主主义基本纲领</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%9D%A9%E5%91%BD%E9%81%93%E8%B7%AF%E4%B8%8E%E4%B8%89%E5%A4%A7%E6%B3%95%E5%AE%9D"><span class="toc-number">1.2.4.</span> <span class="toc-text">4. 革命道路与三大法宝</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%BB%8E%E6%96%B0%E6%B0%91%E4%B8%BB%E4%B8%BB%E4%B9%89%E5%88%B0%E7%A4%BE%E4%BC%9A%E4%B8%BB%E4%B9%89"><span class="toc-number">1.3.</span> <span class="toc-text">三、从新民主主义到社会主义</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%BF%87%E6%B8%A1%E6%97%B6%E6%9C%9F"><span class="toc-number">1.3.1.</span> <span class="toc-text">1. 过渡时期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%A4%BE%E4%BC%9A%E4%B8%BB%E4%B9%89%E6%94%B9%E9%80%A0"><span class="toc-number">1.3.2.</span> <span class="toc-text">2. 社会主义改造</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%A4%BE%E4%BC%9A%E4%B8%BB%E4%B9%89%E5%BB%BA%E8%AE%BE%E7%9A%84%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2"><span class="toc-number">1.3.3.</span> <span class="toc-text">3. 社会主义建设的初步探索</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E4%B8%AD%E5%9B%BD%E7%89%B9%E8%89%B2%E7%A4%BE%E4%BC%9A%E4%B8%BB%E4%B9%89%E7%90%86%E8%AE%BA%E4%BD%93%E7%B3%BB"><span class="toc-number">1.4.</span> <span class="toc-text">四、中国特色社会主义理论体系</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%82%93%E5%B0%8F%E5%B9%B3%E7%90%86%E8%AE%BA"><span class="toc-number">1.4.1.</span> <span class="toc-text">1. 邓小平理论</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E2%80%9C%E4%B8%89%E4%B8%AA%E4%BB%A3%E8%A1%A8%E2%80%9D%E9%87%8D%E8%A6%81%E6%80%9D%E6%83%B3%E4%B8%8E%E7%A7%91%E5%AD%A6%E5%8F%91%E5%B1%95%E8%A7%82"><span class="toc-number">1.4.2.</span> <span class="toc-text">2. “三个代表”重要思想与科学发展观</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E6%96%B0%E6%97%B6%E4%BB%A3%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%AB%8B%E5%9C%BA%E5%92%8C%E6%88%98%E7%95%A5%E7%9B%AE%E6%A0%87"><span class="toc-number">1.5.</span> <span class="toc-text">五、新时代的基本立场和战略目标</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%9D%9A%E6%8C%81%E5%92%8C%E5%8F%91%E5%B1%95%E4%B8%AD%E5%9B%BD%E7%89%B9%E8%89%B2%E7%A4%BE%E4%BC%9A%E4%B8%BB%E4%B9%89"><span class="toc-number">1.5.1.</span> <span class="toc-text">1. 坚持和发展中国特色社会主义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%B8%AD%E5%9B%BD%E5%BC%8F%E7%8E%B0%E4%BB%A3%E5%8C%96"><span class="toc-number">1.5.2.</span> <span class="toc-text">2. 中国式现代化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E6%96%B0%E6%97%B6%E4%BB%A3%E9%87%8D%E7%82%B9%E4%B8%93%E9%A2%98"><span class="toc-number">1.6.</span> <span class="toc-text">六、新时代重点专题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%85%9A%E7%9A%84%E5%85%A8%E9%9D%A2%E9%A2%86%E5%AF%BC%E4%B8%8E%E5%85%A8%E9%9D%A2%E4%BB%8E%E4%B8%A5%E6%B2%BB%E5%85%9A"><span class="toc-number">1.6.1.</span> <span class="toc-text">1. 党的全面领导与全面从严治党</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BA%BA%E6%B0%91%E7%AB%8B%E5%9C%BA%E3%80%81%E6%B0%91%E4%B8%BB%E4%B8%8E%E6%B3%95%E6%B2%BB"><span class="toc-number">1.6.2.</span> <span class="toc-text">2. 人民立场、民主与法治</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%94%B9%E9%9D%A9%E3%80%81%E5%8F%91%E5%B1%95%E4%B8%8E%E7%8E%B0%E4%BB%A3%E5%8C%96%E7%BB%8F%E6%B5%8E%E4%BD%93%E7%B3%BB"><span class="toc-number">1.6.3.</span> <span class="toc-text">3. 改革、发展与现代化经济体系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%96%87%E5%8C%96%E3%80%81%E6%B0%91%E7%94%9F%E3%80%81%E7%94%9F%E6%80%81"><span class="toc-number">1.6.4.</span> <span class="toc-text">4. 文化、民生、生态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%AE%89%E5%85%A8%E3%80%81%E5%9B%BD%E9%98%B2%E3%80%81%E7%BB%9F%E4%B8%80%E4%B8%8E%E5%A4%96%E4%BA%A4"><span class="toc-number">1.6.5.</span> <span class="toc-text">5. 安全、国防、统一与外交</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E6%98%93%E6%B7%B7%E7%82%B9%E4%B8%8E%E7%AD%94%E9%A2%98%E6%8F%90%E7%A4%BA"><span class="toc-number">1.7.</span> <span class="toc-text">七、易混点与答题提示</span></a></li></ol></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2026-09-29</div>
+        <a href="/2026/09/29/Java%E9%9D%A2%E8%AF%952026/"><div class="recent-posts-item-content">Java面试2026</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2026-07-26</div>
+        <a href="/2026/07/26/SpringAi%E5%9F%BA%E7%A1%80/"><div class="recent-posts-item-content">SpringAi基础</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2026-01-09</div>
+        <a href="/2026/01/09/Windows%20%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%BD%BF%E7%94%A8%20Docker%20%E6%90%AD%E5%BB%BA%20Redis%20%E9%9B%86%E7%BE%A4%E6%8C%87%E5%8D%97/"><div class="recent-posts-item-content">Windows 环境下使用 Docker 搭建 Redis 集群指南</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2026-01-02</div>
+        <a href="/2026/01/02/Docker%20%E6%90%AD%E5%BB%BA%20MySQL%E4%B8%BB%E4%BB%8E/"><div class="recent-posts-item-content">Docker 搭建 MySQL主从</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2020 -
+          
+          2026
+        </span>
+        &nbsp;
+        <a 
+          href="/" 
+          class="footer-link">
+          Gas
+        </a>
+      </div>
+    </div>
+
+    
+      <div class="footer-dsc">
+        
+          Powered by
+          <a 
+            href="https://hexo.io/" 
+            class="footer-link" 
+            target="_blank" 
+            rel="nofollow noopener noreferrer">
+            &nbsp;Hexo
+          </a>
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          Theme -
+          <a 
+            href="https://github.com/theme-kaze" 
+            class="footer-link" 
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            &nbsp;Kaze
+          </a>
+        
+      </div>
+    
+    
+    
+    
+      <div class="footer-dsc">
+        
+          本站总访问量<span id="busuanzi_value_site_pv"></span>次
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          本站总访客数<span id="busuanzi_value_site_uv"></span>次
+        
+      </div>
+      
+    
+</footer> 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton" 
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/js/main.js"></script> 
+    
+      <script> 
+        loadScript('/js/lib/busuanzi.min.js') 
+      </script>
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/js/lib/lozad.min.js', addLazyload)
+      </script>
+     
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>

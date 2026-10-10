@@ -45,7 +45,7 @@
         content="2026-09-29">
       <meta 
         property="og:article:modified_time" 
-        content="2026-09-29">
+        content="2026-10-10">
       <meta 
         property="og:article:author" 
         content="Gas">
@@ -324,7 +324,7 @@
     
     
       <span class="dot"></span>
-      <span>796 字</span>
+      <span>1.7k 字</span>
     
   </div>
   
@@ -370,11 +370,35 @@
 <hr>
 <h3 id="synchronized-和-Lock-有什么区别？"><a href="#synchronized-和-Lock-有什么区别？" class="headerlink" title="synchronized 和 Lock 有什么区别？"></a><code>synchronized</code> 和 <code>Lock</code> 有什么区别？</h3><p><code>synchronized</code> 是 JVM <strong>内置锁</strong>，写法简单，退出同步块时会<strong>自动释放</strong>，适合大多数同步场景。<code>Lock</code> 需要手动在 <code>finally</code> 中调用 <code>unlock()</code>，但它支持 <code>tryLock()</code>、可中断获取锁、超时等待和多个 <code>Condition</code>。没有特殊需求时优先用 <code>synchronized</code>，需要这些高级能力时再用 <code>ReentrantLock</code>。</p>
 <hr>
+<h3 id="volatile的作用"><a href="#volatile的作用" class="headerlink" title="volatile的作用"></a><code>volatile</code>的作用</h3><p><code>volatile</code> 保证可见性、禁止指令重排，不保证原子性，不能解决线程安全问题。</p>
+<hr>
 <h3 id="什么是-CAP？"><a href="#什么是-CAP？" class="headerlink" title="什么是 CAP？"></a>什么是 CAP？</h3><p>CAP 指分布式系统在发生<strong>网络分区</strong>时，一致性 <code>C</code>、可用性 <code>A</code> 和分区容错性 <code>P</code> <strong>不能同时完全满足</strong>。实际系统通常必须保证 <code>P</code>，然后在分区时选择偏向 <code>CP</code> 或 <code>AP</code>：<code>CP</code> 宁可暂时拒绝请求也要保证数据一致，<code>AP</code> 优先响应，但可能返回旧数据，之后再达到最终一致。</p>
 <hr>
 <h3 id="RabbitMQ-有几种消息路由类型？"><a href="#RabbitMQ-有几种消息路由类型？" class="headerlink" title="RabbitMQ 有几种消息路由类型？"></a>RabbitMQ 有几种消息路由类型？</h3><p>RabbitMQ 常见的 <code>Exchange</code> 路由类型有 <strong>4 种</strong>：<code>direct</code>、<code>fanout</code>、<code>topic</code> 和 <code>headers</code>。<code>direct</code> 是<strong>精确匹配路由键</strong>，<code>fanout</code> 是<strong>广播</strong>，<code>topic</code> 支持<strong>通配符匹配</strong>，<code>headers</code> 按消息头匹配。实际最常用的是前三种，尤其是 <code>direct</code> 和 <code>topic</code>。</p>
 <hr>
 <h3 id="简单说一下-OpenFeign"><a href="#简单说一下-OpenFeign" class="headerlink" title="简单说一下 OpenFeign"></a>简单说一下 OpenFeign</h3><p>OpenFeign 是 Spring Cloud 中<strong>声明式的 HTTP 客户端</strong>，用接口和注解定义远程调用，运行时由框架生成代理对象发起 HTTP 请求。它减少了手写 HTTP 调用代码，并能结合<strong>服务发现和负载均衡</strong>调用目标服务。使用时要注意它本质仍是远程调用，应配置超时、处理异常，并避免对<strong>非幂等写操作</strong>盲目重试。</p>
+<hr>
+<h3 id="Autowired-和-Resource-有什么区别？"><a href="#Autowired-和-Resource-有什么区别？" class="headerlink" title="@Autowired 和 @Resource 有什么区别？"></a><code>@Autowired</code> 和 <code>@Resource</code> 有什么区别？</h3><p><code>@Autowired</code> 是 Spring 提供的注解，默认<strong>按类型</strong>注入；当同一类型存在多个 Bean 时，可以配合 <code>@Qualifier</code> 指定 Bean 名称。<code>@Resource</code> 是 Java/Jakarta 提供的注解，默认<strong>先按名称</strong>注入，找不到匹配名称时再按类型注入，也可以通过 <code>name</code> 属性显式指定 Bean。</p>
+<p>两者都可以用于字段、setter 方法和构造方法注入，但构造方法注入更利于保证依赖完整和便于测试。使用 Spring 体系时通常优先使用 <code>@Autowired</code>；如果希望按照 Bean 名称注入，或减少对 Spring 注解的直接依赖，可以使用 <code>@Resource</code>。</p>
+<hr>
+<h3 id="MySQL-有哪些事务隔离级别？默认级别是什么？"><a href="#MySQL-有哪些事务隔离级别？默认级别是什么？" class="headerlink" title="MySQL 有哪些事务隔离级别？默认级别是什么？"></a>MySQL 有哪些事务隔离级别？默认级别是什么？</h3><p>MySQL 支持 4 种事务隔离级别：<strong>读未提交</strong>（Read Uncommitted）、<strong>读已提交</strong>（Read Committed）、<strong>可重复读</strong>（Repeatable Read）和<strong>串行化</strong>（Serializable）。隔离级别越高，并发事务之间的数据隔离越强，但并发性能通常越低：读未提交可能出现脏读、不可重复读和幻读；读已提交可避免脏读；可重复读可避免脏读和不可重复读；串行化通过强制事务串行执行提供最高隔离性。</p>
+<p>MySQL <strong>InnoDB 存储引擎默认使用可重复读（Repeatable Read）</strong>。InnoDB 通过 MVCC 保证一致性读，并结合间隙锁、临键锁等机制减少幻读问题。</p>
+<hr>
+<h3 id="微服务的核心组件有哪些？Spring-Cloud-常用组件是什么？"><a href="#微服务的核心组件有哪些？Spring-Cloud-常用组件是什么？" class="headerlink" title="微服务的核心组件有哪些？Spring Cloud 常用组件是什么？"></a>微服务的核心组件有哪些？Spring Cloud 常用组件是什么？</h3><p>微服务通常需要以下核心能力：<strong>服务注册与发现、配置中心、服务网关、远程调用、负载均衡、服务容错、消息通信和链路追踪</strong>。Spring Cloud 通过一组组件为这些能力提供标准化支持，具体组件会因 Spring Cloud 版本和技术选型而有所不同。</p>
+<p>常见组件包括：</p>
+<ul>
+<li><strong>注册中心与配置中心</strong>：Eureka、Nacos、Consul、Spring Cloud Config</li>
+<li><strong>服务网关</strong>：Spring Cloud Gateway</li>
+<li><strong>远程调用</strong>：OpenFeign、RestTemplate、WebClient</li>
+<li><strong>负载均衡</strong>：Spring Cloud LoadBalancer</li>
+<li><strong>服务容错</strong>：Spring Cloud CircuitBreaker，常结合 Resilience4j 或 Sentinel</li>
+<li><strong>消息与事件</strong>：Spring Cloud Stream、Spring Cloud Bus</li>
+<li><strong>链路追踪与监控</strong>：Micrometer Tracing、Zipkin、Prometheus、Grafana</li>
+</ul>
+<p>在实际项目中，常见组合是 Nacos 负责注册发现和配置管理，Gateway 负责统一入口，OpenFeign 负责服务间调用，LoadBalancer 负责请求分发，CircuitBreaker 负责熔断降级，再配合链路追踪和监控系统定位问题。</p>
+<hr>
+<h3 id="Spring-AOP-的原理是什么？"><a href="#Spring-AOP-的原理是什么？" class="headerlink" title="Spring AOP 的原理是什么？"></a>Spring AOP 的原理是什么？</h3><p>Spring AOP 基于<strong>动态代理</strong>实现。开发者通过切面（Aspect）、切点（Pointcut）和通知（Advice）描述需要增强的目标方法，Spring 在创建 Bean 时根据切点匹配目标对象，并生成一个代理对象。调用代理对象的方法时，代理会先执行前置通知，再调用目标方法，最后根据配置执行返回、异常或后置通知，从而实现事务、日志、权限校验等横切逻辑与业务代码解耦。</p>
+<p>当目标类实现接口时，Spring 通常使用 <strong>JDK 动态代理</strong>；没有接口时通常使用 <strong>CGLIB</strong> 生成目标类的子类代理，也可以通过配置统一使用 CGLIB。需要注意，只有通过 Spring 容器获取并调用代理对象时 AOP 才会生效，同一个类内部直接调用自身方法通常不会经过代理，因此不会触发切面。</p>
 
   </div>
   <div>
@@ -431,7 +455,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#JVM-%E4%BD%A0%E4%BA%86%E8%A7%A3%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">JVM 你了解哪些？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RPC-%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">RPC 底层原理是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nacos-%E7%9A%84-namespace-%E6%98%AF%E5%B9%B2%E4%BB%80%E4%B9%88%E7%9A%84%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">Nacos 的 namespace 是干什么的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-%E9%94%81%E7%9A%84%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">4.</span> <span class="toc-text">Java 锁的底层原理是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized-%E5%92%8C-Lock-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-number">5.</span> <span class="toc-text">synchronized 和 Lock 有什么区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-CAP%EF%BC%9F"><span class="toc-number">6.</span> <span class="toc-text">什么是 CAP？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RabbitMQ-%E6%9C%89%E5%87%A0%E7%A7%8D%E6%B6%88%E6%81%AF%E8%B7%AF%E7%94%B1%E7%B1%BB%E5%9E%8B%EF%BC%9F"><span class="toc-number">7.</span> <span class="toc-text">RabbitMQ 有几种消息路由类型？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E8%AF%B4%E4%B8%80%E4%B8%8B-OpenFeign"><span class="toc-number">8.</span> <span class="toc-text">简单说一下 OpenFeign</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#JVM-%E4%BD%A0%E4%BA%86%E8%A7%A3%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">JVM 你了解哪些？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RPC-%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">RPC 底层原理是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nacos-%E7%9A%84-namespace-%E6%98%AF%E5%B9%B2%E4%BB%80%E4%B9%88%E7%9A%84%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">Nacos 的 namespace 是干什么的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-%E9%94%81%E7%9A%84%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">4.</span> <span class="toc-text">Java 锁的底层原理是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized-%E5%92%8C-Lock-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-number">5.</span> <span class="toc-text">synchronized 和 Lock 有什么区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">6.</span> <span class="toc-text">volatile的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-CAP%EF%BC%9F"><span class="toc-number">7.</span> <span class="toc-text">什么是 CAP？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RabbitMQ-%E6%9C%89%E5%87%A0%E7%A7%8D%E6%B6%88%E6%81%AF%E8%B7%AF%E7%94%B1%E7%B1%BB%E5%9E%8B%EF%BC%9F"><span class="toc-number">8.</span> <span class="toc-text">RabbitMQ 有几种消息路由类型？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E8%AF%B4%E4%B8%80%E4%B8%8B-OpenFeign"><span class="toc-number">9.</span> <span class="toc-text">简单说一下 OpenFeign</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Autowired-%E5%92%8C-Resource-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-number">10.</span> <span class="toc-text">@Autowired 和 @Resource 有什么区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL-%E6%9C%89%E5%93%AA%E4%BA%9B%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%EF%BC%9F%E9%BB%98%E8%AE%A4%E7%BA%A7%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">11.</span> <span class="toc-text">MySQL 有哪些事务隔离级别？默认级别是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9FSpring-Cloud-%E5%B8%B8%E7%94%A8%E7%BB%84%E4%BB%B6%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">12.</span> <span class="toc-text">微服务的核心组件有哪些？Spring Cloud 常用组件是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-AOP-%E7%9A%84%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">13.</span> <span class="toc-text">Spring AOP 的原理是什么？</span></a></li></ol>
 </div></main>
             <aside class="left-column">
               
@@ -448,19 +472,19 @@
   <a 
     class="author-posts-count" 
     href="/archives">
-    <span>59</span>
+    <span>60</span>
     <span>文章</span>
   </a>
   <a 
     class="author-categories-count" 
     href="/categories">
-    <span>7</span>
+    <span>8</span>
     <span>分类</span>
   </a>
   <a 
     class="author-tags-count" 
     href="/tags">
-    <span>65</span>
+    <span>67</span>
     <span>标签</span>
   </a>
 </div>
@@ -493,7 +517,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#JVM-%E4%BD%A0%E4%BA%86%E8%A7%A3%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">JVM 你了解哪些？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RPC-%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">RPC 底层原理是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nacos-%E7%9A%84-namespace-%E6%98%AF%E5%B9%B2%E4%BB%80%E4%B9%88%E7%9A%84%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">Nacos 的 namespace 是干什么的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-%E9%94%81%E7%9A%84%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">4.</span> <span class="toc-text">Java 锁的底层原理是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized-%E5%92%8C-Lock-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-number">5.</span> <span class="toc-text">synchronized 和 Lock 有什么区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-CAP%EF%BC%9F"><span class="toc-number">6.</span> <span class="toc-text">什么是 CAP？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RabbitMQ-%E6%9C%89%E5%87%A0%E7%A7%8D%E6%B6%88%E6%81%AF%E8%B7%AF%E7%94%B1%E7%B1%BB%E5%9E%8B%EF%BC%9F"><span class="toc-number">7.</span> <span class="toc-text">RabbitMQ 有几种消息路由类型？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E8%AF%B4%E4%B8%80%E4%B8%8B-OpenFeign"><span class="toc-number">8.</span> <span class="toc-text">简单说一下 OpenFeign</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#JVM-%E4%BD%A0%E4%BA%86%E8%A7%A3%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">JVM 你了解哪些？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RPC-%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">RPC 底层原理是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nacos-%E7%9A%84-namespace-%E6%98%AF%E5%B9%B2%E4%BB%80%E4%B9%88%E7%9A%84%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">Nacos 的 namespace 是干什么的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-%E9%94%81%E7%9A%84%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">4.</span> <span class="toc-text">Java 锁的底层原理是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized-%E5%92%8C-Lock-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-number">5.</span> <span class="toc-text">synchronized 和 Lock 有什么区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">6.</span> <span class="toc-text">volatile的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-CAP%EF%BC%9F"><span class="toc-number">7.</span> <span class="toc-text">什么是 CAP？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RabbitMQ-%E6%9C%89%E5%87%A0%E7%A7%8D%E6%B6%88%E6%81%AF%E8%B7%AF%E7%94%B1%E7%B1%BB%E5%9E%8B%EF%BC%9F"><span class="toc-number">8.</span> <span class="toc-text">RabbitMQ 有几种消息路由类型？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E8%AF%B4%E4%B8%80%E4%B8%8B-OpenFeign"><span class="toc-number">9.</span> <span class="toc-text">简单说一下 OpenFeign</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Autowired-%E5%92%8C-Resource-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-number">10.</span> <span class="toc-text">@Autowired 和 @Resource 有什么区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL-%E6%9C%89%E5%93%AA%E4%BA%9B%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%EF%BC%9F%E9%BB%98%E8%AE%A4%E7%BA%A7%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">11.</span> <span class="toc-text">MySQL 有哪些事务隔离级别？默认级别是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9FSpring-Cloud-%E5%B8%B8%E7%94%A8%E7%BB%84%E4%BB%B6%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">12.</span> <span class="toc-text">微服务的核心组件有哪些？Spring Cloud 常用组件是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-AOP-%E7%9A%84%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">13.</span> <span class="toc-text">Spring AOP 的原理是什么？</span></a></li></ol>
       </div>
     </article>
   
@@ -553,6 +577,13 @@
       <a href="/categories/Frontend/">
         <div class="categories-list-item">
           Frontend
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/categories/%E5%AD%A6%E4%B9%A0/">
+        <div class="categories-list-item">
+          学习
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -638,6 +669,18 @@
       </a>
     
       <a 
+        href="/tags/%E5%A4%8D%E4%B9%A0/" 
+        title="复习">
+        <div class="tags-list-item">复习</div>
+      </a>
+    
+      <a 
+        href="/tags/%E6%94%BF%E6%B2%BB/" 
+        title="政治">
+        <div class="tags-list-item">政治</div>
+      </a>
+    
+      <a 
         href="/tags/%E9%9D%A2%E8%AF%95/" 
         title="面试">
         <div class="tags-list-item">面试</div>
@@ -653,18 +696,6 @@
         href="/tags/RAG/" 
         title="RAG">
         <div class="tags-list-item">RAG</div>
-      </a>
-    
-      <a 
-        href="/tags/Spring-AI/" 
-        title="Spring AI">
-        <div class="tags-list-item">Spring AI</div>
-      </a>
-    
-      <a 
-        href="/tags/Snowflake-Algorithm/" 
-        title="Snowflake Algorithm">
-        <div class="tags-list-item">Snowflake Algorithm</div>
       </a>
     
   </div>
@@ -685,7 +716,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#JVM-%E4%BD%A0%E4%BA%86%E8%A7%A3%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">JVM 你了解哪些？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RPC-%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">RPC 底层原理是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nacos-%E7%9A%84-namespace-%E6%98%AF%E5%B9%B2%E4%BB%80%E4%B9%88%E7%9A%84%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">Nacos 的 namespace 是干什么的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-%E9%94%81%E7%9A%84%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">4.</span> <span class="toc-text">Java 锁的底层原理是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized-%E5%92%8C-Lock-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-number">5.</span> <span class="toc-text">synchronized 和 Lock 有什么区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-CAP%EF%BC%9F"><span class="toc-number">6.</span> <span class="toc-text">什么是 CAP？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RabbitMQ-%E6%9C%89%E5%87%A0%E7%A7%8D%E6%B6%88%E6%81%AF%E8%B7%AF%E7%94%B1%E7%B1%BB%E5%9E%8B%EF%BC%9F"><span class="toc-number">7.</span> <span class="toc-text">RabbitMQ 有几种消息路由类型？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E8%AF%B4%E4%B8%80%E4%B8%8B-OpenFeign"><span class="toc-number">8.</span> <span class="toc-text">简单说一下 OpenFeign</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#JVM-%E4%BD%A0%E4%BA%86%E8%A7%A3%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">JVM 你了解哪些？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RPC-%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">RPC 底层原理是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Nacos-%E7%9A%84-namespace-%E6%98%AF%E5%B9%B2%E4%BB%80%E4%B9%88%E7%9A%84%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">Nacos 的 namespace 是干什么的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-%E9%94%81%E7%9A%84%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">4.</span> <span class="toc-text">Java 锁的底层原理是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#synchronized-%E5%92%8C-Lock-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-number">5.</span> <span class="toc-text">synchronized 和 Lock 有什么区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">6.</span> <span class="toc-text">volatile的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-CAP%EF%BC%9F"><span class="toc-number">7.</span> <span class="toc-text">什么是 CAP？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RabbitMQ-%E6%9C%89%E5%87%A0%E7%A7%8D%E6%B6%88%E6%81%AF%E8%B7%AF%E7%94%B1%E7%B1%BB%E5%9E%8B%EF%BC%9F"><span class="toc-number">8.</span> <span class="toc-text">RabbitMQ 有几种消息路由类型？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E8%AF%B4%E4%B8%80%E4%B8%8B-OpenFeign"><span class="toc-number">9.</span> <span class="toc-text">简单说一下 OpenFeign</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Autowired-%E5%92%8C-Resource-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-number">10.</span> <span class="toc-text">@Autowired 和 @Resource 有什么区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL-%E6%9C%89%E5%93%AA%E4%BA%9B%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%EF%BC%9F%E9%BB%98%E8%AE%A4%E7%BA%A7%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">11.</span> <span class="toc-text">MySQL 有哪些事务隔离级别？默认级别是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9FSpring-Cloud-%E5%B8%B8%E7%94%A8%E7%BB%84%E4%BB%B6%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">12.</span> <span class="toc-text">微服务的核心组件有哪些？Spring Cloud 常用组件是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring-AOP-%E7%9A%84%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">13.</span> <span class="toc-text">Spring AOP 的原理是什么？</span></a></li></ol>
     </article>
   
   
