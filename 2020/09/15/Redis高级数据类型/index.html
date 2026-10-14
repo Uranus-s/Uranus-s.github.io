@@ -353,7 +353,7 @@
 <li><p>设置指定 key 对应偏移量上的 bit 值，value 只能说 0 或 1</p>
 <pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">setbit ket offset value<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>对指定 key 按位进行交、并、非、异或操作，并将结果保存到 destKet 中</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">bitop op destKet key1 [key2...]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">bitop <span class="token function">op</span> destKet key1 <span class="token punctuation">[</span>key2<span class="token punctuation">..</span>.<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <ul>
 <li><p>and:交</p>
@@ -367,7 +367,7 @@
 </ul>
 </li>
 <li><p>统计指定 ket 中 1 的数量</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">bitcount key [start end]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">bitcount key <span class="token punctuation">[</span>start end<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 </ul>
 <h2 id="HyperLogLog"><a href="#HyperLogLog" class="headerlink" title="HyperLogLog"></a>HyperLogLog</h2><p>用于进行基数统计，不是集合，不保存数据，只记录数量而不是具体数据</p>
 <p>核心是基数估计算法，最终数据存在一定误差</p>
@@ -377,23 +377,23 @@
 <p>pfmerge 命令合并后占用储存空间为 12K，无论合并之前数据量是多少</p>
 <ul>
 <li><p>添加数据</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">pfadd ket  element [element...]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">pfadd ket  element <span class="token punctuation">[</span>element<span class="token punctuation">..</span>.<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>统计数据</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">pfcount ket [key...]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">pfcount ket <span class="token punctuation">[</span>key<span class="token punctuation">..</span>.<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>合并数据</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">pfmerge destkey sourcekey [sourcekey...]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">pfmerge destkey sourcekey <span class="token punctuation">[</span>sourcekey<span class="token punctuation">..</span>.<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 </ul>
 <h2 id="GEO"><a href="#GEO" class="headerlink" title="GEO"></a>GEO</h2><ul>
 <li><p>添加坐标点</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">geoadd key longitude latitude member [longitude latitude member ...]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">geoadd key longitude latitude member <span class="token punctuation">[</span>longitude latitude member <span class="token punctuation">..</span>.<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>获取坐标点</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">geopos key member [member ...]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">geopos key member <span class="token punctuation">[</span>member <span class="token punctuation">..</span>.<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>计算坐标点距离</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">geodist key member1 member2 [unit]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">geodist key member1 member2 <span class="token punctuation">[</span>unit<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>根据坐标求范围内的数据</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">georadius ket longitude latitude radius m|km|ft|mi [withdist] [withhash] [withhash] [count count]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">georadius ket longitude latitude radius m<span class="token operator">|</span>km<span class="token operator">|</span>ft<span class="token operator">|</span>mi <span class="token punctuation">[</span>withdist<span class="token punctuation">]</span> <span class="token punctuation">[</span>withhash<span class="token punctuation">]</span> <span class="token punctuation">[</span>withhash<span class="token punctuation">]</span> <span class="token punctuation">[</span>count count<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>根据点求范围内的数据</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">georadiusbymember key member radius m|km|ft|mi [withdist] [withhash] [withhash] [count count]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">georadiusbymember key member radius m<span class="token operator">|</span>km<span class="token operator">|</span>ft<span class="token operator">|</span>mi <span class="token punctuation">[</span>withdist<span class="token punctuation">]</span> <span class="token punctuation">[</span>withhash<span class="token punctuation">]</span> <span class="token punctuation">[</span>withhash<span class="token punctuation">]</span> <span class="token punctuation">[</span>count count<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>获取指定点对应的坐标 hash 值</p>
 <pre class="line-numbers language-shel" data-language="shel"><code class="language-shel">geohash key member [member ...]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 </ul>
@@ -693,21 +693,21 @@
       </a>
     
       <a 
-        href="/tags/%E9%9D%A2%E8%AF%95/" 
-        title="面试">
-        <div class="tags-list-item">面试</div>
+        href="/tags/JVM/" 
+        title="JVM">
+        <div class="tags-list-item">JVM</div>
       </a>
     
       <a 
-        href="/tags/Java/" 
-        title="Java">
-        <div class="tags-list-item">Java</div>
+        href="/tags/Snowflake-Algorithm/" 
+        title="Snowflake Algorithm">
+        <div class="tags-list-item">Snowflake Algorithm</div>
       </a>
     
       <a 
-        href="/tags/RAG/" 
-        title="RAG">
-        <div class="tags-list-item">RAG</div>
+        href="/tags/Reflection/" 
+        title="Reflection">
+        <div class="tags-list-item">Reflection</div>
       </a>
     
   </div>

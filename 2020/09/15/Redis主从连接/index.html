@@ -349,26 +349,26 @@
     class="post-content">
     <h1 id="主从连接"><a href="#主从连接" class="headerlink" title="主从连接"></a>主从连接</h1><ul>
 <li><p>方法一:客户端发送命令</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">slaveof &lt;masterip&gt; &lt;masterport&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">slaveof <span class="token operator">&lt;</span>masterip<span class="token operator">></span> <span class="token operator">&lt;</span>masterport<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>方法二:启动服务器参数</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">redis-server --slaveof &lt;masterip&gt; &lt;masterport&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">redis-server --slaveof <span class="token operator">&lt;</span>masterip<span class="token operator">></span> <span class="token operator">&lt;</span>masterport<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>方法三:服务器配置</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">slaveof &lt;masterip&gt; &lt;masterport&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">slaveof <span class="token operator">&lt;</span>masterip<span class="token operator">></span> <span class="token operator">&lt;</span>masterport<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 </ul>
 <h4 id="主从断开连接"><a href="#主从断开连接" class="headerlink" title="主从断开连接"></a>主从断开连接</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">slaveof no one<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <h4 id="授权访问"><a href="#授权访问" class="headerlink" title="授权访问"></a>授权访问</h4><ul>
 <li><p>master 配置文件设置密码</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">requirepass &lt;password&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">requirepass <span class="token operator">&lt;</span>password<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>master 客户端发生命令设置密码</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">config set requirepass &lt;password&gt;
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">config <span class="token builtin class-name">set</span> requirepass <span class="token operator">&lt;</span>password<span class="token operator">></span>
 config get requirepass<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
 <li><p>slave 客户端发送命令设置密码</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">auth &lt;password&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">auth <span class="token operator">&lt;</span>password<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>slave 配置文件设置密码</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">masterauth &lt;password&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">masterauth <span class="token operator">&lt;</span>password<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>启动客户端设置密码</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">redis-cli -a &lt;password&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">redis-cli -a <span class="token operator">&lt;</span>password<span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 </ul>
 <h4 id="数据同步阶段-master-说明"><a href="#数据同步阶段-master-说明" class="headerlink" title="数据同步阶段 master 说明"></a>数据同步阶段 master 说明</h4><ol>
 <li><p>如果 master 数据量巨大，数据同步阶段应避开流量高峰期，避免造成 master 阻塞，影响业务正常执行</p>
@@ -380,7 +380,7 @@ config get requirepass<span aria-hidden="true" class="line-numbers-rows"><span><
 </ol>
 <h4 id="数据同步阶段-slave-说明"><a href="#数据同步阶段-slave-说明" class="headerlink" title="数据同步阶段 slave 说明"></a>数据同步阶段 slave 说明</h4><ol>
 <li><p>为避免 slave 进行全量复制、部分复制时服务器响应阻塞或数据不同步，建议关闭此期间的对外服务</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">slave-server-stale-data yes|no<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">slave-server-stale-data <span class="token function">yes</span><span class="token operator">|</span>no<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 <li><p>数据同步阶段，master 发送给 slave 信息可以理解 master 是 slave 的一个客户端，主动向 slave 发送命令</p>
 </li>
 <li><p>多个 slave 同时对 master 请求数据同步，master 发送的 RDB 文件增多，会对带宽造成巨大冲击，如果 master 带宽不足，因此数据同步需要根据业务需求，适量错峰</p>
@@ -428,8 +428,8 @@ config get requirepass<span aria-hidden="true" class="line-numbers-rows"><span><
 </ul>
 <h4 id="心跳阶段注意事项"><a href="#心跳阶段注意事项" class="headerlink" title="心跳阶段注意事项"></a>心跳阶段注意事项</h4><ul>
 <li><p>当 slave 多数掉线，或延迟过高时，master 为保障数据稳定性，将拒绝所有信息同步操作</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">min-slaves-to-write 2
-min-slaves-max-lag 10<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">min-slaves-to-write <span class="token number">2</span>
+min-slaves-max-lag <span class="token number">10</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 <p>slave 数量少于 2 个，或所有 slave 的延迟都大于等于 10 秒，强制关闭 master 写功能，停止数据同步</p>
 </li>
@@ -739,21 +739,21 @@ min-slaves-max-lag 10<span aria-hidden="true" class="line-numbers-rows"><span></
       </a>
     
       <a 
-        href="/tags/%E9%9D%A2%E8%AF%95/" 
-        title="面试">
-        <div class="tags-list-item">面试</div>
+        href="/tags/JVM/" 
+        title="JVM">
+        <div class="tags-list-item">JVM</div>
       </a>
     
       <a 
-        href="/tags/Java/" 
-        title="Java">
-        <div class="tags-list-item">Java</div>
+        href="/tags/Snowflake-Algorithm/" 
+        title="Snowflake Algorithm">
+        <div class="tags-list-item">Snowflake Algorithm</div>
       </a>
     
       <a 
-        href="/tags/RAG/" 
-        title="RAG">
-        <div class="tags-list-item">RAG</div>
+        href="/tags/Reflection/" 
+        title="Reflection">
+        <div class="tags-list-item">Reflection</div>
       </a>
     
   </div>

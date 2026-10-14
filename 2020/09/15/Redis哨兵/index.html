@@ -320,7 +320,7 @@
     
     
       <span class="dot"></span>
-      <span>381 字</span>
+      <span>377 字</span>
     
   </div>
   
@@ -349,30 +349,30 @@
     class="post-content">
     <ul>
 <li><p>将宕机的 master 下线，找到一个 slave 作为 master，通知所有 slave 连接新的 master，启动新的 master 与 slave，全量复制 xN+部分复制 xN</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#配置文件名称 sentinel.conf
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token comment">#配置文件名称 sentinel.conf</span>
 
-#启动哨兵进程端口
-port 26379
-#哨兵进程服务临时文件夹，默认为&#x2F;tmp，要保证有可写入的权限
-dir &#x2F;tmp
+<span class="token comment">#启动哨兵进程端口</span>
+port <span class="token number">26379</span>
+<span class="token comment">#哨兵进程服务临时文件夹，默认为/tmp，要保证有可写入的权限</span>
+<span class="token function">dir</span> /tmp
 
-# 禁止保护模式
+<span class="token comment"># 禁止保护模式</span>
 protected-mode no
-# 配置监听的主服务器，这里sentinel monitor代表监控，mymaster代表服务器的名称，可以自定义，192.168.11.128代表监控的主服务器，6379代表端口，2代表只有两个或两个以 上 的哨兵认为主服务器不可用的时候，才会进行failover操作。
-sentinel monitor mymaster 192.168.11.128 6379 2
+<span class="token comment"># 配置监听的主服务器，这里sentinel monitor代表监控，mymaster代表服务器的名称，可以自定义，192.168.11.128代表监控的主服务器，6379代表端口，2代表只有两个或两个以 上 的哨兵认为主服务器不可用的时候，才会进行failover操作。</span>
+sentinel monitor mymaster <span class="token number">192.168</span>.11.128 <span class="token number">6379</span> <span class="token number">2</span>
 
-#指定哨兵在监控Redis服务时，当Redis服务在一个默认毫秒数内都无法回答时，单个哨兵认为的主观下线时间，默认为30000（30秒）
-sentinel down-after-milliseconds 30000
+<span class="token comment">#指定哨兵在监控Redis服务时，当Redis服务在一个默认毫秒数内都无法回答时，单个哨兵认为的主观下线时间，默认为30000（30秒）</span>
+sentinel down-after-milliseconds <span class="token number">30000</span>
 
-#指定可以有多少个Redis服务同步新的主机，一般而言，这个数字越小同步时间越长，而越大，则对网络资源要求越高
-sentinel parallel-syncs myaster 1
+<span class="token comment">#指定可以有多少个Redis服务同步新的主机，一般而言，这个数字越小同步时间越长，而越大，则对网络资源要求越高</span>
+sentinel parallel-syncs myaster <span class="token number">1</span>
 
-#指定故障切换允许的毫秒数，超过这个时间，就认为故障切换失败，默认为3分钟
-sentinel failover-timeout 180000
+<span class="token comment">#指定故障切换允许的毫秒数，超过这个时间，就认为故障切换失败，默认为3分钟</span>
+sentinel failover-timeout <span class="token number">180000</span>
 
-# sentinel author-pass定义服务的密码，mymaster是服务名称，123456是Redis服务器密码
-# sentinel auth-pass &lt;master-name&gt; &lt;password&gt;
-sentinel auth-pass mymaster 123456<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<span class="token comment"># sentinel author-pass定义服务的密码，mymaster是服务名称，123456是Redis服务器密码</span>
+<span class="token comment"># sentinel auth-pass &lt;master-name> &lt;password></span>
+sentinel auth-pass mymaster <span class="token number">123456</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p>启动哨兵</p>
 <pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">redis-sentinel sentinel-端口号.conf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 </ul>
@@ -672,21 +672,21 @@ sentinel auth-pass mymaster 123456<span aria-hidden="true" class="line-numbers-r
       </a>
     
       <a 
-        href="/tags/%E9%9D%A2%E8%AF%95/" 
-        title="面试">
-        <div class="tags-list-item">面试</div>
+        href="/tags/JVM/" 
+        title="JVM">
+        <div class="tags-list-item">JVM</div>
       </a>
     
       <a 
-        href="/tags/Java/" 
-        title="Java">
-        <div class="tags-list-item">Java</div>
+        href="/tags/Snowflake-Algorithm/" 
+        title="Snowflake Algorithm">
+        <div class="tags-list-item">Snowflake Algorithm</div>
       </a>
     
       <a 
-        href="/tags/RAG/" 
-        title="RAG">
-        <div class="tags-list-item">RAG</div>
+        href="/tags/Reflection/" 
+        title="Reflection">
+        <div class="tags-list-item">Reflection</div>
       </a>
     
   </div>

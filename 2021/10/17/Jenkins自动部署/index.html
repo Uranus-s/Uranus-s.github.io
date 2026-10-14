@@ -320,7 +320,7 @@
     
     
       <span class="dot"></span>
-      <span>1.2k 字</span>
+      <span>1.1k 字</span>
     
   </div>
   
@@ -460,39 +460,39 @@ xxxxxxxxxxxxxxxxxxxxxxxxxx<span aria-hidden="true" class="line-numbers-rows"><sp
 <p><img src="/images/posts/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101323986.png" alt="image-20211017101323986" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101323986.png" class="lozad post-image"></p>
 <p>编译build的shell命令</p>
 <p><img src="/images/posts/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101436546.png" alt="image-20211017101436546" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="/images/posts/Jenkins%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/image-20211017101436546.png" class="lozad post-image"></p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#将打包好的jar项目，移到&#x2F;opt&#x2F;data&#x2F;build目录
-#&#x2F;var&#x2F;jenkins_home&#x2F;workspace&#x2F;SpringBoot_AutoTest&#x2F;target&#x2F;jenkins-0.0.1-SNAPSHOT.jar构建好的jar路径
-#&#x2F;opt&#x2F;data&#x2F;build进入到容器创建这个目录
-mv &#x2F;var&#x2F;jenkins_home&#x2F;workspace&#x2F;SpringBoot-AutoTest&#x2F;target&#x2F;springboot-AutoTest-0.0.1-SNAPSHOT.jar &#x2F;opt&#x2F;data&#x2F;build
-#切换目录到&#x2F;opt&#x2F;data&#x2F;build
-cd &#x2F;opt&#x2F;data&#x2F;build
-#执行构建Dockerfile命令
-docker build .&#x2F; -t my&#x2F;demo
-#停止之前的容器运行
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token comment">#将打包好的jar项目，移到/opt/data/build目录</span>
+<span class="token comment">#/var/jenkins_home/workspace/SpringBoot_AutoTest/target/jenkins-0.0.1-SNAPSHOT.jar构建好的jar路径</span>
+<span class="token comment">#/opt/data/build进入到容器创建这个目录</span>
+<span class="token function">mv</span> /var/jenkins_home/workspace/SpringBoot-AutoTest/target/springboot-AutoTest-0.0.1-SNAPSHOT.jar /opt/data/build
+<span class="token comment">#切换目录到/opt/data/build</span>
+<span class="token builtin class-name">cd</span> /opt/data/build
+<span class="token comment">#执行构建Dockerfile命令</span>
+docker build ./ -t my/demo
+<span class="token comment">#停止之前的容器运行</span>
 docker stop demo
-#删除之前的容器
-docker rm demo 
-#运行刚刚创建的容器
-docker run -d --name demo -p 8080:8080 my&#x2F;demo
-echo &quot;构建完成&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token comment">#删除之前的容器</span>
+docker <span class="token function">rm</span> demo 
+<span class="token comment">#运行刚刚创建的容器</span>
+docker run -d --name demo -p <span class="token number">8080</span>:8080 my/demo
+<span class="token builtin class-name">echo</span> <span class="token string">"构建完成"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>点击保存应用。</p>
 </li>
 <li><p>编写一份Dockerfile文件，内容如下</p>
-<pre class="line-numbers language-dockerfile" data-language="dockerfile"><code class="language-dockerfile"># 基于java镜像创建新镜像
-FROM docker.io&#x2F;java:8
+<pre class="line-numbers language-dockerfile" data-language="dockerfile"><code class="language-dockerfile"><span class="token comment"># 基于java镜像创建新镜像</span>
+<span class="token instruction"><span class="token keyword">FROM</span> docker.io/java:8</span>
 
-# 作者
-MAINTAINER xxxx
+<span class="token comment"># 作者</span>
+<span class="token instruction"><span class="token keyword">MAINTAINER</span> xxxx</span>
 
-# 将jar包添加到容器中并更名为springboot-AutoTest-0.0.1-SNAPSHOT.jar
-COPY springboot-AutoTest-0.0.1-SNAPSHOT.jar &#x2F;springboot-AutoTest-0.0.1-SNAPSHOT.jar
+<span class="token comment"># 将jar包添加到容器中并更名为springboot-AutoTest-0.0.1-SNAPSHOT.jar</span>
+<span class="token instruction"><span class="token keyword">COPY</span> springboot-AutoTest-0.0.1-SNAPSHOT.jar /springboot-AutoTest-0.0.1-SNAPSHOT.jar</span>
 
-# 暴露8080端口
-EXPOSE 8080
+<span class="token comment"># 暴露8080端口</span>
+<span class="token instruction"><span class="token keyword">EXPOSE</span> 8080</span>
 
-# 运行jar包
-ENTRYPOINT [&quot;java&quot;,&quot;-jar&quot;,&quot;springboot-AutoTest-0.0.1-SNAPSHOT.jar&quot;,&quot;--server.port&#x3D;8080&quot;,&quot;&amp;&quot;]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token comment"># 运行jar包</span>
+<span class="token instruction"><span class="token keyword">ENTRYPOINT</span> [<span class="token string">"java"</span>,<span class="token string">"-jar"</span>,<span class="token string">"springboot-AutoTest-0.0.1-SNAPSHOT.jar"</span>,<span class="token string">"--server.port=8080"</span>,<span class="token string">"&amp;"</span>]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>编写好之后，运行如下命令，将其放置到Docker容器中</p>
 <p><code>docker cp Dockerfile  容器ID:/opt/data/build</code></p>
@@ -801,21 +801,21 @@ ENTRYPOINT [&quot;java&quot;,&quot;-jar&quot;,&quot;springboot-AutoTest-0.0.1-SN
       </a>
     
       <a 
-        href="/tags/%E9%9D%A2%E8%AF%95/" 
-        title="面试">
-        <div class="tags-list-item">面试</div>
+        href="/tags/JVM/" 
+        title="JVM">
+        <div class="tags-list-item">JVM</div>
       </a>
     
       <a 
-        href="/tags/Java/" 
-        title="Java">
-        <div class="tags-list-item">Java</div>
+        href="/tags/Snowflake-Algorithm/" 
+        title="Snowflake Algorithm">
+        <div class="tags-list-item">Snowflake Algorithm</div>
       </a>
     
       <a 
-        href="/tags/RAG/" 
-        title="RAG">
-        <div class="tags-list-item">RAG</div>
+        href="/tags/Reflection/" 
+        title="Reflection">
+        <div class="tags-list-item">Reflection</div>
       </a>
     
   </div>

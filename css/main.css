@@ -743,10 +743,13 @@ pre[class*='highlight'] {
 }
 @media screen and (min-width: 768px) {
   .image-wrapper {
-    padding-bottom: 300px;
+    height: auto;
+    padding-bottom: 0;
+    aspect-ratio: 12/5;
   }
   .image-wrapper .image {
-    height: 300px;
+    height: 100%;
+    object-fit: contain;
   }
 }
 @media screen and (max-width: 767px) {
@@ -1187,10 +1190,13 @@ mjx-container svg:focus {
 }
 @media screen and (min-width: 768px) {
   .image-wrapper {
-    padding-bottom: 300px;
+    height: auto;
+    padding-bottom: 0;
+    aspect-ratio: 12/5;
   }
   .image-wrapper .image {
-    height: 300px;
+    height: 100%;
+    object-fit: contain;
   }
 }
 @media screen and (max-width: 767px) {

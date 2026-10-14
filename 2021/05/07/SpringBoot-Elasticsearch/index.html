@@ -324,7 +324,7 @@
     
     
       <span class="dot"></span>
-      <span>950 字</span>
+      <span>940 字</span>
     
   </div>
   
@@ -378,12 +378,12 @@
 <p>Elasticsearch 和 SpringBoot 是有版本对应的，<a target="_blank" rel="noopener" href="https://docs.spring.io/spring-data/elasticsearch/docs/current/reference/html/#preface.versions">点击查看</a></p>
 <p>下载<a target="_blank" rel="noopener" href="https://www.elastic.co/cn/elasticsearch/">Elasticsearch</a>，在使用 ES 之前，还需要装一个<a target="_blank" rel="noopener" href="https://github.com/medcl/elasticsearch-analysis-ik">ik 分词器</a>，下载好之后，将其解压至 ES 的 plugins 文件夹中的 ik 文件夹(无则创建)</p>
 <p>在使用 ES 之前，我们最好简单更改一下其配置，在 config 目录下，找到 elasticsearch.yml，进行如下更改</p>
-<pre class="line-numbers language-yml" data-language="yml"><code class="language-yml"># 集群的名字 随意
-cluster.name: nowcoder
-# ES数据存储路径
-path.data: &#x2F;home&#x2F;gas&#x2F;桌面&#x2F;elasticsearch-7.12.0&#x2F;data
-# 日志
-path.logs: &#x2F;home&#x2F;gas&#x2F;桌面&#x2F;elasticsearch-7.12.0&#x2F;logs<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-yml" data-language="yml"><code class="language-yml"><span class="token comment"># 集群的名字 随意</span>
+<span class="token key atrule">cluster.name</span><span class="token punctuation">:</span> nowcoder
+<span class="token comment"># ES数据存储路径</span>
+<span class="token key atrule">path.data</span><span class="token punctuation">:</span> /home/gas/桌面/elasticsearch<span class="token punctuation">-</span>7.12.0/data
+<span class="token comment"># 日志</span>
+<span class="token key atrule">path.logs</span><span class="token punctuation">:</span> /home/gas/桌面/elasticsearch<span class="token punctuation">-</span>7.12.0/logs<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>然后执行 bin 目录下的 elasticsearch 文件即可</p>
 <h2 id="SpringBoot-使用-Elasticsearch"><a href="#SpringBoot-使用-Elasticsearch" class="headerlink" title="SpringBoot 使用 Elasticsearch"></a>SpringBoot 使用 Elasticsearch</h2><h3 id="1-Maven-引入"><a href="#1-Maven-引入" class="headerlink" title="1. Maven 引入"></a>1. Maven 引入</h3><pre class="line-numbers language-xml" data-language="xml"><code class="language-xml"><span class="token comment">&lt;!-- elasticsearch --></span>
@@ -782,21 +782,21 @@ discussPostRepository<span class="token punctuation">.</span><span class="token 
       </a>
     
       <a 
-        href="/tags/%E9%9D%A2%E8%AF%95/" 
-        title="面试">
-        <div class="tags-list-item">面试</div>
+        href="/tags/JVM/" 
+        title="JVM">
+        <div class="tags-list-item">JVM</div>
       </a>
     
       <a 
-        href="/tags/Java/" 
-        title="Java">
-        <div class="tags-list-item">Java</div>
+        href="/tags/Snowflake-Algorithm/" 
+        title="Snowflake Algorithm">
+        <div class="tags-list-item">Snowflake Algorithm</div>
       </a>
     
       <a 
-        href="/tags/RAG/" 
-        title="RAG">
-        <div class="tags-list-item">RAG</div>
+        href="/tags/Reflection/" 
+        title="Reflection">
+        <div class="tags-list-item">Reflection</div>
       </a>
     
   </div>

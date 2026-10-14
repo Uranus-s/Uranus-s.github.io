@@ -324,7 +324,7 @@
     
     
       <span class="dot"></span>
-      <span>99 字</span>
+      <span>88 字</span>
     
   </div>
   
@@ -362,19 +362,19 @@
     class="post-content">
     <h1 id="Docker-安装-Mysql"><a href="#Docker-安装-Mysql" class="headerlink" title="Docker 安装 Mysql"></a>Docker 安装 Mysql</h1><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">docker pull mysql
 
-docker run --name mysql  -p 3307:3306 -e MYSQL_ROOT_PASSWORD&#x3D;123456 -d mysql
+docker run --name mysql  -p <span class="token number">3307</span>:3306 -e <span class="token assign-left variable">MYSQL_ROOT_PASSWORD</span><span class="token operator">=</span><span class="token number">123456</span> -d mysql
 
-#进入容器内部  mysql 是上边运行时为容器取的别名 也可以用id替代
-docker exec -it dockermysql bash
+<span class="token comment">#进入容器内部  mysql 是上边运行时为容器取的别名 也可以用id替代</span>
+docker <span class="token builtin class-name">exec</span> -it dockermysql <span class="token function">bash</span>
 
-# 给用于授予权限
-grant all privileges on *.*  to &#39;root&#39;@&#39;%&#39; ;
+<span class="token comment"># 给用于授予权限</span>
+grant all privileges on *.*  to <span class="token string">'root'</span>@<span class="token string">'%'</span> <span class="token punctuation">;</span>
 
-# 刷新权限
-flush privileges;
+<span class="token comment"># 刷新权限</span>
+flush privileges<span class="token punctuation">;</span>
 
-#Mysql远程连接报错：authentication plugin caching_sha2
-ALTER USER &#39;root&#39;@&#39;%&#39; IDENTIFIED WITH mysql_native_password BY &#39;密码&#39;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token comment">#Mysql远程连接报错：authentication plugin caching_sha2</span>
+ALTER <span class="token environment constant">USER</span> <span class="token string">'root'</span>@<span class="token string">'%'</span> IDENTIFIED WITH mysql_native_password BY <span class="token string">'密码'</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
   </div>
   <div>
@@ -671,21 +671,21 @@ ALTER USER &#39;root&#39;@&#39;%&#39; IDENTIFIED WITH mysql_native_password BY &
       </a>
     
       <a 
-        href="/tags/%E9%9D%A2%E8%AF%95/" 
-        title="面试">
-        <div class="tags-list-item">面试</div>
+        href="/tags/JVM/" 
+        title="JVM">
+        <div class="tags-list-item">JVM</div>
       </a>
     
       <a 
-        href="/tags/Java/" 
-        title="Java">
-        <div class="tags-list-item">Java</div>
+        href="/tags/Snowflake-Algorithm/" 
+        title="Snowflake Algorithm">
+        <div class="tags-list-item">Snowflake Algorithm</div>
       </a>
     
       <a 
-        href="/tags/RAG/" 
-        title="RAG">
-        <div class="tags-list-item">RAG</div>
+        href="/tags/Reflection/" 
+        title="Reflection">
+        <div class="tags-list-item">Reflection</div>
       </a>
     
   </div>

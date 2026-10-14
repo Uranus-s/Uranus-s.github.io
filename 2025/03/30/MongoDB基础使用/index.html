@@ -329,7 +329,7 @@
     
     
       <span class="dot"></span>
-      <span>7k 字</span>
+      <span>6.9k 字</span>
     
   </div>
   
@@ -798,115 +798,115 @@ db<span class="token punctuation">.</span>集合<span class="token punctuation">
 <p>MongoDB使用keyFile认证，副本集中的每个MongoDB实例使用keyFile内容作为认证其他成员的共享密码。MongoDB实例只有拥有正确的keyFile才可以加入副本集。</p>
 <p>keyFile的内容必须是6到1024个字符的长度，且副本集所有成员的keyFile内容必须相同。</p>
 </blockquote>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">## 生成KeyFile方式
-## 400权限是要保证安全性，否则mongod启动会报错
-openssl rand -base64 756 &gt; mongodb.key
-chmod 400 mongodb.key<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token comment">## 生成KeyFile方式</span>
+<span class="token comment">## 400权限是要保证安全性，否则mongod启动会报错</span>
+openssl rand -base64 <span class="token number">756</span> <span class="token operator">></span> mongodb.key
+<span class="token function">chmod</span> <span class="token number">400</span> mongodb.key<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 
-<pre class="line-numbers language-yml" data-language="yml"><code class="language-yml">version: &quot;3&quot;
+<pre class="line-numbers language-yml" data-language="yml"><code class="language-yml"><span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">"3"</span>
 
-services:
-  #主节点
-  mongodb1:
-    image: mongo:6.0.6
-    container_name: mongo1
-    restart: always
-    ports:
-      - 27017:27017
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME&#x3D;root
-      - MONGO_INITDB_ROOT_PASSWORD&#x3D;mongodb@evescn
-    command: mongod --replSet rs0 --keyFile &#x2F;mongodb.key
-    volumes:
-      - &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;localtime
-      - &#x2F;data&#x2F;mongodb&#x2F;mongo1&#x2F;data:&#x2F;data&#x2F;db
-      - &#x2F;data&#x2F;mongodb&#x2F;mongo1&#x2F;configdb:&#x2F;data&#x2F;configdb
-      - &#x2F;data&#x2F;mongodb&#x2F;mongo1&#x2F;mongodb.key:&#x2F;mongodb.key
-    networks:
-      - mongoNet
-    entrypoint:
-      - bash
-      - -c
-      - |
-        chmod 400 &#x2F;mongodb.key
-        chown 999:999 &#x2F;mongodb.key
-        exec docker-entrypoint.sh       $$@
-  # 副节点
-  mongodb2:
-    image: mongo:6.0.6
-    container_name: mongo2
-    restart: always
-    ports:
-      - 27018:27017
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME&#x3D;root
-      - MONGO_INITDB_ROOT_PASSWORD&#x3D;mongodb@evescn
-    command: mongod --replSet rs0 --keyFile &#x2F;mongodb.key
-    volumes:
-      - &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;localtime
-      - &#x2F;data&#x2F;mongodb&#x2F;mongo2&#x2F;data:&#x2F;data&#x2F;db
-      - &#x2F;data&#x2F;mongodb&#x2F;mongo2&#x2F;configdb:&#x2F;data&#x2F;configdb
-      - &#x2F;data&#x2F;mongodb&#x2F;mongo2&#x2F;mongodb.key:&#x2F;mongodb.key
-    networks:
-      - mongoNet
-    entrypoint:
-      - bash
-      - -c
-      - |
-        chmod 400 &#x2F;mongodb.key
-        chown 999:999 &#x2F;mongodb.key
-        exec docker-entrypoint.sh $$@
-  # 副节点
-  mongodb3:
-    image: mongo:6.0.6
-    container_name: mongo3
-    restart: always
-    ports:
-      - 27019:27017
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME&#x3D;root
-      - MONGO_INITDB_ROOT_PASSWORD&#x3D;mongodb@evescn
-    command: mongod --replSet rs0 --keyFile &#x2F;mongodb.key
-    volumes:
-      - &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;localtime
-      - &#x2F;data&#x2F;mongodb&#x2F;mongo3&#x2F;data:&#x2F;data&#x2F;db
-      - &#x2F;data&#x2F;mongodb&#x2F;mongo3&#x2F;configdb:&#x2F;data&#x2F;configdb
-      - &#x2F;data&#x2F;mongodb&#x2F;mongo3&#x2F;mongodb.key:&#x2F;mongodb.key
-    networks:
-      - mongoNet
-    entrypoint:
-      - bash
-      - -c
-      - |
-        chmod 400 &#x2F;mongodb.key
-        chown 999:999 &#x2F;mongodb.key
-        exec docker-entrypoint.sh $$@
-networks:
-  mongoNet:
-    driver: bridge<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token comment">#主节点</span>
+  <span class="token key atrule">mongodb1</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> mongo<span class="token punctuation">:</span>6.0.6
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> mongo1
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> always
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> 27017<span class="token punctuation">:</span><span class="token number">27017</span>
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> MONGO_INITDB_ROOT_USERNAME=root
+      <span class="token punctuation">-</span> MONGO_INITDB_ROOT_PASSWORD=mongodb@evescn
+    <span class="token key atrule">command</span><span class="token punctuation">:</span> mongod <span class="token punctuation">-</span><span class="token punctuation">-</span>replSet rs0 <span class="token punctuation">-</span><span class="token punctuation">-</span>keyFile /mongodb.key
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> /etc/localtime<span class="token punctuation">:</span>/etc/localtime
+      <span class="token punctuation">-</span> /data/mongodb/mongo1/data<span class="token punctuation">:</span>/data/db
+      <span class="token punctuation">-</span> /data/mongodb/mongo1/configdb<span class="token punctuation">:</span>/data/configdb
+      <span class="token punctuation">-</span> /data/mongodb/mongo1/mongodb.key<span class="token punctuation">:</span>/mongodb.key
+    <span class="token key atrule">networks</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> mongoNet
+    <span class="token key atrule">entrypoint</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> bash
+      <span class="token punctuation">-</span> <span class="token punctuation">-</span>c
+      <span class="token punctuation">-</span> <span class="token punctuation">|</span><span class="token scalar string">
+        chmod 400 /mongodb.key
+        chown 999:999 /mongodb.key
+        exec docker-entrypoint.sh       $$@</span>
+  <span class="token comment"># 副节点</span>
+  <span class="token key atrule">mongodb2</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> mongo<span class="token punctuation">:</span>6.0.6
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> mongo2
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> always
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> 27018<span class="token punctuation">:</span><span class="token number">27017</span>
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> MONGO_INITDB_ROOT_USERNAME=root
+      <span class="token punctuation">-</span> MONGO_INITDB_ROOT_PASSWORD=mongodb@evescn
+    <span class="token key atrule">command</span><span class="token punctuation">:</span> mongod <span class="token punctuation">-</span><span class="token punctuation">-</span>replSet rs0 <span class="token punctuation">-</span><span class="token punctuation">-</span>keyFile /mongodb.key
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> /etc/localtime<span class="token punctuation">:</span>/etc/localtime
+      <span class="token punctuation">-</span> /data/mongodb/mongo2/data<span class="token punctuation">:</span>/data/db
+      <span class="token punctuation">-</span> /data/mongodb/mongo2/configdb<span class="token punctuation">:</span>/data/configdb
+      <span class="token punctuation">-</span> /data/mongodb/mongo2/mongodb.key<span class="token punctuation">:</span>/mongodb.key
+    <span class="token key atrule">networks</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> mongoNet
+    <span class="token key atrule">entrypoint</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> bash
+      <span class="token punctuation">-</span> <span class="token punctuation">-</span>c
+      <span class="token punctuation">-</span> <span class="token punctuation">|</span><span class="token scalar string">
+        chmod 400 /mongodb.key
+        chown 999:999 /mongodb.key
+        exec docker-entrypoint.sh $$@</span>
+  <span class="token comment"># 副节点</span>
+  <span class="token key atrule">mongodb3</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> mongo<span class="token punctuation">:</span>6.0.6
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> mongo3
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> always
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> 27019<span class="token punctuation">:</span><span class="token number">27017</span>
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> MONGO_INITDB_ROOT_USERNAME=root
+      <span class="token punctuation">-</span> MONGO_INITDB_ROOT_PASSWORD=mongodb@evescn
+    <span class="token key atrule">command</span><span class="token punctuation">:</span> mongod <span class="token punctuation">-</span><span class="token punctuation">-</span>replSet rs0 <span class="token punctuation">-</span><span class="token punctuation">-</span>keyFile /mongodb.key
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> /etc/localtime<span class="token punctuation">:</span>/etc/localtime
+      <span class="token punctuation">-</span> /data/mongodb/mongo3/data<span class="token punctuation">:</span>/data/db
+      <span class="token punctuation">-</span> /data/mongodb/mongo3/configdb<span class="token punctuation">:</span>/data/configdb
+      <span class="token punctuation">-</span> /data/mongodb/mongo3/mongodb.key<span class="token punctuation">:</span>/mongodb.key
+    <span class="token key atrule">networks</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> mongoNet
+    <span class="token key atrule">entrypoint</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> bash
+      <span class="token punctuation">-</span> <span class="token punctuation">-</span>c
+      <span class="token punctuation">-</span> <span class="token punctuation">|</span><span class="token scalar string">
+        chmod 400 /mongodb.key
+        chown 999:999 /mongodb.key
+        exec docker-entrypoint.sh $$@</span>
+<span class="token key atrule">networks</span><span class="token punctuation">:</span>
+  <span class="token key atrule">mongoNet</span><span class="token punctuation">:</span>
+    <span class="token key atrule">driver</span><span class="token punctuation">:</span> bridge<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>集群部署</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">mkdir &#x2F;data&#x2F;mongodb&#x2F;mongo&#123;1,2,3&#125;&#x2F;&#123;data,configdb&#125; -pv
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token function">mkdir</span> /data/mongodb/mongo<span class="token punctuation">&#123;</span><span class="token number">1,2</span>,3<span class="token punctuation">&#125;</span>/<span class="token punctuation">&#123;</span>data,configdb<span class="token punctuation">&#125;</span> -pv
 
-## 提供redis.conf配置
-cp mongodb.key &#x2F;data&#x2F;mongodb&#x2F;mongo1&#x2F;
-cp mongodb.key &#x2F;data&#x2F;mongodb&#x2F;mongo2&#x2F;
-cp mongodb.key &#x2F;data&#x2F;mongodb&#x2F;mongo3&#x2F;
+<span class="token comment">## 提供redis.conf配置</span>
+<span class="token function">cp</span> mongodb.key /data/mongodb/mongo1/
+<span class="token function">cp</span> mongodb.key /data/mongodb/mongo2/
+<span class="token function">cp</span> mongodb.key /data/mongodb/mongo3/
 
 docker-compose up -d<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>进入主节点初始化集群</p>
 <pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">use admin
-db.auth(&#39;root&#39;, &#39;mongodb@evescn&#39;)
-rs.initiate(&#123;_id:&quot;rs0&quot;,members:[ 
-&#123;_id:0,host:&quot;10.0.0.1:27017&quot;&#125;, 
-&#123;_id:1,host:&quot;10.0.0.1:27018&quot;&#125;, 
-&#123;_id:2,host:&quot;10.0.0.1:27019&quot;&#125;]   
-&#125;)
-## 查看副本集配置
-rs.config();
-## 查看副本集状态
-rs.status();<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+db.auth<span class="token punctuation">(</span><span class="token string">'root'</span>, <span class="token string">'mongodb@evescn'</span><span class="token punctuation">)</span>
+rs.initiate<span class="token punctuation">(</span><span class="token punctuation">&#123;</span>_id:<span class="token string">"rs0"</span>,members:<span class="token punctuation">[</span> 
+<span class="token punctuation">&#123;</span>_id:0,host:<span class="token string">"10.0.0.1:27017"</span><span class="token punctuation">&#125;</span>, 
+<span class="token punctuation">&#123;</span>_id:1,host:<span class="token string">"10.0.0.1:27018"</span><span class="token punctuation">&#125;</span>, 
+<span class="token punctuation">&#123;</span>_id:2,host:<span class="token string">"10.0.0.1:27019"</span><span class="token punctuation">&#125;</span><span class="token punctuation">]</span>   
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+<span class="token comment">## 查看副本集配置</span>
+rs.config<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">## 查看副本集状态</span>
+rs.status<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <h3 id="分片集"><a href="#分片集" class="headerlink" title="分片集"></a><a target="_blank" rel="noopener" href="https://www.mongodb.com/zh-cn/docs/manual/sharding/">分片集</a></h3><blockquote>
 <p>当数据量比较大的时候(TB级别以上)，我们需要把数据分片保存并运行在不同的服务器中，以降低CPU、内存和IO的压力，分片集(Sharding Set)就是MongoDB用于横向扩容的技术。</p>
@@ -1080,11 +1080,11 @@ rs.status();<span aria-hidden="true" class="line-numbers-rows"><span></span><spa
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">></span></span>spring-boot-starter-data-mongodb<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">></span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p>添加YML配置&amp;映射实体类</p>
-<pre class="line-numbers language-yml" data-language="yml"><code class="language-yml">spring:
-  data:
-    mongodb:
-      ## 最好采用这种写法 不然可能有些报错
-      uri: mongodb:&#x2F;&#x2F;root:123456@192.168.0.107:27017&#x2F;game?authSource&#x3D;admin<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-yml" data-language="yml"><code class="language-yml"><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">data</span><span class="token punctuation">:</span>
+    <span class="token key atrule">mongodb</span><span class="token punctuation">:</span>
+      <span class="token comment">## 最好采用这种写法 不然可能有些报错</span>
+      <span class="token key atrule">uri</span><span class="token punctuation">:</span> mongodb<span class="token punctuation">:</span>//root<span class="token punctuation">:</span>123456@192.168.0.107<span class="token punctuation">:</span>27017/game<span class="token punctuation">?</span>authSource=admin<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//指定实体类和数据库文档的映射关系 默认实体类名  数据库如果没有该文档，会自动创建</span>
 <span class="token annotation punctuation">@Document</span><span class="token punctuation">(</span>value<span class="token operator">=</span><span class="token string">"users"</span><span class="token punctuation">)</span>
@@ -1485,21 +1485,21 @@ rs.status();<span aria-hidden="true" class="line-numbers-rows"><span></span><spa
       </a>
     
       <a 
-        href="/tags/%E9%9D%A2%E8%AF%95/" 
-        title="面试">
-        <div class="tags-list-item">面试</div>
+        href="/tags/JVM/" 
+        title="JVM">
+        <div class="tags-list-item">JVM</div>
       </a>
     
       <a 
-        href="/tags/Java/" 
-        title="Java">
-        <div class="tags-list-item">Java</div>
+        href="/tags/Snowflake-Algorithm/" 
+        title="Snowflake Algorithm">
+        <div class="tags-list-item">Snowflake Algorithm</div>
       </a>
     
       <a 
-        href="/tags/RAG/" 
-        title="RAG">
-        <div class="tags-list-item">RAG</div>
+        href="/tags/Reflection/" 
+        title="Reflection">
+        <div class="tags-list-item">Reflection</div>
       </a>
     
   </div>
